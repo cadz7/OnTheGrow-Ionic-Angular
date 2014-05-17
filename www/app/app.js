@@ -5,10 +5,12 @@ angular.module('sproutApp.services', []);
 angular.module('sproutApp.directives', []);
 
 angular.module('sproutApp', [
-  'ionic', 
+  'ionic',
+  'ui.bootstrap',
   'sproutApp.controllers', 
   'sproutApp.services',
-  'sproutApp.directives'
+  'sproutApp.directives',
+  'sproutApp.services'
 ])
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
