@@ -1,0 +1,186 @@
+@import"variables";
+
+.post {
+    .tabs{
+        background-size: 0; //clears extra border bug
+    }
+    .tab-item{
+        opacity:1;
+    }
+    .post-info {
+      padding: 1rem 0 0.4rem 0;
+    }
+    .author {
+        padding: 0 0 0 0;
+        font-size: 1rem;
+        font-weight: bold;
+        color: $orange;
+    }
+    .date {
+        font-size: 0.7em;
+        color: $mediumgrey;
+    }
+    .points-container {
+      padding-right: 12px;
+      font-family: 'roboto', sans-serif;
+      text-align: center;
+      color: $orange;
+        .points {
+            font-size: 1.4em;
+            font-weight: 700;
+            display: block;
+            text-align: center;
+        }
+        .pointsLabel {
+            font-size: 0.6em;
+            font-weight: 500;
+            text-align: center;
+        }
+    }
+    .ion-thumbsup{
+        font-size:12px;
+        font-weight: 500;
+        padding-right: 10px;
+        position: relative;
+        top: -4px;
+    }
+    .item-avatar{
+    	padding-left: 5rem;
+    }
+    .item-avatar > img:first-child {
+        position: absolute;
+        top: 0;
+        left: 0;
+        max-width: 70px;
+        max-height: 70px;
+        width: 100%;
+        border-radius: 0 0 4px 0;
+    }
+    p {
+    	padding: 1px;
+    	color: $darkgrey;
+    	font-family: 'vollkorn', serif;
+    	font-weight: 400;
+    	font-size: 1rem;
+    	line-height: 1.4;
+    	white-space: pre-wrap !important;
+    }
+
+    .item.item-divider.tabs.tabs-secondary{
+    	color: $green;
+    	background-color: transparent;
+    	border: none;
+    }
+
+  .showMoreComments {
+    position:relative;
+    text-align: center;
+    color: $orange;
+    background: $lightgrey;
+    cursor: pointer;
+    span {
+      line-height: 100%;
+      font-size: 1.3em;
+    }
+  }
+
+  .postInputArea {
+    background: $lightgrey;
+    input {
+      margin: 0 10px;
+    }
+  }
+
+  .likeArea {
+    position: relative;
+    display: inline-block;
+    width: 1.5em;
+    padding: 0 5px;
+    button {
+      position: absolute;
+      top: 5px; left: 0px;
+      font-size: 1.5em;
+    }
+    .icon {
+      color: white;
+    }
+
+  }
+
+    margin: 0;
+    padding: 0;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    border: 1px solid $lightgrey;
+    border-radius: 4px;
+    font-family: 'roboto', sans-serif;
+}
+
+.comment {
+  background: $stable;
+  p {
+    padding: 1px;
+  }
+  .editIcon {
+    position: absolute;
+    top: 0.3em;
+    right: 0.3em;
+    color: $lightgrey;
+  }
+  .content {
+    padding:1px;
+    color: $darkgrey;
+    font-family: 'vollkorn', serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4;
+    white-space: pre-wrap !important;
+  }
+}
+
+.postInputArea {
+  background: $lightgrey;
+}
+
+.post a.tab-item:after {
+background: #333;
+background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#333));
+background: -webkit-linear-gradient(#fff, #333);
+background: -moz-linear-gradient(#fff, #333);
+background: -ms-linear-gradient(#fff, #333);
+background: -o-linear-gradient(#fff, #333);
+background: linear-gradient(#fff, #333);
+}
+.row + .row {
+    margin-top: 1px;
+    padding-top: 0;
+}
+.count{
+	color:$orange;
+	font-weight: 700;
+	padding-right: 5px;
+}
+
+.outer {
+  display: table;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.inner {
+  margin-left: auto;
+  margin-right: auto;
+  width: 175px;
+  padding: 10px;
+  background: white;
+}
+
+.post a.tab-item .inactive {
+  color: #CCC;
+}

@@ -7,3 +7,133 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // To customize the look and feel of Ionic, you can
 // override the variables in this file
 @import "variables";
+
+// CSS modules
+@import "streams";
+@import "post";
+
+// this is currently being used to make the list of posts area appear at the right
+// y-position relative to the header or the "post-to-stream" feature.
+.no-header {
+  top:1 !important;
+}
+.has-tabs{
+  bottom:0;
+}
+
+.bar{
+  @include box-shadow (0px, 0px, 3px, 1px, rgba(50,50,50,0.15));
+  z-index: 1000;
+  .bar-header{
+    background-color: rgba(255, 255, 255, 0.9);
+    font-family: 'roboto', helvetica, arial, sans-serif;
+    font-weight: 100;
+  }
+  .title{
+    font-size: 1.4rem;
+    font-family: 'roboto', helvetica, arial, sans-serif;
+    font-weight: 100;
+    text-transform: uppercase;
+  }
+  .filter-chevron{
+    font-size:0.5rem;
+    font-size: 0.5rem;
+    position: relative;
+    top: 22px;
+    margin: 0 auto;
+  }
+}
+
+.iconbase {
+  margin: 0px auto;
+  width: 80px;
+}
+.vertical-divider{
+  background-image: -webkit-linear-gradient(top, rgba(255,255,255,0) 10%, rgba(221,221,221,1) 100%);
+  width:1px;
+  border: none;
+}
+button {
+  border-width: 0 !important;
+}
+
+.main > .tabs {
+  background: $positive;
+  color: $light;
+  background: $greentrans;
+  border-top: 2px solid $greendark;
+  color: $darkgrey;
+  height: 50px;  // TOTAL HACK FOR IOS.
+  @include box-shadow (0px, 0px, 5px, 1px, rgba(50,50,50,0.25));
+}
+.icon-leaderboard{
+  position: relative;
+  top: 2px;
+  height:45px !important; // Fix it up - MC.
+}
+.icon-metrics{
+  position: relative;
+  top: 2px;
+  height:45px !important;
+}
+.icon-streams{
+  position: relative;
+  top: 2px;
+  height:45px !important;
+  }
+.icon-streams {
+  @extend .iconbase;
+  background: url("../img/icons/stream-icon.svg") no-repeat;
+}
+.icon-leaderboard {
+  @extend .iconbase;
+  background: url("../img/icons/leaderboard-icon.svg") no-repeat;
+}
+.icon-metrics {
+  @extend .iconbase;
+  background: url("../img/icons/metrics-icon.svg") no-repeat;
+}
+
+.ionic-logo {
+  display: block;
+  margin: 15px auto;
+  width: 96px;
+  height: 96px;
+}
+
+#loginView {
+  .label {
+    font-size: 0.9rem;
+    font-weight:bold;
+    color: #444
+    //padding-bottom: 5px; // hack to make it in middle
+  }
+  .input-label {
+    font-size: 0.9rem !important;
+  }
+}
+
+
+.iconPressed {
+  color: $positive !important;
+}
+
+.showMore {
+  font-size: 0.8rem;
+  color: $mediumgrey;
+  display: inline-block;
+}
+
+.avatar{
+  padding: $item-padding;
+  max-width: $item-avatar-width;
+  max-height: $item-avatar-height;
+  width: 100%;
+  border-radius: $item-avatar-border-radius;
+  float:left;
+}
+
+
+.loading {
+  background: rgba(0,0,0,0) !important; // makes the black rectangle in center invisible so the spinner shows nicely.
+}
