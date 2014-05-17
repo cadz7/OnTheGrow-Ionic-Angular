@@ -1,8 +1,26 @@
 <!-- ion-nav-bar goes here -->
 <ion-view title="Streams">
-<!-- ion-header-bar goes here -->
-	<ion-content 
-		ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]"> 
+  <!-- ion-header-bar -->
+   <ion-header-bar align-title="center" class="bar">
+    <div class="buttons">
+      <button class="button button-clear icon ion-navicon-round"></button>
+    </div>
+    <h1 class="title" ng-click="showFilterOptions()">
+      {{filterByType}}
+    </h1>
+    <span class="icon ion-chevron-down filter-chevron"></span>
+    <!-- only show if user is logged in -->
+    <!-- ng-show="AuthSvc.isLoggedIn()" -->
+    <!-- Settings Button -->
+    <div class="buttons">
+      <button 
+        ng-click="header.showAccountOptions()" 
+        class="button button-clear icon ion-gear-a"></button>
+    </div>
+  </ion-header-bar>
+
+	<ion-content> 
+    <!-- ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]" -->
 
 		<div class="list card" ng-repeat="item in stream.items">
       <div class="item item-avatar">

@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('sproutApp.controllers')
-.controller('MetricsCtrl', ['$scope', function($scope) {
-	
+.controller('MetricsCtrl', ['$scope', 'headerRemote', function($scope, headerRemote) {
+		$scope.header = headerRemote;
 }]);
