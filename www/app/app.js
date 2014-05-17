@@ -71,7 +71,7 @@ angular.module('sproutApp', [
 
 })
 .constant('STREAM_CONSTANTS', {
-  initialCommentCountShown: 3,
+  initialCommentCountShown: 2,
   initialPostCharCount: 70
 })
 .constant('API_CONSTANTS', {

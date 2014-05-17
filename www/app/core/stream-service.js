@@ -1,5 +1,5 @@
 angular.module('sproutApp.services')
-  .factory('stream', ['$http', '$rootScope', function($http, $rootScope) {
+  .factory('stream', ['$http', '$rootScope', '$q', '$timeout', function($http, $rootScope, $q, $timeout) {
 
     var service = { items : [] };
 
@@ -12,6 +12,24 @@ angular.module('sproutApp.services')
           $rootScope.$broadcast('scroll.infiniteScrollComplete');
       });
     };
+
+    service.deletePost = function(item) {
+      var foundIdx = _.indexOf(service.items, item),
+          deferred = $q.defer();
+
+      $timeout(function() {
+        if (foundIdx) {
+          service.items.splice(foundIdx,1);
+          _.each(cbs, function(cb) {
+            cb();
+          });
+        }
+
+        deferred.resolve("deleted");
+      },100);
+
+      return deferred.promise;
+    }
 
     return service;
 

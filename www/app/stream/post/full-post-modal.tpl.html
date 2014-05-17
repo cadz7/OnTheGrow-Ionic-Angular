@@ -3,39 +3,35 @@
     <button class="button button-icon icon ion-android-system-back" ng-click="closeFullPost()"></button>
     <h1 class="title"></h1>
   </ion-header-bar>
-  <ion-content>
+  <ion-content class="padding has-header">
     <div class="item post">
       <div class="item-avatar">
-        <img ng-src="{{post.avatar}}" />
+        <img ng-src="{{currentPost.avatar}}" />
 
         <div class="post-info row">
           <div class="col col-75">
-            <span class="author">{{post.author}}</span>
+            <span class="author">{{currentPost.author}}</span>
             <br>
-            <span class="date">{{post.date | date : 'MMM d, y h:mm:ss'}}</span>
+            <span class="date">{{currentPost.date | date : 'MMM d, y h:mm:ss'}}</span>
           </div>
           <div class="col">
-            <div ng-show="post.points" class="points-container">
-              <span class="points">{{post.points}}</span>
+            <div ng-show="currentPost.points" class="points-container">
+              <span class="points">{{currentPost.points}}</span>
               <span class="pointsLabel">points</span>
             </div>
           </div>
         </div>
       </div>
 
-      <p class="wrap" ng-bind="post.content"></p>
+      <p class="wrap" ng-bind="currentPost.content"></p>
 
       <div class="item item-divider tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#" data-ng-click="liked(post.id)">
+        <a class="tab-item" href="#" data-ng-click="liked(currentPost.id)">
           <span class="count">+1</span><i class="icon ion-thumbsup"></i>
         </a>
         <div class="vertical-divider"></div>
-        <a class="tab-item" href="javascript:void(0)" ng-hide="user && user.id !== post.author_id" ng-click="delete(item)">
-          <span class="icon ion-trash-a"></span>
-        </a>
-        <div class="vertical-divider"></div>
-        <a class="tab-item" href="#" data-ng-click="commented(post.id)" ng-hide="type == 'comment'">
-          <i class="icon ion-chatbox"></i><span class="count" ng-bind="post.commentCount"></span>
+        <a class="tab-item" href="#" data-ng-click="commented(currentPost.id)" ng-hide="type == 'comment'">
+          <i class="icon ion-chatbox"></i><span class="count" ng-bind="currentPost.commentCount"></span>
         </a>
       </div>
 
@@ -47,15 +43,16 @@
         <input type="text" maxlength="8000" ng-model="commentText" ng-enter="postComment(commentText)">
       </div>
 
-      <div class="list" data-ng-if="post.comments" data-ng-show="commentsShown">
+      <div class="list">
         <div class="item hide-after comment"
-             data-ng-repeat="c in post.comments | limitTo : showCommentCount">
-          <ro-post type="comment" ng-model="c" post-comment="postComment(c)"></ro-post>
+             data-ng-repeat="comment in currentPost.comments">
+              <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
         </div>
-        <div class="showMoreComments" ng-click="showAllComments()">
-          <span class="icon ion-more"></span>
-        </div>
-      </div>
+        <!-- <div class="showMoreComments" ng-click="showAllComments()" ng-show="post.commentCount > STREAM_CONSTANTS.initialCommentCountShown">
+          {{showCommentCount==post.commentCount && 'hide more' || 'show more'}}
+          <span us-spinner="{radius:4, width:3, length: 3}" spinner-key="{{$id}}"></span>
+        </div> -->
+    </div>
     </div>
   </ion-content>
 </div>

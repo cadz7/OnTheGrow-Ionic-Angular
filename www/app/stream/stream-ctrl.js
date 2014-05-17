@@ -10,6 +10,14 @@
     $scope.stream.loadData();
   });
 
+	$scope.closeFullPost = function() {
+		$scope.dialog.hide();
+	}
+
+	$scope.closeModal = function() {
+		$scope.modal.hide();
+	}
+
   $ionicModal.fromTemplateUrl('app/stream/post/edit-post-modal.tpl.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -24,7 +32,7 @@
     $scope.dialog = modal;
   });
 
-  $scope.deletePost = function() {
+  $scope.deletePost = function(item) {
   	$ionicActionSheet.show({
       buttons: [
         { text: 'Hide this post' },
@@ -35,10 +43,10 @@
         switch (index) {
           case 0: // hide current post
             stream.deletePost(item).then(function() {
-                Notify.userSuccess('Your post has been deleted.');
+                console.log('Your post has been deleted.');
               }, function(response) {
                 if (response.status === 403) {
-                  Notify.userError('You do not have permission to delete this post.');
+                  console.error('You do not have permission to delete this post.');
                 }
               }
             );
@@ -47,7 +55,7 @@
             // Send to v1/user
             return true;
           default:
-            break;
+          	return true;
         }
       }
     });

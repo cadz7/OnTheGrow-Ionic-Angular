@@ -79,9 +79,10 @@
     color: $orange;
     background: $lightgrey;
     cursor: pointer;
+    font-size: 0.9rem;
     span {
       line-height: 100%;
-      font-size: 1.3em;
+      font-size: 1.2em;
     }
   }
 
@@ -106,6 +107,18 @@
       color: white;
     }
 
+  }
+
+  .add-comment {
+    background-color:#FFF;
+    width: 100%;
+    max-height: 48px;
+    min-height: 22px;
+    overflow: auto;
+    font-size: 14px;
+    line-height: 16px;
+    display: inline-block;
+    vertical-align: middle;
   }
 
     margin: 20px;
@@ -139,7 +152,7 @@
     color: $darkgrey;
     font-family: 'vollkorn', serif;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.4;
     white-space: pre-wrap !important;
   }

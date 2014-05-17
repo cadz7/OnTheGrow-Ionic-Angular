@@ -44,6 +44,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   }
 }
 
+.modal-backdrop {
+  z-index:1000;
+}
+
 .iconbase {
   margin: 0px auto;
   width: 80px;

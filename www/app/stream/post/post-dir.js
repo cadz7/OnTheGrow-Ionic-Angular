@@ -8,19 +8,28 @@ angular.module('sproutApp.directives').directive(
 				restrict: 'E',
 				templateUrl: 'app/stream/post/post.tpl.html',
 				link: function(scope, elem, attrs) {
+					scope.STREAM_CONSTANTS = STREAM_CONSTANTS; // make accessible to view
+
 			    scope.showCommentCount = STREAM_CONSTANTS.initialCommentCountShown;
 			    scope.commentsShown = !!(scope.post.comments && scope.post.comments.length);
 			    scope.liked = false;
 
-			    if (scope.post.content.length <= STREAM_CONSTANTS.initialPostCharCount || scope.arg === 'full') {
-			      scope.content = scope.post.content;
-			    } else {
-			      scope.content = scope.post.content.substr(0, STREAM_CONSTANTS.initialPostCharCount);
+			    var contentIsOverflowing = scope.post.content.length > STREAM_CONSTANTS.initialPostCharCount;
+
+			    if (contentIsOverflowing) {
+			    	if (scope.arg === 'full') {
+			    		scope.content = scope.post.content;
+			    	}
+			    	else {
+				    	var tempContent = scope.post.content.substr(0, STREAM_CONSTANTS.initialPostCharCount);
+				    	scope.content = (scope.post.content.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
+			    	}
+			    }
+			    else {
+			    	scope.content = scope.post.content;
 			    }
 
-			    scope.contentIsOverflowing = function() {
-			      return scope.post.content.length > STREAM_CONSTANTS.initialPostCharCount;
-			    };
+			    scope.contentIsOverflowing = contentIsOverflowing;
 
 			    scope.isEditable = function() {
 			      if (!scope.user || !scope.post || !scope.post.author_id) { return false; }
@@ -39,14 +48,13 @@ angular.module('sproutApp.directives').directive(
 			        return;
 			      }
 
-			      Scene.loading(scope);
-			      PostCacheSvc.getPost(scope.post.id, true, true).then(function(post) {
+			      stream.getPost(scope.post.id, true, true).then(function(post) {
 			        scope.post.comments = post.comments;
 			        scope.showCommentCount = post.comments.length;
 			      }, function() {
-			        Notify.apiError('Failed to get comments...');
+			        console.error('Failed to get comments');
 			      })['finally'](function() {
-			        Scene.ready(scope);
+//			        Scene.ready(scope);
 			      });
 			    };
 
@@ -124,6 +132,7 @@ angular.module('sproutApp.directives').directive(
 			    
 			    scope.showEditMenu = function(theComment) {
 			      scope.comment = theComment;
+			      scope.currentPost = scope.post;
 			      scope.modal.show();
 			    };
 			    scope.closeModal = function() {
@@ -136,6 +145,7 @@ angular.module('sproutApp.directives').directive(
 
 			    scope.showFullPost = function(theComment) {
 			      scope.comment = theComment;
+			      scope.dialog.scope.currentPost = scope.post;
 			      scope.dialog.show();
 			    };
 			    scope.closeFullPost = function() {
