@@ -1,6 +1,19 @@
 <!-- ion-nav-bar goes here -->
 <ion-view title="Metrics">
 	<!-- ion-header-bar goes here -->
+	<ion-header-bar align-title="center" class="bar-positive">
+    <div class="buttons">
+      <button class="button icon ion-navicon-round"></button>
+    </div>
+    <h1 class="title">Filter</h1>
+    <!-- only show if user is logged in -->
+    <!-- ng-show="AuthSvc.isLoggedIn()" -->
+    <!-- Settings Button -->
+    <div class="buttons">
+      <button ng-click="header.showAccountOptions()" class="button icon ion-gear-a"></button>
+    </div>
+  </ion-header-bar>
+
 	<ion-content class="text-center padding has-header">
 	  <h1>Metrics Coming Soon...</h1>
 	</ion-content>

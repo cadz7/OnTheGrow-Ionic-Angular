@@ -12,36 +12,21 @@
   navbar from here and add it to all the tab views. 
   Also, consider switching to ion-header instead
 -->
-<ion-nav-bar class="bar-balanced nav-title-slide-ios7">
-  <!-- Hamburger Button -->
-  <ion-nav-buttons side="left">
-    <button 
-      class="button button-clear icon ion-navicon" 
-      ng-click=""></button>
-  </ion-nav-buttons>
-  <!-- Settings Button -->
-  <ion-nav-buttons side="right">
-    <button 
-      class="button button-clear icon ion-ios7-gear" 
-      ng-click=""></button>
-  </ion-nav-buttons>
-</ion-nav-bar>
-
 <!-- The Main Tabbed View -->
-<ion-tabs class="tabs-icon-top">
+<ion-tabs class="tabs-icon-only tabs-default main">
 
   <!-- Leaderboards Tab -->
-  <ion-tab title="Leaderboards" icon="icon ion-home" href="#/main/leaderboards">
+  <ion-tab title="Leaderboards" icon="icon icon-leaderboard" href="#/main/leaderboards">
     <ion-nav-view name="tab-leaderboards"></ion-nav-view>
   </ion-tab>
 
   <!-- Stream Tab -->
-  <ion-tab title="Stream" icon="icon ion-heart" href="#/main/stream">
+  <ion-tab title="Stream" icon="icon icon-streams" href="#/main/stream">
     <ion-nav-view name="tab-stream"></ion-nav-view>
   </ion-tab>
 
   <!-- Metrics Tab -->
-  <ion-tab title="Metrics" icon="icon ion-gear-b" href="#/main/metrics">
+  <ion-tab title="Metrics" icon="icon icon-metrics" href="#/main/metrics">
     <ion-nav-view name="tab-metrics"></ion-nav-view>
   </ion-tab>
 
