@@ -1,10 +1,18 @@
 var gulp = require('gulp');
 var rg = require('./node_modules/rangle-gulp');
 
-var allScripts = ['www/**/*.js'];
-
+var allScripts = ['www/app/**/*.js'];
+var testVendor = [
+  'www/lib/bower-components/angular/angular.min.js',
+  'www/lib/bower-components/angular-mocks/angular-mocks.js',
+  'www/lib/bower-components/sinon-chai/lib/sinon-chai.js',
+  'testing/vendor/q.js',
+  'testing/test-utils.js'
+];
 gulp.task('karma', rg.karma({
-  // files: specify which folders
+  files: allScripts,
+  karmaConf: 'karma.conf.js',
+  vendor: testVendor
   // karmaConf: specify which karma config file
 }));
 
