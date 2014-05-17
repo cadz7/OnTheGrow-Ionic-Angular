@@ -20,7 +20,8 @@
   </ion-header-bar>
 
 	<ion-content 
-		ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]"> 
+    overflow-scroll="true"> 
+    <!-- ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]" -->
 
 		<div class="list card" ng-repeat="item in stream.items">
       <div class="item item-avatar">
