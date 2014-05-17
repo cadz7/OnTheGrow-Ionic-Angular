@@ -1,0 +1,9 @@
+{
+  "name": "sprout-app",
+  "version": "0.0.1",
+  "description": "",
+  "devDependencies": {
+    "rangle-gulp": "https://github.com/winkerVSbecks/rangle-gulp/archive/dev-cordova-tasks.tar.gz",
+    "gulp": "~3.6.0"
+  }
+}

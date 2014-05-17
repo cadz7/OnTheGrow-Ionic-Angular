@@ -1,0 +1,13 @@
+{
+  "name": "sproutApp",
+  "version": "0.0.1",
+  "license": "private",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "www/bower_components"
+  ],
+  "dependencies": {
+  }
+}

@@ -1,0 +1,86 @@
+<!-- ion-nav-bar goes here -->
+<ion-view title="Streams">
+<!-- ion-header-bar goes here -->
+	<ion-content 
+		ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]"> 
+
+		<div class="list card" ng-repeat="item in stream.items">
+      <div class="item item-avatar">
+        <img ng-src="{{item.avatar}}">
+        <h2>{{item.author}}</h2>
+        <p>{{item.date | date:'medium'}}</p>
+      </div>
+
+      <div class="item item-body">
+        <p>{{item.content}}</p>
+        <p>
+          <a href="#" class="subdued">{{item.likeCount}} Like</a>
+          <a href="#" class="subdued">{{item.commentCount}} Comments</a>
+        </p>
+      </div>
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#">
+          <i class="icon ion-thumbsup"></i>
+          Like
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-chatbox"></i>
+          Comment
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-share"></i>
+          Share
+        </a>
+      </div>
+    </div>
+
+		<!-- 
+			This input box should be a fixed element that sits
+			on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
+		 -->
+		<!-- 	<div class="row createPost" ng-show="createPostVisible">
+	    <form>
+	      <textarea ng-model="post.content" class="post-box"></textarea>
+	      <div class="row">
+	        <div class="col">
+	          <span class="icon ion-edit"></span>
+	          <a ng-click="submitPost()" href="javascript:void(0)">Post To Stream</a>
+	        </div>
+	        <div class="col">
+	          <span class="icon ion-android-stopwatch"></span>
+	          <a>Track Activity</a>
+	        </div>
+	      </div>
+	    </form>
+	  </div> -->
+
+
+	  <!-- 
+			The ro-post directive is making a modal for every 
+			item in the strea. Therefore, you end up with 100's 
+			of modals on the DOM plus the actual posts. This is bad
+			practice. Have the modals be generated in the controller
+			and pick the data that is being used to populate the modal.
+	   -->
+		<!-- <div class="list" data-ng-repeat="item in items">
+      	<ro-post ng-model="item" user="user" delete-post="deletePost(item)"></ro-post>
+    </div> -->
+
+    <!-- 
+    	This makes scrolling slow.
+    	Handle API updates manually and consider
+    	tying into ionic.DomUtil.requestAnimationFrame(callback)
+    	instead i.e, make update calls inside the requestAnimationFrame
+    	function. Probably don't need to do this though.
+     -->
+		<ion-infinite-scroll 
+    	on-infinite="stream.loadData()" 
+    	icon="ion-loading-c" 
+    	distance="1%">
+      <!-- ng-if="moreItemsExist()"  -->
+      <!-- ng-show="moreItemsExist"> -->
+    </ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>
