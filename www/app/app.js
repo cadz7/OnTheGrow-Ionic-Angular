@@ -27,20 +27,20 @@ angular.module('sproutApp', [
     // sign in view
     .state('signin', {
       url: '/signin',
-      templateUrl: 'main/signin.html',
+      templateUrl: 'app/main/signin.html',
       controller: 'SignInCtrl'
     })
     // base abstract state for the tabbed view
     .state('main', {
       url: '/main',
       abstract: true,
-      templateUrl: 'main/main.html'
+      templateUrl: 'app/main/main.html'
     })
     .state('main.leaderboards', {
       url: '/leaderboards',
       views: {
         'tab-leaderboards': {
-          templateUrl: 'leaderboards/leaderboards.html',
+          templateUrl: 'app/leaderboards/leaderboards.html',
           controller: 'LeaderboardsCtrl'
         }
       }
@@ -49,7 +49,7 @@ angular.module('sproutApp', [
       url: '/stream',
       views: {
         'tab-stream': {
-          templateUrl: 'stream/stream.html',
+          templateUrl: 'app/stream/stream.html',
           controller: 'StreamCtrl'
         }
       }
@@ -58,7 +58,7 @@ angular.module('sproutApp', [
       url: '/metrics',
       views: {
         'tab-metrics': {
-          templateUrl: 'metrics/metrics.html',
+          templateUrl: 'app/metrics/metrics.html',
           controller: 'MetricsCtrl'
         }
       }

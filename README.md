@@ -31,3 +31,10 @@
 		
 		$ ionic emulate
 		$ ionic run ios 
+
+
+## Plugins used
+
+org.apache.cordova.device
+org.apache.cordova.console
+com.ionic.keyboard (https://github.com/driftyco/ionic-plugins-keyboard.git)

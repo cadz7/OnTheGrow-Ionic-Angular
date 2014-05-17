@@ -34,14 +34,21 @@ gulp.task('beautify', rg.beautify({
   configFile: '.jsbeautifyrc'
 }));
 
+gulp.task('sass', function () {
+  rg.sass({
+    source : './www/scss/app.scss',
+    destination : './www/css'
+  })
+});
+
 // Example dev task if you are building a Cordova app
 gulp.task('dev', function() {
   // Watch sass files
   // re-compile sass and minify css
-  rg.sass({
-    source : './www/scss/app.scss',
-    destination : './www/css'
-  });
+  gulp.watch([
+    './www/scss/**/*.scss',
+    './www/scss/*.scss'
+  ], ['sass']);
 
   // Start a connect server
   // Watch for changes to html & js files
