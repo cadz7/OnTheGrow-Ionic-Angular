@@ -11,6 +11,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // CSS modules
 @import "streams.scss";
 @import "post.scss";
+@import "metrics.scss";
 
 @import "www/lib/bower-components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
 
@@ -149,3 +150,5 @@ button {
 .border-none{
   border: none;
 }
+
+
