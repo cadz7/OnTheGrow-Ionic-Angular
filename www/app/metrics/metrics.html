@@ -13,14 +13,28 @@
             <button ng-click="header.showAccountOptions()" class="button icon ion-gear-a"></button>
         </div>
     </ion-header-bar>
+    <ion-content class="padding has-header">
 
-    <ion-content class="text-center padding has-header">
         <div class="btn-group">
             <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Week'">Week</label>
             <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Month'">Month</label>
             <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Quarter'">Quarter</label>
             <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Year'">Year</label>
         </div>
-    </ion-content>
 
+
+        <div class="list">
+
+            <div class="item item-thumbnail-left item-icon-right border-none" href="#">
+                <img src="cover.jpg">
+                <h2>Username</h2>
+                <p>Department and location</p>
+                <i class="icon">
+                    <h1>1500</h1>
+                </i>
+            </div>
+
+        </div>
+
+    </ion-content>
 </ion-view>
