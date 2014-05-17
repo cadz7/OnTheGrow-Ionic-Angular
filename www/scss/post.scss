@@ -12,7 +12,7 @@
     }
     .author {
         padding: 0 0 0 0;
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: bold;
         color: $orange;
     }
@@ -58,6 +58,7 @@
     }
     p {
     	padding: 1px;
+      margin: 0 10px;
     	color: $darkgrey;
     	font-family: 'vollkorn', serif;
     	font-weight: 400;
@@ -107,7 +108,7 @@
 
   }
 
-    margin: 0;
+    margin: 20px;
     padding: 0;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -127,6 +128,12 @@
     right: 0.3em;
     color: $lightgrey;
   }
+  .comment-avatar {
+    width: 50px;
+    float:left;
+    margin-right: 1.3rem;
+    border-radius:7px;
+  }
   .content {
     padding:1px;
     color: $darkgrey;
@@ -136,6 +143,8 @@
     line-height: 1.4;
     white-space: pre-wrap !important;
   }
+
+  padding:10px 0;
 }
 
 .postInputArea {

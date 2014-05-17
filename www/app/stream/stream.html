@@ -19,40 +19,10 @@
     </div>
   </ion-header-bar>
 
-	<ion-content> 
-    <!-- ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]" -->
-
-		<div class="list card" ng-repeat="item in stream.items">
-      <div class="item item-avatar">
-        <img ng-src="{{item.avatar}}">
-        <h2>{{item.author}}</h2>
-        <p>{{item.date | date:'medium'}}</p>
-      </div>
-
-      <div class="item item-body">
-        <p>{{item.content}}</p>
-        <p>
-          <a href="#" class="subdued">{{item.likeCount}} Like</a>
-          <a href="#" class="subdued">{{item.commentCount}} Comments</a>
-        </p>
-      </div>
-
-      <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#">
-          <i class="icon ion-thumbsup"></i>
-          Like
-        </a>
-        <a class="tab-item" href="#">
-          <i class="icon ion-chatbox"></i>
-          Comment
-        </a>
-        <a class="tab-item" href="#">
-          <i class="icon ion-share"></i>
-          Share
-        </a>
-      </div>
-    </div>
-
+	
+	<ion-content
+		ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]"> 
+    <sprout-post ng-repeat="post in stream.items" data-modal="modal" data-dialog="dialog"></sprout-post>
 		<!-- 
 			This input box should be a fixed element that sits
 			on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
@@ -84,6 +54,41 @@
 		<!-- <div class="list" data-ng-repeat="item in items">
       	<ro-post ng-model="item" user="user" delete-post="deletePost(item)"></ro-post>
     </div> -->
+  
+    <!-- <ion-content> 
+    ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]"
+
+    <div class="list card" ng-repeat="item in stream.items">
+      <div class="item item-avatar">
+        <img ng-src="{{item.avatar}}">
+        <h2>{{item.author}}</h2>
+        <p>{{item.date | date:'medium'}}</p>
+      </div>
+
+      <div class="item item-body">
+        <p>{{item.content}}</p>
+        <p>
+          <a href="#" class="subdued">{{item.likeCount}} Like</a>
+          <a href="#" class="subdued">{{item.commentCount}} Comments</a>
+        </p>
+      </div>
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#">
+          <i class="icon ion-thumbsup"></i>
+          Like
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-chatbox"></i>
+          Comment
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-share"></i>
+          Share
+        </a>
+      </div>
+    </div> -->
+
 
     <!-- 
     	This makes scrolling slow.

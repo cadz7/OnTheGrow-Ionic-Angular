@@ -4,7 +4,7 @@ angular.module('sproutApp.services')
     var service = { items : [] };
 
     service.loadData = function() {
-      return $http.get('http://sproutmobile2.herokuapp.com/v1/streamitems')
+      return $http.get('http://sproutmobile2.herokuapp.com/v1/streamitems?maxPageSize=10')
         .success(function(data) {
           console.log('Loaded some stream data');
           Array.prototype.push.apply(service.items, data);

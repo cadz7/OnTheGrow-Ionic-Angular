@@ -1,0 +1,61 @@
+<div class="modal">
+  <ion-header-bar>
+    <button class="button button-icon icon ion-android-system-back" ng-click="closeFullPost()"></button>
+    <h1 class="title"></h1>
+  </ion-header-bar>
+  <ion-content>
+    <div class="item post">
+      <div class="item-avatar">
+        <img ng-src="{{post.avatar}}" />
+
+        <div class="post-info row">
+          <div class="col col-75">
+            <span class="author">{{post.author}}</span>
+            <br>
+            <span class="date">{{post.date | date : 'MMM d, y h:mm:ss'}}</span>
+          </div>
+          <div class="col">
+            <div ng-show="post.points" class="points-container">
+              <span class="points">{{post.points}}</span>
+              <span class="pointsLabel">points</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="wrap" ng-bind="post.content"></p>
+
+      <div class="item item-divider tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#" data-ng-click="liked(post.id)">
+          <span class="count">+1</span><i class="icon ion-thumbsup"></i>
+        </a>
+        <div class="vertical-divider"></div>
+        <a class="tab-item" href="javascript:void(0)" ng-hide="user && user.id !== post.author_id" ng-click="delete(item)">
+          <span class="icon ion-trash-a"></span>
+        </a>
+        <div class="vertical-divider"></div>
+        <a class="tab-item" href="#" data-ng-click="commented(post.id)" ng-hide="type == 'comment'">
+          <i class="icon ion-chatbox"></i><span class="count" ng-bind="post.commentCount"></span>
+        </a>
+      </div>
+
+      <div class="postInputArea row" ng-hide="type == 'comment'">
+        <div class="likeArea">
+          <button class="button button-icon button-small icon ion-thumbsup" ng-click="like()"
+                  ng-class="{iconPressed: liked}"></button>
+        </div>
+        <input type="text" maxlength="8000" ng-model="commentText" ng-enter="postComment(commentText)">
+      </div>
+
+      <div class="list" data-ng-if="post.comments" data-ng-show="commentsShown">
+        <div class="item hide-after comment"
+             data-ng-repeat="c in post.comments | limitTo : showCommentCount">
+          <ro-post type="comment" ng-model="c" post-comment="postComment(c)"></ro-post>
+        </div>
+        <div class="showMoreComments" ng-click="showAllComments()">
+          <span class="icon ion-more"></span>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</div>

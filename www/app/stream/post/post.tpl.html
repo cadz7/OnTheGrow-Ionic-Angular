@@ -1,0 +1,89 @@
+<div class="item post">
+    <div class="item-avatar">
+        <img ng-src="{{post.avatar}}" />
+
+        <div class="post-info row">
+            <div class="col col-75">
+                <span class="author">{{post.author}}</span>
+                <br>
+                <span class="date">{{post.date | date : 'MMM d, y h:mm:ss'}}</span>
+            </div>
+            <div class="col">
+                <div ng-show="post.points" class="points-container">
+                    <span class="points">{{post.points}}</span>
+                    <span class="pointsLabel">points</span>
+                </div>
+            </div>
+            <div class="ion-close col" data-ng-click="deletePost(post)"></div>
+        </div>
+    </div>
+
+    <p class="wrap" ng-bind="content"></p>
+    <div style="text-align:center; margin-top:-10px;padding:0">
+      <a href="javascript:void(0)" class="showMore" ng-show="contentIsOverflowing()" ng-click="showFullPost()">Show more...</a>
+    </div>
+
+    <div class="item item-divider tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" data-ng-click="likeClicked(post.id)">
+            <span class="count" data-ng-bind="post.likeCount"></span><i class="icon ion-thumbsup" data-ng-class="{'inactive':!post.userLikedId}"></i>
+        </a>
+        <div class="vertical-divider"></div>
+        <a class="tab-item" href="javascript:void(0)" ng-click="showFullPost()">
+            <i class="icon ion-chatbox"></i><span class="count" ng-bind="post.commentCount"></span>
+        </a>
+    </div>
+
+    <div class="postInputArea row">
+      <div class="col-80">
+        <expand-input ng-model="commentText" ng-enter="postComment(commentText)"
+                      placeholder="post a comment..." max-length="8000"></expand-input>
+      </div>
+      <div class="col col-center">
+        <div style="text-align: center;vertical-align:middle;">
+          <button class="button button-small button-stable" ng-click="postComment(commentText)">post</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="list" data-ng-show="commentsShown">
+        <div class="item hide-after comment"
+             data-ng-repeat="comment in post.comments | limitTo : showCommentCount">
+              <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
+        </div>
+        <div class="showMoreComments" ng-click="showAllComments()" ng-show="post.commentCount > Config.INITIAL_COMMENT_COUNT_SHOWN">
+          {{showCommentCount==post.commentCount && 'hide more' || 'show more'}}
+          <span us-spinner="{radius:4, width:3, length: 3}" spinner-key="{{$id}}"></span>
+        </div>
+    </div>
+</div>
+<!-- <div class="list card">
+      <div class="item item-avatar">
+        <img ng-src="{{post.avatar}}">
+        <h2>{{post.author}}</h2>
+        <p>{{post.date | date:'medium'}}</p>
+        <div class="ion-close col" data-ng-click="deletePost(post)"></div>
+      </div>
+
+      <div class="item item-body">
+        <p>{{post.content}}</p>
+        <p>
+          <a href="#" class="subdued">{{post.likeCount}} Like</a>
+          <a href="#" class="subdued">{{post.commentCount}} Comments</a>
+        </p>
+      </div>
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#">
+          <i class="icon ion-thumbsup"></i>
+          Like
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-chatbox"></i>
+          Comment
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-share"></i>
+          Share
+        </a>
+      </div>
+    </div> -->
