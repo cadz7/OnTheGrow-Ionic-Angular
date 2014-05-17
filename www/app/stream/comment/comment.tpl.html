@@ -1,0 +1,11 @@
+<img class="comment-avatar" ng-src="{{comment.avatar}}"/>
+<span class="icon ion-edit editIcon" ng-click="showEditMenu(comment)" ng-show="isEditable()"></span>
+<div>
+  <span class="author">{{comment.author}}</span>
+  -
+  <span class="date">{{comment.date | date : 'MMM d, y h:mm:ss'}}</span>
+</div>
+<div class="content">{{comment.content}}</div>
+<div style="text-align:center; margin-top:-10px;padding:0">
+  <a href="javascript:void(0)" class="showMore" ng-show="contentIsOverflowing()" ng-click="showFullPost()">...show full post</a>
+</div>

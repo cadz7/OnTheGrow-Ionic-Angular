@@ -2,11 +2,13 @@
 
 angular.module('sproutApp.controllers', []);
 angular.module('sproutApp.services', []);
+angular.module('sproutApp.directives', []);
 
 angular.module('sproutApp', [
   'ionic', 
   'sproutApp.controllers', 
-  'sproutApp.services'
+  'sproutApp.services',
+  'sproutApp.directives'
 ])
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -67,4 +69,11 @@ angular.module('sproutApp', [
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main/stream');
 
+})
+.constant('STREAM_CONSTANTS', {
+  initialCommentCountShown: 2,
+  initialPostCharCount: 70
+})
+.constant('API_CONSTANTS', {
+  streamitemTypeId: 9
 });

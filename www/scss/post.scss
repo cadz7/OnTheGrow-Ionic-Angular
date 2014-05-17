@@ -8,11 +8,11 @@
         opacity:1;
     }
     .post-info {
-      padding: 1rem 0 0.4rem 0;
+      padding: 0.3rem 0 0.4rem 0;
     }
     .author {
         padding: 0 0 0 0;
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-weight: bold;
         color: $orange;
     }
@@ -58,6 +58,7 @@
     }
     p {
     	padding: 1px;
+      margin: 0 10px;
     	color: $darkgrey;
     	font-family: 'vollkorn', serif;
     	font-weight: 400;
@@ -78,9 +79,10 @@
     color: $orange;
     background: $lightgrey;
     cursor: pointer;
+    font-size: 0.9rem;
     span {
       line-height: 100%;
-      font-size: 1.3em;
+      font-size: 1.2em;
     }
   }
 
@@ -107,7 +109,19 @@
 
   }
 
-    margin: 0;
+  .add-comment {
+    background-color:#FFF;
+    width: 100%;
+    max-height: 48px;
+    min-height: 22px;
+    overflow: auto;
+    font-size: 14px;
+    line-height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+    margin: 20px;
     padding: 0;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -127,15 +141,23 @@
     right: 0.3em;
     color: $lightgrey;
   }
+  .comment-avatar {
+    width: 50px;
+    float:left;
+    margin-right: 1.3rem;
+    border-radius:7px;
+  }
   .content {
     padding:1px;
     color: $darkgrey;
     font-family: 'vollkorn', serif;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.4;
     white-space: pre-wrap !important;
   }
+
+  padding:10px 0;
 }
 
 .postInputArea {
