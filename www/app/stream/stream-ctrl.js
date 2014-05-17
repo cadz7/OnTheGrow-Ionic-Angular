@@ -1,5 +1,6 @@
 'use strict';
 
+angular.module('sproutApp.controllers')
 .controller('StreamCtrl', ['$scope', 'stream', '$ionicModal', 'headerRemote', '$ionicActionSheet', function($scope, stream, $ionicModal, headerRemote, $ionicActionSheet) {
 	$scope.stream = stream;
 
