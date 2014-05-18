@@ -104,7 +104,6 @@ angular.module('sproutApp.data.stream-items', [
       var item = _.cloneDeep(mockStreamItemTemplate);
       item.owner = _.cloneDeep(owners[id % 5]);
       item.avatarURL = avatarURLs[id % 5];
-        item.owner.firstName[0] + item.owner.lastName[0];
       item.viewer.isLikedByViewer = id % 2;
       item.viewer.isOwnedByViewer = item.owner.userId === 42? 1 : 0;
       item.streamItemId = id;
@@ -227,7 +226,7 @@ angular.module('sproutApp.data.stream-items', [
       if (!user.isAuthenticated) {
         deferred.reject(new Error('Not authenticated.'));
       } else if (user.data.userId!==item.owner.userId) {
-        deferred.reject(new Error('No allowed.'))
+        deferred.reject(new Error('No allowed.'));
       } else {
         if (foundIdx >= 0) {
           service.items.splice(foundIdx, 1);
@@ -235,7 +234,7 @@ angular.module('sproutApp.data.stream-items', [
         deferred.resolve();
       }
       return deferred.promise;
-    }
+    };
 
     return service;
   }
