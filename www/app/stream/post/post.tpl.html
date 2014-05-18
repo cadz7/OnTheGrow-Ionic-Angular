@@ -4,7 +4,7 @@
 
         <div class="post-info row">
             <div class="col col-75">
-                <span class="author">{{post.owner.firstName}}</span>
+                <span class="author">{{post.streamItemDisplay.values.user.name}}</span>
                 <br>
                 <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
             </div>
@@ -24,12 +24,12 @@
     </div>
 
     <div class="item item-divider tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" data-ng-click="likeClicked(post.id)">
-            <span class="count" data-ng-bind="post.likeCount"></span><i class="icon ion-thumbsup" data-ng-class="{'inactive':!post.userLikedId}"></i>
+        <a class="tab-item" data-ng-click="likeClicked(post.streamItemId)">
+            <span class="count" data-ng-bind="post.likeCount"></span><i class="icon ion-thumbsup" data-ng-class="{'inactive':!post.viewer.isLikedByViewer}"></i>
         </a>
         <div class="vertical-divider"></div>
         <a class="tab-item" href="javascript:void(0)" ng-click="showFullPost()">
-            <span class="count" ng-bind="post.commentCount"></span><i class="icon ion-chatbox"></i>
+            <span class="count" ng-bind="post.comments.length"></span><i class="icon ion-chatbox"></i>
         </a>
     </div>
 
@@ -39,13 +39,13 @@
       <button type="button" class="button button-small button-stable col col-20" ng-click="postComment(commentText)">Post</button>
     </div>
 
-    <div class="list" data-ng-show="commentsShown">
+    <div class="list" data-ng-show="commentsExist">
         <div class="item hide-after comment"
              data-ng-repeat="comment in post.comments | limitTo : showCommentCount">
               <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
         </div>
-        <div class="showMoreComments" ng-click="showAllComments()" ng-show="post.commentCount > STREAM_CONSTANTS.initialCommentCountShown">
-          {{showCommentCount==post.commentCount && 'hide more' || 'show more'}}
+        <div class="showMoreComments" ng-click="showAllComments()" ng-show="post.comments.length > STREAM_CONSTANTS.initialCommentCountShown">
+          {{showCommentCount==post.comments.length && 'hide more' || 'show more'}}
         </div>
     </div>
 </div>
@@ -61,7 +61,7 @@
         <p>{{post.content}}</p>
         <p>
           <a href="#" class="subdued">{{post.likeCount}} Like</a>
-          <a href="#" class="subdued">{{post.commentCount}} Comments</a>
+          <a href="#" class="subdued">{{post.comments.length}} Comments</a>
         </p>
       </div>
 
