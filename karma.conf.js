@@ -2,7 +2,8 @@ module.exports = function (config) {
 
   console.log(process.cwd());
   config.set({
-    basePath: 'client/',
+    basePath: 'www/',
+
     frameworks: ['mocha', 'chai', 'sinon'],
     files: [],
     exclude: [],

@@ -8,6 +8,7 @@ var testVendor = [
   'www/lib/bower-components/sinon-chai/lib/sinon-chai.js',
   'www/lib/bower-components/lodash/dist/lodash.js',
   'testing/vendor/q.js',
+  'testing/tests/*.js',
   'testing/test-utils.js'
 ];
 gulp.task('karma', rg.karma({
