@@ -8,7 +8,7 @@
         class="button button-clear icon ion-navicon-round"
         ng-click=""></button>
     </div>
-    <h1 class="title">Filter</h1>
+    <h1 class="title" ng-click="showLeaderboardFilter()">Filter</h1>
     <!-- only show if user is logged in -->
     <!-- ng-show="AuthSvc.isLoggedIn()" -->
     <!-- Settings Button -->
@@ -19,7 +19,20 @@
     </div>
   </ion-header-bar>
 
-  <ion-content class="text-center padding has-header" id="LeaderboardList">
+
+  <ion-content class="text-center padding has-header">
+
+    <h2>{{leaderboardFilter || 'Something'}}</h2>
+
+
+    <div class="button-bar">
+      <div class="button button-outline button-calm">Week</div>
+      <div class="button button-outline button-calm">Month</div>
+      <div class="button button-outline button-calm">Year</div>
+      <div class="button button-outline button-calm">Quarter</div>
+    </div>
+
+<div id="LeaderboardList">
     <div ng-repeat="leaderData in leaderboardData | orderBy:'rank'" class="list card leader row">
       <div class="position col col-10">{{leaderData.rank}}</div>
       <div class="userImg col col-20"><img src="{{leaderData.userImage}}" alt="{{leaderData.name}}"/></div>
@@ -32,6 +45,7 @@
         <div class="row">points</div>
       </div>
     </div>
+</div>
   </ion-content>
 
 </ion-view>

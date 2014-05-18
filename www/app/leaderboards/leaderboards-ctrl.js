@@ -1,8 +1,37 @@
 'use strict';
 
 angular.module('sproutApp.controllers')
-  .controller('LeaderboardsCtrl', ['$scope', 'headerRemote', function($scope, headerRemote) {
+  .controller('LeaderboardsCtrl', ['$scope', 'headerRemote', '$ionicActionSheet',
+    function($scope, headerRemote, $ionicActionSheet) {
     $scope.header = headerRemote;
+    $scope.leaderboardFilter = 'Overall';
+
+    $scope.showLeaderboardFilter = function(){
+
+    $ionicActionSheet.show({
+      titleText: 'Filter By Type:',
+      // buttons: filters,
+      buttons: [{
+        text: 'Overall'
+      }, {
+        text: 'Challenge 1'
+      }, {
+        text: 'Challenge 2'
+      }, {
+        text: 'Challenge 3'
+      }, {
+        text: 'Challenge 4'
+      }],
+      cancelText: 'Back',
+      cancel: function() {
+        return true;
+      },
+      buttonClicked: function(index) {
+        $scope.leaderboardFilter = this.buttons[index].text;
+        return true;
+      }
+    });
+  };
 
     $scope.leaderboardData = [
       {
