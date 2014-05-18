@@ -15,59 +15,49 @@
     </ion-header-bar>
     <ion-content class="padding has-header">
 
+        <!--Time period filter-->
         <div class="btn-group btn-group-justified">
-            <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Week'">Week</label>
-            <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Month'">Month</label>
-            <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Quarter'">Quarter</label>
-            <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Year'">Year</label>
+            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Week'">Week</label>
+            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Month'">Month</label>
+            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Quarter'">Quarter</label>
+            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Year'">Year</label>
         </div>
 
 
+        <!--User profile and main scoreboard-->
         <div class="list">
 
             <div class="item item-thumbnail-left item-icon-right border-none" href="#">
                 <img src="cover.jpg">
 
-                <h2>Username</h2>
+                <h2>{{user.firstName + ' ' + user.lastName}}</h2>
 
-                <p>Department and location</p>
+                <p>{{user.department + ' ' + user.location}}</p>
                 <i class="icon">
-                    <h1>1500</h1>
+                    <h2>{{user.totalScore}}</h2>
                 </i>
             </div>
+        </div>
+        
 
-            <h3>Activity Log</h3>
+        <!--Activity log-->
+        <h3>Activity Log</h3>
 
-            <div class="list">
+        <div class="list">
+            <span ng-repeat="groupedActivity in groupedActivities">
                 <div class="item item-divider">
-                    Week 1
+                    {{groupedActivity.timePeriod}}
                 </div>
-                <a class="item" href="#">
-                    Task 1
-                </a>
-                <a class="item" href="#">
-                    Task 1
-                </a>
-                <a class="item item-divider" href="#">
-                    Week 2
-                </a>
-                <a class="item" href="#">
-                    Task 1
-                </a>
-                <a class="item" href="#">
-                    Task 1
-                </a>
-
-                <div class="item" href="#">
-                    <span class="activity-name">Record album</span>
-                    <span class="item-note text-center">
-                      <div class="minutes">22 min</div>
-                      <div>165 pts</div>
-                    </span>
+                <div ng-repeat="activity in groupedActivity.activities">
+                    <div class="item" href="#">
+                        <span class="activity-name">{{activity.title}}</span>
+                        <span class="item-note text-center">
+                          <div class="minutes">{{activity.duration}} min</div>
+                          <div>{{activity.points}}</div>
+                        </span>
+                    </div>
                 </div>
-
-            </div>
-
+            </span>
         </div>
 
     </ion-content>
