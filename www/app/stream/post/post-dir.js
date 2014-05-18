@@ -14,19 +14,22 @@ angular.module('sproutApp.directives').directive(
 			    scope.commentsShown = !!(scope.post.comments && scope.post.comments.length);
 			    scope.liked = false;
 
-			    var contentIsOverflowing = scope.post.content.length > STREAM_CONSTANTS.initialPostCharCount;
+			    // The parsing below using _.template will be slow - we need to cache the template function
+			    var postTemplate = _.template(scope.post.streamItemDisplay.template),
+			    		postContent = postTemplate(scope.post.streamItemDisplay.values),
+			    		contentIsOverflowing = postContent.length > STREAM_CONSTANTS.initialPostCharCount;
 
 			    if (contentIsOverflowing) {
 			    	if (scope.arg === 'full') {
-			    		scope.content = scope.post.content;
+			    		scope.content = postContent;
 			    	}
 			    	else {
-				    	var tempContent = scope.post.content.substr(0, STREAM_CONSTANTS.initialPostCharCount);
-				    	scope.content = (scope.post.content.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
+				    	var tempContent = postContent.substr(0, STREAM_CONSTANTS.initialPostCharCount);
+				    	scope.content = (postContent.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
 			    	}
 			    }
 			    else {
-			    	scope.content = scope.post.content;
+			    	scope.content = postContent;
 			    }
 
 			    scope.contentIsOverflowing = contentIsOverflowing;

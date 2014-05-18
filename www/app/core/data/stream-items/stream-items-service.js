@@ -91,7 +91,7 @@ angular.module('sproutApp.data.stream-items', [
       relationTypeSlug: 'activity',
       dateTimeCreated: '2014-05-14T15:22:11Z',
       streamItemDisplay: {
-        template: '{user.name} just tracked: {qty} {units} of {activity}',
+        template: '<%=user.name%> just tracked: <%=qty%> <%=units%> of <%=activity%>', // quick change to make it accessible for next leg
         values: {
           activity: 'cycling', 
           qty: '5', 
