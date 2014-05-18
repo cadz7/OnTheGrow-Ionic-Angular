@@ -33,6 +33,11 @@ angular.module('sproutApp.controllers')
     $scope.dialog = modal;
   });
 
+  $scope.$on('$destroy', function() {
+    scope.modal.remove();
+    scope.dialog.remove();
+  });
+
   $scope.deletePost = function(item) {
   	$ionicActionSheet.show({
       buttons: [
