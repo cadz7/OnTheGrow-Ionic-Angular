@@ -19,5 +19,16 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
+    "angular": true,
+    "describe": true,
+    "it": true,
+    "beforeEach": true,
+    "module": true,
+    "chai": true,
+    "expect": true,
+    "testUtils": true,
+    "_": true,
+    "sinon": true,
+    "Q": true
   }
 }

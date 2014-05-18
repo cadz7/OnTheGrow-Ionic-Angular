@@ -1,5 +1,3 @@
-/* globals describe, it, beforeEach, module, chai, expect console, Q,
-   testUtils, _ */
 /* jshint expr:true */
 
 'use strict';
@@ -167,17 +165,22 @@ describe('streamItems service', function() {
       });
   });
 
-  function authenticateAndDelete(postIndex) {
+  function authenticate() {
     var streamItems = testUtils.getService('streamItems');
     var user = testUtils.getService('user');
     return user.login('arthur')
       .then(function() {
         return reload();
-      })
+      });
+  }
+
+  function authenticateAndDelete(postIndex) {
+    var streamItems = testUtils.getService('streamItems');
+    return authenticate()
       .then(function(items) {
         return streamItems.deletePost(items[postIndex]);
-      })
-  };
+      });
+  }
 
   it('should delete users own post', function () {
     var streamItems = testUtils.getService('streamItems');
@@ -194,6 +197,32 @@ describe('streamItems service', function() {
         throw new Error ('Should have been rejected');
       }, function(error) {
         expect(error).to.be.truthy;
+      });
+  });
+
+  it('should post a new comment', function () {
+    var streamItems = testUtils.getService('streamItems');
+    var item;
+    var commentText1 = 'Time is an illusion. Lunchtime doubly so.';
+    var commentText2 = 'Don\'t Panic!';
+    var comment1;
+    var comment2;
+    return authenticate()
+      .then(function(items) {
+        item = items[0];
+        return item.postComment(commentText1);
+      })
+      .then(function(comment) {
+        comment1 = comment;
+        expect(comment.commentText).to.equal(commentText1);
+        expect(item.comments[item.comments.length-1]).to.equal(comment1);
+        return item.postComment(commentText2);
+      })
+      .then(function(comment) {
+        comment2 = comment;
+        expect(comment.commentText).to.equal(commentText2);
+        expect(item.comments[item.comments.length-1]).to.equal(comment2);
+        expect(item.comments[item.comments.length-2]).to.equal(comment1);
       });
   });
 

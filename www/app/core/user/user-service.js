@@ -1,27 +1,29 @@
-/* global angular, window */
+/* global window */
 
 angular.module('sproutApp.user', [
-
+  'sproutApp.util'
 ])
 
 .factory('userStorage', [
-  function() {
+
+  function () {
+    'use strict';
     var service = {};
 
-    service.get = function() {
+    service.get = function () {
       return window.localStorage.getItem('user');
     };
 
-    service.set = function(user) {
+    service.set = function (user) {
       return window.localStorage.setItem('user', user);
-    }
+    };
 
     return service;
   }
 ])
 
-.factory('user', ['userStorage', '$q', '$log', '$window',
-  function(userStorage, $q, $log, $window) {
+.factory('user', ['userStorage', '$q', '$log', '$window', 'util',
+  function (userStorage, $q, $log, $window, util) {
     'use strict';
     var user = {};
     var authenticatedDeferred = $q.defer();
@@ -31,18 +33,6 @@ angular.module('sproutApp.user', [
       firstName: 'Arthur',
       lastName: 'Dent'
     };
-
-    function makeResolvedPromise(value) {
-      var deferred = $q.defer();
-      deferred.resolve(value);
-      return deferred.promise;
-    }
-
-    function makeRejectedPromise(error) {
-      var deferred = $q.defer();
-      deferred.reject(error);
-      return deferred.promise;
-    }    
 
     user.isAuthenticated = false; // Shows whether the user is authenticated.
 
@@ -55,19 +45,19 @@ angular.module('sproutApp.user', [
       return user.data;
     }
 
-    user.whenAuthenticated = function() {
+    user.whenAuthenticated = function () {
       return authenticatedDeferred.promise;
     };
 
     user.login = function (username, password) {
       $log.info('Simulating login:', username);
-      if (username==='arthur') {
+      if (username === 'arthur') {
         user.data = arthur;
         userStorage.set('user', arthur);
         authenticatedDeferred.resolve();
-        return makeResolvedPromise();
+        return util.q.makeResolvedPromise();
       } else {
-        return makeRejectedPromise({
+        return util.q.makeRejectedPromise({
           errorCode: 'wrong-password',
           errorMessage: 'Wrong username or password.'
         });
@@ -79,12 +69,12 @@ angular.module('sproutApp.user', [
       $window.location.replace('/');
     };
 
-    function init () {
+    function init() {
       getUserStatus();
     }
 
     user.testing = {
-      reload: function() {
+      reload: function () {
         init();
       }
     };
