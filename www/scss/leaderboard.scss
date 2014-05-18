@@ -1,11 +1,13 @@
 @import "variables";
 
 #LeaderboardList{
+
+  //This is a magic number, but otherwise the cards would touch the right side of the view
   padding-right: 3%;
 
   .leader{
-
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    height: 90px;
 
     .position{
       font-size: 55px;
@@ -13,12 +15,12 @@
       display: flex;
       justify-content: center;
       font-weight: 100;
+      color: $green;
     }
 
     .userImg{
       img{
         width:40%;
-//        border: 1px solid rgba(68, 68, 68, 0.25);
       }
     }
 
@@ -42,12 +44,19 @@
       div:first-child{
         font-size: $font-size-large;
         font-weight: $headings-font-weight;
+        color: $orange;
       }
       div:nth-child(2){
         font-size: $font-size-small;
 
       }
     }
+  }
+
+  .leader:nth-child(-n+3){
+    //Set the first three leaders to have a slightly higher max height than the rest of
+    //The leaders
+    height: 110px;
   }
 
 }
