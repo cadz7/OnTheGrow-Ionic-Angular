@@ -19,9 +19,18 @@
     </div>
   </ion-header-bar>
 
-  <ion-content class="text-center padding has-header" id="leaderboardList">
-    <div ng-repeat="leaderData in leaderboardData" class="list card leader">
-      <div class="position">{{leaderData.rank}}</div>
+  <ion-content class="text-center padding has-header" id="LeaderboardList">
+    <div ng-repeat="leaderData in leaderboardData" class="list card leader row">
+      <div class="position col col-10">{{leaderData.rank}}</div>
+      <div class="userImg col">Img</div>
+      <div class="userInfo col col-50">
+        <div class="userName row">{{leaderData.username}}</div>
+        <div class="userDepartment row">{{leaderData.department}} - {{leaderData.location}}</div>
+      </div>
+      <div class="userScore col">
+        <div class="row">{{leaderData.score}}</div>
+        <div class="row">points</div>
+      </div>
     </div>
   </ion-content>
 

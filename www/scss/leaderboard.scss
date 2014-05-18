@@ -1,2 +1,41 @@
 @import "variables";
 
+#LeaderboardList{
+
+  .leader{
+
+    .position{
+    }
+
+    .userImg{
+    }
+
+    .userInfo{
+      .userName{
+        font-size: $font-size-large;
+        color: $orange;
+      }
+
+      .userDepartment{
+        font-size: $font-size-small;
+        color: $dark;
+      }
+    }
+
+    .userScore{
+      div{
+        justify-content: center;
+      }
+
+      div:first-child{
+        font-size: $font-size-large;
+        font-weight: $headings-font-weight;
+      }
+      div:nth-child(2){
+        font-size: $font-size-small;
+
+      }
+    }
+  }
+
+}
