@@ -22,7 +22,7 @@
   <ion-content class="text-center padding has-header" id="LeaderboardList">
     <div ng-repeat="leaderData in leaderboardData | orderBy:'rank'" class="list card leader row">
       <div class="position col col-10">{{leaderData.rank}}</div>
-      <div class="userImg col"><img src="{{leaderData.userImage}}" alt="{{leaderData.name}}"/></div>
+      <div class="userImg col col-20"><img src="{{leaderData.userImage}}" alt="{{leaderData.name}}"/></div>
       <div class="userInfo col col-50">
         <div class="userName row">{{leaderData.name}}</div>
         <div class="userDepartment row">{{leaderData.department}} - {{leaderData.location}}</div>
