@@ -1,18 +1,23 @@
 @import"variables";
 
 .post {
+    margin: 1rem .5rem;
+    padding: 0;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    border: 1px solid $lightgrey;
+    border-radius: 4px;
+    font-family: 'roboto', sans-serif;
+
     .tabs{
         background-size: 0; //clears extra border bug
     }
     .tab-item{
         opacity:1;
     }
-    .post-info {
-      padding: 0.3rem 0 0.4rem 0;
-    }
     .author {
         padding: 0 0 0 0;
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: bold;
         color: $orange;
     }
@@ -45,16 +50,16 @@
         top: -4px;
     }
     .item-avatar{
-    	padding-left: 5rem;
+    	padding-left: 70px;
+      border-radius: 3px 0 3px 0;
     }
     .item-avatar > img:first-child {
         position: absolute;
         top: 0;
         left: 0;
-        max-width: 70px;
-        max-height: 70px;
-        width: 100%;
-        border-radius: 0 0 4px 0;
+        min-width: 60px;
+        min-height:60px;
+        border: 1px solid $lightgrey;
     }
     p {
     	padding: 1px;
@@ -66,7 +71,11 @@
     	line-height: 1.4;
     	white-space: pre-wrap !important;
     }
-
+    .ion-close:before{
+      color:$lightgrey;
+      font-size: .7rem;
+      float:right;
+    }
     .item.item-divider.tabs.tabs-secondary{
     	color: $green;
     	background-color: transparent;
@@ -79,13 +88,11 @@
     color: $orange;
     background: $lightgrey;
     cursor: pointer;
-    font-size: 0.9rem;
-    span {
-      line-height: 100%;
-      font-size: 1.2em;
-    }
+    font-size: .6rem;
   }
-
+  .list{
+    padding-bottom: 0;
+  }
   .postInputArea {
     background: $lightgrey;
     input {
@@ -111,6 +118,7 @@
 
   .add-comment {
     background-color:#FFF;
+    border-color: $mediumgrey;
     width: 100%;
     max-height: 48px;
     min-height: 22px;
@@ -120,18 +128,14 @@
     display: inline-block;
     vertical-align: middle;
   }
-
-    margin: 20px;
-    padding: 0;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    border: 1px solid $lightgrey;
-    border-radius: 4px;
-    font-family: 'roboto', sans-serif;
 }
 
 .comment {
   background: $stable;
+  color: $lightgrey;
+  .author{
+    font-size: .8rem;
+  }
   p {
     padding: 1px;
   }
@@ -142,10 +146,11 @@
     color: $lightgrey;
   }
   .comment-avatar {
-    width: 50px;
+    width: 40px;
     float:left;
-    margin-right: 1.3rem;
-    border-radius:7px;
+    margin-right: 10px;
+    border-radius:0 3px 3px 0;
+    border: 1px solid $lightgrey;
   }
   .content {
     padding:1px;
