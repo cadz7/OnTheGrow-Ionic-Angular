@@ -11,7 +11,7 @@ angular.module('sproutApp.directives').directive(
 					scope.STREAM_CONSTANTS = STREAM_CONSTANTS; // make accessible to view
 
 			    scope.showCommentCount = STREAM_CONSTANTS.initialCommentCountShown;
-			    scope.commentsShown = !!(scope.post.comments && scope.post.comments.length);
+			    scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
 			    scope.liked = false;
 
 			    // The parsing below using _.template will be slow - we need to cache the template function
@@ -41,12 +41,12 @@ angular.module('sproutApp.directives').directive(
 			    };
 
 			    scope.showAllComments = function() {
-			      if (scope.showCommentCount === scope.post.commentCount) {
+			      if (scope.showCommentCount === scope.post.comments.length) {
 			        scope.showCommentCount = STREAM_CONSTANTS.initialCommentCountShown;
 			        return;
 			      }
 
-			      if (scope.post.commentCount === scope.post.comments.length) {
+			      if (scope.post.comments.length === scope.post.comments.length) {
 			        scope.showCommentCount = scope.post.comments.length;
 			        return;
 			      }
@@ -110,9 +110,9 @@ angular.module('sproutApp.directives').directive(
 			      PostCacheSvc.delete(comment).then(function() {
 			        Notify.userSuccess('', 'Comment deleted.');
 			        scope.post.comments = _.without(scope.post.comments, comment);
-			        scope.post.commentCount -= 1;
+			        scope.post.comments.length -= 1;
 			        if (!scope.post.comments && !scope.post.comments.length) {
-			          scope.commentsShown = false;
+			          scope.commentsExist = false;
 			        }
 			      });
 			    };
@@ -123,9 +123,9 @@ angular.module('sproutApp.directives').directive(
 			      PostCacheSvc.postComment(scope.user, scope.post, commentText).then(function(comment) {
 			        $log.debug('Comment posted: ', comment);
 			        Notify.userSuccess('', 'Your comment has been posted.');
-			        scope.commentsShown = true;
+			        scope.commentsExist = true;
 			        scope.showCommentCount += 1;
-			        scope.post.commentCount += 1;
+			        scope.post.comments.length += 1;
 			        scope.commentText = ''; // clears only if the post comment was successful.
 			      })['finally'](function() {
 			        Scene.ready(scope);
@@ -145,6 +145,7 @@ angular.module('sproutApp.directives').directive(
 			    scope.showFullPost = function(theComment) {
 			      scope.comment = theComment;
 			      scope.dialog.scope.currentPost = scope.post;
+			      scope.dialog.scope.postContent = scope.content;
 			      scope.dialog.show();
 			    };
 			    scope.closeFullPost = function() {

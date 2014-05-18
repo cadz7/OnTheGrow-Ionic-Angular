@@ -123,7 +123,7 @@ angular.module('sproutApp.data.stream-items', [
         dateTimeCreated: new Date().toISOString(),
         commentText: commentText,
         commentDisplay: {
-          template: '{user.firstName} says: {text}',
+          template: '<%=user.firstName%> says: <%=text%>', // _ default tags
           values: {
             text: commentText,
             user: _.cloneDeep(author)

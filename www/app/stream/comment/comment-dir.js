@@ -8,7 +8,10 @@ angular.module('sproutApp.directives').directive(
 				restrict: 'E',
 				templateUrl: 'app/stream/comment/comment.tpl.html',
 				link: function(scope, elem, attrs) {
+			    var postTemplate = _.template(scope.comment.commentDisplay.template);
 			    
+			    scope.parsedContent = postTemplate(scope.comment.commentDisplay.values);
+
 				}
 			}
 		}
