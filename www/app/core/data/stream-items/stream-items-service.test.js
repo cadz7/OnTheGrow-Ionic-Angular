@@ -78,6 +78,31 @@ describe('streamItems service', function() {
     return reload();
   });
 
+  it('should load more comments', function () {
+    var streamItems = testUtils.getService('streamItems');
+    var item;
+
+    return reload()
+      .then(function(items) {
+        item = items[0];
+        return item.getMoreComments();
+      })
+      .then(function(comments) {
+        expect(comments.length).to.equal(3);
+        expect(item.comments.length).to.equal(6);
+        return item.getMoreComments();
+      })
+      .then(function(comments) {
+        expect(comments.length).to.equal(3);
+        expect(item.comments.length).to.equal(9);
+        return item.getMoreComments();
+      })
+      .then(function(comments) {
+        expect(comments).to.be.falsy;
+        expect(item.comments.length).to.equal(9);
+      });
+  });
+
   it('should get earlier items', function () {
     var streamItems = testUtils.getService('streamItems');
     return reload()

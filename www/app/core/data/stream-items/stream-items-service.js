@@ -145,6 +145,19 @@ angular.module('sproutApp.data.stream-items', [
       for (var i=0; i<3; i++) {
         item.comments.push(makeComment(item));
       }
+      item.getMoreComments = function() {
+        var deferred = $q.defer();
+        var moreComments;
+        if (item.comments.length < 9) {
+          moreComments = [];
+          for (var i=0; i<3; i++) {
+            moreComments.push(makeComment(item));
+            item.comments.push(makeComment(item));
+          }
+        }
+        deferred.resolve(moreComments);
+        return deferred.promise;
+      }
       return item;
     }
 
