@@ -21,11 +21,16 @@ angular.module('sproutApp.data.stream-items', [
     // applied yet.
 
     var avatarURLs = [
-      'http://placehold.it/80x80/00F000&text=AD',
-      'http://placehold.it/80x80/F00000&text=ZB',
-      'http://placehold.it/80x80/0000F0&text=FP',
-      'http://placehold.it/80x80/00F0F0&text=FD',
-      'http://placehold.it/80x80/000000&text=HK'
+      '/img/user/arthur.png',
+      '/img/user/zaphod.png',
+      '/img/user/ford.png',
+      '/img/user/fenchurch.png',
+      '/img/user/humma.png'
+      // 'http://placehold.it/80x80/00F000&text=AD',
+      // 'http://placehold.it/80x80/F00000&text=ZB',
+      // 'http://placehold.it/80x80/0000F0&text=FP',
+      // 'http://placehold.it/80x80/00F0F0&text=FD',
+      // 'http://placehold.it/80x80/000000&text=HK'
     ];
 
     var comments = [
