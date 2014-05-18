@@ -13,7 +13,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "post.scss";
 @import "metrics.scss";
 
-@import "www/lib/bower-components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
+@import "bootstrap.scss";
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
