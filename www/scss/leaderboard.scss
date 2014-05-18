@@ -48,7 +48,6 @@
       }
       div:nth-child(2){
         font-size: $font-size-small;
-
       }
     }
   }
@@ -56,7 +55,7 @@
   .leader:nth-child(-n+3){
     //Set the first three leaders to have a slightly higher max height than the rest of
     //The leaders
-    height: 110px;
+    height: 125px;
   }
 
 }
