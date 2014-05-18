@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('sproutApp.controllers', []);
+angular.module('sproutApp.controllers', [
+  'sproutApp.user',
+  'sproutApp.data.stream-items'
+]);
 angular.module('sproutApp.services', []);
 angular.module('sproutApp.directives', []);
 
@@ -8,8 +11,7 @@ angular.module('sproutApp', [
   'ionic',
   'sproutApp.controllers', 
   'sproutApp.services',
-  'sproutApp.directives',
-  'sproutApp.services'
+  'sproutApp.directives'
 ])
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

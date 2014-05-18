@@ -6,6 +6,7 @@ var testVendor = [
   'www/lib/bower-components/angular/angular.min.js',
   'www/lib/bower-components/angular-mocks/angular-mocks.js',
   'www/lib/bower-components/sinon-chai/lib/sinon-chai.js',
+  'www/lib/bower-components/lodash/dist/lodash.js',
   'testing/vendor/q.js',
   'testing/test-utils.js'
 ];
