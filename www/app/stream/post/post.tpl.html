@@ -1,12 +1,12 @@
 <div class="item post">
     <div class="item-avatar">
-        <img ng-src="{{post.avatar}}" />
+        <img ng-src="{{post.avatarURL}}" />
 
         <div class="post-info row">
             <div class="col col-75">
-                <span class="author">{{post.author}}</span>
+                <span class="author">{{post.owner.firstName}}</span>
                 <br>
-                <span class="date">{{post.date | date : 'MMM d, h:mma'}}</span>
+                <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
             </div>
             <div class="col">
                 <div ng-show="post.points" class="points-container">

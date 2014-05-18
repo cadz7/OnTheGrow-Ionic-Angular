@@ -145,6 +145,7 @@ angular.module('sproutApp.directives').directive(
 			    scope.showFullPost = function(theComment) {
 			      scope.comment = theComment;
 			      scope.dialog.scope.currentPost = scope.post;
+			      scope.dialog.scope.postContent = scope.content;
 			      scope.dialog.show();
 			    };
 			    scope.closeFullPost = function() {

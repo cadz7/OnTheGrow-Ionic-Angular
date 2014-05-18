@@ -22,26 +22,26 @@
 	
 	<ion-content
 		ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]"> 
+    <!-- 
+      This input box should be a fixed element that sits
+      on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
+     -->
+     <div class="row createPost">
+      <form>
+        <textarea ng-model="post.content" class="post-box"></textarea>
+        <div class="row">
+          <div class="col">
+            <span class="icon ion-edit"></span>
+            <a ng-click="submitPost()" href="javascript:void(0)">Post To Stream</a>
+          </div>
+          <div class="col">
+            <span class="icon ion-android-stopwatch"></span>
+            <a>Track Activity</a>
+          </div>
+        </div>
+      </form>
+    </div>
     <sprout-post ng-repeat="post in stream.items" data-modal="modal" data-dialog="dialog"></sprout-post>
-		<!-- 
-			This input box should be a fixed element that sits
-			on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
-		 -->
-		<!-- 	<div class="row createPost" ng-show="createPostVisible">
-	    <form>
-	      <textarea ng-model="post.content" class="post-box"></textarea>
-	      <div class="row">
-	        <div class="col">
-	          <span class="icon ion-edit"></span>
-	          <a ng-click="submitPost()" href="javascript:void(0)">Post To Stream</a>
-	        </div>
-	        <div class="col">
-	          <span class="icon ion-android-stopwatch"></span>
-	          <a>Track Activity</a>
-	        </div>
-	      </div>
-	    </form>
-	  </div> -->
 
 
 	  <!-- 
