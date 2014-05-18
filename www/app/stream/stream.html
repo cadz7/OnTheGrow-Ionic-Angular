@@ -19,9 +19,67 @@
     </div>
   </ion-header-bar>
 
-	
-	<ion-content
+
+  <div class="add-activity-post" ng-controller="ActivityBarCtrl">
+
+    <div class="row create-post">
+	    <form>
+	      <textarea ng-model="post.content" class="post-box"></textarea>
+	      <div class="row">
+	        <div class="col">
+	          <span class="icon ion-edit"></span>
+	          <a ng-click="submitPost()" href="javascript:void(0)">Post To Stream</a>
+	        </div>
+	        <div class="col">
+	          <span class="icon ion-android-stopwatch"></span>
+	          <a ng-click="onTrackActivityClick()">Track Activity</a>
+	        </div>
+	      </div>
+	    </form>
+	  </div>
+
+
+    <div class="activity-select">
+      <div class="row">
+        <div class="col">
+          <h3 class="activity-title">Activity Categories</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50 activity-item-container">
+          <div class="activity-item">Hey</div>
+        </div>
+
+        <div class="col-50 activity-item-container">
+          <div class="activity-item">Hey</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-50 activity-item-container">
+          <div class="activity-item">Hey</div>
+        </div>
+
+        <div class="col-50 activity-item-container">
+          <div class="activity-item">Hey</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-50 activity-item-container">
+          <div class="activity-item">Hey</div>
+        </div>
+
+        <div class="col-50 activity-item-container">
+          <div class="activity-item">Hey</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+	<ion-content header-shrink scroll-event-interval="5" id="sproutPostsScroller" style="top: 165px;"
 		ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]"> 
+
     <!-- 
       This input box should be a fixed element that sits
       on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
@@ -46,6 +104,12 @@
       <sprout-group-post data-ng-switch-when="group" class="groupItem"></sprout-group-post>
       <sprout-post data-ng-switch-default=""></sprout-post>
     </div>
+
+    <sprout-post ng-repeat="post in stream.items" data-modal="modal" data-dialog="dialog" ></sprout-post>
+		<!-- 
+			This input box should be a fixed element that sits
+			on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
+		 -->
 
 
 	  <!-- 
