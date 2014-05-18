@@ -52,8 +52,8 @@
 =======
 }
 
-.add-activity-post.visible {
-  height: 100%;
+.add-activity-post.activity-select-visible {
+  height: 100% !important;
 }
 
 .add-activity-post {
@@ -65,11 +65,6 @@
 
   height: auto;
   overflow: hidden;
-
-  -webkit-transition:width 300ms ease-in-out, height 300ms ease-in-out;
-  -moz-transition:width 300ms ease-in-out, height 300ms ease-in-out;
-  -o-transition:width 300ms ease-in-out, height 300ms ease-in-out;
-  transition:width 300ms ease-in-out, height 300ms ease-in-out;
 
   h3.activity-title {
     font-size: 14px;
