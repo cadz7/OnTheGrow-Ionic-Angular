@@ -49,8 +49,11 @@ describe('streamItems service', function() {
     expect(streamItems.items.length).to.equal(0);
     return streamItems.reload()
       .then(function(items) {
+        var comments = streamItems.items[1].comments;
         expect(items.length).to.equal(10);
         expect(streamItems.items.length).to.equal(10);
+        expect(comments.length).to.equal(3);
+        expect(comments[0].commentText).to.be.a.string;
         return items;
       });
   }

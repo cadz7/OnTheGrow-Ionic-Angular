@@ -17,6 +17,7 @@ angular.module('sproutApp.data.stream-items', [
 
     var latestId = 12345;
     var earliestId = 12345;
+    var lastCommentId = 1000;
     var stagedUpdate; // Updated items we've got from the server and haven't
                       // applied yet.
 
@@ -26,6 +27,14 @@ angular.module('sproutApp.data.stream-items', [
       'http://placehold.it/80x80/0000F0&text=FP',
       'http://placehold.it/80x80/00F0F0&text=FD',
       'http://placehold.it/80x80/000000&text=HK'
+    ];
+
+    var comments = [
+      'Go with a hunch of a man who\'s brain is fueled by lemons?',
+      'Holy Zarquon!',
+      'Life is like a grapefruit!',
+      'Lorem ipsum.',
+      'Oh mighty Arkleseizure!'
     ];
 
     var owners = [
@@ -100,6 +109,30 @@ angular.module('sproutApp.data.stream-items', [
       comments: []
     };
 
+    function makeComment(item) {
+      lastCommentId++;
+      var authorIndex = lastCommentId % 5;
+      var commentText = comments[authorIndex];
+      var author = owners[authorIndex];
+      var comment = {
+        commentId: lastCommentId,
+        commentedItemId: item.streamItemId,
+        commentedItemTypeSlug: 'streamItem',
+        avatarURL: avatarURLs[authorIndex],
+        owner: _.cloneDeep(author),
+        dateTimeCreated: new Date().toISOString(),
+        commentText: commentText,
+        commentDisplay: {
+          template: '{user.firstName} says: {text}',
+          values: {
+            text: commentText,
+            user: _.cloneDeep(author)
+          }
+        }
+      };
+      return comment;
+    }
+
     function makeStreamItem(id) {
       var item = _.cloneDeep(mockStreamItemTemplate);
       item.owner = _.cloneDeep(owners[id % 5]);
@@ -109,6 +142,9 @@ angular.module('sproutApp.data.stream-items', [
       item.streamItemId = id;
       item.streamItemDisplay.values.user.id = item.owner.userId;
       item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' + item.owner.lastName;
+      for (var i=0; i<3; i++) {
+        item.comments.push(makeComment(item));
+      }
       return item;
     }
 
