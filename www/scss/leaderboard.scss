@@ -1,5 +1,8 @@
 @import "variables";
 
+$top3Multiplier: 1.2;
+$regularLeaderHeight: 75px;
+
 #LeaderboardList{
 
   //This is a magic number, but otherwise the cards would touch the right side of the view
@@ -7,10 +10,10 @@
 
   .leader{
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    height: 90px;
+    height: $regularLeaderHeight;
 
     .position{
-      font-size: 55px;
+      font-size: 45px;
       flex-direction: column;
       display: flex;
       justify-content: center;
@@ -20,7 +23,7 @@
 
     .userImg{
       img{
-        width:40%;
+        width:80%;
       }
     }
 
@@ -55,7 +58,7 @@
   .leader:nth-child(-n+3){
     //Set the first three leaders to have a slightly higher max height than the rest of
     //The leaders
-    height: 125px;
+    height: ($regularLeaderHeight * $top3Multiplier);
   }
 
 }
