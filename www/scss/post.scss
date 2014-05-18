@@ -1,18 +1,23 @@
 @import"variables";
-
-.post {
-    .tabs{
-        background-size: 0; //clears extra border bug
+ .post {
+    margin: 1rem .5rem;
+    padding: 0;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    border: 1px solid $lightgrey;
+    border-radius: 4px;
+    font-family:'roboto', sans-serif;
+    .tabs {
+        background-size: 0;
+        //clears extra border bug
     }
-    .tab-item{
+    .tab-item {
         opacity:1;
-    }
-    .post-info {
-      padding: 0.3rem 0 0.4rem 0;
+        font-family:'roboto', sans-serif;
     }
     .author {
         padding: 0 0 0 0;
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: bold;
         color: $orange;
     }
@@ -21,10 +26,10 @@
         color: $mediumgrey;
     }
     .points-container {
-      padding-right: 12px;
-      font-family: 'roboto', sans-serif;
-      text-align: center;
-      color: $orange;
+        padding-right: 12px;
+        font-family:'roboto', sans-serif;
+        text-align: center;
+        color: $orange;
         .points {
             font-size: 1.4em;
             font-weight: 700;
@@ -37,172 +42,175 @@
             text-align: center;
         }
     }
-    .ion-thumbsup{
-        font-size:12px;
+    .ion-thumbsup {
         font-weight: 500;
         padding-right: 10px;
         position: relative;
         top: -4px;
     }
-    .item-avatar{
-    	padding-left: 5rem;
+    .item-avatar {
+        padding-left: 65px;
     }
     .item-avatar > img:first-child {
         position: absolute;
         top: 0;
         left: 0;
-        max-width: 70px;
-        max-height: 70px;
-        width: 100%;
-        border-radius: 0 0 4px 0;
+        min-width: 60px;
+        min-height:60px;
+        border: 1px solid $lightgrey;
+        border-left: 0;
+        border-top: 0;
+        border-radius: 0 0 3px 0;
     }
     p {
-    	padding: 1px;
-      margin: 0 10px;
-    	color: $darkgrey;
-    	font-family: 'vollkorn', serif;
-    	font-weight: 400;
-    	font-size: 1rem;
-    	line-height: 1.4;
-    	white-space: pre-wrap !important;
+        margin: 0 15px;
+        color: $darkgrey;
+        font-family:'vollkorn', serif;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.4;
+        white-space: pre-wrap !important;
     }
-
-    .item.item-divider.tabs.tabs-secondary{
-    	color: $green;
-    	background-color: transparent;
-    	border: none;
+    .ion-close:before {
+        color:$lightgrey;
+        font-size: .7rem;
+        float:right;
     }
-
-  .showMoreComments {
-    position:relative;
-    text-align: center;
-    color: $orange;
-    background: $lightgrey;
-    cursor: pointer;
-    font-size: 0.9rem;
-    span {
-      line-height: 100%;
-      font-size: 1.2em;
+    .item.item-divider.tabs.tabs-secondary {
+        color: $green;
+        background-color: transparent;
+        border: none;
     }
-  }
-
-  .postInputArea {
-    background: $lightgrey;
-    input {
-      margin: 0 10px;
+    .showMoreComments {
+        position:relative;
+        text-align: center;
+        color: $green;
+        background: #fff;
+        cursor: pointer;
+        font-size: .6rem;
+        padding: 3px 0 1px 0;
+        letter-spacing: 1px;
     }
-  }
-
-  .likeArea {
-    position: relative;
-    display: inline-block;
-    width: 1.5em;
-    padding: 0 5px;
-    button {
-      position: absolute;
-      top: 5px; left: 0px;
-      font-size: 1.5em;
+    .list {
+        padding-bottom: 0;
     }
-    .icon {
-      color: white;
+    .postInputArea {
+        background: $lightgrey;
+        padding:10px;
+        input {
+            border-radius: 0;
+            margin-right:5px;
+        }
+        .button {
+            font-size: 1rem;
+            color: #aaa;
+            background-color: #eee;
+            border-radius: 2px;
+            border: 1px solid #ddd;
+        }
     }
-
-  }
-
-  .add-comment {
-    background-color:#FFF;
-    width: 100%;
-    max-height: 48px;
-    min-height: 22px;
-    overflow: auto;
-    font-size: 14px;
-    line-height: 16px;
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-    margin: 20px;
-    padding: 0;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    border: 1px solid $lightgrey;
-    border-radius: 4px;
-    font-family: 'roboto', sans-serif;
+    .likeArea {
+        position: relative;
+        display: inline-block;
+        width: 1.5em;
+        padding: 0 5px;
+        button {
+            position: absolute;
+            top: 5px;
+            left: 0px;
+            font-size: 1.5em;
+        }
+        .icon {
+            color: white;
+        }
+    }
+    .add-comment {
+        background-color:#FFF;
+        border-color: $mediumgrey;
+        width: 100%;
+        max-height: 48px;
+        min-height: 22px;
+        overflow: auto;
+        font-size: 14px;
+        line-height: 16px;
+        display: inline-block;
+        vertical-align: middle;
+    }
 }
-
 .comment {
-  background: $stable;
-  p {
-    padding: 1px;
-  }
-  .editIcon {
-    position: absolute;
-    top: 0.3em;
-    right: 0.3em;
-    color: $lightgrey;
-  }
-  .comment-avatar {
-    width: 50px;
-    float:left;
-    margin-right: 1.3rem;
-    border-radius:7px;
-  }
-  .content {
-    padding:1px;
-    color: $darkgrey;
-    font-family: 'vollkorn', serif;
-    font-weight: 400;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    white-space: pre-wrap !important;
-  }
-
-  padding:10px 0;
+    background: #eee;
+    color: $mediumgrey;
+    .author {
+        font-size: .8rem;
+    }
+    p {
+        padding: 1px;
+    }
+    .editIcon {
+        position: absolute;
+        top: 0.3em;
+        right: 0.3em;
+        color: $mediumgrey;
+    }
+    .comment-avatar {
+        width: 40px;
+        float:left;
+        margin-right: 10px;
+        border-radius:0 3px 3px 0;
+        border: 1px solid $lightgrey;
+        border-left:0;
+    }
+    .content {
+        padding:1px;
+        color: $darkgrey;
+        font-family:'vollkorn', serif;
+        font-weight: 400;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        white-space: pre-wrap !important;
+    }
+    padding:10px 0;
 }
-
 .postInputArea {
-  background: $lightgrey;
+    background: $lightgrey;
 }
-
 .post a.tab-item:after {
-background: #333;
-background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#333));
-background: -webkit-linear-gradient(#fff, #333);
-background: -moz-linear-gradient(#fff, #333);
-background: -ms-linear-gradient(#fff, #333);
-background: -o-linear-gradient(#fff, #333);
-background: linear-gradient(#fff, #333);
+    background: #333;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#333));
+    background: -webkit-linear-gradient(#fff, #333);
+    background: -moz-linear-gradient(#fff, #333);
+    background: -ms-linear-gradient(#fff, #333);
+    background: -o-linear-gradient(#fff, #333);
+    background: linear-gradient(#fff, #333);
 }
 .row + .row {
     margin-top: 1px;
     padding-top: 0;
 }
-.count{
-	color:$orange;
-	font-weight: 700;
-	padding-right: 5px;
+.count {
+    color:$orange;
+    font-weight: 700;
+    padding-right: 5px;
+    vertical-align: middle;
+    line-height: 12px;
 }
-
 .outer {
-  display: table;
-  position: absolute;
-  height: 100%;
-  width: 100%;
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
 }
-
 .middle {
-  display: table-cell;
-  vertical-align: middle;
+    display: table-cell;
+    vertical-align: middle;
 }
-
 .inner {
-  margin-left: auto;
-  margin-right: auto;
-  width: 175px;
-  padding: 10px;
-  background: white;
+    margin-left: auto;
+    margin-right: auto;
+    width: 175px;
+    padding: 10px;
+    background: white;
 }
-
 .post a.tab-item .inactive {
-  color: #CCC;
+    color: #CCC;
 }
