@@ -2,7 +2,8 @@
 
 angular.module('sproutApp.controllers', [
   'sproutApp.user',
-  'sproutApp.data.stream-items'
+  'sproutApp.data.stream-items',
+  'sproutApp.data.template-parser'
 ]);
 angular.module('sproutApp.services', []);
 angular.module('sproutApp.directives', []);

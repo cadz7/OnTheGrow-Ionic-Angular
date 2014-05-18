@@ -2,8 +2,8 @@
 
 angular.module('sproutApp.directives').directive(
 	'sproutPost',
-	['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS',
-		function($log, STREAM_CONSTANTS, API_CONSTANTS) {
+	['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'templateParser',
+		function($log, STREAM_CONSTANTS, API_CONSTANTS, templateParser) {
 			return {
 				restrict: 'E',
 				templateUrl: 'app/stream/post/post.tpl.html',
@@ -14,9 +14,7 @@ angular.module('sproutApp.directives').directive(
 			    scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
 			    scope.liked = false;
 
-			    // The parsing below using _.template will be slow - we need to cache the template function
-			    var postTemplate = _.template(scope.post.streamItemDisplay.template),
-			    		postContent = postTemplate(scope.post.streamItemDisplay.values),
+			    var postContent = templateParser.parse(scope.post.streamItemDisplay.template, scope.post.streamItemDisplay.values),
 			    		contentIsOverflowing = postContent.length > STREAM_CONSTANTS.initialPostCharCount;
 
 			    if (contentIsOverflowing) {
