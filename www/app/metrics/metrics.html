@@ -1,21 +1,64 @@
 <!-- ion-nav-bar goes here -->
 <ion-view title="Metrics">
-	<!-- ion-header-bar goes here -->
-	<ion-header-bar align-title="center" class="bar-positive">
-    <div class="buttons">
-      <button class="button icon ion-navicon-round"></button>
-    </div>
-    <h1 class="title">Filter</h1>
-    <!-- only show if user is logged in -->
-    <!-- ng-show="AuthSvc.isLoggedIn()" -->
-    <!-- Settings Button -->
-    <div class="buttons">
-      <button ng-click="header.showAccountOptions()" class="button icon ion-gear-a"></button>
-    </div>
-  </ion-header-bar>
+    <!-- ion-header-bar goes here -->
+    <ion-header-bar align-title="center" class="bar-positive">
+        <div class="buttons">
+            <button class="button icon ion-navicon-round"></button>
+        </div>
+        <h1 class="title">Metrics</h1>
+        <!-- only show if user is logged in -->
+        <!-- ng-show="AuthSvc.isLoggedIn()" -->
+        <!-- Settings Button -->
+        <div class="buttons">
+            <button ng-click="header.showAccountOptions()" class="button icon ion-gear-a"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="padding has-header">
 
-	<ion-content class="text-center padding has-header">
-	  <h1>Metrics Coming Soon...</h1>
-	</ion-content>
+        <!--Time period filter-->
+        <div class="btn-group btn-group-justified">
+            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Week'">Week</label>
+            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Month'">Month</label>
+            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Quarter'">Quarter</label>
+            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Year'">Year</label>
+        </div>
 
+
+        <!--User profile and main scoreboard-->
+        <div class="list">
+
+            <div class="item item-thumbnail-left item-icon-right border-none" href="#">
+                <img src="cover.jpg">
+
+                <h2>{{user.firstName + ' ' + user.lastName}}</h2>
+
+                <p>{{user.department + ' ' + user.location}}</p>
+                <i class="icon">
+                    <h2>{{user.totalScore}}</h2>
+                </i>
+            </div>
+        </div>
+        
+
+        <!--Activity log-->
+        <h3>Activity Log</h3>
+
+        <div class="list">
+            <span ng-repeat="groupedActivity in groupedActivities">
+                <div class="item item-divider">
+                    {{groupedActivity.timePeriod}}
+                </div>
+                <div ng-repeat="activity in groupedActivity.activities">
+                    <div class="item" href="#">
+                        <span class="activity-name">{{activity.title}}</span>
+                        <span class="item-note text-center">
+                          <div class="minutes">{{activity.duration}} min</div>
+                          <div>{{activity.points}}</div>
+                        </span>
+                    </div>
+                </div>
+            </span>
+        </div>
+
+    </ion-content>
 </ion-view>

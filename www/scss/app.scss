@@ -11,6 +11,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // CSS modules
 @import "streams.scss";
 @import "post.scss";
+@import "metrics.scss";
+
+@import "www/lib/bower-components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 // this is currently being used to make the list of posts area appear at the right
 // y-position relative to the header or the "post-to-stream" feature.
@@ -141,3 +146,9 @@ button {
 .loading {
   background: rgba(0,0,0,0) !important; // makes the black rectangle in center invisible so the spinner shows nicely.
 }
+
+.border-none{
+  border: none;
+}
+
+
