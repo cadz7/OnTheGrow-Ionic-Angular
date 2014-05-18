@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('sproutApp.controllers')
-.controller('StreamCtrl', ['$scope', 'stream', '$ionicModal', 'headerRemote', '$ionicActionSheet', function($scope, stream, $ionicModal, headerRemote, $ionicActionSheet) {
-	$scope.stream = stream;
+.controller('StreamCtrl', ['$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet) {
+	$scope.stream = streamItems;
 
 	$scope.header = headerRemote;
 	$scope.filterByType = 'ALL';
 
-	$scope.$on('stateChangeSuccess', function() {
+	$scope.$on('$stateChangeSuccess', function() {
     $scope.stream.loadData();
   });
 
