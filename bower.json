@@ -11,8 +11,6 @@
   "dependencies": {
     "angular": "~1.2.16",
     "angular-mocks": "~1.2.16",
-    "sinon-chai": "~2.5.0",
-    "bootstrap-sass-official": "latest",
-    "angular-bootstrap": "~0.10.0"
+    "sinon-chai": "~2.5.0"
   }
 }

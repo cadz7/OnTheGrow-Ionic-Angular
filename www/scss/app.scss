@@ -13,8 +13,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "post.scss";
 @import "metrics.scss";
 
-@import "bootstrap.scss";
-
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 // this is currently being used to make the list of posts area appear at the right

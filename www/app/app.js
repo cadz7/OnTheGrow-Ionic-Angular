@@ -6,7 +6,6 @@ angular.module('sproutApp.directives', []);
 
 angular.module('sproutApp', [
   'ionic',
-  'ui.bootstrap',
   'sproutApp.controllers', 
   'sproutApp.services',
   'sproutApp.directives',
