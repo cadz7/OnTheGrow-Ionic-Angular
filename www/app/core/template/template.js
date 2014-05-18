@@ -2,7 +2,7 @@
 
 angular.module('sproutApp.template', [])
 
-.factory('template', [
+.factory('templateParser', [
   function() {
     var template = {};
 
