@@ -138,11 +138,7 @@ angular.module('sproutApp.directives').directive(
 			    scope.closeModal = function() {
 			      scope.modal.hide();
 			    };
-			    //Cleanup the modal when we're done with it!
-			    scope.$on('$destroy', function() {
-			      scope.modal.remove();
-			    });
-
+			    
 			    scope.showFullPost = function(theComment) {
 			      scope.comment = theComment;
 			      scope.dialog.scope.currentPost = scope.post;
@@ -151,10 +147,7 @@ angular.module('sproutApp.directives').directive(
 			    scope.closeFullPost = function() {
 			      scope.dialog.hide();
 			    };
-			    //Cleanup the modal when we're done with it!
-			    scope.$on('$destroy', function() {
-			      scope.dialog.remove();
-			    });
+			    
 				}
 			}
 		}
