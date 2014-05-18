@@ -1,13 +1,25 @@
 @import "variables";
 
 #LeaderboardList{
+  padding-right: 3%;
 
   .leader{
 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+
     .position{
+      font-size: 55px;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      font-weight: 100;
     }
 
     .userImg{
+      img{
+        width:40%;
+//        border: 1px solid rgba(68, 68, 68, 0.25);
+      }
     }
 
     .userInfo{

@@ -6,11 +6,12 @@ angular.module('sproutApp.controllers')
 
     $scope.leaderboardData = [
       {
-        username: 'Bob',
-        department: 'Sanitation',
-        location: 'New Orleans',
+        username: 'Mariah Carey',
+        department: 'Audio Visual',
+        location: 'New York',
         score: 1400,
-        rank: 1
+        rank: 1,
+        userImage: 'img/user/mariah-s.jpg'
       }
     ];
   }]);
