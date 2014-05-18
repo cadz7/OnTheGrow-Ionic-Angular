@@ -1,4 +1,4 @@
-/* globals describe, it, chai, console */
+/* jshint expr:true */
 
 'use strict';
 var expect = chai.expect;

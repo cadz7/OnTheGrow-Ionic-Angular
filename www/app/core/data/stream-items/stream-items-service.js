@@ -1,25 +1,24 @@
-/* global angular, _ */
-
 angular.module('sproutApp.data.stream-items', [
-  'sproutApp.user'
+  'sproutApp.user',
+  'sproutApp.util'
 ])
 
 // This service exports a field .items containing an array of currently loaded
 // items and three methods that affect the content of that array. See
 // documentation below.
 
-.factory('streamItems', ['$q', 'user',
-  function($q, user) {
+.factory('streamItems', ['$q', 'user', 'util',
+  function ($q, user, util) {
     'use strict';
     var service = {
-      items : [] // an array of currently loaded items
+      items: [] // an array of currently loaded items
     };
 
     var latestId = 12345;
     var earliestId = 12345;
     var lastCommentId = 1000;
     var stagedUpdate; // Updated items we've got from the server and haven't
-                      // applied yet.
+    // applied yet.
 
     var avatarURLs = [
       'http://placehold.it/80x80/00F000&text=AD',
@@ -37,38 +36,32 @@ angular.module('sproutApp.data.stream-items', [
       'Oh mighty Arkleseizure!'
     ];
 
-    var owners = [
-      {
-        userId: 42,
-        firstName: 'Arthur',
-        lastName: 'Dent',
-      },
-      {
-        userId: 43,
-        firstName: 'Zaphod',
-        lastName: 'Beeblebrox',
-      },
-      {
-        userId: 44,
-        firstName: 'Ford',
-        lastName: 'Prefect',
-      },
-      {
-        userId: 45,
-        firstName: 'Fenchurch',
-        lastName: 'Dent',
-      },
-      {
-        userId: 46,
-        firstName: 'Humma',
-        lastName: 'Kavula',
-      }
-    ];
+    var owners = [{
+      userId: 42,
+      firstName: 'Arthur',
+      lastName: 'Dent',
+    }, {
+      userId: 43,
+      firstName: 'Zaphod',
+      lastName: 'Beeblebrox',
+    }, {
+      userId: 44,
+      firstName: 'Ford',
+      lastName: 'Prefect',
+    }, {
+      userId: 45,
+      firstName: 'Fenchurch',
+      lastName: 'Dent',
+    }, {
+      userId: 46,
+      firstName: 'Humma',
+      lastName: 'Kavula',
+    }];
 
     // A template for mock data. This gets cloned and perhaps customized a bit
     // for each returned item.
     var mockStreamItemTemplate = {
-      streamItemId: 1,  
+      streamItemId: 1,
       streamItemTypeSlug: 'add_notification',
       owner: {},
       viewer: {
@@ -76,16 +69,13 @@ angular.module('sproutApp.data.stream-items', [
         isOwnedByViewer: 0,
         isPrivacyOn: 0,
         isMember: 0,
-        eligibleGroups: [
-          {
-            id: 1324,
-            name: 'group 1'
-          }, 
-          {
-            id: 2314,
-            name: 'group 2'
-          }
-        ],
+        eligibleGroups: [{
+          id: 1324,
+          name: 'group 1'
+        }, {
+          id: 2314,
+          name: 'group 2'
+        }],
       },
       relatedToId: 3142,
       relationTypeSlug: 'activity',
@@ -93,10 +83,10 @@ angular.module('sproutApp.data.stream-items', [
       streamItemDisplay: {
         template: '<%=user.name%> just tracked: <%=qty%> <%=units%> of <%=activity%>', // quick change to make it accessible for next leg
         values: {
-          activity: 'cycling', 
-          qty: '5', 
-          units: 'km', 
-          points: '48', 
+          activity: 'cycling',
+          qty: '5',
+          units: 'km',
+          points: '48',
           user: {
             'id': '1971',
             'name': 'Will Melbourne'
@@ -109,11 +99,11 @@ angular.module('sproutApp.data.stream-items', [
       comments: []
     };
 
-    function makeComment(item) {
+    function makeComment(item, author, commentText) {
       lastCommentId++;
       var authorIndex = lastCommentId % 5;
-      var commentText = comments[authorIndex];
-      var author = owners[authorIndex];
+      commentText = commentText || comments[authorIndex];
+      author = author || owners[authorIndex];
       var comment = {
         commentId: lastCommentId,
         commentedItemId: item.streamItemId,
@@ -138,33 +128,41 @@ angular.module('sproutApp.data.stream-items', [
       item.owner = _.cloneDeep(owners[id % 5]);
       item.avatarURL = avatarURLs[id % 5];
       item.viewer.isLikedByViewer = id % 2;
-      item.viewer.isOwnedByViewer = item.owner.userId === 42? 1 : 0;
+      item.viewer.isOwnedByViewer = item.owner.userId === 42 ? 1 : 0;
       item.streamItemId = id;
       item.streamItemDisplay.values.user.id = item.owner.userId;
-      item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' + item.owner.lastName;
-      for (var i=0; i<3; i++) {
+      item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' +
+        item.owner.lastName;
+      for (var i = 0; i < 3; i++) {
         item.comments.push(makeComment(item));
       }
-      item.getMoreComments = function() {
-        var deferred = $q.defer();
+      item.getMoreComments = function () {
         var moreComments;
         if (item.comments.length < 9) {
           moreComments = [];
-          for (var i=0; i<3; i++) {
+          for (var i = 0; i < 3; i++) {
             moreComments.push(makeComment(item));
             item.comments.push(makeComment(item));
           }
         }
-        deferred.resolve(moreComments);
-        return deferred.promise;
-      }
+        return util.q.makeResolvedPromise(moreComments);
+      };
+      item.postComment = function (commentText) {
+        var newComment;
+        if (!user.isAuthenticated) {
+          return util.q.makeRejectedPromise('Not athenticated.');
+        }
+        newComment = makeComment(item, user.data, commentText);
+        item.comments.push(newComment);
+        return util.q.makeResolvedPromise(newComment);
+      };
       return item;
     }
 
     function getStreamItemsInRange(lastId, firstId) {
       var deferred = $q.defer();
       var items = [];
-      for (var i=lastId; i>firstId; i--) {
+      for (var i = lastId; i > firstId; i--) {
         items.push(makeStreamItem(i));
       }
       deferred.resolve(items);
@@ -174,9 +172,10 @@ angular.module('sproutApp.data.stream-items', [
     function getStreamItems(params) {
       var maxCount = params.maxCount || 10;
       if (params.idLessThan) {
-        return getStreamItemsInRange(params.idLessThan, params.idLessThan - maxCount);
+        return getStreamItemsInRange(params.idLessThan, params.idLessThan -
+          maxCount);
       } else if (params.idGreaterThan) {
-        return getStreamItemsInRange(params.idGreaterThan+maxCount, params.idGreaterThan);
+        return getStreamItemsInRange(params.idGreaterThan + maxCount, params.idGreaterThan);
       }
     }
 
@@ -201,12 +200,12 @@ angular.module('sproutApp.data.stream-items', [
      * @return {promise}               A $q promise that resolves to the list
      *                                 of loaded items.
      */
-    service.reload = function(options) {
+    service.reload = function (options) {
       var params = {
         idLessThan: latestId
       };
       return getStreamItems(params)
-        .then(function(items) {
+        .then(function (items) {
           service.items.splice(0, service.items.length);
           pushItemsAtTheBottom(items);
           return items;
@@ -220,12 +219,12 @@ angular.module('sproutApp.data.stream-items', [
      * @return {promise}               A $q promise that resolves to the list
      *                                 of added items.
      */
-    service.getEarlier = function() {
+    service.getEarlier = function () {
       var params = {
         idLessThan: earliestId
       };
       return getStreamItems(params)
-        .then(function(items) {
+        .then(function (items) {
           pushItemsAtTheBottom(items);
           return items;
         });
@@ -240,14 +239,14 @@ angular.module('sproutApp.data.stream-items', [
      * @return {promise}               A promise that resolves to the list
      *                                 of new items.
      */
-    service.getUpdate = function() {
+    service.getUpdate = function () {
       var params = {
         idGreaterThan: latestId,
         maxCount: 3
       };
 
       return getStreamItems(params)
-        .then(function(items) {
+        .then(function (items) {
           stagedUpdate = items;
           return items;
         });
@@ -259,7 +258,7 @@ angular.module('sproutApp.data.stream-items', [
      *
      * @return {undefined}             Nothing is returned.
      */
-    service.applyUpdate = function() {
+    service.applyUpdate = function () {
       stagedUpdate = stagedUpdate || [];
       pushItemsAtTheTop(stagedUpdate);
       stagedUpdate = [];
@@ -268,13 +267,13 @@ angular.module('sproutApp.data.stream-items', [
     /**
      * Deletes a post.
      */
-    service.deletePost = function(item) {
+    service.deletePost = function (item) {
       var foundIdx = _.indexOf(service.items, item);
       var deferred = $q.defer();
 
       if (!user.isAuthenticated) {
         deferred.reject(new Error('Not authenticated.'));
-      } else if (user.data.userId!==item.owner.userId) {
+      } else if (user.data.userId !== item.owner.userId) {
         deferred.reject(new Error('No allowed.'));
       } else {
         if (foundIdx >= 0) {
