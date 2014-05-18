@@ -1,10 +1,10 @@
 
 angular.module('sproutApp.controllers')
 .controller('ActivityBarCtrl', ['$scope', function($scope) {
-  $scope.addActivityVisible = true;
+  $scope.addActivityVisible = false;
 
   $scope.onTrackActivityClick = function() {
-    console.log("asd");
+    $scope.addActivityVisible = true;
   };
 
 }])

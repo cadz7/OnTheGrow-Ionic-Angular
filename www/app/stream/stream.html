@@ -19,8 +19,13 @@
     </div>
   </ion-header-bar>
 
+<<<<<<< HEAD
 
   <div class="add-activity-post" ng-controller="ActivityBarCtrl">
+=======
+  <div class="add-activity-post" ng-controller="ActivityBarCtrl"
+      ng-class="{'activity-select-visible': addActivityVisible}">
+>>>>>>> Toggle activity select view. Commiting so I can rebase
 
     <div class="row create-post">
 	    <form>
@@ -32,14 +37,14 @@
 	        </div>
 	        <div class="col">
 	          <span class="icon ion-android-stopwatch"></span>
-	          <a ng-click="onTrackActivityClick()">Track Activity</a>
+	          <a ng-click="onTrackActivityClick()" href="javascript:void(0)">Track Activity</a>
 	        </div>
 	      </div>
 	    </form>
 	  </div>
 
 
-    <div class="activity-select">
+    <div class="activity-select" ng-show="addActivityVisible">
       <div class="row">
         <div class="col">
           <h3 class="activity-title">Activity Categories</h3>
@@ -105,7 +110,6 @@
       <sprout-post data-ng-switch-default=""></sprout-post>
     </div>
 
-    <sprout-post ng-repeat="post in stream.items" data-modal="modal" data-dialog="dialog" ></sprout-post>
 		<!-- 
 			This input box should be a fixed element that sits
 			on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
