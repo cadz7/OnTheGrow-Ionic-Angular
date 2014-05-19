@@ -5,22 +5,11 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col col-50 activity-item-container">
-      <div class="activity-item">Hey</div>
-    </div>
-
-    <div class="col col-50 activity-item-container">
-      <div class="activity-item">Hey</div>
-    </div>
-
-    <div class="col col-50 activity-item-container">
-      <div class="activity-item">Hey</div>
-    </div>
-
-    <div class="col col-50 activity-item-container">
-      <div class="activity-item">Hey</div>
+  <div class="row" ng-repeat="row in items | inSlicesOf:2">
+    <div class="col col-50 activity-item-container" ng-repeat="item in row">
+      <div class="activity-item">{{item}}</div>
     </div>
   </div>
+
 
 </div>

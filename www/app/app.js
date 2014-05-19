@@ -7,12 +7,14 @@ angular.module('sproutApp.controllers', [
 ]);
 angular.module('sproutApp.services', []);
 angular.module('sproutApp.directives', []);
+angular.module('sproutApp.filters', []);
 
 angular.module('sproutApp', [
   'ionic',
   'sproutApp.controllers', 
   'sproutApp.services',
-  'sproutApp.directives'
+  'sproutApp.directives',
+  'sproutApp.filters'
 ])
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
