@@ -2,8 +2,8 @@
 
 angular.module('sproutApp.directives').directive(
 	'sproutPost',
-	['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'templateParser',
-		function($log, STREAM_CONSTANTS, API_CONSTANTS, templateParser) {
+	['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template',
+		function($log, STREAM_CONSTANTS, API_CONSTANTS, template) {
 			return {
 				restrict: 'E',
 				templateUrl: 'app/stream/post/post.tpl.html',
@@ -14,7 +14,7 @@ angular.module('sproutApp.directives').directive(
 			    scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
 			    scope.liked = false;
 
-			    var postContent = templateParser.parse(scope.post.streamItemDisplay.template, scope.post.streamItemDisplay.values),
+			    var postContent = template.parse(scope.post.streamItemDisplay.template, scope.post.streamItemDisplay.values),
 			    		contentIsOverflowing = postContent.length > STREAM_CONSTANTS.initialPostCharCount;
 
 			    if (contentIsOverflowing) {

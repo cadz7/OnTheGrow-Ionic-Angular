@@ -7,12 +7,12 @@ describe('template service', function() {
   beforeEach(module('sproutApp.template'));
 
   it('template service should get loaded', function () {
-    var template = testUtils.getService('templateParser');
+    var template = testUtils.getService('template');
     expect(template).to.not.be.undefined;
   });
 
   it('should parse test message', function () {
-    var template = testUtils.getService('templateParser');
+    var template = testUtils.getService('template');
     var parsedString = template.fill("foo <%=bar%> baz", {bar: 42});
     expect(parsedString).to.equal("foo 42 baz");
   });
