@@ -5,8 +5,20 @@ angular.module('sproutApp.data.leaderboards', [
 
 .factory('leaderboards', ['$q', 'user', 'util',
   function ($q, user, util) {
-    var service = {
-    };
+    var service = {};
+
+    service.periods = [
+      {
+        timePeriodId: 101,
+        timePeriodNameDisplay: 'This week'
+      }, {
+        timePeriodId: 102,
+        timePeriodNameDisplay: 'This month'
+      }, {
+        timePeriodId: 103,
+        timePeriodNameDisplay: 'This quarter'
+      }
+    ];
 
     var board1 = {
       leaderboardNameDisplay: 'Company',
@@ -100,9 +112,13 @@ angular.module('sproutApp.data.leaderboards', [
       ]
     };
 
+    service.loadPeriods = function() {
+      return util.q.makeResolvedPromise();
+    };
+
     service.getBoard = function(params) {
       var board;
-      if (params.periodId===1 && params.activityFilterId===1 && params.userFilterId === 1) {
+      if (params.periodId===101 && params.userFilterId === 201 && params.activityFilterId===301) {
         board = board1;
       } else {
         board = board2;
