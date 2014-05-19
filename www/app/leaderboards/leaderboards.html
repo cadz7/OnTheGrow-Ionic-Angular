@@ -33,17 +33,8 @@
     </div>
 
 <div id="LeaderboardList">
-    <div ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'" class="list card leader row">
-      <div class="position col col-10">{{leaderData.rank}}</div>
-      <div class="userImg col col-20"><img src="{{leaderData.userImage}}" alt="{{leaderData.name}}"/></div>
-      <div class="userInfo col col-50">
-        <div class="userName row">{{leaderData.name}}</div>
-        <div class="userDepartment row">{{leaderData.department}} - {{leaderData.location}}</div>
-      </div>
-      <div class="userScore col">
-        <div class="row">{{leaderData.score}}</div>
-        <div class="row">points</div>
-      </div>
+    <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'" class="list card leader row">
+
     </div>
 </div>
   </ion-content>
