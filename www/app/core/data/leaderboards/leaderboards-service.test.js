@@ -4,6 +4,7 @@
 var expect = chai.expect;
 describe('leaderboards service', function() {
   var mockData = {};
+  var leaderboards;
 
   // Load the module
   beforeEach(module('sproutApp.data.leaderboards'));
@@ -18,6 +19,7 @@ describe('leaderboards service', function() {
   // Reset mock data;
   beforeEach(function() {
     mockData = {};
+    leaderboards = testUtils.getService('leaderboards');
   });
 
   it('leaderboards service should get loaded', function () {
@@ -25,12 +27,19 @@ describe('leaderboards service', function() {
     expect(leaderboards).to.not.be.undefined;
   });
 
+  it('should get periods', function() {
+    leaderboards.loadPeriods()
+      .then(function() {
+        var period = leaderboards.periods[1];
+        expect(period.timePeriodNameDisplay).to.equal('This week');
+      });
+  });
+
   it('should get the first board', function () {
-    var leaderboards = testUtils.getService('leaderboards');
     var params = {
-      periodId: 1,
-      activityFilterId: 1,
-      userFilterId: 1
+      periodId: 101,
+      userFilterId: 201,
+      activityFilterId: 301
     };
     return leaderboards.getBoard(params)
       .then(function(board) {
@@ -40,7 +49,6 @@ describe('leaderboards service', function() {
   });
 
   it('should get the second board', function () {
-    var leaderboards = testUtils.getService('leaderboards');
     var params = {
       periodId: 2,
       activityFilterId: null,
