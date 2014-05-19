@@ -1,3 +1,5 @@
+/* global chai */
+
 angular.module('sproutApp.data.activities', [
   'sproutApp.user',
   'sproutApp.util'
@@ -594,6 +596,8 @@ angular.module('sproutApp.data.activities', [
       'unitName': 'report'
     }];
 
+    var knownUnitIds = [];
+
     var readyPromise;
 
     service.reload = function () {
@@ -614,6 +618,7 @@ angular.module('sproutApp.data.activities', [
           unitId: activity.unitId,
           unitName: activity.unitName
         });
+        knownUnitIds.push(activity.unitId);
       });
 
       service.categories.splice(0, service.categories.length);
@@ -629,6 +634,38 @@ angular.module('sproutApp.data.activities', [
     };
 
     readyPromise = service.reload();
+
+    /**
+     * Logs user's activities.
+     *
+     * @param  {Array} loggedActivities  An array of activities to be logged.
+     * @return {promise}                 A $q promise that resolves to posted
+     *                                   activities.
+     */
+    service.logActivities = function (loggedActivities) {
+      var returnedLog = [];
+
+      if (!user.isAuthenticated) {
+        return util.q.makeRejectedPromise('Must be authenticated');
+      }
+
+      return util.q.makeResolvedPromise()
+        .then(function() {
+          chai.expect(loggedActivities).to.be.an.array;
+          chai.expect(loggedActivities.length).to.be.above(0);
+          loggedActivities.forEach(function(activity) {
+            var clone = _.cloneDeep(activity);
+            chai.expect(clone.activityUnitId).to.be.a.number;
+            chai.expect(knownUnitIds).to.contain(clone.activityUnitId);
+            chai.expect(clone.quantity).to.not.be.undefined;
+            chai.expect(clone.quantity).to.be.a.number;
+            clone.date = clone.date || new Date().toISOString();
+            returnedLog.push(clone);
+          });
+
+          return returnedLog;
+        });
+    }
 
     service.whenReady = function () {
       return readyPromise;
