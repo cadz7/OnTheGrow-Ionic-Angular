@@ -157,9 +157,9 @@ angular.module('sproutApp.data.stream-items', [
         return util.q.makeResolvedPromise(newComment);
       };
       item.likePost = function () {
-        /*if (!user.isAuthenticated) {
+        if (!user.isAuthenticated) {
           return util.q.makeRejectedPromise('Not athenticated.');
-        }*/
+        }
         
         if (item.viewer.isLikedByViewer === 0) {
           item.viewer.isLikedByViewer = 1;
@@ -170,7 +170,6 @@ angular.module('sproutApp.data.stream-items', [
           item.likeCount--;
 
         }
-        
         return util.q.makeResolvedPromise();
       };
 

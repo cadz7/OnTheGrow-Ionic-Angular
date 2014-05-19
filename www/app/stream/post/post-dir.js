@@ -61,47 +61,15 @@ angular.module('sproutApp.directives').directive(
 
 			    if (!angular.isNumber(scope.post.likeCount)) { scope.post.likeCount = 0; }
 
-			    scope.likeClicked = function(postId) {
-			      if (scope.post.userLikedId) {
-			        // fire delete
-			        $log.debug('deleting like of post', postId);
-			        Like.delete({
-			          'type_id': API_CONSTANTS.streamitemTypeId,
-			          'item_id': scope.post.id,
-			          'id': scope.post.userLikedId
-			        }).then( function() {
-			          scope.post.likeCount = scope.post.likeCount - 1;
-			          delete scope.post.userLikedId;
-			        }, function(error) {
-			          $log.error(error);
-			        });
-			      }
-			      else if (scope.user && scope.user.id) {
-			        // fire post
-			        $log.debug('Liking post', scope.post);
-			        
-			        var newLike = Like.new(
-			          {
-			            'type_id': API_CONSTANTS.streamitemTypeId,
-			            'item_id': scope.post.id,
-			            'from_user_id': scope.user.id,
-			            'to_user_id': scope.post.author_id
-			          }
-			        );
-			        
-			        newLike.$save().then(function(response) {
-			          $log.debug('Saved like', response); // we already incremented the counter below, we don't do it here
-			          scope.post.userLikedId = response.id;
-			        }, function(error) {
-			          $log.error('Failed to like post: ', error);
-			          scope.post.likeCount -= 1;
-			          Notify.apiError('', 'Liking post failed.');
-			          delete scope.post.userLikedId;
-			        });
-
-			        // increment the counter without waiting for response
-			        scope.post.likeCount = scope.post.likeCount + 1;
-			      }
+			    scope.likePost = function(post) {
+			      post.likePost().then(
+			      	function() {
+			      		$log.debug("success toggling like");
+			      	},
+			      	function(err) {
+			      		$log.error(err);
+			      	}
+			      )
 			    };
 
 			    scope.deleteComment = function(comment) {
@@ -144,6 +112,7 @@ angular.module('sproutApp.directives').directive(
 			      scope.comment = theComment;
 			      scope.dialog.scope.currentPost = scope.post;
 			      scope.dialog.scope.postContent = scope.content;
+			      scope.dialog.scope.likePost = scope.likePost;
 			      scope.dialog.show();
 			    };
 			    scope.closeFullPost = function() {

@@ -5,13 +5,13 @@
               <li>
                 <label class="item item-input">
                     <span class="input-label">Username</span>
-                    <input type="text" ng-model="user.username">
+                    <input type="text" ng-model="userForm.username">
                 </label>
               </li>
               <li>
                 <label class="item item-input">
                   <span class="input-label">Password</span>
-                  <input type="password" ng-model="user.password">
+                  <input type="password" ng-model="userForm.password">
                 </label>
               </li>
               <li class="toggle">
@@ -21,7 +21,7 @@
                   </div>
                   <div class="col">
                     <label class="toggle toggle-positive">
-                      <input type="checkbox" ng-model="user.rememberMe">
+                      <input type="checkbox" ng-model="userForm.rememberMe">
                       <div class="track" >
                         <div class="handle"></div>
                       </div>
@@ -32,7 +32,7 @@
                 <!--<label class="item item-input ">-->
                     <!--<span class="input-label">Remember Me</span>-->
                     <!--<label class="checkbox">-->
-                        <!--<input class="checkbox" type="checkbox" ng-model="user.rememberMe" style="width:70px;height:49px">-->
+                        <!--<input class="checkbox" type="checkbox" ng-model="userForm.rememberMe" style="width:70px;height:49px">-->
                     <!--</label>-->
                 <!--</label>-->
             </ul>
@@ -44,7 +44,7 @@
                     </span>
                 </p>
 
-                <button class="button button-block button-positive" ng-click="signIn(user)">
+                <button class="button button-block button-positive" ng-click="signIn(userForm)">
                     Sign-In
                 </button>
                 <p class="text-center">

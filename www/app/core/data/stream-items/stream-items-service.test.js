@@ -226,4 +226,50 @@ describe('streamItems service', function() {
       });
   });
 
+  it('should like and unlike a post', function () {
+    var streamItems = testUtils.getService('streamItems');
+    
+    return reload().then(function(items) {
+
+      // likes are populated by id % 2, starting id is 12345; id decreases as you go down the list
+      // likeCount is always set to 10
+      // post liking is synchronous (currently)
+      
+      var item = items[0];
+      expect(item.viewer.isLikedByViewer).to.equal(1);
+      expect(item.likeCount).to.equal(10);
+      item.likePost().then(
+        function() {
+          throw new Error('unauthenticated users should not be allowed to like/unlike');
+        },
+        function(error) {
+          expect(error).to.equal('Not athenticated.');
+
+          expect(item.viewer.isLikedByViewer).to.equal(1);
+          expect(item.likeCount).to.equal(10);
+
+          authenticate()
+          .then(function(items) {
+            var item = items[0];
+            
+            expect(item.viewer.isLikedByViewer).to.equal(1);
+            expect(item.likeCount).to.equal(10);
+
+            item.likePost().then( function() {
+              expect(item.viewer.isLikedByViewer).to.equal(0);
+              expect(item.likeCount).to.equal(9);
+
+              item.likePost().then( function() {
+                expect(item.viewer.isLikedByViewer).to.equal(1);
+                expect(item.likeCount).to.equal(10);
+              });
+            });
+          }).then(null, function(error) {
+            throw new Error(error);
+          });
+        }
+      );
+    });
+  });
+
 });

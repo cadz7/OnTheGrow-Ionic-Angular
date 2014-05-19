@@ -11,11 +11,15 @@ angular.module('sproutApp.user', [
     var service = {};
 
     service.get = function () {
-      return window.localStorage.getItem('user');
+      return JSON.parse(window.localStorage.getItem('user'));
     };
 
     service.set = function (user) {
-      return window.localStorage.setItem('user', user);
+      return window.localStorage.setItem('user', JSON.stringify(user));
+    };
+
+    service.removeUser = function () {
+      return window.localStorage.removeItem('user');
     };
 
     return service;
@@ -38,7 +42,7 @@ angular.module('sproutApp.user', [
 
     function getUserStatus() {
       user.data = userStorage.get();
-      if (user.data) {
+      if (_.isObject(user.data) && user.data.userId) {
         user.isAuthenticated = true;
         authenticatedDeferred.resolve();
       }
@@ -53,7 +57,8 @@ angular.module('sproutApp.user', [
       $log.info('Simulating login:', username);
       if (username === 'arthur') {
         user.data = arthur;
-        userStorage.set('user', arthur);
+        user.isAuthenticated = true;
+        userStorage.set(arthur);
         authenticatedDeferred.resolve();
         return util.q.makeResolvedPromise();
       } else {
@@ -65,7 +70,8 @@ angular.module('sproutApp.user', [
     };
 
     user.logout = function () {
-      userStorage.set('user', null);
+      user.isAuthenticated = false;
+      userStorage.removeUser();
       $window.location.replace('/');
     };
 

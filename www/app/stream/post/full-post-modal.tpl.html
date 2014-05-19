@@ -27,7 +27,7 @@
 
 
       <div class="item item-divider tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" data-ng-click="currentPost.likePost()">
+        <a class="tab-item" data-ng-click="likePost(currentPost)">
             <span class="count" data-ng-bind="currentPost.likeCount"></span><i class="icon ion-thumbsup" data-ng-class="{'inactive':!currentPost.viewer.isLikedByViewer}"></i>
         </a>
         <div class="vertical-divider"></div>
