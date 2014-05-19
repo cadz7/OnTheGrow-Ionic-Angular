@@ -12,6 +12,7 @@
     "angular": "~1.2.16",
     "angular-mocks": "~1.2.16",
     "sinon-chai": "~2.5.0",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "chai": "~1.9.1"
   }
 }
