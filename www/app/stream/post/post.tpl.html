@@ -5,7 +5,7 @@
         <div class="post-info row">
             <div class="col col-75">
                 <span class="author">{{post.streamItemDisplay.values.user.name}}</span>
-                <br>
+                <br />
                 <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
             </div>
             <div class="col">
@@ -19,12 +19,12 @@
     </div>
 
     <p class="wrap" ng-bind="content"></p>
-    <div style="text-align:center; margin-top:-10px;padding:0">
+    <div class="text-center">
       <a href="javascript:void(0)" class="showMore" ng-show="contentIsOverflowing" ng-click="showFullPost()">Show more...</a>
     </div>
 
     <div class="item item-divider tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" data-ng-click="likeClicked(post.streamItemId)">
+        <a class="tab-item" data-ng-click="post.likePost()">
             <span class="count" data-ng-bind="post.likeCount"></span><i class="icon ion-thumbsup" data-ng-class="{'inactive':!post.viewer.isLikedByViewer}"></i>
         </a>
         <div class="vertical-divider"></div>
@@ -34,8 +34,7 @@
     </div>
 
     <div class="postInputArea row">
-      <!-- <expand-input ng-model="commentText" ng-enter="postComment(commentText)" placeholder="post a comment..." max-length="8000"></expand-input> -->
-      <input ng-model="post.newComment" placeholder="Add a comment..." class="add-comment col col-80">
+      <input type="text" ng-model="post.newComment" ng-enter="postComment(commentText)" placeholder="Add a comment..." class="add-comment col col-80">
       <button type="button" class="button button-small button-stable col col-20" ng-click="postComment(commentText)">Post</button>
     </div>
 
@@ -49,34 +48,3 @@
         </div>
     </div>
 </div>
-<!-- <div class="list card">
-      <div class="item item-avatar">
-        <img ng-src="{{post.avatar}}">
-        <h2>{{post.author}}</h2>
-        <p>{{post.date | date:'medium'}}</p>
-        <div class="ion-close col" data-ng-click="deletePost(post)"></div>
-      </div>
-
-      <div class="item item-body">
-        <p>{{post.content}}</p>
-        <p>
-          <a href="#" class="subdued">{{post.likeCount}} Like</a>
-          <a href="#" class="subdued">{{post.comments.length}} Comments</a>
-        </p>
-      </div>
-
-      <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#">
-          <i class="icon ion-thumbsup"></i>
-          Like
-        </a>
-        <a class="tab-item" href="#">
-          <i class="icon ion-chatbox"></i>
-          Comment
-        </a>
-        <a class="tab-item" href="#">
-          <i class="icon ion-share"></i>
-          Share
-        </a>
-      </div>
-    </div> -->

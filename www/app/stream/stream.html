@@ -26,7 +26,7 @@
       This input box should be a fixed element that sits
       on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
      -->
-     <div class="row createPost">
+     <!-- <div class="row createPost">
       <form>
         <textarea ng-model="post.content" class="post-box"></textarea>
         <div class="row">
@@ -40,8 +40,8 @@
           </div>
         </div>
       </form>
-    </div>
-    <sprout-post ng-repeat="post in stream.items" data-modal="modal" data-dialog="dialog"></sprout-post>
+    </div> -->
+    <sprout-post ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog"></sprout-post>
 
 
 	  <!-- 
@@ -98,11 +98,9 @@
     	function. Probably don't need to do this though.
      -->
 		<ion-infinite-scroll 
-    	on-infinite="stream.getEarlier()" 
+    	on-infinite="performInfiniteScroll()" 
     	icon="ion-loading-c" 
-    	distance="2%">
-      <!-- ng-if="moreItemsExist()"  -->
-      <!-- ng-show="moreItemsExist"> -->
+    	distance="1%">
     </ion-infinite-scroll>
 
 	</ion-content>

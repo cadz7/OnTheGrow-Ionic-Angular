@@ -156,6 +156,24 @@ angular.module('sproutApp.data.stream-items', [
         item.comments.push(newComment);
         return util.q.makeResolvedPromise(newComment);
       };
+      item.likePost = function () {
+        /*if (!user.isAuthenticated) {
+          return util.q.makeRejectedPromise('Not athenticated.');
+        }*/
+        
+        if (item.viewer.isLikedByViewer === 0) {
+          item.viewer.isLikedByViewer = 1;
+          item.likeCount++;
+        }
+        else {
+          item.viewer.isLikedByViewer = 0;
+          item.likeCount--;
+
+        }
+        
+        return util.q.makeResolvedPromise();
+      };
+
       return item;
     }
 
