@@ -14,7 +14,7 @@ angular.module('sproutApp.directives').directive(
 			    scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
 			    scope.liked = false;
 
-			    var postContent = template.parse(scope.post.streamItemDisplay.template, scope.post.streamItemDisplay.values),
+			    var postContent = template.fill(scope.post.streamItemDisplay.template, scope.post.streamItemDisplay.values),
 			    		contentIsOverflowing = postContent.length > STREAM_CONSTANTS.initialPostCharCount;
 
 			    if (contentIsOverflowing) {
