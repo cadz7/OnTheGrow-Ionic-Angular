@@ -27,7 +27,7 @@ angular.module('sproutApp.controllers')
     state = STATES.categorySelect;
 
     $scope.title = 'Activity Categories';
-    $scope.activityData = activities;
+    $scope.activityData = activities.categories;
     $scope.nameKey = 'activityCategoryDisplayName';
     $scope.activityListVisible = true;
     $scope.showActivityForm = false;

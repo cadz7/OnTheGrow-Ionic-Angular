@@ -68,7 +68,7 @@
               <div class="col col-50">
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Date</span>
-                  <input type="date" name="date" ng-model="currentActivity.date" max="{{maxDate}}" required placeholder="yyyy-MM-dd"/>
+                  <input type="date" name="date" ng-model="currentActivity.date" max="{{maxDate}}" required placeholder="yyyy-MM-dd" />
                   <span class="input-label"  style="color:red" ng-show="activityForm.date.$error.required">Date Required!</span>
                 </label>
               </div>
@@ -78,8 +78,8 @@
               <div class="col">
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Quantity ({{currentActivity.unitName}})</span>
-                  <input type="number" name="quantity" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1"/>
-                  <!-- <numpad modelObj="currentActivity.quantity" ></numpad> TODO use Varun's number page for input-->
+                  <input type="number" name="quantity" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1" readonly/>
+                   <numpad model="currentActivity.quantity" accept="alert()"></numpad> 
                    <span class="input-label"  style="color:red" ng-show="activityForm.quantity.$error.required">Number Required!</span>
                 </label>
               </div>

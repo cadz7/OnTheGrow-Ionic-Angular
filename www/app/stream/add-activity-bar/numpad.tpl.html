@@ -18,16 +18,17 @@
   </div>
   
   <div class="numpad-row">  
-    <div class="key icon icomoon-backspace" ng-click="delete()"></div>
+    <div class="key icon ion-arrow-left-a" ng-click="delete()"></div>
     <div class="key number" ng-click="update('0')">0</div>
+    <div class="key"></div>
     <!-- Skip -->
     <div
-      ng-if="!modelObj" 
+      ng-if="false" 
       class="key skip"
       ng-click="accept()">Skip</div>
     <!-- Next -->
     <div 
-      ng-if="modelObj"
+      ng-if="false"
       class="key continue" 
       ng-click="accept()">{{next || 'continue'}}</div>
   </div>

@@ -7,7 +7,7 @@ angular.module('sproutApp.directives')
       return {
         restrict: 'E',
         scope: {
-          modelObj: '=',
+          model: '=',
           accept: '&',
           next: '='
         },
@@ -15,18 +15,18 @@ angular.module('sproutApp.directives')
         link: function(scope, iElement, iAttrs) {
           // Number key pressed
           scope.update = function(number) {
-            if (!scope.modelObj)
-              scope.modelObj = '';
-            scope.modelObj = parseInt(String(scope.modelObj) + number);
+            if (typeof scope.model === 'undefined' || !scope.model)
+              scope.model = '';
+            scope.model = parseInt(String(scope.model) + number);
           };
           // Backspace
           scope.delete = function() {
-            if (!scope.modelObj || scope.modelObj === null)
+            if (!scope.model || scope.model === null)
               return;
-            if (String(modelObj).length > 1)
-              scope.modelObj = parseInt(String(scope.modelObj).slice(0, String(scope.modelObj).length - 1));
+            if (String(scope.model).length > 1)
+              scope.model = parseInt(String(scope.model).slice(0, String(scope.model).length - 1));
             else
-              scope.modelObj = null;
+              scope.model = null;
           };          
         }
       };

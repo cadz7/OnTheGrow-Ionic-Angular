@@ -88,7 +88,6 @@
 }
 
 .numpad-container {
-  position: fixed;
   bottom: 0px;
   width: 100%;
   text-align: center;
@@ -121,7 +120,7 @@
       }
  
       &.skip { color: #999; }
-      &.continue { color: #fff; background-color: $active; }
+      &.continue { color: #fff; /*background-color: $active; */}
     }
   }
 }
