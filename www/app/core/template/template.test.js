@@ -11,10 +11,26 @@ describe('template service', function() {
     expect(template).to.not.be.undefined;
   });
 
-  it('should parse test message', function () {
+  it('should fill a message with a simple key', function () {
     var template = testUtils.getService('template');
-    var parsedString = template.fill("foo <%=bar%> baz", {bar: 42});
-    expect(parsedString).to.equal("foo 42 baz");
+    var values = {
+      bar: 42
+    };
+    var result = template.fill('The ultimate answer is {bar}.', values);
+    expect(result).to.equal('The ultimate answer is 42.');
+  });
+
+  it('should fill a message with a nested key', function () {
+    var template = testUtils.getService('template');
+    var values = {
+      bar: {
+        baz: {
+          quux: 42
+        }
+      }
+    };
+    var result = template.fill('The ultimate answer is {bar.baz.quux}.', values);
+    expect(result).to.equal('The ultimate answer is 42.');
   });
 
 });

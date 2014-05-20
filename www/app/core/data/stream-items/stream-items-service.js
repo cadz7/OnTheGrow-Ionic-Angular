@@ -26,11 +26,6 @@ angular.module('sproutApp.data.stream-items', [
       'img/user/ford.png',
       'img/user/fenchurch.png',
       'img/user/humma.png'
-      // 'http://placehold.it/80x80/00F000&text=AD',
-      // 'http://placehold.it/80x80/F00000&text=ZB',
-      // 'http://placehold.it/80x80/0000F0&text=FP',
-      // 'http://placehold.it/80x80/00F0F0&text=FD',
-      // 'http://placehold.it/80x80/000000&text=HK'
     ];
 
     var comments = [
@@ -86,7 +81,7 @@ angular.module('sproutApp.data.stream-items', [
       relationTypeSlug: 'activity',
       dateTimeCreated: '2014-05-14T15:22:11Z',
       streamItemDisplay: {
-        template: '<%=user.name%> just tracked: <%=qty%> <%=units%> of <%=activity%>', // quick change to make it accessible for next leg
+        template: '{user.name} just tracked: {qty} {units} of {activity}', // quick change to make it accessible for next leg
         values: {
           activity: 'cycling',
           qty: '5',
@@ -118,7 +113,7 @@ angular.module('sproutApp.data.stream-items', [
         dateTimeCreated: new Date().toISOString(),
         commentText: commentText,
         commentDisplay: {
-          template: '<%=user.firstName%> says: <%=text%>', // _ default tags
+          template: '{user.firstName} says: {text}', // _ default tags
           values: {
             text: commentText,
             user: _.cloneDeep(author)
