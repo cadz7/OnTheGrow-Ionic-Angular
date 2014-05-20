@@ -64,6 +64,21 @@ angular.module('sproutApp.controllers')
         $scope.dialog.remove();
       });
 
+      $scope.newPost = {
+        text: ''
+      };
+
+      $scope.submitPost = function(post) {
+        streamItems.postItem(post).then(function() {
+            console.log('Your post has been created.');
+          }, function(response) {
+            if (response.status === 403) {
+              console.error('You do not have permission to create this post.');
+            }
+          }
+        );
+      };
+
       $scope.deletePost = function(item) {
       	$ionicActionSheet.show({
           buttons: [
