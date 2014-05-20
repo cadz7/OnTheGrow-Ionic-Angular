@@ -30,7 +30,7 @@ angular.module('sproutApp.data.leaderboards', [
           name: 'Arthur',
           avatarUrl: 'img/user/arthur.png',
           detailsDisplay: {
-            template: '<%=department%>',
+            template: '{department}',
             values: {
             department: 'Human Resources'
             }
@@ -44,7 +44,7 @@ angular.module('sproutApp.data.leaderboards', [
           name: 'Ford',
           avatarUrl: 'img/user/ford.png',
           detailsDisplay: {
-            template: '<%=department%>',
+            template: '{department}',
             values: {
             department: 'Finances'
             }
@@ -58,7 +58,7 @@ angular.module('sproutApp.data.leaderboards', [
           name: 'Fenchurch',
           avatarUrl: 'img/user/fenchurch.png',
           detailsDisplay: {
-            template: '<%=department%>',
+            template: '{department}',
             values: {
             department: 'CTO'
             }
@@ -78,7 +78,7 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 1,
           name: 'Dolphins',
           detailsDisplay: {
-            template: '<%=size%> cm',
+            template: '{size} cm',
             values: {
             size: 280
             }
@@ -91,7 +91,7 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 3,
           name: 'Mice',
           detailsDisplay: {
-            template: '<%=size%> cm',
+            template: '{size} cm',
             values: {
             size: 10
             }
@@ -104,7 +104,7 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 2,
           name: 'Eagles',
           detailsDisplay: {
-            template: '<%=size%> cm',
+            template: '{size} cm',
             values: {
             size: 100
             }
