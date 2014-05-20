@@ -56,19 +56,20 @@
               </div>
             </div>
           </ion-scroll>
-          <form>
+          <form name="activityForm">
             <div class="row" ng-show="showActivityForm">
               <div class="col col-50">
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Activity</span>
-                  <input type="text" ng-model="currentActivity.activityName" readonly />
+                  <input type="text" ng-model="currentActivity.activityName" readonly required/>
                 </label>
               </div>
 
               <div class="col col-50">
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Date</span>
-                  <input type="date" ng-model="currentActivity.date" required placeholder="yyyy-MM-dd"/>
+                  <input type="date" name="date" ng-model="currentActivity.date" max="{{maxDate}}" required placeholder="yyyy-MM-dd"/>
+                  <span class="input-label"  style="color:red" ng-show="activityForm.date.$error.required">Date Required!</span>
                 </label>
               </div>
             </div>
@@ -76,8 +77,9 @@
             <div class="row" ng-show="showActivityForm">
               <div class="col">
                 <label class="item item-input item-stacked-label">
-                  <span class="input-label">Quantity</span>
-                  <input type="number" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1"/>
+                  <span class="input-label">Quantity ({{currentActivity.unitName}})</span>
+                  <input type="number" name="quantity" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1"/>
+                   <span class="input-label"  style="color:red" ng-show="activityForm.quantity.$error.required">Number Required!</span>
                 </label>
               </div>
             </div>
@@ -85,7 +87,8 @@
 
             <div class="row">
               <div class="col" style="text-align: right">
-                <button class="button button-balanced" ng-show="showActivityForm" ng-click="saveActivity()">Save</button>
+                <span style="color:red">{{errorMessage}}</span>
+                <button class="button button-balanced" ng-show="showActivityForm" ng-click="saveActivity()" ng-disabled="!activityForm.$valid || savingActivity">Save</button>
                 <button class="button button-assertive" ng-click="cancel()">Cancel</button>
               </div>
             </div>

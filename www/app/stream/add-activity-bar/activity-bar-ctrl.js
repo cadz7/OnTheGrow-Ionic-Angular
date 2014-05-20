@@ -1,6 +1,6 @@
 
 angular.module('sproutApp.controllers')
-.controller('ActivityBarCtrl', ['$scope', 'activities', function($scope, activities) {
+.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems', function($scope, activities,streamItems) {
 
   $scope.onTrackActivityClick = function() {
     $scope.addActivityVisible = true;
@@ -18,6 +18,7 @@ angular.module('sproutApp.controllers')
     $scope.activityListVisible = true;
     $scope.addActivityVisible = false;
     $scope.showActivityForm = false;
+    $scope.errorMessage = '';
   }
 
   resetActivitySelect();
@@ -33,13 +34,14 @@ angular.module('sproutApp.controllers')
       $scope.title = item.activityName;
       $scope.activityListVisible = false;
       $scope.showActivityForm = true;
-      var now = new Date();
+      
       $scope.currentActivity = {
         activityName : item.activityName,
         activityCategoryId : item.activityCategoryId,
         activityUnitId : item.unitId,
         unitName : item.unitName,
-        date:(now.getFullYear() + '-'+ (now.getMonth()+1 < 10 ?'0':'') +(now.getMonth()+1)+ '-' + (now.getDate() < 10? '0':'')+now.getDate())
+        quantity : 1,
+        date:$scope.maxDate
         //date : ""+now.getFullYear() + "-"+ (now.getMonth() +1)+ "-" + now.getDate()
       };
       state = 'activityForm';
@@ -53,21 +55,29 @@ angular.module('sproutApp.controllers')
   };
 
   $scope.saveActivity = function() {
-    console.log($scope.currentActivity)
-    console.log(activities)
+    $scope.savingActivty = true;
     activities.logActivities([$scope.currentActivity])
     .then(function(result){
+      streamItems.reload();
+      $scope.savingActivty = false;
+
       console.log(result)
       $scope.cancel();
     },function(response){
+      $scope.savingActivty = false;
+      var errorMessage;
       if (response.status === 403) {
-        console.error('You do not have permission to log activities.');
+        errorMessage ='You do not have permission to log activities.';        
       }else {
-        console.err(response)
+        errorMessage = 'failed to save activity';
       }
+      console.error(response);
+      $scope.errorMessage = errorMessage;
     });
   };
-
+  $scope.errorMessage = '';
+  var now = new Date();
+  $scope.maxDate = (now.getFullYear() + '-'+ (now.getMonth()+1 < 10 ?'0':'') +(now.getMonth()+1)+ '-' + (now.getDate() < 10? '0':'')+now.getDate());
   $scope.activityDataAll = activities;
   $scope.currentActivity = {};
 }])
