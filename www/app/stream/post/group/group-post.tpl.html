@@ -1,9 +1,9 @@
-
-<div class="item-avatar">
-    <img ng-src="img/group/group-default.png" />
+<div class="special-avatar">
+    <img ng-src="img/icons/group-icon.svg" />
 
     <div class="post-info row">
         <div class="col col-75">
+            <h1 class="title">Group Title</h1>
             <span class="author">{{post.streamItemDisplay.values.user.name}}</span>
             <br />
             <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
@@ -17,7 +17,12 @@
         <div class="ion-close col" data-ng-click="deletePost(post)"></div>
     </div>
 </div>
-
+<div class="hero">
+    <div class="join">
+        <img src="img/icons/join-confirm-icon.svg" class="join-btn" data-ng-click="subscribeToGroup()" />
+        <img src="img/group/group-default.png" class="hero-image" data-ng-click="subscribeToGroup()" />
+    </div>
+</div>
 <p class="wrap" ng-bind="content"></p>
 <div class="item item-divider tabs tabs-secondary tabs-icon-left">
     <a class="tab-item" data-ng-click="likePost(post)">

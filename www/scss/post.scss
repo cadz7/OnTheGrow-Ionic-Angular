@@ -14,6 +14,13 @@
     .tab-item {
         opacity:1;
         font-family:'roboto', sans-serif;
+        max-width: 100%;
+    }
+    .title {
+        font-size: 1.8rem;
+        color:$blue;
+        font-weight: 400;
+        margin-bottom: 5px;
     }
     .author {
         padding: 0 0 0 0;
@@ -62,8 +69,44 @@
         border-top: 0;
         border-radius: 0 0 3px 0;
     }
+    .special-avatar {
+        padding-left: 65px;
+    }
+    .special-avatar > img:first-child {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        max-width: 50px;
+        border: 0;
+        border-left: 0;
+        border-top: 0;
+        border-radius: 0 0 3px 0;
+    }
+    .hero{
+      position: relative;
+    }
+    .hero-image {
+        width:100%;
+    }
+    .join{
+      position: relative;
+    }
+    .join-btn{
+      width: 50px;
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+    }
+    hr {
+        border: 0;
+        height: 1px;
+        background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+        background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+        background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+        background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    }
     p {
-        margin: 0 15px;
+        padding: 10px 0 10px 15px;
         color: $darkgrey;
         font-family:'vollkorn', serif;
         font-weight: 400;
@@ -161,7 +204,7 @@
         border-left:0;
     }
     .content {
-        padding:1px;
+        padding:4px 5px 10px 50px;
         color: $darkgrey;
         font-family:'vollkorn', serif;
         font-weight: 400;
