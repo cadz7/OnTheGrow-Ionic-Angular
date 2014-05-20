@@ -43,7 +43,12 @@
 	    </form>
 	  </div>
 
-    <activity-list ng-show="addActivityVisible"></activity-list>
+    <div class="activity-select">
+      <activity-list list-data="activityDataAll" 
+          name-key="activityCategoryDisplayName"
+          ng-show="addActivityVisible">
+      </activity-list>
+    </div>
 
   </div>
 
