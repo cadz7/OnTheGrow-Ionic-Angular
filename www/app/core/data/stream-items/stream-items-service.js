@@ -65,7 +65,7 @@ angular.module('sproutApp.data.stream-items', [
       streamItemTypeSlug: 'add_notification',
       owner: {},
       viewer: {
-        isLikedByViewer: 1,
+        isLikedByViewer: 0,
         isOwnedByViewer: 0,
         isPrivacyOn: 0,
         isMember: 0,
@@ -295,6 +295,31 @@ angular.module('sproutApp.data.stream-items', [
       stagedUpdate = stagedUpdate || [];
       pushItemsAtTheTop(stagedUpdate);
       stagedUpdate = [];
+    };
+
+    /**
+     * Post a new item.
+     *
+     * @param {promise}                A $q promise that resolves to the full
+     *                                 item when the item has been created.
+     */
+    service.postItem = function(item) {
+      latestId++;
+      var createdItem = makeStreamItem(latestId);
+      createdItem.streamItemTypeSlug = 'post';
+      createdItem.owner = _.clone(user.data);
+      createdItem.viewer.isOwnedByViewer = true;
+      createdItem.dateTimeCreated = new Date().toISOString();
+      createdItem.streamItemDisplay = {
+        template: '{user.firstName} says: {text}',
+        values: {
+          user: _.clone(user.data),
+          text: item.text
+        }
+      };
+      createdItem.likeCount = 0;
+      service.items.unshift(createdItem);
+      return util.q.makeResolvedPromise(createdItem);
     };
 
     /**
