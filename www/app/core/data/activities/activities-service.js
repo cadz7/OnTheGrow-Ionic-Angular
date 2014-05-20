@@ -1,12 +1,16 @@
 /* global chai */
 
 angular.module('sproutApp.data.activities', [
+  'sproutApp.config',
   'sproutApp.user',
-  'sproutApp.util'
+  'sproutApp.util',
+  'sproutApp.services.cache',
+  'sproutApp.services.sync',
+  'sproutApp.server'
 ])
 
-.factory('activities', ['$q', 'user', 'util',
-  function ($q, user, util) {
+.factory('activities', ['$q', 'user', 'util', 'cache', 'sync', 'server', 'API_CONSTANTS',
+  function ($q, user, util, cache, sync, server, API) {
     'use strict';
     var service = {
       categories: [] // an array of currently loaded items
@@ -630,10 +634,25 @@ angular.module('sproutApp.data.activities', [
         }
       ));
 
+      // return service.loadActivityCategories();
       return util.q.makeResolvedPromise();
     };
 
     readyPromise = service.reload();
+
+    service.loadActivityCategories = function() {
+      return server.get(API.activityCategoryEndpoint, function(categories) {
+        cache.set('activity_categories', categories);
+      }, function error(e) {
+        service.categories = cache.get('activity_categories');
+        // NOTE: this is swallowing the error.  I'm not sure if it should or not.
+        throw e;
+      });
+    };
+
+    service.getActivityLog = function() {
+      return service.categories = cache.get('activity_log');
+    };
 
     /**
      * Logs user's activities.
@@ -660,7 +679,32 @@ angular.module('sproutApp.data.activities', [
             chai.expect(clone.quantity).to.not.be.undefined;
             chai.expect(clone.quantity).to.be.a.number;
             clone.date = clone.date || new Date().toISOString();
+
             returnedLog.push(clone);
+
+//            return server.post(API.activityLogEndpoint, activity)
+//                .then(function(savedActivity) {
+//                  // todo: anything that needs to be done upon success.
+//                  cache.push('activity_log', activity);
+//                  return savedActivity;
+//                },
+//                function error(response) {
+//                  if (response === 'offline' || response.status_code === 500) {
+//                    // A 500 could indicate a temporary failure, in which case we would want to Sync it later.
+//
+//                    // Let's queue it up to be synced later if we are offline or the a temporary error occurred.
+//                    sync.queue(API.activityLogEndpoint, activity, {successEvent: 'activity:logged'});
+//
+//                    cache.push('activity_log', activity);
+//                  } else {
+//                    // something bad happened, maybe the activity id no longer exists on the server,
+//                    // for whatever reason, this activity cannot be saved permanently.  In this case
+//                    // we must send error to client:
+//                    throw 'Failed to sync activity';
+//                  }
+//                })['finally'](function() {
+//
+//            });
           });
 
           return returnedLog;
@@ -673,4 +717,5 @@ angular.module('sproutApp.data.activities', [
 
     return service;
   }
-]);
+])
+;

@@ -35,20 +35,26 @@ angular.module('sproutApp.server', [
       }
     }
 
+//  service.get('/streamitems/89')
+
     service.get = function() {
       // Will call $http with the right options and headers.
+      return util.q.makeResolvedPromise(true);
     };
 
     service.post = function() {
       // Will call $http with the right options and headers.
+      return util.q.makeResolvedPromise(true);
     };    
 
     service.put = function() {
       // Will call $http with the right options and headers.
+      return util.q.makeResolvedPromise(true);
     };
 
     service.delete = function() {
       // Will call $http with the right options and headers.
+      return util.q.makeResolvedPromise(true);
     };
 
     service.onConnection = function(callback) {
