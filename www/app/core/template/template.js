@@ -19,13 +19,18 @@ angular.module('sproutApp.template', [])
       function fillValue(match, matchedKey) {
         var keys = matchedKey.split('.');
         var value = data;
+        var result;
         keys.forEach(function(key) {
+          if (!value) {
+            throw new Error('No matching value for key:', matchedKey);
+          }
           value = value[key];
         });
         return value;
       }
 
-      return template.replace(/{([a-zA-Z0-9\.]+)}/g, fillValue);
+      result = template.replace(/{([a-zA-Z0-9\.]+)}/g, fillValue);
+      return result.replace('\\}', '}').replace('\\{', '{');
     };
 
     return service;
