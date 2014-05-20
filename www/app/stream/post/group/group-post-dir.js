@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('sproutApp.directives').directive(
-	'sproutPost',
+	'sproutGroupPost',
 	['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems',
 		function($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems) {
 			return {
 				restrict: 'E',
-				templateUrl: 'app/stream/post/post.tpl.html',
+				templateUrl: 'app/stream/post/group/group-post.tpl.html',
 				link: function(scope, elem, attrs) {
 					scope.STREAM_CONSTANTS = STREAM_CONSTANTS; // make accessible to view
 

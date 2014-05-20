@@ -25,22 +25,20 @@
 
       <p class="wrap" ng-bind="postContent"></p>
 
+
       <div class="item item-divider tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#" data-ng-click="liked(currentPost.id)">
-          <span class="count">+1</span><i class="icon ion-thumbsup"></i>
+        <a class="tab-item" data-ng-click="likePost(currentPost)">
+            <span class="count" data-ng-bind="currentPost.likeCount"></span><i class="icon ion-thumbsup" data-ng-class="{'inactive':!currentPost.viewer.isLikedByViewer}"></i>
         </a>
         <div class="vertical-divider"></div>
-        <a class="tab-item" href="#" data-ng-click="commented(currentPost.id)" ng-hide="type == 'comment'">
-          <i class="icon ion-chatbox"></i><span class="count" ng-bind="currentPost.commentCount"></span>
+        <a class="tab-item" href="javascript:void(0)" ng-click="showFullPost()">
+            <span class="count" ng-bind="currentPost.comments.length"></span><i class="icon ion-chatbox"></i>
         </a>
       </div>
 
       <div class="postInputArea row" ng-hide="type == 'comment'">
-        <div class="likeArea">
-          <button class="button button-icon button-small icon ion-thumbsup" ng-click="like()"
-                  ng-class="{iconPressed: liked}"></button>
-        </div>
         <input type="text" maxlength="8000" ng-model="commentText" ng-enter="postComment(commentText)">
+
       </div>
 
       <div class="list">
@@ -48,8 +46,8 @@
              data-ng-repeat="comment in currentPost.comments">
               <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
         </div>
-        <!-- <div class="showMoreComments" ng-click="showAllComments()" ng-show="post.commentCount > STREAM_CONSTANTS.initialCommentCountShown">
-          {{showCommentCount==post.commentCount && 'hide more' || 'show more'}}
+        <!-- <div class="showMoreComments" ng-click="showAllComments()" ng-show="currentPost.commentCount > STREAM_CONSTANTS.initialCommentCountShown">
+          {{showCommentCount==currentPost.commentCount && 'hide more' || 'show more'}}
           <span us-spinner="{radius:4, width:3, length: 3}" spinner-key="{{$id}}"></span>
         </div> -->
     </div>

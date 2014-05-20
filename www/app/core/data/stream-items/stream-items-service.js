@@ -122,6 +122,12 @@ angular.module('sproutApp.data.stream-items', [
       };
       return comment;
     }
+    // This is a stub: the streamItem from API will already have the correct type and template
+    var streamItemTypeSlugs = [
+      {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}'},
+      {itemType: 'group', template: 'Group post by {user.name}'},
+      {itemType: 'event', template: 'Event post by {user.name}'}
+    ];
 
     function makeStreamItem(id) {
       var item = _.cloneDeep(mockStreamItemTemplate);
@@ -133,6 +139,10 @@ angular.module('sproutApp.data.stream-items', [
       item.streamItemDisplay.values.user.id = item.owner.userId;
       item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' +
         item.owner.lastName;
+
+      item.streamItemTypeSlug = streamItemTypeSlugs[id % 3].itemType;
+      item.streamItemDisplay.template = streamItemTypeSlugs[id % 3].template;
+
       for (var i = 0; i < 3; i++) {
         item.comments.push(makeComment(item));
       }
@@ -156,6 +166,29 @@ angular.module('sproutApp.data.stream-items', [
         item.comments.push(newComment);
         return util.q.makeResolvedPromise(newComment);
       };
+      item.likePost = function () {
+        if (!user.isAuthenticated) {
+          return util.q.makeRejectedPromise('Not athenticated.');
+        }
+        
+        if (item.viewer.isLikedByViewer === 0) {
+          item.viewer.isLikedByViewer = 1;
+          item.likeCount++;
+        }
+        return util.q.makeResolvedPromise();
+      };
+      item.unlikePost = function () {
+        if (!user.isAuthenticated) {
+          return util.q.makeRejectedPromise('Not athenticated.');
+        }
+        
+        if (item.viewer.isLikedByViewer === 1) {
+          item.viewer.isLikedByViewer = 0;
+          item.likeCount--;
+        }
+        return util.q.makeResolvedPromise();
+      };
+
       return item;
     }
 

@@ -14,7 +14,7 @@ angular.module('sproutApp', [
   'sproutApp.services',
   'sproutApp.directives'
 ])
-.run(function($ionicPlatform) {
+.run(['$ionicPlatform', 'user', '$log', function($ionicPlatform, user, $log) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -25,8 +25,12 @@ angular.module('sproutApp', [
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    $log.debug("Auto login");
+    // auto-login the user
+    user.login('arthur');
   });
-})
+}])
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
