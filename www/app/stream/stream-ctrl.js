@@ -45,14 +45,14 @@ angular.module('sproutApp.controllers')
         )
       };
 
-      $ionicModal.fromTemplateUrl('app/stream/post/edit-post-modal.tpl.html', {
+      $ionicModal.fromTemplateUrl('app/stream/post2/modal/edit-post-modal.tpl.html', {
         scope: editPostScope,
         animation: 'slide-in-up'
       }).then(function(modal) {
         $scope.modal = modal;
       });
 
-      $ionicModal.fromTemplateUrl('app/stream/post/full-post-modal.tpl.html', {
+      $ionicModal.fromTemplateUrl('app/stream/post2/modal/full-post-modal.tpl.html', {
         scope: fullPostScope,
         animation: 'slide-in-up'
       }).then(function(modal) {
