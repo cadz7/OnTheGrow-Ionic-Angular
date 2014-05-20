@@ -11,9 +11,7 @@ angular.module('sproutApp.controllers')
     	$scope.header = headerRemote;
     	$scope.filterByType = 'ALL';
 
-    	/*$scope.$on('$stateChangeSuccess', function() {
-        $scope.stream.loadData();
-      });*/
+    	
 
     	$scope.closeFullPost = function() {
     		$scope.dialog.hide();

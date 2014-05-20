@@ -1,35 +1,50 @@
 
+
 angular.module('sproutApp.controllers')
 .controller('ActivityBarCtrl', ['$scope', 'activities','streamItems', function($scope, activities,streamItems) {
+
+  var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'};
 
   $scope.onTrackActivityClick = function() {
     $scope.addActivityVisible = true;
   };
 
-  $scope.title = 'Activity Categories';
+  $scope.$watch('newPost.text', function(newVal, oldVal){
+    if(!$scope.addActivityVisible) return;
 
-  var state = 'categorySelect';
+    if(state === STATES.categorySelect){
+      $scope.activityData = _.filter(activities.categories,function(val){return val['activityCategoryDisplayName'].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
+    }else if (state === STATES.activitySelect){
+      $scope.activityData = _.filter(selectedActitivities,function(val){return val['activityName'].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
+    }
+    
+  });
+
+
+  var selectedActitivities = [];
 
   function resetActivitySelect() {
+    state = STATES.categorySelect;
+
     $scope.title = 'Activity Categories';
     $scope.activityData = activities;
     $scope.nameKey = 'activityCategoryDisplayName';
-    state = 'categorySelect';
     $scope.activityListVisible = true;
     $scope.showActivityForm = false;
     $scope.errorMessage = '';
+    $scope.newPost.text = '';
   }
 
   resetActivitySelect();
-
   $scope.onItemSelect = function(item) {
-    if(state === 'categorySelect') {
+    if(state === STATES.categorySelect) {
       $scope.title = item.activityCategoryDisplayName;
       $scope.activityData = item.activities;
+      selectedActitivities = $scope.activityData;
       $scope.nameKey = 'activityName';
-      state = 'activitySelect';
-
-    } else if(state === 'activitySelect') {
+      state = STATES.activitySelect;
+      $scope.newPost.text = '';
+    } else if(state === STATES.activitySelect) {
       $scope.title = item.activityName;
       $scope.activityListVisible = false;
       $scope.showActivityForm = true;
@@ -43,9 +58,9 @@ angular.module('sproutApp.controllers')
         date:$scope.maxDate
         //date : ""+now.getFullYear() + "-"+ (now.getMonth() +1)+ "-" + now.getDate()
       };
-      state = 'activityForm';
+      state = STATES.activityForm;
 
-    } else if(state === 'activityForm') {
+    } else if(state === STATES.activityForm) {
     }
   };
 

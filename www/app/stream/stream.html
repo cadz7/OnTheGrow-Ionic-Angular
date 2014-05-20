@@ -56,8 +56,8 @@
               </div>
             </div>
           </ion-scroll>
-          <form name="activityForm">
-            <div class="row" ng-show="showActivityForm">
+          <form name="activityForm" ng-show="showActivityForm" >
+            <div class="row" >
               <div class="col col-50">
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Activity</span>
@@ -74,19 +74,19 @@
               </div>
             </div>
 
-            <div class="row" ng-show="showActivityForm">
+            <div class="row" >
               <div class="col">
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Quantity ({{currentActivity.unitName}})</span>
                   <input type="number" name="quantity" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1"/>
+                  <!-- <numpad modelObj="currentActivity.quantity" ></numpad> TODO use Varun's number page for input-->
                    <span class="input-label"  style="color:red" ng-show="activityForm.quantity.$error.required">Number Required!</span>
                 </label>
               </div>
             </div>
 
-
             <div class="row">
-              <div class="col" style="text-align: right" ng-show="showActivityForm" >
+              <div class="col" style="text-align: right">
                 <span style="color:red">{{errorMessage}}</span>
                 <button class="button button-balanced" ng-click="addActivity()" ng-disabled="!activityForm.$valid || savingActivity">Add</button>
                 <button class="button button-assertive" ng-click="clearActivity()">Clear</button>
@@ -118,8 +118,7 @@
             </div>
           </div>
 
-
-        </div>
+        </div><!-- activity-select ng-show=addActivityVisible -->
         
 
       </div>
