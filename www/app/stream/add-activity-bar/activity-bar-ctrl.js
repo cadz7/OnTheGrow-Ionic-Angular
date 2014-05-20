@@ -7,6 +7,34 @@ angular.module('sproutApp.controllers')
     $scope.addActivityVisible = true;
   };
 
+  $scope.activityDataAll = [{
+    "activityCategoryId": 13, 
+    "activityCategoryDisplayName": "Cardio",
+    "activities": [
+      {
+        "activityName": "Running",
+        "activityUnits": [
+          { "unitId": 104, "unitName": "km" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "activityCategoryId": 14, 
+    "activityCategoryDisplayName": "Strength",
+    "activities": [
+      {
+        "activityName": "Deadlift",
+        "activityUnits": [
+          { "unitId": 105, "unitName": "lbs" }
+        ]
+      }
+    ]
+  }];
+
+  $scope.activityDataCurrent = {};
+
 }])
 
 .directive('headerShrink', ['$document', function($document) {

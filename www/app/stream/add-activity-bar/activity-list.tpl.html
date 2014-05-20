@@ -1,15 +1,29 @@
-<div class="activity-select">
-  <div class="row">
-    <div class="col">
-      <h3 class="activity-title">{{ title }}</h3>
-    </div>
+<div class="row">
+  <div class="col">
+    <h3 class="activity-title">{{ title }}</h3>
   </div>
+</div>
 
-  <div class="row" ng-repeat="row in items | inSlicesOf:2">
-    <div class="col col-50 activity-item-container" ng-repeat="item in row">
-      <div class="activity-item">{{item}}</div>
-    </div>
+<div class="row" ng-repeat="row in activityData | inSlicesOf:2">
+  <div class="col col-50 activity-item-container" ng-repeat="item in row">
+    <div class="activity-item" ng-click="onItemSelect(item)">{{item[nameKey]}}</div>
   </div>
+</div>
 
+<div class="row">
+  <div class="col">
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">Password</span>
+      <input type="text" />
+    </label>
+    <label class="item item-input">
+      <input type="text" placeholder="Last Name">
+    </label>
+  </div>
+</div>
 
+<div class="row">
+  <div class="col" style="text-align: right">
+    <button class="button button-assertive">Cancel</button>
+  </div>
 </div>
