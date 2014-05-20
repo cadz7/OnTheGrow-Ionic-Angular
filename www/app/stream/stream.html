@@ -38,11 +38,53 @@
 	    </form>
 	  </div>
 
-    <div class="activity-select">
-      <activity-list list-data="activityDataAll" 
-          name-key="activityCategoryDisplayName"
-          ng-show="addActivityVisible">
-      </activity-list>
+    <div class="activity-select" ng-show="addActivityVisible">
+      <div class="row">
+        <div class="col">
+          <h3 class="activity-title">{{ title }}</h3>
+        </div>
+      </div>
+
+      <ion-scroll>
+        <div class="row" ng-repeat="row in activityData | inSlicesOf:2" ng-show="activityListVisible">
+          <div class="col col-50 activity-item-container" ng-repeat="item in row">
+            <div class="activity-item" ng-click="onItemSelect(item)">{{item[nameKey]}}</div>
+          </div>
+        </div>
+      </ion-scroll>
+
+      <div class="row" ng-show="showActivityForm">
+        <div class="col col-50">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Activity</span>
+            <input type="text" ng-model="currentActivity.activityName" />
+          </label>
+        </div>
+
+        <div class="col col-50">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Date</span>
+            <input type="text" ng-model="currentActivity.date" />
+          </label>
+        </div>
+      </div>
+
+      <div class="row" ng-show="showActivityForm">
+        <div class="col">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Quantity</span>
+            <input type="text" placeholder="{{currentActivity.unit}}" ng-model="currentActivity.qty" />
+          </label>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col" style="text-align: right">
+          <button class="button button-balanced" ng-show="showActivityForm">Save</button>
+          <button class="button button-assertive">Cancel</button>
+        </div>
+      </div>
     </div>
 
   </div>

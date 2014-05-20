@@ -5,7 +5,7 @@ angular.module('sproutApp.directives')
     restrict: 'E',
     templateUrl: 'app/stream/add-activity-bar/activity-list.tpl.html',
     link: function(scope, elem, attrs) {
-      scope.title = "lol";
+      scope.title = 'Activity Categories';
 
       var state = 'categorySelect';
 
@@ -14,12 +14,12 @@ angular.module('sproutApp.directives')
 
       scope.onItemSelect = function(item) {
         if(state === 'categorySelect') {
-          scope.title = item['activityCategoryDisplayName'];
-          scope.activityData = item['activities'];
+          scope.title = item.activityCategoryDisplayName;
+          scope.activityData = item.activities;
           scope.nameKey = 'activityName';
           state = 'activitySelect';
         } else if(state === 'activitySelect') {
-          console.log(item);
+          scope.title = item.activityName;
         }
       };
     }
