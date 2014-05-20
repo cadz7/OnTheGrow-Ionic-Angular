@@ -1,51 +1,111 @@
 
+
 angular.module('sproutApp.controllers')
-.controller('ActivityBarCtrl', ['$scope', 'activities', function($scope, activities) {
+.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems', function($scope, activities,streamItems) {
+
+  var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'};
 
   $scope.onTrackActivityClick = function() {
     $scope.addActivityVisible = true;
   };
 
-  $scope.title = 'Activity Categories';
+  $scope.$watch('newPost.text', function(newVal, oldVal){
+    if(!$scope.addActivityVisible) return;
 
-  var state = 'categorySelect';
+    if(state === STATES.categorySelect){
+      $scope.activityData = _.filter(activities.categories,function(val){return val['activityCategoryDisplayName'].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
+    }else if (state === STATES.activitySelect){
+      $scope.activityData = _.filter(selectedActitivities,function(val){return val['activityName'].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
+    }
+    
+  });
+
+
+  var selectedActitivities = [];
 
   function resetActivitySelect() {
+    state = STATES.categorySelect;
+
     $scope.title = 'Activity Categories';
-    $scope.activityData = activities;
+    $scope.activityData = activities.categories;
     $scope.nameKey = 'activityCategoryDisplayName';
-    state = 'categorySelect';
     $scope.activityListVisible = true;
-    $scope.addActivityVisible = false;
     $scope.showActivityForm = false;
+    $scope.errorMessage = '';
+    $scope.newPost.text = '';
   }
 
   resetActivitySelect();
-
   $scope.onItemSelect = function(item) {
-    if(state === 'categorySelect') {
+    if(state === STATES.categorySelect) {
       $scope.title = item.activityCategoryDisplayName;
       $scope.activityData = item.activities;
+      selectedActitivities = $scope.activityData;
       $scope.nameKey = 'activityName';
-      state = 'activitySelect';
-
-    } else if(state === 'activitySelect') {
+      state = STATES.activitySelect;
+      $scope.newPost.text = '';
+    } else if(state === STATES.activitySelect) {
       $scope.title = item.activityName;
       $scope.activityListVisible = false;
       $scope.showActivityForm = true;
-      $scope.currentActivity.activityName = item.activityName;
-      state = 'activityForm';
+      
+      $scope.currentActivity = {
+        activityName : item.activityName,
+        activityCategoryId : item.activityCategoryId,
+        activityUnitId : item.unitId,
+        unitName : item.unitName,
+        quantity : 1,
+        date:$scope.maxDate
+        //date : ""+now.getFullYear() + "-"+ (now.getMonth() +1)+ "-" + now.getDate()
+      };
+      state = STATES.activityForm;
 
-    } else if(state === 'activityForm') {
+    } else if(state === STATES.activityForm) {
     }
   };
 
   $scope.cancel = function() {
     resetActivitySelect();
+    $scope.activtyQueue = [];
+    $scope.addActivityVisible = false;
   };
 
-  $scope.activityDataAll = activities;
+  $scope.clearActivity = function() {
+    resetActivitySelect();        
+  };
 
+  $scope.addActivity = function(){
+    $scope.activtyQueue.push($scope.currentActivity);
+    resetActivitySelect();    
+  };
+
+  $scope.saveActivities = function() {
+    $scope.savingActivty = true;
+    activities.logActivities($scope.activtyQueue)
+    .then(function(result){
+      streamItems.reload();
+      $scope.savingActivty = false;
+
+      console.log(result)
+      $scope.cancel();
+      $scope.activtyQueue = [];
+    },function(response){
+      $scope.savingActivty = false;
+      var errorMessage;
+      if (response.status === 403) {
+        errorMessage ='You do not have permission to log activities.';        
+      }else {
+        errorMessage = 'failed to save activity';
+      }
+      console.error(response);
+      $scope.errorMessage = errorMessage;
+    });
+  };
+  $scope.errorMessage = '';
+  var now = new Date();
+  $scope.activtyQueue = [];
+  $scope.maxDate = (now.getFullYear() + '-'+ (now.getMonth()+1 < 10 ?'0':'') +(now.getMonth()+1)+ '-' + (now.getDate() < 10? '0':'')+now.getDate());
+  $scope.activityDataAll = activities;
   $scope.currentActivity = {};
 }])
 

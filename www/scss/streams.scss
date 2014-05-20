@@ -86,3 +86,41 @@
     }
   }
 }
+
+.numpad-container {
+  bottom: 0px;
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid #e6e6e6;
+ 
+  .numpad-row {
+    @include display-flex();
+    @include flex-direction(row);
+    @include flex(1);
+ 
+    .key {
+      @include flex(1);
+      text-align: center;
+      background-color: #f7f7f7;
+      color: #333;
+      height: 52px;
+      line-height: 52px;
+      // Squish keyboard for iPhone 4S
+      @media (max-height: 567px) {
+        height: 40px !important;
+        line-height: 40px !important;
+      }
+ 
+      &:nth-child(2n) {
+        border-right: 1px solid #e6e6e6;
+        border-left: 1px solid #e6e6e6;
+      }
+      &:nth-child(-n+11) {
+        border-bottom: 1px solid #e6e6e6;
+      }
+ 
+      &.skip { color: #999; }
+      &.continue { color: #fff; /*background-color: $active; */}
+    }
+  }
+}
