@@ -2,15 +2,32 @@
 
 angular.module('sproutApp.template', [])
 
+// Processes Sprout templates.
 .factory('template', [
   function() {
-    var template = {};
+    var service = {};
 
-    template.fill = function(templ, data) {
-      // this is probably brittle and non-performant!
-      return _.template(templ)(data);
+    /**
+     * Fills a template with values.
+     *
+     * @param  {String} template       A template string.
+     * @param  {Object} data           An object with values.
+     * @return {String}                The filled string.
+     */
+    service.fill = function(template, data) {
+
+      function fillValue(match, matchedKey) {
+        var keys = matchedKey.split('.');
+        var value = data;
+        keys.forEach(function(key) {
+          value = value[key];
+        });
+        return value;
+      }
+
+      return template.replace(/{([a-zA-Z0-9\.]+)}/g, fillValue);
     };
 
-    return template;
+    return service;
   }
 ]);
