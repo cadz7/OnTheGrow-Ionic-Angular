@@ -16,7 +16,6 @@ angular.module('sproutApp.controllers')
     $scope.nameKey = 'activityCategoryDisplayName';
     state = 'categorySelect';
     $scope.activityListVisible = true;
-    $scope.addActivityVisible = false;
     $scope.showActivityForm = false;
     $scope.errorMessage = '';
   }
@@ -52,17 +51,29 @@ angular.module('sproutApp.controllers')
 
   $scope.cancel = function() {
     resetActivitySelect();
+    $scope.activtyQueue = [];
+    $scope.addActivityVisible = false;
   };
 
-  $scope.saveActivity = function() {
+  $scope.clearActivity = function() {
+    resetActivitySelect();        
+  };
+
+  $scope.addActivity = function(){
+    $scope.activtyQueue.push($scope.currentActivity);
+    resetActivitySelect();    
+  };
+
+  $scope.saveActivities = function() {
     $scope.savingActivty = true;
-    activities.logActivities([$scope.currentActivity])
+    activities.logActivities($scope.activtyQueue)
     .then(function(result){
       streamItems.reload();
       $scope.savingActivty = false;
 
       console.log(result)
       $scope.cancel();
+      $scope.activtyQueue = [];
     },function(response){
       $scope.savingActivty = false;
       var errorMessage;
@@ -77,6 +88,7 @@ angular.module('sproutApp.controllers')
   };
   $scope.errorMessage = '';
   var now = new Date();
+  $scope.activtyQueue = [];
   $scope.maxDate = (now.getFullYear() + '-'+ (now.getMonth()+1 < 10 ?'0':'') +(now.getMonth()+1)+ '-' + (now.getDate() < 10? '0':'')+now.getDate());
   $scope.activityDataAll = activities;
   $scope.currentActivity = {};

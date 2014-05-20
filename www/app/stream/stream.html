@@ -86,14 +86,41 @@
 
 
             <div class="row">
-              <div class="col" style="text-align: right">
+              <div class="col" style="text-align: right" ng-show="showActivityForm" >
                 <span style="color:red">{{errorMessage}}</span>
-                <button class="button button-balanced" ng-show="showActivityForm" ng-click="saveActivity()" ng-disabled="!activityForm.$valid || savingActivity">Save</button>
-                <button class="button button-assertive" ng-click="cancel()">Cancel</button>
+                <button class="button button-balanced" ng-click="addActivity()" ng-disabled="!activityForm.$valid || savingActivity">Add</button>
+                <button class="button button-assertive" ng-click="clearActivity()">Clear</button>
               </div>
             </div>
           </form>
+
+          <div class="row">
+            <div class="col">
+              <h3 class="activity-title">Activity Queue</h3>
+            </div>
+          </div>
+          <div class="row" ng-show="!activtyQueue || activtyQueue.length === 0">
+            <div class="col" style="color">
+              No Activites Selected
+            </div>
+          </div>
+          <ion-list show-delete="true">
+            <ion-item ng-repeat="post in activtyQueue" class="item-thumbnail-left">
+              You tracked {{post.quantity}} {{post.unitName}} of {{post.activityName}}
+              <ion-delete-button class="ion-minus-circled" ng-click="activtyQueue.splice($index, 1)">      
+            </ion-item>
+          </ion-list> 
+          <div class="row">
+            <div class="col" style="text-align: right">
+              <span style="color:red">{{errorMessage}}</span>
+              <button class="button button-balanced" ng-show="activtyQueue && activtyQueue.length > 0" ng-click="saveActivities()" ng-disabled="savingActivities">Save</button>
+              <button class="button button-assertive" ng-click="cancel()">Cancel</button>
+            </div>
+          </div>
+
+
         </div>
+        
 
       </div>
     <!-- 
