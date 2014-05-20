@@ -3,16 +3,19 @@
 angular.module('sproutApp.controllers', [
   'sproutApp.user',
   'sproutApp.data.stream-items',
-  'sproutApp.template'
+  'sproutApp.template',
+  'sproutApp.data.activities'
 ]);
 angular.module('sproutApp.services', []);
 angular.module('sproutApp.directives', []);
+angular.module('sproutApp.filters', []);
 
 angular.module('sproutApp', [
   'ionic',
   'sproutApp.controllers', 
   'sproutApp.services',
-  'sproutApp.directives'
+  'sproutApp.directives',
+  'sproutApp.filters'
 ])
 .run(['$ionicPlatform', 'user', '$log', function($ionicPlatform, user, $log) {
   $ionicPlatform.ready(function() {
