@@ -56,39 +56,40 @@
               </div>
             </div>
           </ion-scroll>
+          <form>
+            <div class="row" ng-show="showActivityForm">
+              <div class="col col-50">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Activity</span>
+                  <input type="text" ng-model="currentActivity.activityName" readonly />
+                </label>
+              </div>
 
-          <div class="row" ng-show="showActivityForm">
-            <div class="col col-50">
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Activity</span>
-                <input type="text" ng-model="currentActivity.activityName" />
-              </label>
+              <div class="col col-50">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Date</span>
+                  <input type="date" ng-model="currentActivity.date" required placeholder="yyyy-MM-dd"/>
+                </label>
+              </div>
             </div>
 
-            <div class="col col-50">
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Date</span>
-                <input type="text" ng-model="currentActivity.date" />
-              </label>
+            <div class="row" ng-show="showActivityForm">
+              <div class="col">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Quantity</span>
+                  <input type="number" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1"/>
+                </label>
+              </div>
             </div>
-          </div>
-
-          <div class="row" ng-show="showActivityForm">
-            <div class="col">
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Quantity</span>
-                <input type="text" placeholder="{{currentActivity.unit}}" ng-model="currentActivity.qty" />
-              </label>
-            </div>
-          </div>
 
 
-          <div class="row">
-            <div class="col" style="text-align: right">
-              <button class="button button-balanced" ng-show="showActivityForm">Save</button>
-              <button class="button button-assertive" ng-click="cancel()">Cancel</button>
+            <div class="row">
+              <div class="col" style="text-align: right">
+                <button class="button button-balanced" ng-show="showActivityForm" ng-click="saveActivity()">Save</button>
+                <button class="button button-assertive" ng-click="cancel()">Cancel</button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
 
       </div>

@@ -33,7 +33,15 @@ angular.module('sproutApp.controllers')
       $scope.title = item.activityName;
       $scope.activityListVisible = false;
       $scope.showActivityForm = true;
-      $scope.currentActivity.activityName = item.activityName;
+      var now = new Date();
+      $scope.currentActivity = {
+        activityName : item.activityName,
+        activityCategoryId : item.activityCategoryId,
+        activityUnitId : item.unitId,
+        unitName : item.unitName,
+        date:(now.getFullYear() + '-'+ (now.getMonth()+1 < 10 ?'0':'') +(now.getMonth()+1)+ '-' + (now.getDate() < 10? '0':'')+now.getDate())
+        //date : ""+now.getFullYear() + "-"+ (now.getMonth() +1)+ "-" + now.getDate()
+      };
       state = 'activityForm';
 
     } else if(state === 'activityForm') {
@@ -44,8 +52,23 @@ angular.module('sproutApp.controllers')
     resetActivitySelect();
   };
 
-  $scope.activityDataAll = activities;
+  $scope.saveActivity = function() {
+    console.log($scope.currentActivity)
+    console.log(activities)
+    activities.logActivities([$scope.currentActivity])
+    .then(function(result){
+      console.log(result)
+      $scope.cancel();
+    },function(response){
+      if (response.status === 403) {
+        console.error('You do not have permission to log activities.');
+      }else {
+        console.err(response)
+      }
+    });
+  };
 
+  $scope.activityDataAll = activities;
   $scope.currentActivity = {};
 }])
 
