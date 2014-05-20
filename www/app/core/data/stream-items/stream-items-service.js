@@ -125,8 +125,9 @@ angular.module('sproutApp.data.stream-items', [
     // This is a stub: the streamItem from API will already have the correct type and template
     var streamItemTypeSlugs = [
       {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}'},
-      {itemType: 'group', template: 'Group post by {user.name}'},
-      {itemType: 'event', template: 'Event post by {user.name}'}
+      {itemType: 'group', template: 'Group post by {user.name}', heroImg: 'img/group/group-default.png'},
+      {itemType: 'event', template: 'Event post by {user.name}', heroImg: 'img/group/event-default.png'},
+      {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'img/group/event-default.png'}
     ];
 
     function makeStreamItem(id) {
@@ -138,10 +139,12 @@ angular.module('sproutApp.data.stream-items', [
       item.streamItemId = id;
       item.streamItemDisplay.values.user.id = item.owner.userId;
       item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' +
-        item.owner.lastName;
+      item.owner.lastName;
 
-      item.streamItemTypeSlug = streamItemTypeSlugs[id % 3].itemType;
-      item.streamItemDisplay.template = streamItemTypeSlugs[id % 3].template;
+      var streamItemTypeSlug = streamItemTypeSlugs[id % 4];
+      item.streamItemTypeSlug = streamItemTypeSlug.itemType;
+      item.streamItemDisplay.template = streamItemTypeSlug.template;
+      item.streamItemDisplay.heroImg = streamItemTypeSlug.heroImg;
 
       for (var i = 0; i < 3; i++) {
         item.comments.push(makeComment(item));
