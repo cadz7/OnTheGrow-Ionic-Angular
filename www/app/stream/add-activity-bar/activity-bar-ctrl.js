@@ -2,9 +2,6 @@
 angular.module('sproutApp.controllers')
 .controller('ActivityBarCtrl', ['$scope', 'activities', function($scope, activities) {
 
-  $scope.addActivityVisible = false;
-  $scope.activityListVisible = true;
-
   $scope.onTrackActivityClick = function() {
     $scope.addActivityVisible = true;
   };
@@ -13,8 +10,17 @@ angular.module('sproutApp.controllers')
 
   var state = 'categorySelect';
 
-  $scope.activityData = activities;
-  $scope.nameKey      = 'activityCategoryDisplayName';
+  function resetActivitySelect() {
+    $scope.title = 'Activity Categories';
+    $scope.activityData = activities;
+    $scope.nameKey = 'activityCategoryDisplayName';
+    state = 'categorySelect';
+    $scope.activityListVisible = true;
+    $scope.addActivityVisible = false;
+    $scope.showActivityForm = false;
+  }
+
+  resetActivitySelect();
 
   $scope.onItemSelect = function(item) {
     if(state === 'categorySelect') {
@@ -22,14 +28,20 @@ angular.module('sproutApp.controllers')
       $scope.activityData = item.activities;
       $scope.nameKey = 'activityName';
       state = 'activitySelect';
+
     } else if(state === 'activitySelect') {
       $scope.title = item.activityName;
       $scope.activityListVisible = false;
-      $scope.currentActivity.activityName = item.activityName;
       $scope.showActivityForm = true;
+      $scope.currentActivity.activityName = item.activityName;
       state = 'activityForm';
+
     } else if(state === 'activityForm') {
     }
+  };
+
+  $scope.cancel = function() {
+    resetActivitySelect();
   };
 
   $scope.activityDataAll = activities;
