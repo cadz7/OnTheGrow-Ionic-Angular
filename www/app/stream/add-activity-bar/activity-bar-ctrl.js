@@ -1,42 +1,45 @@
 
 angular.module('sproutApp.controllers')
-.controller('ActivityBarCtrl', ['$scope', function($scope) {
+.controller('ActivityBarCtrl', ['$scope', 'activities', function($scope, activities) {
+
   $scope.addActivityVisible = false;
+  $scope.activityListVisible = true;
 
   $scope.onTrackActivityClick = function() {
     $scope.addActivityVisible = true;
   };
 
-  $scope.activityDataAll = [{
-    "activityCategoryId": 13, 
-    "activityCategoryDisplayName": "Cardio",
-    "activities": [
-      {
-        "activityName": "Running",
-        "activityUnits": [
-          { "unitId": 104, "unitName": "km" }
-        ]
-      }
-    ]
-  },
+  $scope.title = 'Activity Categories';
 
-  {
-    "activityCategoryId": 14, 
-    "activityCategoryDisplayName": "Strength",
-    "activities": [
-      {
-        "activityName": "Deadlift",
-        "activityUnits": [
-          { "unitId": 105, "unitName": "lbs" }
-        ]
-      }
-    ]
-  }];
+  var state = 'categorySelect';
 
-  $scope.activityDataCurrent = {};
+  $scope.activityData = activities;
+  $scope.nameKey      = 'activityCategoryDisplayName';
 
+  $scope.onItemSelect = function(item) {
+    if(state === 'categorySelect') {
+      $scope.title = item.activityCategoryDisplayName;
+      $scope.activityData = item.activities;
+      $scope.nameKey = 'activityName';
+      state = 'activitySelect';
+    } else if(state === 'activitySelect') {
+      $scope.title = item.activityName;
+      $scope.activityListVisible = false;
+      $scope.currentActivity.activityName = item.activityName;
+      $scope.showActivityForm = true;
+      state = 'activityForm';
+    } else if(state === 'activityForm') {
+    }
+  };
+
+  $scope.activityDataAll = activities;
+
+  $scope.currentActivity = {};
 }])
 
+/*
+ * Shrinking/fading header directive
+ */
 .directive('headerShrink', ['$document', function($document) {
   var fadeAmt;
 
