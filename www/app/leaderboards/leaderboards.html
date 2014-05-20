@@ -26,10 +26,8 @@
 
 
     <div class="button-bar">
-      <div class="button button-outline button-calm">Week</div>
-      <div class="button button-outline button-calm">Month</div>
-      <div class="button button-outline button-calm">Year</div>
-      <div class="button button-outline button-calm">Quarter</div>
+      <div class="button button-outline button-calm" ng-click="selectPeriod(period.timePeriodId)"
+           ng-repeat="period in periods">{{period.timePeriodNameDisplay}}</div>
     </div>
 
 <div id="LeaderboardList">

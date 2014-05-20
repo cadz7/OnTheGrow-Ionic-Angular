@@ -7,17 +7,31 @@ angular.module('sproutApp.controllers')
 
       $scope.leaderboardFilter = 'Overall';
 
-      var defaultLeaderboardParams = {
+      var leaderboardParams = {
         periodId: 101,
         userFilterId: 201,
         activityFilterId: 301
       };
 
-      leaderboards.getBoard(defaultLeaderboardParams).then(function(response){
-        $scope.leaderboardData = response;
-        console.log(response);
-      });
+      $scope.periods = leaderboards.periods;
 
+      $scope.selectPeriod = function(periodID){
+        if(!periodID){
+          leaderboards.getBoard(leaderboardParams).then(function(response){
+            $scope.leaderboardData = response;
+            console.log(response);
+          });
+        }else{
+          leaderboardParams.periodId = periodID;
+
+          leaderboards.getBoard(leaderboardParams).then(function(response){
+            $scope.leaderboardData = response;
+            console.log(response);
+          });
+        }
+      };
+
+      $scope.selectPeriod();
 
 
       $scope.showLeaderboardFilter = function () {

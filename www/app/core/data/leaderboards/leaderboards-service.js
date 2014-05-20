@@ -29,7 +29,7 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 1,
           name: 'Legal',
           detailsDisplay: {
-            template: '{number} of people',
+            template: '<%=number%> of people',
             values: {
               number: 42
             }
@@ -42,7 +42,7 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 2,
           name: 'Marketing',
           detailsDisplay: {
-            template: '{number} of people',
+            template: '<%=number%> of people',
             values: {
               number: 17
             }
@@ -55,7 +55,7 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 2,
           name: 'Vogon Poetry',
           detailsDisplay: {
-            template: '{number} of people',
+            template: '<%=number%> of people',
             values: {
               number: 19
             }
@@ -75,7 +75,7 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 1,
           name: 'Dolphins',
           detailsDisplay: {
-            template: '{number} cm',
+            template: '<%=number%> cm',
             values: {
               number: 242
             }
@@ -88,7 +88,7 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 2,
           name: 'Vogons',
           detailsDisplay: {
-            template: '{number} cm',
+            template: '<%=number%> cm',
             values: {
               number: 190
             }
@@ -101,7 +101,7 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 2,
           name: 'Hooloovoo',
           detailsDisplay: {
-            template: '{number} cm',
+            template: '<%=number%> cm',
             values: {
               number: 0
             }
