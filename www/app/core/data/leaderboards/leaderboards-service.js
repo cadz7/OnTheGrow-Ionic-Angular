@@ -29,9 +29,9 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 1,
           name: 'Legal',
           detailsDisplay: {
-            template: '<%=number%> of people',
+            template: '<%=department%>',
             values: {
-              number: 42
+            department: 'Human Resources'
             }
           },
           score: 1200,
@@ -42,9 +42,9 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 2,
           name: 'Marketing',
           detailsDisplay: {
-            template: '<%=number%> of people',
+            template: '<%=department%>',
             values: {
-              number: 17
+            department: 'Human Resources'
             }
           },
           score: 1100,
@@ -55,9 +55,9 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 2,
           name: 'Vogon Poetry',
           detailsDisplay: {
-            template: '<%=number%> of people',
+            template: '<%=department%>',
             values: {
-              number: 19
+            department: 'Human Resources'
             }
           },
           score: 1000,
@@ -77,7 +77,7 @@ angular.module('sproutApp.data.leaderboards', [
           detailsDisplay: {
             template: '<%=number%> cm',
             values: {
-              number: 242
+            department: 'Human Resources'
             }
           },
           score: 1200,
@@ -90,7 +90,7 @@ angular.module('sproutApp.data.leaderboards', [
           detailsDisplay: {
             template: '<%=number%> cm',
             values: {
-              number: 190
+            department: 'Human Resources'
             }
           },
           score: 1100,
@@ -103,7 +103,7 @@ angular.module('sproutApp.data.leaderboards', [
           detailsDisplay: {
             template: '<%=number%> cm',
             values: {
-              number: 0
+            department: 'Human Resources'
             }
           },
           score: 1000,
