@@ -6,7 +6,7 @@ angular.module('sproutApp.controllers', [
   'sproutApp.template',
   'sproutApp.data.activities'
 ]);
-angular.module('sproutApp.services', []);
+angular.module('sproutApp.services', ['sproutApp.data.leaderboards']);
 angular.module('sproutApp.directives', []);
 angular.module('sproutApp.filters', []);
 
