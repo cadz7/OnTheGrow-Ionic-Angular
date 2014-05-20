@@ -31,7 +31,8 @@ angular.module('sproutApp', [
 
     $log.debug("Auto login");
     // auto-login the user
-    user.login('arthur');
+    user.login('arthur')
+      .then(null, $log.error);
   });
 }])
 .config(function($stateProvider, $urlRouterProvider) {
