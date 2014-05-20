@@ -1,5 +1,6 @@
+
 <div class="item-avatar">
-    <img ng-src="{{post.avatarURL}}" />
+    <img ng-src="img/group/group-default.png" />
 
     <div class="post-info row">
         <div class="col col-75">
@@ -18,10 +19,6 @@
 </div>
 
 <p class="wrap" ng-bind="content"></p>
-<div class="text-center">
-  <a href="javascript:void(0)" class="showMore" ng-show="contentIsOverflowing" ng-click="showFullPost()">Show more...</a>
-</div>
-
 <div class="item item-divider tabs tabs-secondary tabs-icon-left">
     <a class="tab-item" data-ng-click="likePost(post)">
         <span class="count" data-ng-bind="post.likeCount"></span><i class="icon ion-thumbsup" data-ng-class="{'inactive':!post.viewer.isLikedByViewer}"></i>
@@ -31,6 +28,11 @@
         <span class="count" ng-bind="post.comments.length"></span><i class="icon ion-chatbox"></i>
     </a>
 </div>
+<!-- <div class="text-center">
+  <a href="javascript:void(0)" class="showMore" ng-show="contentIsOverflowing" ng-click="showFullPost()">Show more...</a>
+</div>
+
+
 
 <div class="postInputArea row">
   <input type="text" ng-model="post.newComment" ng-enter="postComment(post.newComment)" placeholder="Add a comment..." class="add-comment col col-80">
@@ -45,4 +47,4 @@
     <div class="showMoreComments" ng-click="showAllComments()" ng-show="post.comments.length > STREAM_CONSTANTS.initialCommentCountShown">
       {{showCommentCount==post.comments.length && 'hide more' || 'show more'}}
     </div>
-</div>
+</div> -->

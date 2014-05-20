@@ -41,7 +41,11 @@
         </div>
       </form>
     </div> -->
-    <sprout-post ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog"></sprout-post>
+    <div class="item post" ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog" data-ng-switch="post.streamItemTypeSlug">
+      <sprout-event-post data-ng-switch-when="event" class="eventItem"></sprout-event-post>
+      <sprout-group-post data-ng-switch-when="group" class="groupItem"></sprout-group-post>
+      <sprout-post data-ng-switch-default=""></sprout-post>
+    </div>
 
 
 	  <!-- 
