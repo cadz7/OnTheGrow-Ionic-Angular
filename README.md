@@ -55,7 +55,12 @@
 3. Set the project provisioning profile
 
 ## Plugins used
+### To install 'ionic plugin add <plugin name or URL if provided>'
 
 org.apache.cordova.device
 org.apache.cordova.console
 com.ionic.keyboard (https://github.com/driftyco/ionic-plugins-keyboard.git)
+
+
+## Debugging Notes
+- if plugins aren't installed user autologin won't work due to plugin error stopping it from running.
