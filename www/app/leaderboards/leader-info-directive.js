@@ -11,7 +11,7 @@ angular.module('sproutApp.directives')
       templateUrl: 'app/leaderboards/leader.tpl.html',
       link: function(scope, element, attrs){
 
-        scope.leader.department = template.fill(scope.leader.detailsDisplay.template, scope.leader.detailsDisplay.values);
+        scope.leader.additionalInfo = template.fill(scope.leader.detailsDisplay.template, scope.leader.detailsDisplay.values);
       }
     }
   }]);

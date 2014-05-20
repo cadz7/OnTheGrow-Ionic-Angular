@@ -27,7 +27,8 @@ angular.module('sproutApp.data.leaderboards', [
         {
           entityId : 1001,
           rank: 1,
-          name: 'Legal',
+          name: 'Arthur',
+          avatarUrl: 'img/user/arthur.png',
           detailsDisplay: {
             template: '<%=department%>',
             values: {
@@ -40,11 +41,12 @@ angular.module('sproutApp.data.leaderboards', [
         {
           entityId : 1002,
           rank: 2,
-          name: 'Marketing',
+          name: 'Ford',
+          avatarUrl: 'img/user/ford.png',
           detailsDisplay: {
             template: '<%=department%>',
             values: {
-            department: 'Human Resources'
+            department: 'Finances'
             }
           },
           score: 1100,
@@ -52,12 +54,13 @@ angular.module('sproutApp.data.leaderboards', [
         },
         {
           entityId : 1003,
-          rank: 2,
-          name: 'Vogon Poetry',
+          rank: 3,
+          name: 'Fenchurch',
+          avatarUrl: 'img/user/fenchurch.png',
           detailsDisplay: {
             template: '<%=department%>',
             values: {
-            department: 'Human Resources'
+            department: 'CTO'
             }
           },
           score: 1000,
@@ -75,9 +78,9 @@ angular.module('sproutApp.data.leaderboards', [
           rank: 1,
           name: 'Dolphins',
           detailsDisplay: {
-            template: '<%=number%> cm',
+            template: '<%=size%> cm',
             values: {
-            department: 'Human Resources'
+            size: 280
             }
           },
           score: 1200,
@@ -85,25 +88,25 @@ angular.module('sproutApp.data.leaderboards', [
         },
         {
           entityId : 2002,
-          rank: 2,
-          name: 'Vogons',
+          rank: 3,
+          name: 'Mice',
           detailsDisplay: {
-            template: '<%=number%> cm',
+            template: '<%=size%> cm',
             values: {
-            department: 'Human Resources'
+            size: 10
             }
           },
-          score: 1100,
+          score: 400,
           isViewer: true
         },
         {
           entityId : 2003,
           rank: 2,
-          name: 'Hooloovoo',
+          name: 'Eagles',
           detailsDisplay: {
-            template: '<%=number%> cm',
+            template: '<%=size%> cm',
             values: {
-            department: 'Human Resources'
+            size: 100
             }
           },
           score: 1000,
