@@ -16,7 +16,7 @@ angular.module('sproutApp.directives').directive(
 
 
           // TODO put into custom templateGeneratorService
-          var templatePath = 'app/stream/post2/';
+          var templatePath = 'app/stream/post/';
           var headerIconPath = 'img/icons/';
           var resourcesForPost = {
             event: {template: 'joinable/event.tpl.html', headerIcon: 'event-icon.svg'},
