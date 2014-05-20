@@ -4,7 +4,7 @@
 var expect = chai.expect;
 describe('streamItems service', function() {
   var mockData = {};
-
+  var streamItems;
   // Load the module
   beforeEach(module('sproutApp.data.stream-items'));
 
@@ -35,15 +35,14 @@ describe('streamItems service', function() {
   // Reset mock data;
   beforeEach(function() {
     mockData = {};
+    streamItems = testUtils.getService('streamItems');
   });
 
   it('streamItems service should get loaded', function () {
-    var streamItems = testUtils.getService('streamItems');
     expect(streamItems).to.not.be.undefined;
   });
 
   function reload() {
-    var streamItems = testUtils.getService('streamItems');
     expect(streamItems.items.length).to.equal(0);
     return streamItems.reload()
       .then(function(items) {
@@ -77,7 +76,6 @@ describe('streamItems service', function() {
   });
 
   it('should load more comments', function () {
-    var streamItems = testUtils.getService('streamItems');
     var item;
 
     return reload()
@@ -102,7 +100,6 @@ describe('streamItems service', function() {
   });
 
   it('should get earlier items', function () {
-    var streamItems = testUtils.getService('streamItems');
     return reload()
       .then(function(items) {
         return streamItems.getEarlier();
@@ -121,7 +118,6 @@ describe('streamItems service', function() {
   });
 
   function verifyUpdate(items, prevCount, increment) {
-    var streamItems = testUtils.getService('streamItems');
     expect(items.length).to.equal(increment);
     expect(streamItems.items.length).to.equal(prevCount);
     verifyOrderOfIds(streamItems.items);
@@ -134,7 +130,6 @@ describe('streamItems service', function() {
   }
 
   it('should get an update', function () {
-    var streamItems = testUtils.getService('streamItems');
     return reload()
       .then(function(items) {
         return streamItems.getUpdate();
@@ -152,7 +147,6 @@ describe('streamItems service', function() {
   });
 
   it('should fail to delete without authentication', function () {
-    var streamItems = testUtils.getService('streamItems');
     return reload()
       .then(function(items) {
         return streamItems.deletePost(items[5]);
@@ -166,7 +160,6 @@ describe('streamItems service', function() {
   });
 
   function authenticate() {
-    var streamItems = testUtils.getService('streamItems');
     var user = testUtils.getService('user');
     return user.login('arthur')
       .then(function() {
@@ -175,7 +168,6 @@ describe('streamItems service', function() {
   }
 
   function authenticateAndDelete(postIndex) {
-    var streamItems = testUtils.getService('streamItems');
     return authenticate()
       .then(function(items) {
         return streamItems.deletePost(items[postIndex]);
@@ -183,7 +175,6 @@ describe('streamItems service', function() {
   }
 
   it('should delete users own post', function () {
-    var streamItems = testUtils.getService('streamItems');
     return authenticateAndDelete(5)
       .then(function() {
         expect(streamItems.items.length).to.equal(9);
@@ -191,7 +182,6 @@ describe('streamItems service', function() {
   });
 
   it('should fail to delete someone elses post', function () {
-    var streamItems = testUtils.getService('streamItems');
     return authenticateAndDelete(6)
       .then(function() {
         throw new Error ('Should have been rejected');
@@ -201,7 +191,6 @@ describe('streamItems service', function() {
   });
 
   it('should post a new comment', function () {
-    var streamItems = testUtils.getService('streamItems');
     var item;
     var commentText1 = 'Time is an illusion. Lunchtime doubly so.';
     var commentText2 = 'Don\'t Panic!';
@@ -226,9 +215,19 @@ describe('streamItems service', function() {
       });
   });
 
+  it('should post a new item', function() {
+    return authenticate()
+      .then(function() {
+        return streamItems.postItem({text: 'Mostly harmless.'})
+      })
+      .then(function(newItem) {
+        expect(newItem.owner.firstName).to.equal('Arthur');
+        expect(streamItems.items.length).to.equal(11);
+        expect(streamItems.items[0]).to.equal(newItem);
+      });
+  });
+
   it('should like and unlike a post', function () {
-    var streamItems = testUtils.getService('streamItems');
-    
     return reload().then(function(items) {
 
       // likes are populated by id % 2, starting id is 12345; id decreases as you go down the list
