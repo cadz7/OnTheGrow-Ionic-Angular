@@ -33,7 +33,14 @@ describe('cache service', function() {
     cache = testUtils.getService('cache');
   });
 
-  it('cache service should get loaded', function () {
+  it('should get loaded', function () {
     expect(cache).to.not.be.undefined;
+  });
+
+  it('push(key, val) should push the value onto array referenced by "key"', function() {
+    cache.push('items', 'hello');
+    expect(cache.get('items')[0], 'hello');
+    cache.push('items', 'world');
+    expect(cache.get('items',[1]), 'world');
   });
 });

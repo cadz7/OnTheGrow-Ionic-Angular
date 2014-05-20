@@ -4,7 +4,14 @@
 
 angular.module('sproutApp.services.sync', [])
 
-.factory('sync', [function() {
+.factory('sync', ['server', function(server) {
   // If the POST succeeds, then remove from queue, else keep in queue until it does succeed.
+  server.onConnection(executeQueue);
+
+  function executeQueue() {
+    
+  }
+
+  return {};
 }])
 ;
