@@ -1,6 +1,6 @@
 @import"variables";
 
- .createPost {
+ .create-post {
     form {
         width: 100%;
     }
@@ -17,15 +17,13 @@
     }
     @include box-shadow (0px, 0px, 5px, 1px, rgba(50,50,50,0.25));
     z-index: 100;
-    position: fixed;
-    top: 0;
     padding: 1rem 0.5rem 0.5rem 0.5rem;
     background: $lightgrey;
     border-bottom: 1px solid $mediumgrey;
     border-top: 1px solid $mediumgrey;
     font-family: 'roboto', sans-serif;
 }
-.createPost:before{
+.create-post:before{
     content:"";
     position: absolute;
     left: 30px;
@@ -47,9 +45,6 @@
   -webkit-box-shadow: inset 0px 1px 2px 0px rgba(50, 50, 50, 0.4);
   -moz-box-shadow: inset 0px 1px 2px 0px rgba(50, 50, 50, 0.4);
   box-shadow: inset 0px 1px 2px 0px rgba(50, 50, 50, 0.4);
-<<<<<<< HEAD
-}
-=======
 }
 
 .add-activity-post.activity-select-visible {
@@ -91,4 +86,3 @@
     }
   }
 }
->>>>>>> Fix scrolling show/hide of post activity bar.
