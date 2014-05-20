@@ -245,6 +245,7 @@ describe('streamItems service', function() {
         function(error) {
           expect(error).to.equal('Not athenticated.');
 
+          // starting out with a previously-Liked post (this ordinarily wouldn't happen since the viewer is not logged in)
           expect(item.viewer.isLikedByViewer).to.equal(1);
           expect(item.likeCount).to.equal(10);
 
@@ -252,16 +253,25 @@ describe('streamItems service', function() {
           .then(function(items) {
             var item = items[0];
             
+            // should still be the same
             expect(item.viewer.isLikedByViewer).to.equal(1);
             expect(item.likeCount).to.equal(10);
 
-            item.likePost().then( function() {
+            // unlike a liked post
+            item.unlikePost().then( function() {
               expect(item.viewer.isLikedByViewer).to.equal(0);
               expect(item.likeCount).to.equal(9);
 
-              item.likePost().then( function() {
-                expect(item.viewer.isLikedByViewer).to.equal(1);
-                expect(item.likeCount).to.equal(10);
+              // unlike a post that is not currently liked
+              item.unlikePost().then( function() {
+                expect(item.viewer.isLikedByViewer).to.equal(0);
+                expect(item.likeCount).to.equal(9);
+
+                // like a previously unliked post
+                item.likePost().then( function() {
+                  expect(item.viewer.isLikedByViewer).to.equal(1);
+                  expect(item.likeCount).to.equal(10);
+                });
               });
             });
           }).then(null, function(error) {
