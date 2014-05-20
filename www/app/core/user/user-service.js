@@ -78,6 +78,7 @@ angular.module('sproutApp.user', [
         .then(function(newUser) {
           user.data = newUser;
           userStorage.set('user', newUser);
+          user.isAuthenticated = true;
           authenticatedDeferred.resolve();
         });
     };
