@@ -12,13 +12,13 @@
     </button>
 </div>
 
-<div class="list" data-ng-show="commentsExist">
+<div class="list" data-ng-show="commentsExist || isModal">
     <div class="item hide-after comment"
          data-ng-repeat="comment in post.comments | limitTo : showCommentCount">
         <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
     </div>
     <div class="showMoreComments" ng-click="showAllComments()"
-         ng-show="post.comments.length > STREAM_CONSTANTS.initialCommentCountShown">
+         ng-show="post.comments.length > STREAM_CONSTANTS.initialCommentCountShown && !isModal">
         {{showCommentCount==post.comments.length && 'hide more' || 'show more'}}
     </div>
 </div>

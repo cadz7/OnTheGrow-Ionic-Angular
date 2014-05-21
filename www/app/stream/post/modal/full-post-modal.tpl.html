@@ -5,52 +5,7 @@
   </ion-header-bar>
   <ion-content class="padding has-header">
     <div class="item post">
-      <div class="item-avatar">
-        <img ng-src="{{currentPost.avatarURL}}" />
-
-        <div class="post-info row">
-          <div class="col col-75">
-            <span class="author">{{currentPost.owner.firstName}}</span>
-            <br>
-            <span class="date">{{currentPost.dateTimeCreated | date : 'MMM d, y h:mm:ss'}}</span>
-          </div>
-          <div class="col">
-            <div ng-show="currentPost.points" class="points-container">
-              <span class="points">{{currentPost.points}}</span>
-              <span class="pointsLabel">points</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <p class="wrap" ng-bind="postContent"></p>
-
-
-      <div class="item item-divider tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" data-ng-click="likePost(currentPost)">
-            <span class="count" data-ng-bind="currentPost.likeCount"></span><i class="icon ion-thumbsup" data-ng-class="{'inactive':!currentPost.viewer.isLikedByViewer}"></i>
-        </a>
-        <div class="vertical-divider"></div>
-        <a class="tab-item" href="javascript:void(0)" ng-click="showFullPost()">
-            <span class="count" ng-bind="currentPost.comments.length"></span><i class="icon ion-chatbox"></i>
-        </a>
-      </div>
-
-      <div class="postInputArea row" ng-hide="type == 'comment'">
-        <input type="text" maxlength="8000" ng-model="commentText" ng-enter="postComment(commentText)">
-
-      </div>
-
-      <div class="list">
-        <div class="item hide-after comment"
-             data-ng-repeat="comment in currentPost.comments">
-              <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
-        </div>
-        <!-- <div class="showMoreComments" ng-click="showAllComments()" ng-show="currentPost.commentCount > STREAM_CONSTANTS.initialCommentCountShown">
-          {{showCommentCount==currentPost.commentCount && 'hide more' || 'show more'}}
-          <span us-spinner="{radius:4, width:3, length: 3}" spinner-key="{{$id}}"></span>
-        </div> -->
-    </div>
+      <div ng-include="'app/stream/post/regular/custom.tpl.html'"></div>
     </div>
   </ion-content>
 </div>
