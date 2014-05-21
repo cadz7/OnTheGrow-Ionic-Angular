@@ -40,9 +40,11 @@ describe('sync service', function() {
   });
 
   it('queue should add a request to the queue...', function() {
+    var postMethod = sinon.spy(server, 'post');
+
     service.queue('request', 'arg');
     server.connected();
-    var postMethod = sinon.spy(server, 'post');
-    expect(postMethod).to.have.been.calledWith('request', 'arg');
+
+    postMethod.should.have.been.calledWith('request', 'arg');
   });
 });

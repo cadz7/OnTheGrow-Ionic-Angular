@@ -15,7 +15,12 @@ angular.module('sproutApp.services.sync', [])
     while (initialQLength && i < initialQLength) {
       var request = syncQ.shift();
       server.post(request.endpoint, request.args).then(
-        function() {},
+        function(obj) {
+          // NOTE: this is a hidden feature that you can call a callback once the sync complets successfully.
+          if (request.success) {
+            request.success(obj);
+          }
+        },
         function error() {
           request.attemptCount++;
           syncQ.push(request); // add to end of queue
@@ -26,8 +31,8 @@ angular.module('sproutApp.services.sync', [])
     }
   }
 
-  function queue(endpoint, args) {
-    syncQ.push({endpoint: endpoint, args: args, attemptCount: 0});
+  function queue(endpoint, args, successCallback) {
+    syncQ.push({endpoint: endpoint, args: args, attemptCount: 0, success: successCallback});
   }
 
   return {
