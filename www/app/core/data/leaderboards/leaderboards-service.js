@@ -77,6 +77,7 @@ angular.module('sproutApp.data.leaderboards', [
           entityId : 2001,
           rank: 1,
           name: 'Dolphins',
+          avatarUrl: 'img/user/zaphod.png',
           detailsDisplay: {
             template: '{size} cm',
             values: {
@@ -90,6 +91,7 @@ angular.module('sproutApp.data.leaderboards', [
           entityId : 2002,
           rank: 3,
           name: 'Mice',
+          avatarUrl: 'img/user/cover.png',
           detailsDisplay: {
             template: '{size} cm',
             values: {
@@ -103,6 +105,7 @@ angular.module('sproutApp.data.leaderboards', [
           entityId : 2003,
           rank: 2,
           name: 'Eagles',
+          avatarUrl: 'img/user/humma.png',
           detailsDisplay: {
             template: '{size} cm',
             values: {

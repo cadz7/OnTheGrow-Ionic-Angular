@@ -22,8 +22,7 @@ angular.module('sproutApp.controllers')
 
       //Checks to see if there is an argument given - if not, it sets to default
       $scope.changeChallengeCategory = function(categoryIndex){
-        console.log(categoryIndex);
-        if(!categoryIndex){
+        if(!categoryIndex && categoryIndex !== 0){
           leaderboards.getBoard(leaderboardParams).then(function(response){
             $scope.leaderboardData = response;
           });
