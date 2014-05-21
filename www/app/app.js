@@ -16,7 +16,8 @@ angular.module('sproutApp.filters', []);
 
 angular.module('sproutApp', [
   'ionic',
-  'sproutApp.controllers',
+  'sproutApp.config',
+  'sproutApp.controllers', 
   'sproutApp.controllers.main',
   'sproutApp.services',
   'sproutApp.directives',
@@ -93,10 +94,15 @@ angular.module('sproutApp', [
   $urlRouterProvider.otherwise('/main/stream');
 
 })
+;
+
+angular.module('sproutApp.config', [])
 .constant('STREAM_CONSTANTS', {
   initialCommentCountShown: 2,
   initialPostCharCount: 70
 })
 .constant('API_CONSTANTS', {
-  streamitemTypeId: 9
+  streamitemTypeId: 9,
+  activityLogEndpoint: '/activity_log',
+  activityCategoryEndpoint: '/activity_categories'
 });

@@ -35,25 +35,39 @@ angular.module('sproutApp.server', [
       }
     }
 
+//  service.get('/streamitems/89')
+
     service.get = function() {
       // Will call $http with the right options and headers.
+      return util.q.makeResolvedPromise(true);
     };
 
     service.post = function() {
       // Will call $http with the right options and headers.
+      return util.q.makeResolvedPromise(true);
     };    
 
     service.put = function() {
       // Will call $http with the right options and headers.
+      return util.q.makeResolvedPromise(true);
     };
 
     service.delete = function() {
       // Will call $http with the right options and headers.
+      return util.q.makeResolvedPromise(true);
     };
 
+    var callbacks = [];
     service.onConnection = function(callback) {
       // Adds callback to an array of functions to call when
       // network connection becomes available.
+      callbacks.push(callback);
+    };
+
+    service.connected = function() {
+      callbacks.forEach(function(cb) {
+        cb();
+      });
     };
 
     return service;
