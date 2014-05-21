@@ -39,9 +39,10 @@ describe('sync service', function() {
     expect(service).to.not.be.undefined;
   });
 
-//  it('queue should add a request to the queue...', function() {
-//    sync.queue('request', 'arg');
-//
-//    server.post.should.have.been.calledOnce;
-//  });
+  it('queue should add a request to the queue...', function() {
+    service.queue('request', 'arg');
+    server.connected();
+    var postMethod = sinon.spy(server, 'post');
+    expect(postMethod).to.have.been.calledWith('request', 'arg');
+  });
 });
