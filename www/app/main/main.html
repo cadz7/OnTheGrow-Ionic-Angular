@@ -13,7 +13,7 @@
   Also, consider switching to ion-header instead
 -->
 <!-- The Main Tabbed View -->
-<ion-tabs class="tabs-icon-only tabs-default main">
+<ion-tabs class="tabs-icon-only tabs-default main" ng-controller="MainCtrl" ng-keyup="keyPress($event.keyCode)">
 
   <!-- Leaderboards Tab -->
   <ion-tab title="Leaderboards" icon="icon icon-leaderboard" href="#/main/leaderboards">
