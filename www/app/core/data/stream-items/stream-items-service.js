@@ -7,8 +7,8 @@ angular.module('sproutApp.data.stream-items', [
 // items and three methods that affect the content of that array. See
 // documentation below.
 
-.factory('streamItems', ['$q', 'user', 'util',
-  function ($q, user, util) {
+.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval',
+  function ($q, $log, user, util, $interval) {
     'use strict';
     var service = {
       items: [] // an array of currently loaded items
@@ -19,6 +19,8 @@ angular.module('sproutApp.data.stream-items', [
     var lastCommentId = 1000;
     var stagedUpdate; // Updated items we've got from the server and haven't
     // applied yet.
+    var updateListeners = [];
+    var autoUpdateInterval;
 
     var avatarURLs = [
       'img/user/arthur.png',
@@ -240,6 +242,9 @@ angular.module('sproutApp.data.stream-items', [
       var params = {
         idLessThan: latestId
       };
+      if (autoUpdateInterval) {
+        $interval.cancel(autoUpdateInterval);
+      }
       return getStreamItems(params)
         .then(function (items) {
           service.items.splice(0, service.items.length);
@@ -266,6 +271,12 @@ angular.module('sproutApp.data.stream-items', [
         });
     };
 
+    function fireUpdateListeners(items) {
+      updateListeners.forEach(function(listener) {
+        listener(items);
+      });
+    };
+
     /**
      * Gets the most recent items - newer than what we've got. This function
      * does _not_ insert them into our current list of items, however. Instead,
@@ -284,8 +295,29 @@ angular.module('sproutApp.data.stream-items', [
       return getStreamItems(params)
         .then(function (items) {
           stagedUpdate = items;
+          fireUpdateListeners(items);
           return items;
         });
+    };
+
+    /**
+     * Registers a function to listen to an update event.
+     *
+     * @param  {Function} listener     A function to be called when an update
+     *                                 is available.
+     * @return {undefined}             Nothing is returned.
+     */
+    service.onUpdate = function(listener) {
+      updateListeners.push(listener);
+    };
+
+    // Fetch updates automatically on schedule.
+    service.turnOnAutoUpdate = function(delay) {
+      autoUpdateInterval = $interval(function() {
+        service.getUpdate()
+          .then(null, $log.error);
+      }, delay);
+      $log.info('Turned on autoupdate for streamItems.');
     };
 
     /**
