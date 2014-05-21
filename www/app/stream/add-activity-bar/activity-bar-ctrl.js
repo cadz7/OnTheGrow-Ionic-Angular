@@ -85,10 +85,7 @@ angular.module('sproutApp.controllers')
     .then(function(result){
       streamItems.reload();
       $scope.savingActivty = false;
-
-      console.log(result)
-      $scope.cancel();
-      $scope.activtyQueue = [];
+      $scope.cancel();      
     },function(response){
       $scope.savingActivty = false;
       var errorMessage;
