@@ -20,6 +20,7 @@ angular.module('sproutApp.controllers')
 
       //Checks to see if there is an argument given - if not, it sets to default period, ie, weekly
       $scope.selectPeriod = function(periodID){
+        console.log('sliders!');
         if(!periodID){
           leaderboards.getBoard(leaderboardParams).then(function(response){
             $scope.leaderboardData = response;

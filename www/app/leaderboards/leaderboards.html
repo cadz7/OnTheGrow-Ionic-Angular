@@ -30,15 +30,11 @@
       </div>
     </div>
 
-    <ion-slide-box id="LeaderboardList">
-      <ion-slide>
+    <ion-slide-box id="LeaderboardList" on-slide-changed="selectPeriod(index)">
+      <ion-slide ng-repeat="period in periods">
         <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'"
              class="list card leader row">
         </div>
-      </ion-slide>
-
-      <ion-slide>
-        <div style="background-color: blue"></div>
       </ion-slide>
 
     </ion-slide-box>
