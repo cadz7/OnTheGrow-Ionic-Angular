@@ -14,11 +14,11 @@ angular.module('sproutApp.controllers')
     	
 
     	$scope.closeFullPost = function() {
-    		$scope.dialog.hide();
+    		$scope.streamItemModal.hide();
     	}
 
     	$scope.closeModal = function() {
-    		$scope.modal.hide();
+    		$scope.streamItemModal.hide();
     	}
 
       $scope.performInfiniteScroll = _.throttle(function() {
@@ -29,37 +29,27 @@ angular.module('sproutApp.controllers')
         });
       }, 250);
 
-      var editPostScope = $scope.$new(),
-          fullPostScope = $scope.$new();
-
-      fullPostScope.likePost = function(post) {
-        post[post.viewer.isLikedByViewer ? "unlikePost" : "likePost"]().then(
-          function() {
-            $log.debug("success toggling like");
-          },
-          function(err) {
-            $log.error(err);
-          }
-        )
-      };
+      // We do this, it seems, to provide close methods....
+      var editStreamItemModalScope = $scope.$new(),
+          streamItemModalScope = $scope.$new();
 
       $ionicModal.fromTemplateUrl('app/stream/post/modal/edit-post-modal.tpl.html', {
-        scope: editPostScope,
+        scope: editStreamItemModalScope,
         animation: 'slide-in-up'
       }).then(function(modal) {
-        $scope.modal = modal;
+        $scope.editStreamItemModal = modal;
       });
 
       $ionicModal.fromTemplateUrl('app/stream/post/modal/full-post-modal.tpl.html', {
-        scope: fullPostScope,
+        scope: streamItemModalScope,
         animation: 'slide-in-up'
       }).then(function(modal) {
-        $scope.dialog = modal;
+        $scope.streamItemModal = modal;
       });
 
       $scope.$on('$destroy', function() {
-        $scope.modal.remove();
-        $scope.dialog.remove();
+        $scope.editStreamItemModal.remove();
+        $scope.streamItemModal.remove();
       });
 
       $scope.newPost = {

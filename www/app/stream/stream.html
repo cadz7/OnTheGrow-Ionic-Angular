@@ -148,7 +148,7 @@
     <!--</div>-->
 
       <div class="item post" ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog">
-          <post></post>
+          <post post="post" modal-container="streamItemModal" is-wrapped-in-modal="false"></post>
       </div>
 
 
