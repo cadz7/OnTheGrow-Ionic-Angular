@@ -1,41 +1,41 @@
 'use strict';
 
 angular.module('sproutApp.controllers')
-  .controller('LeaderboardsCtrl', ['$scope', 'headerRemote', '$ionicActionSheet', 'leaderboards',
-    function ($scope, headerRemote, $ionicActionSheet, leaderboards) {
+  .controller('LeaderboardsCtrl', ['$scope', 'headerRemote', '$ionicActionSheet', 'leaderboards', 'filters',
+    function ($scope, headerRemote, $ionicActionSheet, leaderboards, filters) {
       $scope.header = headerRemote;
 
       $scope.leaderboardFilter = 'Overall';
 
-      //Default Params for Leaderboard queries to service - will need to make them more dynamic
-      var leaderboardParams = {
-        periodId: 101,
-        userFilterId: 201,
-        activityFilterId: 301
-      };
-
       //Periods are used in a repeat to define the period buttons (weekly/quarterly etc) at the top of the
       //leaderboards page
       $scope.periods = leaderboards.periods;
+      $scope.leaderboardFilters = filters;
 
-      //Checks to see if there is an argument given - if not, it sets to default period, ie, weekly
-      $scope.selectPeriod = function(periodID){
-        console.log('sliders!');
-        if(!periodID){
+      //Default Params for Leaderboard queries to service - will need to make them more dynamic
+      var leaderboardParams = {
+        periodId: $scope.periods[0].timePeriodId,
+        userFilterId: $scope.leaderboardFilters.userFilters[0].filterId,
+        activityFilterId: $scope.leaderboardFilters.activityFilters[0].filterId
+      };
+
+
+      //Checks to see if there is an argument given - if not, it sets to default
+      $scope.changeChallengeCategory = function(categoryIndex){
+        console.log(categoryIndex);
+        if(!categoryIndex){
           leaderboards.getBoard(leaderboardParams).then(function(response){
             $scope.leaderboardData = response;
           });
         }else{
-          leaderboardParams.periodId = periodID;
-
+          leaderboardParams.activityFilterId = $scope.leaderboardFilters.activityFilters[categoryIndex].filterId;
           leaderboards.getBoard(leaderboardParams).then(function(response){
             $scope.leaderboardData = response;
           });
         }
       };
 
-      $scope.selectPeriod();
-
+      $scope.changeChallengeCategory();
 
       $scope.showLeaderboardFilter = function () {
 
