@@ -8,7 +8,6 @@ angular.module('sproutApp.services')
 
       var service = {};
 
-      // TODO put into custom templateGeneratorService
       var templatePath = 'app/stream/post/';
       var headerIconPath = 'img/icons/';
       var resourcesForPost = {
@@ -16,9 +15,9 @@ angular.module('sproutApp.services')
         group: {template: 'joinable/group.tpl.html', headerIcon: 'group-icon.svg'},
         challenge: {template: 'joinable/challenge.tpl.html', headerIcon: 'challenge-icon.svg'},
         custom: {template: 'regular/custom.tpl.html', headerIcon: ''},
+        post: {template: 'regular/custom.tpl.html', headerIcon: ''},
         add_notification: {template: 'regular/custom.tpl.html', headerIcon: ''},
         activity: {template: 'regular/custom.tpl.html', headerIcon: ''},
-        post: {template: 'regular/post.tpl.html', headerIcon: ''},
         error: {template: 'components/error.tpl.html', headerIcon: ''}
       };
 
