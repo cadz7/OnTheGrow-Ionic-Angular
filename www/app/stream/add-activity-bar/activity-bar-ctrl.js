@@ -4,20 +4,35 @@ angular.module('sproutApp.controllers')
 .controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', function($scope, activities,streamItems,$ionicScrollDelegate) {
 
   var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'};
-
+  var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'};
   $scope.onTrackActivityClick = function() {
     $scope.addActivityVisible = true;
   };
 
   $scope.$watch('newPost.text', function(newVal, oldVal){
-    if(!$scope.addActivityVisible) return;
-
-    if(state === STATES.categorySelect){
-      $scope.activityData = _.filter(activities.categories,function(val){return val['activityCategoryDisplayName'].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
-    }else if (state === STATES.activitySelect){
-      $scope.activityData = _.filter(selectedActitivities,function(val){return val['activityName'].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
-    }
+    //user is not tracking an activty, dont do anything.
+    if (!$scope.addActivityVisible) return;
     
+    //user has cleared all search text -> take then back to the category select view
+    if (!newVal && oldVal) {
+      resetActivitySelect();
+      return;
+    }
+
+    switch (state) {
+      case STATES.categorySelect:
+        state = STATES.activitySelect;
+        selectedActitivities = _.flatten(_.map(activities.categories, function(item){return item.activities}), true);
+        console.log(selectedActitivities)
+        $scope.title = 'Activities';
+        $scope.nameKey = NAMEKEYS.activityName;
+
+        //fall through -> only want to search activities
+      case STATES.activitySelect:
+        $scope.activityData = _.filter(selectedActitivities,function(val){return val[$scope.nameKey].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
+
+      break;
+    }//switch    
   });
 
 
@@ -28,7 +43,7 @@ angular.module('sproutApp.controllers')
     $ionicScrollDelegate.scrollTop();
     $scope.title = 'Activity Categories';
     $scope.activityData = activities.categories;
-    $scope.nameKey = 'activityCategoryDisplayName';
+    $scope.nameKey = NAMEKEYS.activityCategoryDisplayName;
     $scope.activityListVisible = true;
     $scope.showActivityForm = false;
     $scope.errorMessage = '';
@@ -41,9 +56,8 @@ angular.module('sproutApp.controllers')
       $scope.title = item.activityCategoryDisplayName;
       $scope.activityData = item.activities;
       selectedActitivities = $scope.activityData;
-      $scope.nameKey = 'activityName';
-      state = STATES.activitySelect;
-      $scope.newPost.text = '';
+      $scope.nameKey = NAMEKEYS.activityName;
+      state = STATES.activitySelect;      
     } else if(state === STATES.activitySelect) {
       $scope.title = item.activityName;
       $scope.activityListVisible = false;
@@ -102,7 +116,6 @@ angular.module('sproutApp.controllers')
   var now = new Date();
   $scope.activtyQueue = [];
   $scope.maxDate = (now.getFullYear() + '-'+ (now.getMonth()+1 < 10 ?'0':'') +(now.getMonth()+1)+ '-' + (now.getDate() < 10? '0':'')+now.getDate());
-  $scope.activityDataAll = activities;
   $scope.currentActivity = {};
 }])
 
