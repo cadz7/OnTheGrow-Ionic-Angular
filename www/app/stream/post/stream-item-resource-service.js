@@ -18,7 +18,6 @@ angular.module('sproutApp.services')
         post: {template: 'regular/custom.tpl.html', headerIcon: ''},
         add_notification: {template: 'regular/custom.tpl.html', headerIcon: ''},
         activity: {template: 'regular/custom.tpl.html', headerIcon: ''},
-        post: {template: 'regular/post.tpl.html', headerIcon: ''},
         error: {template: 'components/error.tpl.html', headerIcon: ''}
       };
 
