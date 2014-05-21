@@ -8,6 +8,7 @@ angular.module('sproutApp.controllers', [
 ]);
 angular.module('sproutApp.services', ['sproutApp.data.leaderboards']);
 angular.module('sproutApp.directives', [
+  'sproutApp.config',
   'sproutApp.template',
   'sproutApp.data.stream-items',
   'sproutApp.data.activities'
@@ -17,7 +18,7 @@ angular.module('sproutApp.filters', []);
 angular.module('sproutApp', [
   'ionic',
   'sproutApp.config',
-  'sproutApp.controllers', 
+  'sproutApp.controllers',
   'sproutApp.controllers.main',
   'sproutApp.services',
   'sproutApp.directives',
