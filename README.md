@@ -24,6 +24,10 @@
 	
 		<TBD>
 
+## Configuration
+to edit the API URL change the value 
+`.constant('API_URL','https://platform.dev.sproutatwork.com/v1/')` 
+in www/app.js.
 
 ## Build and Release
 ### Configure to Build

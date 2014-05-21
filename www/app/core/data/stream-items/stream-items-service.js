@@ -7,8 +7,10 @@ angular.module('sproutApp.data.stream-items', [
 // This service exports a field .items containing an array of currently loaded
 // items and three methods that affect the content of that array. See
 // documentation below.
-.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval', 'cache', 'streamMockServer',
-  function ($q, $log, user, util, $interval, cache, server) {
+
+
+.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval','cache','streamMockServer','API_CONSTANTS','STREAM_CONSTANTS','APP_CONFIG',
+  function ($q, $log, user, util, $interval,cache, server,API_CONSTANTS,STREAM_CONSTANTS,APP_CONFIG) {
     'use strict';
     var service = {
       items: [] // an array of currently loaded items
@@ -91,7 +93,6 @@ angular.module('sproutApp.data.stream-items', [
           if (!user.isAuthenticated) {
             return util.q.makeRejectedPromise('Not authenticated.');
           }
-
           if (item.viewer.isLikedByViewer === 1) {
             item.viewer.isLikedByViewer = 0;
             item.likeCount--;
@@ -101,13 +102,37 @@ angular.module('sproutApp.data.stream-items', [
       });
     }
 
+    function makeStreamItem(id) {
+      var item = _.cloneDeep(mockStreamItemTemplate);
+      item.owner = _.cloneDeep(owners[id % 5]);
+      item.avatarURL = avatarURLs[id % 5];
+      item.viewer.isLikedByViewer = id % 2;
+      item.viewer.isOwnedByViewer = item.owner.userId === 42 ? 1 : 0;
+      item.streamItemId = id;
+      item.streamItemDisplay.values.user.id = item.owner.userId;
+      item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' +
+      item.owner.lastName;
+
+      var streamItemTypeSlug = streamItemTypeSlugs[id % 4];
+      item.streamItemTypeSlug = streamItemTypeSlug.itemType;
+      item.streamItemDisplay.template = streamItemTypeSlug.template;
+      item.streamItemDisplay.heroImg = streamItemTypeSlug.heroImg;
+
+      for (var i = 0; i < 3; i++) {
+        item.comments.push(makeComment(item));
+      }
+      
+
+      return attachFunctionsToStreamItem(item);
+    }
+
     function getStreamItems(params) {
       // TODO: delete posts that are 15 days old.
       var filterId = params.filterId || 'all';
 
-      params.maxCount = params.maxCount || 10;
+      params.maxCount = params.maxCount || STREAM_CONSTANTS.defaultMaxItemCount;
 
-      return server.get('stream_items', params)
+      return server.get(API_CONSTANTS.streamItemsEndPoint, params)
             .then(function(items) {
               decoratePostsWithFunctionality(items);
               streamItemCache.update(filterId, params, items);
@@ -246,13 +271,13 @@ angular.module('sproutApp.data.stream-items', [
      */
     service.postItem = function(item) {
       item.streamItemTypeSlug = 'post';
-      return server.post('stream_items', item).then(function(post) {
+      return server.post(API_CONSTANTS.streamItemsEndPoint, item).then(function(post) {
         decoratePostsWithFunctionality([post]);
         latestId = post.id;   // TODO: fix race condition here.
         service.items.unshift(post);
         return post;
       });
-    };
+};
 
     /**
      * Deletes a post.
@@ -263,7 +288,7 @@ angular.module('sproutApp.data.stream-items', [
       } else if (user.data.userId !== item.owner.userId) {
         return util.q.makeRejectedPromise(new Error('Not allowed.'));
       } else {
-        return server.delete('stream_item', item).then(function() {
+        return server.delete(API_CONSTANTS.streamItemsEndPoint +'/'+item.streamItemId).then(function() {
           var foundIdx = _.indexOf(service.items, item);
           if (foundIdx >= 0) {
             service.items.splice(foundIdx, 1);
@@ -333,7 +358,9 @@ angular.module('sproutApp.data.stream-items', [
   var mockStreamItemTemplate = {
     streamItemId: 1,
     streamItemTypeSlug: 'add_notification',
-    owner: {},
+    owner: {
+      
+    },
     viewer: {
       isLikedByViewer: 0,
       isOwnedByViewer: 0,

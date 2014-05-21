@@ -4,12 +4,116 @@
 var expect = chai.expect;
 describe('streamItems service', function() {
   var mockData = {};
-  var streamItems;
+  var streamItems,apiRoots,APP_CONFIG;
   // Load the module
   beforeEach(module('sproutApp.data.stream-items'));
 
+
+
   // Provide mocks
   beforeEach(module(function($provide) {
+
+    $provide.factory('server',function(){
+      return {
+        get : function(url,params){
+          var deferred = Q.defer();
+
+          switch(url){
+            case apiRoots.streamItemsEndPoint :
+              deferred.resolve([
+                {
+                  streamItemId: 1,
+                  streamItemTypeSlug: 'add_notification',
+                  owner: {
+                    userId : 42
+                  },
+                  viewer: {
+                    isLikedByViewer: 1,
+                    isOwnedByViewer: 0,
+                    isPrivacyOn: 0,
+                    isMember: 0,
+                    eligibleGroups: [{
+                      id: 1324,
+                      name: 'group 1'
+                    }, {
+                      id: 2314,
+                      name: 'group 2'
+                    }]
+                  },
+                  relatedToId: 3142,
+                  relationTypeSlug: 'activity',
+                  dateTimeCreated: '2014-05-14T15:22:11Z',
+                  streamItemDisplay: {
+                    template: '{user.name} just tracked: {qty} {units} of {activity}', // quick change to make it accessible for next leg
+                    values: {
+                      activity: 'cycling',
+                      qty: '5',
+                      units: 'km',
+                      points: '48',
+                      user: {
+                        'id': '1971',
+                        'name': 'Will Melbourne'
+                      },
+                      mainInfo: 'Main info',
+                      subInfo: 'Sub Info',
+                      title: 'Some Title',
+                      userCaption: 'did something'
+                    }
+                  },
+                  canBePrivate: 1,
+                  likeCount: 10,
+                  avatarURL: 'https://optime.sproutatwork.com/uploads/user/2234_1_s.jpg',
+                  comments: []
+                },
+                {owner: {userId : 100000},comments:[{id:1},{id:2},{id:3}]},
+                {comments:[{id:1},{id:2},{id:3}]},
+                {comments:[{id:1},{id:2},{id:3}]},
+                {comments:[{id:1},{id:2},{id:3}]},
+                {comments:[{id:1},{id:2},{id:3}]},
+                {comments:[{id:1},{id:2},{id:3}]},
+                {comments:[{id:1},{id:2},{id:3}]},
+                {comments:[{id:1},{id:2},{id:3}]},
+                {comments:[{id:1},{id:2},{id:3}]}
+              ]);
+            break;
+            case apiRoots.comments:
+              deferred.resolve([
+                {id:1},
+                {id:2},
+                {id:3},
+                {id:4}                                                
+                ])
+            break;
+            default:
+              deferred.reject(new Error('unexpected url: '+url))
+            break;
+          }
+          return deferred.promise;
+        },
+        post : function(url,data){
+          var deferred = Q.defer();
+          data.id = 99999;
+          switch(url){
+            case apiRoots.streamItemsEndPoint :
+              deferred.resolve(data);
+              break;
+            default: deferred.reject(new Error('unexpected url: '+url));
+          }
+          return deferred.promise;
+        },
+        delete : function(url){
+          var deferred = Q.defer();
+          if(url.indexOf(apiRoots.streamItemsEndPoint) >= 0 )
+            deferred.resolve();
+          else 
+            deferred.reject(new Error('unexpected url: '+url));
+          
+          return deferred.promise;
+        }
+        
+      };
+    });
+
     $provide.factory('$q', function() {
       return Q;
     });
@@ -41,6 +145,11 @@ describe('streamItems service', function() {
     mockData = {};
     streamItems = testUtils.getService('streamItems');
   });
+
+  beforeEach(inject(function($injector) {
+    apiRoots = $injector.get('API_CONSTANTS'); 
+    APP_CONFIG =  $injector.get('APP_CONFIG'); 
+  }));
 
   it('streamItems service should get loaded', function () {
     expect(streamItems).to.not.be.undefined;
@@ -75,8 +184,16 @@ describe('streamItems service', function() {
     expect(sortedIds).to.deep.equal(ids);
   }
 
-  it('should load the first batch of items', function () {
-    return reload();
+  it('should load the first batch of items with liking and commenting functions attached', function () {
+    return reload()
+    .then(function(items){
+      expect(items).to.not.be.undefined;
+      expect(items.length).to.be.above(0);
+      expect(items[0]).itself.to.respondTo('getMoreComments');
+      expect(items[0]).itself.to.respondTo('postComment');
+      expect(items[0]).itself.to.respondTo('likePost');
+      expect(items[0]).itself.to.respondTo('unlikePost');
+    });
   });
 
   it('should load more comments', function () {
@@ -148,7 +265,7 @@ describe('streamItems service', function() {
           //   console.log(JSON.stringify(item, null, 2));
           // });
         });
-  });
+});
 
   it('should fail to delete without authentication', function () {
     return reload()
@@ -169,6 +286,7 @@ describe('streamItems service', function() {
         .then(function() {
           return reload();
         });
+
   }
 
   function authenticateAndDelete(postIndex) {
@@ -178,23 +296,22 @@ describe('streamItems service', function() {
         });
   }
 
-  it('should delete users own post', function () {
-    return authenticate()
+
+  it('should delete users own post', function (done) {
+    return authenticateAndDelete(4)
       .then(function() {
-          streamItems.postItem({text:'mostly harmless'}).then(function(post) {
-            streamItems.deletePost(post);
-            expect(streamItems.items.length).to.equal(9);
-          })
-        });
+        expect(streamItems.items.length).to.equal(9);
+        done();
+      },done);
   });
 
   it('should fail to delete someone elses post', function () {
-    return authenticateAndDelete(6)
-        .then(function() {
-          throw new Error ('Should have been rejected');
-        }, function(error) {
-          expect(error).to.be.truthy;
-        });
+    return authenticateAndDelete(1)
+      .then(function() {
+        throw new Error ('Should have been rejected');
+      }, function(error) {
+        expect(error).to.be.truthy;
+      });
   });
 
   it('should post a new comment', function () {
@@ -232,6 +349,7 @@ describe('streamItems service', function() {
           expect(streamItems.items.length).to.equal(11);
           expect(streamItems.items[0]).to.equal(newItem);
         });
+
   });
 
   it('should like and unlike a post', function () {

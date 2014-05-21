@@ -5,8 +5,8 @@ angular.module('sproutApp.user', [
   'sproutApp.util'
 ])
 
-.factory('user', ['userStorage', '$q', '$log', '$window', 'util', 'server',
-  function (userStorage, $q, $log, $window, util, server) {
+.factory('user', ['userStorage', '$q', '$log', '$window', 'util', 'server','API_CONSTANTS','APP_CONFIG',
+  function (userStorage, $q, $log, $window, util, server, API_CONSTANTS,APP_CONFIG) {
     'use strict';
     var user = {};
     var authenticatedDeferred = $q.defer();
@@ -43,7 +43,7 @@ angular.module('sproutApp.user', [
     };
 
     /**
-     * Tries to logs the user in with the provided user name and password.
+     * Tries to logs the user in with the provided user name and password, and stores the user profile if successful
      *
      * @param  {String} username       User name.
      * @param  {String} password       Password.
@@ -52,13 +52,48 @@ angular.module('sproutApp.user', [
      *                                 login fails.
      */
     user.login = function (username, password) {
-      return server.login(username, password)
+      var deferred = $q.defer();
+      
+      if(APP_CONFIG.useMockData){
+        if(username!== 'arthur'){
+          deferred.reject({errorCode:'hallow'});
+          return deferred.promise;
+        }
+          var newUser = {
+            userId: 42,
+            firstName: 'Arthur',
+            lastName: 'Dent',
+            token: 'e9c77174292c076359b069aef68468d1463845cf',
+            expirationDateTime: '2014-07-14T15:22:11Z'
+          };
+          user.data = newUser;
+          userStorage.set(newUser);
+          user.isAuthenticated = true;
+          authenticatedDeferred.resolve();
+          
+          deferred.resolve();
+        
+      }else{
+       server.login(username, password)
+        .then(function(){
+          return server.get(API_CONSTANTS.currentUserEndpoint);
+        })
         .then(function(newUser) {
           user.data = newUser;
           userStorage.set(newUser);
           user.isAuthenticated = true;
           authenticatedDeferred.resolve();
+          deferred.resolve();
+        })
+        .then(null,function(error){
+          user.data = null;
+          userStorage.removeUser();
+          user.isAuthenticated = false;
+          authenticatedDeferred.reject(error);
+          deferred.reject(error);
         });
+      }
+        return deferred.promise;
     };
 
     /**

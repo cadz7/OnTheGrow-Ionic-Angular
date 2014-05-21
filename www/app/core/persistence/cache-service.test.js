@@ -39,8 +39,9 @@ describe('cache service', function() {
 
   it('push(key, val) should push the value onto array referenced by "key"', function() {
     cache.push('items', 'hello');
-    expect(cache.get('items')[0]).to.equal('hello');
+    expect(cache.get('items')).to.include('hello');
     cache.push('items', 'worlds');
-    expect(cache.get('items')[1]).to.equal('worlds');
+    expect(cache.get('items')).to.include('hello');
+    expect(cache.get('items')).to.include('worlds');
   });
 });
