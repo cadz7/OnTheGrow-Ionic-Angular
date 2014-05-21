@@ -1,7 +1,7 @@
 
 
 angular.module('sproutApp.controllers')
-.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems', function($scope, activities,streamItems) {
+.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', function($scope, activities,streamItems,$ionicScrollDelegate) {
 
   var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'};
 
@@ -25,7 +25,7 @@ angular.module('sproutApp.controllers')
 
   function resetActivitySelect() {
     state = STATES.categorySelect;
-
+    $ionicScrollDelegate.scrollTop();
     $scope.title = 'Activity Categories';
     $scope.activityData = activities.categories;
     $scope.nameKey = 'activityCategoryDisplayName';
