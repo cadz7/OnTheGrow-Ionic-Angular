@@ -3,12 +3,26 @@
 angular.module('sproutApp.controllers')
 .controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', function($scope, activities,streamItems,$ionicScrollDelegate) {
 
-  var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'};
-  var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'};
+  var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'}; //constants for view state
+  var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'}; //constants for accessing display name of the activities
+  var selectedActitivities = []; //unfiltered list of activites to display
+  
+  //initilze empty scope variables
+  $scope.errorMessage = '';
+  $scope.activtyQueue = [];
+  $scope.currentActivity = {};
+
+  //set the maxium valid date (for input[date]) to today
+  var now = new Date();
+  $scope.maxDate = (now.getFullYear() + '-'+ (now.getMonth()+1 < 10 ?'0':'') +(now.getMonth()+1)+ '-' + (now.getDate() < 10? '0':'')+now.getDate());
+
+
+  //show the activity tracker view
   $scope.onTrackActivityClick = function() {
     $scope.addActivityVisible = true;
   };
 
+  //search for activities based on the user's text
   $scope.$watch('newPost.text', function(newVal, oldVal){
     //user is not tracking an activty, dont do anything.
     if (!$scope.addActivityVisible) return;
@@ -19,25 +33,24 @@ angular.module('sproutApp.controllers')
       return;
     }
 
-    switch (state) {
+    //if the user has not selected an activity category, search all activities. else search the selected activity category
+    switch (state) {      
       case STATES.categorySelect:
+        //change view to the activities view state
         state = STATES.activitySelect;
-        selectedActitivities = _.flatten(_.map(activities.categories, function(item){return item.activities}), true);
-        console.log(selectedActitivities)
         $scope.title = 'Activities';
         $scope.nameKey = NAMEKEYS.activityName;
+        selectedActitivities = _.flatten(_.pluck(activities.categories,'activities'), true);      
 
-        //fall through -> only want to search activities
+        //fall through -> only want to search on activities
       case STATES.activitySelect:
+        //filter the activity list
         $scope.activityData = _.filter(selectedActitivities,function(val){return val[$scope.nameKey].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
-
       break;
     }//switch    
   });
 
-
-  var selectedActitivities = [];
-
+  //reset the activity tracking view state
   function resetActivitySelect() {
     state = STATES.categorySelect;
     $ionicScrollDelegate.scrollTop();
@@ -48,9 +61,11 @@ angular.module('sproutApp.controllers')
     $scope.showActivityForm = false;
     $scope.errorMessage = '';
     $scope.newPost.text = '';
+    $scope.showNumpad = false;
   }
+  resetActivitySelect(); //initalize view
 
-  resetActivitySelect();
+  //change the state of the view when the user selects an activity category or activity
   $scope.onItemSelect = function(item) {
     if(state === STATES.categorySelect) {
       $scope.title = item.activityCategoryDisplayName;
@@ -69,8 +84,7 @@ angular.module('sproutApp.controllers')
         activityUnitId : item.unitId,
         unitName : item.unitName,
         quantity : 1,
-        date:$scope.maxDate
-        //date : ""+now.getFullYear() + "-"+ (now.getMonth() +1)+ "-" + now.getDate()
+        date:$scope.maxDate        
       };
       state = STATES.activityForm;
 
@@ -78,21 +92,25 @@ angular.module('sproutApp.controllers')
     }
   };
 
+  //user cancels the track activty -> go back to the stream
   $scope.cancel = function() {
     resetActivitySelect();
     $scope.activtyQueue = [];
     $scope.addActivityVisible = false;
   };
 
+  //clear the activty form to add to the queue and go back to category select
   $scope.clearActivity = function() {
     resetActivitySelect();        
   };
 
+  //add activity record to the queuse and go back to category select
   $scope.addActivity = function(){
     $scope.activtyQueue.push($scope.currentActivity);
     resetActivitySelect();    
   };
 
+  //save the activity queue and go back to stream if successful, else display an error
   $scope.saveActivities = function() {
     $scope.savingActivty = true;
     activities.logActivities($scope.activtyQueue)
@@ -112,11 +130,8 @@ angular.module('sproutApp.controllers')
       $scope.errorMessage = errorMessage;
     });
   };
-  $scope.errorMessage = '';
-  var now = new Date();
-  $scope.activtyQueue = [];
-  $scope.maxDate = (now.getFullYear() + '-'+ (now.getMonth()+1 < 10 ?'0':'') +(now.getMonth()+1)+ '-' + (now.getDate() < 10? '0':'')+now.getDate());
-  $scope.currentActivity = {};
+
+  
 }])
 
 /*
