@@ -14,6 +14,10 @@ describe('streamItems service', function() {
       return Q;
     });
 
+    $provide.factory('$interval', function() {
+      return setInterval;
+    });
+
     $provide.factory('user', function () {
       return {
         data: {},
@@ -279,6 +283,30 @@ describe('streamItems service', function() {
         }
       );
     });
+  });
+
+  it('should get autoupdates', function(done) {
+    var listener1 = sinon.spy();
+    var listener2 = sinon.spy();
+    return reload()
+      .then(function() {
+        try {
+          streamItems.onUpdate(listener1);
+          streamItems.onUpdate(listener2);
+          streamItems.turnOnAutoUpdate(10);
+        } catch (e) {
+          done(e);
+        }
+        setTimeout(function() {
+          try {
+            listener1.should.have.been.called;
+            listener2.should.have.been.called;
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }, 50);
+      })
   });
 
 });

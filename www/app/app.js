@@ -21,28 +21,31 @@ angular.module('sproutApp', [
   'sproutApp.services',
   'sproutApp.directives',
   'sproutApp.filters',
+  'sproutApp.data.stream-items',
   'sproutApp.network-information'
 ])
-.run(['$ionicPlatform', 'user', '$log', 'networkInformation', function($ionicPlatform, user, $log, networkInformation) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if(window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
+.run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems',
+  function($ionicPlatform, user, $log, networkInformation, streamItems) {
+    $ionicPlatform.ready(function() {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if(window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      }
+      if(window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
 
-    console.log('Is online?', networkInformation.isOnline);
+      // Auto-login the user
+      user.login('arthur')
+        .then(null, $log.error);
 
-    $log.debug("Auto login");
-    // auto-login the user
-    user.login('arthur')
-      .then(null, $log.error);
-  });
-}])
+      // Run auto-update on stream items.
+      streamItems.turnOnAutoUpdate(5000); // Every 5 seconds.
+    });
+  }
+])
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
