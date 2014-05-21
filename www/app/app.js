@@ -7,17 +7,23 @@ angular.module('sproutApp.controllers', [
   'sproutApp.data.activities'
 ]);
 angular.module('sproutApp.services', ['sproutApp.data.leaderboards']);
-angular.module('sproutApp.directives', []);
+angular.module('sproutApp.directives', [
+  'sproutApp.template',
+  'sproutApp.data.stream-items',
+  'sproutApp.data.activities'
+]);
 angular.module('sproutApp.filters', []);
 
 angular.module('sproutApp', [
   'ionic',
-  'sproutApp.controllers', 
+  'sproutApp.controllers',
+  'sproutApp.controllers.main',
   'sproutApp.services',
   'sproutApp.directives',
-  'sproutApp.filters'
+  'sproutApp.filters',
+  'sproutApp.network-information'
 ])
-.run(['$ionicPlatform', 'user', '$log', function($ionicPlatform, user, $log) {
+.run(['$ionicPlatform', 'user', '$log', 'networkInformation', function($ionicPlatform, user, $log, networkInformation) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -28,6 +34,8 @@ angular.module('sproutApp', [
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    console.log('Is online?', networkInformation.isOnline);
 
     $log.debug("Auto login");
     // auto-login the user
