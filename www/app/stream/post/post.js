@@ -1,5 +1,37 @@
 'use strict';
 
+/**
+ * The directive 'post' is synonymous with stream-item.
+ *
+ * A post or stream-item is an abstract element that appears on the stream feed.
+ *
+ * A post can be the following:
+ *  - group (joinable)
+ *  - event (joinable)
+ *  - challenge (joinable)
+ *  - custom (a.k.a message)
+ *  - activity update
+ *
+ * All posts can do the following:
+ * - be liked
+ * - be commented on
+ * - be hidden/deleted
+ * - show more details (on a separate modal, more on this later...)
+ *
+ * All joinable post can do the following:
+ * - be joined
+ * - be left
+ *
+ * UI Components:
+ * - header (avatar, author's name, date)
+ * - content (hero image, text)
+ * - like/comment
+ * - comments w/ comment box
+ *
+ * A post, when is clicked to view more details, will be opened in a modal. It actually
+ * becomes wrapped in a modal.
+ *
+ */
 angular.module('sproutApp.directives').directive(
   'post',
   ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService',
@@ -7,11 +39,17 @@ angular.module('sproutApp.directives').directive(
       return {
         restrict: 'E',
         template: '<div ng-include="streamItemResourceService.getContentUrl(post)"></div>',
+        scope: {
+          post: '=',
+          modalContainer: '=',
+          isWrappedInModal: '='
+        },
         link: function (scope, elem, attrs) {
           scope.STREAM_CONSTANTS = STREAM_CONSTANTS; // make accessible to view
           scope.streamItemResourceService = streamItemResourceService;
+          
+          scope.showCommentCount = scope.isWrappedInModal ? scope.post.comments.length : STREAM_CONSTANTS.initialCommentCountShown;
 
-          scope.showCommentCount = STREAM_CONSTANTS.initialCommentCountShown;
           scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
           scope.liked = false;
 
@@ -108,16 +146,20 @@ angular.module('sproutApp.directives').directive(
           };
 
           scope.showFullPost = function (theComment) {
+            if (scope.modalContainer) {
+              // modal has been given, therefore this post is not wrapped
+              // into a modal
+
+//            scope.modalContainer.scope.content = scope.content;
+//            scope.modalContainer.scope.likePost = scope.likePost;
+//            scope.modalContainer.scope.streamItemResourceService = streamItemResourceService;
+              scope.modalContainer.scope.post = scope.post; // pass the directive's post to the container's scope
+              scope.modalContainer.show();
+            } else {
+              $log.debug('Trying to open a full post without given a modal container')
+            }
             scope.comment = theComment;
-            scope.dialog.scope.post = scope.post;
-            scope.dialog.scope.content = scope.content;
-            scope.dialog.scope.likePost = scope.likePost;
-            scope.dialog.scope.isModal = true;
-            scope.dialog.scope.showCommentCount = scope.post.comments.length + 1;
-            scope.dialog.show();
-          };
-          scope.closeFullPost = function () {
-            scope.dialog.hide();
+
           };
 
         }

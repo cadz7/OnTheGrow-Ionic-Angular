@@ -1,9 +1,3 @@
-<div class="text-center">
-    <a href="javascript:void(0)" class="showMore" ng-show="contentIsOverflowing" ng-click="showFullPost()">Show
-        more...</a>
-</div>
-
-
 <div class="postInputArea row">
     <input type="text" ng-model="post.newComment" ng-enter="postComment(post.newComment)" placeholder="Add a comment..."
            class="add-comment col col-80">
@@ -12,13 +6,13 @@
     </button>
 </div>
 
-<div class="list" data-ng-show="commentsExist || isModal">
+<div class="list" data-ng-show="commentsExist || isWrappedInModal">
     <div class="item hide-after comment"
          data-ng-repeat="comment in post.comments | limitTo : showCommentCount">
         <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
     </div>
     <div class="showMoreComments" ng-click="showAllComments()"
-         ng-show="post.comments.length > STREAM_CONSTANTS.initialCommentCountShown && !isModal">
+         ng-show="post.comments.length > STREAM_CONSTANTS.initialCommentCountShown && !isWrappedInModal">
         {{showCommentCount==post.comments.length && 'hide more' || 'show more'}}
     </div>
 </div>

@@ -5,7 +5,14 @@
   </ion-header-bar>
   <ion-content class="padding has-header">
     <div class="item post">
-      <div ng-include="'app/stream/post/regular/custom.tpl.html'"></div>
+
+
+      <!--<div ng-include="streamItemResourceService.getContentUrl(post)"></div>-->
+      <!--<div ng-include="'app/stream/post/components/comments.tpl.html'"></div>-->
+      
+      <!--<div ng-include="'app/stream/post/components/comments.tpl.html'"></div>-->
+      <post post="post" ng-if="post" is-wrapped-in-modal="true"></post>
+
     </div>
   </ion-content>
 </div>
