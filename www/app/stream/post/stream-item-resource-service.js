@@ -18,16 +18,28 @@ angular.module('sproutApp.services')
         custom: {template: 'regular/custom.tpl.html', headerIcon: ''},
         add_notification: {template: 'regular/custom.tpl.html', headerIcon: ''},
         activity: {template: 'regular/custom.tpl.html', headerIcon: ''},
+        post: {template: 'regular/post.tpl.html', headerIcon: ''},
         error: {template: 'components/error.tpl.html', headerIcon: ''}
       };
 
+      function getResource(streamItem) {
+        var slug = streamItem.streamItemTypeSlug;
+        var resource = resourcesForPost[slug];
+        if (resource) {
+          return resource;
+        } else {
+          $log.error('Could not find resource for streamItemTypeSlug', slug);
+          return resourcesForPost['error'];
+        }
+      }
+
       service.getContentUrl = function (streamItem) {
-        return templatePath + (resourcesForPost[streamItem.streamItemTypeSlug] || resourcesForPost['error']).template;
+        return templatePath + getResource(streamItem).template;
       };
 
       service.getJoinableHeaderIcon = function(streamItem){
-        return headerIconPath + (resourcesForPost[streamItem.streamItemTypeSlug]|| resourcesForPost['error']).headerIcon ;
-      }
+        return headerIconPath + getResource(streamItem).headerIcon;
+      };
 
       return service;
     }

@@ -4,8 +4,8 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet) {
+    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$log',
+    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $log) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
@@ -67,15 +67,19 @@ angular.module('sproutApp.controllers')
       };
 
       $scope.submitPost = function(post) {
-        streamItems.postItem(post).then(function() {
+        streamItems.postItem(post)
+          .then(function() {
             console.log('Your post has been created.');
             $scope.newPost.text = '';
           }, function(response) {
             if (response.status === 403) {
               console.error('You do not have permission to create this post.');
+            } else {
+              throw response;
             }
           }
-        );
+        )
+        .then(null, $log.error);
       };
 
       $scope.deletePost = function(item) {
