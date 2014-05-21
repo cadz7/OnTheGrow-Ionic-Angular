@@ -2,40 +2,18 @@
 
 angular.module('sproutApp.directives').directive(
   'post',
-  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems',
-    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems) {
+  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService',
+    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService) {
       return {
         restrict: 'E',
-        template: '<div ng-include="getContentUrl()"></div>',
+        template: '<div ng-include="streamItemResourceService.getContentUrl(post)"></div>',
         link: function (scope, elem, attrs) {
           scope.STREAM_CONSTANTS = STREAM_CONSTANTS; // make accessible to view
+          scope.streamItemResourceService = streamItemResourceService;
 
           scope.showCommentCount = STREAM_CONSTANTS.initialCommentCountShown;
           scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
           scope.liked = false;
-
-
-          // TODO put into custom templateGeneratorService
-          var templatePath = 'app/stream/post/';
-          var headerIconPath = 'img/icons/';
-          var resourcesForPost = {
-            event: {template: 'joinable/event.tpl.html', headerIcon: 'event-icon.svg'},
-            group: {template: 'joinable/group.tpl.html', headerIcon: 'group-icon.svg'},
-            challenge: {template: 'joinable/challenge.tpl.html', headerIcon: 'challenge-icon.svg'},
-            custom: {template: 'regular/custom.tpl.html', headerIcon: ''},
-            add_notification: {template: 'regular/custom.tpl.html', headerIcon: ''},
-            activity: {template: 'regular/custom.tpl.html', headerIcon: ''},
-            error: {template: '', headerIcon: ''}
-          };
-
-          scope.getContentUrl = function () {
-            return templatePath + (resourcesForPost[scope.post.streamItemTypeSlug].template || resourcesForPost['error'].template);
-          };
-
-          scope.getJoinableHeaderIcon = function(){
-            return headerIconPath + (resourcesForPost[scope.post.streamItemTypeSlug].headerIcon || resourcesForPost['error'].headerIcon);
-          }
-          // TODO END
 
           var postContent = template.fill(scope.post.streamItemDisplay.template, scope.post.streamItemDisplay.values),
             contentIsOverflowing = postContent.length > STREAM_CONSTANTS.initialPostCharCount;
