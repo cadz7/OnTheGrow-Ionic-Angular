@@ -66,7 +66,7 @@
     color: $mediumgrey;
     padding-bottom: 3px;
     border-bottom: 1px solid $mediumgrey;
-    margin-top: 10px;
+    margin-bottom: 0px;
   }
 
   .activity-select {
@@ -83,6 +83,14 @@
         border-radius: 3px;
         text-align: center;
       }
+    }
+  }
+  .activity-queue-item{
+    min-height: 0px;
+
+    .item-content{
+      padding-left: 0px;
+      min-height: 0px;
     }
   }
 }

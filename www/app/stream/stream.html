@@ -68,7 +68,7 @@
               <div class="col col-50">
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Date</span>
-                  <input type="date" name="date" ng-model="currentActivity.date" max="{{maxDate}}" required placeholder="yyyy-MM-dd" />
+                  <input type="date" name="date" ng-model="currentActivity.date" max="{{maxDate}}" required placeholder="yyyy-MM-dd" style="padding-left: 0px"/>
                   <span class="input-label"  style="color:red" ng-show="activityForm.date.$error.required">Date Required!</span>
                 </label>
               </div>
@@ -78,8 +78,8 @@
               <div class="col">
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Quantity ({{currentActivity.unitName}})</span>
-                  <input type="number" name="quantity" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1" readonly/>
-                   <numpad model="currentActivity.quantity" accept="alert()"></numpad> 
+                  <input type="number" name="quantity" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1" readonly style="text-align: center" ng-click="showNumpad = !showNumpad"/>
+                   <numpad ng-show="showNumpad" model="currentActivity.quantity" accept="alert()"></numpad> 
                    <span class="input-label"  style="color:red" ng-show="activityForm.quantity.$error.required">Number Required!</span>
                 </label>
               </div>
@@ -104,8 +104,8 @@
               No Activites Selected
             </div>
           </div>
-          <ion-list show-delete="true">
-            <ion-item ng-repeat="post in activtyQueue" class="item-thumbnail-left">
+          <ion-list  show-delete="true" >
+            <ion-item ng-repeat="post in activtyQueue" class="item-thumbnail-left activity-queue-item">
               You tracked {{post.quantity}} {{post.unitName}} of {{post.activityName}}
               <ion-delete-button class="ion-minus-circled" ng-click="activtyQueue.splice($index, 1)">      
             </ion-item>
