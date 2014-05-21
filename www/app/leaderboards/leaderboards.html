@@ -1,5 +1,5 @@
 <!-- ion-nav-bar goes here -->
-<ion-view title="Leaderboards" >
+<ion-view title="Leaderboards">
   <!-- ion-header-bar -->
   <ion-header-bar class="bar bar-positive nav-title-slide-ios7">
     <!-- Hamburger Button -->
@@ -22,19 +22,26 @@
 
   <ion-content class="text-center padding has-header">
 
-    <h2>{{leaderboardFilter || 'Something'}}</h2>
-
+    <h2>{{leaderboardFilter || 'Select Category'}}</h2>
 
     <div class="button-bar">
       <div class="button button-outline button-calm" ng-click="selectPeriod(period.timePeriodId)"
-           ng-repeat="period in periods">{{period.timePeriodNameDisplay}}</div>
+           ng-repeat="period in periods">{{period.timePeriodNameDisplay}}
+      </div>
     </div>
 
-<div id="LeaderboardList">
-    <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'" class="list card leader row">
+    <ion-slide-box id="LeaderboardList">
+      <ion-slide>
+        <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'"
+             class="list card leader row">
+        </div>
+      </ion-slide>
 
-    </div>
-</div>
+      <ion-slide>
+        <div style="background-color: blue"></div>
+      </ion-slide>
+
+    </ion-slide-box>
   </ion-content>
 
 </ion-view>

@@ -7,26 +7,28 @@ angular.module('sproutApp.controllers')
 
       $scope.leaderboardFilter = 'Overall';
 
+      //Default Params for Leaderboard queries to service - will need to make them more dynamic
       var leaderboardParams = {
         periodId: 101,
         userFilterId: 201,
         activityFilterId: 301
       };
 
+      //Periods are used in a repeat to define the period buttons (weekly/quarterly etc) at the top of the
+      //leaderboards page
       $scope.periods = leaderboards.periods;
 
+      //Checks to see if there is an argument given - if not, it sets to default period, ie, weekly
       $scope.selectPeriod = function(periodID){
         if(!periodID){
           leaderboards.getBoard(leaderboardParams).then(function(response){
             $scope.leaderboardData = response;
-            console.log(response);
           });
         }else{
           leaderboardParams.periodId = periodID;
 
           leaderboards.getBoard(leaderboardParams).then(function(response){
             $scope.leaderboardData = response;
-            console.log(response);
           });
         }
       };
