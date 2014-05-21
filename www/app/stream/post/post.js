@@ -113,6 +113,7 @@ angular.module('sproutApp.directives').directive(
             scope.dialog.scope.content = scope.content;
             scope.dialog.scope.likePost = scope.likePost;
             scope.dialog.scope.isModal = true;
+            scope.dialog.scope.streamItemResourceService = streamItemResourceService;
             scope.dialog.scope.showCommentCount = scope.post.comments.length + 1;
             scope.dialog.show();
           };
