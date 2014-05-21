@@ -43,22 +43,23 @@
         <!--Activity log-->
         <h3>Activity Log</h3>
 
-        <div class="list">
-            <span ng-repeat="groupedActivity in groupedActivities">
-                <div class="item item-divider">
-                    {{groupedActivity.timePeriod}}
-                </div>
-                <div ng-repeat="activity in groupedActivity.activities">
+        <!--<div class="list">-->
+            <!--<div ng-repeat="groupedActivity in groupedActivities">-->
+                <!--<div class="item item-divider">-->
+                    <!--{{groupedActivity.timePeriod}}-->
+                <!--</div>-->
+                <div ng-repeat="activity in groupedActivities">
                     <div class="item" href="#">
-                        <span class="activity-name">{{activity.title}}</span>
+                        <span class="activity-name">{{activity.activityName}}</span>
                         <span class="item-note text-center">
-                          <div class="minutes">{{activity.duration}} min</div>
+                          <div class="minutes">{{activity.quantity}} {{activity.unitName}}</div>
                           <div>{{activity.points}}</div>
                         </span>
+                        <span>{{activity.date}}</span>
                     </div>
                 </div>
-            </span>
-        </div>
+            <!--</div>-->
+        <!--</div>-->
 
     </ion-content>
 </ion-view>

@@ -4,12 +4,12 @@ angular.module('sproutApp.data.activities', [
   'sproutApp.config',
   'sproutApp.user',
   'sproutApp.util',
-  'sproutApp.services.cache',
-  'sproutApp.services.sync',
+  'sproutApp.cache',
+  'sproutApp.server-post-queue',
   'sproutApp.server'
 ])
 
-.factory('activities', ['$q', 'user', 'util', 'cache', 'sync', 'server', 'API_CONSTANTS',
+.factory('activities', ['$q', 'user', 'util', 'cache', 'server-post-queue', 'server', 'API_CONSTANTS',
   function ($q, user, util, cache, sync, server, API) {
     'use strict';
     var service = {
@@ -602,8 +602,6 @@ angular.module('sproutApp.data.activities', [
 
     var knownUnitIds = [];
 
-    var readyPromise;
-
     service.reload = function () {
       var categoriesById = {};
 
@@ -635,10 +633,8 @@ angular.module('sproutApp.data.activities', [
       ));
 
       // return service.loadActivityCategories();
-      return util.q.makeResolvedPromise();
+      return service.loadActivityLog();
     };
-
-    readyPromise = service.reload();
 
     service.loadActivityCategories = function() {
       return server.get(API.activityCategoryEndpoint, function(categories) {
@@ -650,8 +646,22 @@ angular.module('sproutApp.data.activities', [
       });
     };
 
-    service.getActivityLog = function() {
-      return service.categories = cache.get('activity_log');
+    service.activityLog = [];
+    service.loadActivityLog = function() {
+      return server.get(API.activityLogEndpoint).then(function(activityLog) {
+        cache.set('activity_log', activityLog);
+        service.activityLog = activityLog;
+        return activityLog;
+      }, function error(response) {
+        if (response==='offline') {
+          service.activityLog = cache.get('activity_log');
+          if (!service.activityLog) {
+            service.activityLog = [];
+          }
+          return null;
+        }
+        throw response;
+      })
     };
 
     /**
@@ -662,55 +672,61 @@ angular.module('sproutApp.data.activities', [
      *                                   activities.
      */
     service.logActivities = function (loggedActivities) {
-      var returnedLog = [];
-
       if (!user.isAuthenticated) {
         return util.q.makeRejectedPromise('Must be authenticated');
       }
+      if(!angular.isArray(loggedActivities) || !loggedActivities.length) {
+        return util.q.makeRejectedPromise('logActivities: expects an array of activities');
+      }
+      //chai.expect(loggedActivities.length).to.be.above(0);
 
-      return util.q.makeResolvedPromise()
-        .then(function() {
-          chai.expect(loggedActivities).to.be.an.array;
-          chai.expect(loggedActivities.length).to.be.above(0);
-          loggedActivities.forEach(function(activity) {
-            var clone = _.cloneDeep(activity);
-            chai.expect(clone.activityUnitId).to.be.a.number;
-            chai.expect(knownUnitIds).to.contain(clone.activityUnitId);
-            chai.expect(clone.quantity).to.not.be.undefined;
-            chai.expect(clone.quantity).to.be.a.number;
-            clone.date = clone.date || new Date().toISOString();
+      var allRequests = [];
 
-            returnedLog.push(clone);
+      return util.q.makeResolvedPromise().then(function() {
+        var activitiesLogged = [];  // this will contain all the successfully logged requests when the promise returned resolves.
+        loggedActivities.forEach(function (activity) {
+          var clone = _.cloneDeep(activity);
+          chai.expect(clone.activityUnitId).to.be.a.number;
+          chai.expect(knownUnitIds).to.contain(clone.activityUnitId);
+          chai.expect(clone.quantity).to.not.be.undefined;
+          chai.expect(clone.quantity).to.be.a.number;
+          clone.date = clone.date || new Date().toISOString();
 
-//            return server.post(API.activityLogEndpoint, activity)
-//                .then(function(savedActivity) {
-//                  // todo: anything that needs to be done upon success.
-//                  cache.push('activity_log', activity);
-//                  return savedActivity;
-//                },
-//                function error(response) {
-//                  if (response === 'offline' || response.status_code === 500) {
-//                    // A 500 could indicate a temporary failure, in which case we would want to Sync it later.
-//
-//                    // Let's queue it up to be synced later if we are offline or the a temporary error occurred.
-//                    sync.queue(API.activityLogEndpoint, activity, {successEvent: 'activity:logged'});
-//
-//                    cache.push('activity_log', activity);
-//                  } else {
-//                    // something bad happened, maybe the activity id no longer exists on the server,
-//                    // for whatever reason, this activity cannot be saved permanently.  In this case
-//                    // we must send error to client:
-//                    throw 'Failed to sync activity';
-//                  }
-//                })['finally'](function() {
-//
-//            });
-          });
+          var request = server.post(API.activityLogEndpoint, activity)
+              .then(function (savedActivity) {
+                // todo: anything that needs to be done upon success.
+                cache.push('activity_log', savedActivity);
+                activitiesLogged.push(savedActivity);
+                return savedActivity;
+              },
+              function error(response) {
+                // A 500 could indicate a temporary failure, in which case we would want to Sync it later.
+                if (response === 'offline' || response.status_code === 500) {
+                  // Let's queue it up to be synced later if we are offline or the a temporary error occurred.
+                  sync.queue(API.activityLogEndpoint, activity);
 
-          return returnedLog;
+                  // NOTE: if server always rejects the activity, the client will not become inconsistent
+                  // because the cached activity_log will get updated with the server values eventually.
+                  cache.push('activity_log', activity);
+                } else {
+                  // something bad happened, maybe the activity id no longer exists on the server,
+                  // for whatever reason, this activity cannot be saved permanently.  In this case
+                  // we must send error to client:
+                  throw response;
+                }
+              });
+          allRequests.push(request);
         });
-    }
 
+        return $q.all(allRequests).then(function() {
+          service.activityLog.push(activitiesLogged);
+          return activitiesLogged;
+        });
+      });
+    };
+
+
+    var readyPromise = service.reload();
     service.whenReady = function () {
       return readyPromise;
     };

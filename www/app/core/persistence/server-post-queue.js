@@ -2,9 +2,11 @@
  * Created by justin on 2014-05-20.
  */
 
-angular.module('sproutApp.services.sync', [])
+angular.module('sproutApp.server-post-queue',
+    ['sproutApp.cache']
+)
 
-.factory('sync', ['server', function(server) {
+.factory('server-post-queue', ['server', function(server) {
   var syncQ = [];
   // If the POST succeeds, then remove from queue, else keep in queue until it does succeed.
   server.onConnection(executeQueue);
