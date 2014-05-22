@@ -50,8 +50,7 @@ angular.module('sproutApp.services')
                 $log.debug('Picked group #' + groupId);
                 return membership.join(post, groupId);
               } else {
-                $log.debug('Cancelled group popup');
-                return util.q.makeRejectedPromise('canceled');
+                return util.q.makeResolvedPromise('userCanceled'); //not an error
               }
             });
         } else {

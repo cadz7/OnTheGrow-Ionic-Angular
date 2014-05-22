@@ -99,6 +99,40 @@ angular.module('sproutApp', [
   $urlRouterProvider.otherwise('/main/stream');
 
 })
+
+// TODO note: @justin will move this to an appropriate place and fully implement it
+.service('toaster', ['$log', function($log) {
+  var toaster = { pop: function(type,title,message){console.log("[" + type + "] " + title + ":" + message ); }};
+  return toaster;
+}])
+
+// TODO note: @justin will move this to an appropriate place and fully implement it
+.service('Notify', ['$log', 'toaster', function($log, toaster) {
+  $log.debug('Notify() Initialized...');
+  return {
+    userError: function(msg, title) {
+      if (!title) {
+        title = 'Error Detected';
+      }
+      $log.log(title, msg);
+      toaster.pop('error', title, msg);
+    },
+    apiError: function(msg, title) {
+      if (!title) {
+        title = 'Error';
+      }
+      $log.error(msg);
+      toaster.pop('error', title, msg);
+    },
+    userSuccess: function(msg, title) {
+      if (!title) {
+        title = 'Good News';
+      }
+      $log.debug(title, msg);
+      toaster.pop('success', title, msg);
+    }
+  };
+}])
 ;
 
 angular.module('sproutApp.config', [])
