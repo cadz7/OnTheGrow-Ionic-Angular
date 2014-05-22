@@ -77,7 +77,7 @@ angular.module('sproutApp.data.stream-items', [
         }, {
           id: 2314,
           name: 'group 2'
-        }],
+        }]
       },
       relatedToId: 3142,
       relationTypeSlug: 'activity',
@@ -92,7 +92,11 @@ angular.module('sproutApp.data.stream-items', [
           user: {
             'id': '1971',
             'name': 'Will Melbourne'
-          }
+          },
+          mainInfo: 'Main info',
+          subInfo: 'Sub Info',
+          title: 'Some Title',
+          userCaption: 'did something'
         }
       },
       canBePrivate: 1,

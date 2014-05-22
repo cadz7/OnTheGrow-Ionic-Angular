@@ -1,0 +1,9 @@
+<div class="post-info row">
+  <img ng-src="{{post.avatarURL}}"/>
+
+  <div class="col">
+    <span class="author">{{post.owner.firstName + ' ' + post.owner.lastName}}</span> {{post.streamItemDisplay.values.userCaption}}
+    <br/>
+    <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
+  </div>
+</div>
