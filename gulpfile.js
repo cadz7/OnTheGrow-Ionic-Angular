@@ -76,5 +76,5 @@ gulp.task('dev', function () {
     glob: ['./www/**/*.html', './www/**/*.js']
   });
 });
-
+gulp.task('icons', rg.cordovaIcons({ project: "SproutApp" }));
 gulp.task('default', ['dev']);
