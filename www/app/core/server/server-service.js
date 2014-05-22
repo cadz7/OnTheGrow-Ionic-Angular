@@ -33,18 +33,22 @@ angular.module('sproutApp.server', [
           errorMessage: 'Wrong username or password.'
         });
       }
-    }
+    };
 
 //  service.get('/streamitems/89')
 
+    var offline = true;
     service.get = function() {
+      if (offline) {
+        return util.q.makeRejectedPromise('offline');
+      }
       // Will call $http with the right options and headers.
       return util.q.makeResolvedPromise(true);
     };
 
-    service.post = function() {
+    service.post = function(endpoint, args) {
       // Will call $http with the right options and headers.
-      return util.q.makeResolvedPromise(true);
+      return util.q.makeResolvedPromise(args);
     };    
 
     service.put = function() {

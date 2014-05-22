@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sproutApp.controllers')
-  .controller('MetricsCtrl', ['$scope', 'headerRemote', function ($scope, headerRemote) {
+  .controller('MetricsCtrl', ['$scope', 'headerRemote', 'activities', '$log', function ($scope, headerRemote, activities, $log) {
     $scope.header = headerRemote;
     $scope.logPeriodFilter = 'Week';
 
@@ -14,24 +14,26 @@ angular.module('sproutApp.controllers')
       totalScore: '1500'
     };
 
-    // TODO please note that this may not be the final model and will be wrapped in async service
-    $scope.groupedActivities = [
-      {
-        timePeriod: 'Week 1',
-        activities: [
-          {
-            duration: 12,
-            points: 166,
-            title: 'Cycling'
-          },
-          {
-            duration: 2,
-            points: 33,
-            title: 'Baseball'
-          }
-        ]
-      }
-    ];
+    activities.whenReady().then(function() {
+      $log.debug('activities.activityLog', activities.activityLog);
+      $scope.groupedActivities = activities.activityLog;
+    });
 
-
+//    $scope.groupedActivities = [
+//      {
+//        timePeriod: 'Week 1',
+//        activities: [
+//          {
+//            duration: 12,
+//            points: 166,
+//            title: 'Cycling'
+//          },
+//          {
+//            duration: 2,
+//            points: 33,
+//            title: 'Baseball'
+//          }
+//        ]
+//      }
+//    ];
   }]);

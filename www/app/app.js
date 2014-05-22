@@ -106,4 +106,8 @@ angular.module('sproutApp.config', [])
   streamitemTypeId: 9,
   activityLogEndpoint: '/activity_log',
   activityCategoryEndpoint: '/activity_categories'
-});
+})
+.constant('APP_CONFIG', {
+  poisonMsgThreshold: 10
+})
+;

@@ -7,12 +7,13 @@
 
 'use strict';
 var expect = chai.expect;
-describe('cache service', function() {
-  var mockData = {};
-  var cache;
+describe('sync service', function() {
+  var mockData = {}
+      ,service
+      ,server;
 
   // Load the module
-  beforeEach(module('sproutApp.services.cache'));
+  beforeEach(module('sproutApp.server-post-queue'));
 
   // Provide mocks
   beforeEach(module(function ($provide) {
@@ -30,17 +31,20 @@ describe('cache service', function() {
     mockData.user = {
       isAuthenticated: true
     };
-    cache = testUtils.getService('cache');
+    service = testUtils.getService('server-post-queue');
+    server = testUtils.getService('server');
   });
 
   it('should get loaded', function () {
-    expect(cache).to.not.be.undefined;
+    expect(service).to.not.be.undefined;
   });
 
-  it('push(key, val) should push the value onto array referenced by "key"', function() {
-    cache.push('items', 'hello');
-    expect(cache.get('items')[0], 'hello');
-    cache.push('items', 'world');
-    expect(cache.get('items',[1]), 'world');
+  it('queue should add a request to the queue...', function() {
+    var postMethod = sinon.spy(server, 'post');
+
+    service.queue('request', 'arg');
+    server.connected();
+
+    postMethod.should.have.been.calledWith('request', 'arg');
   });
 });
