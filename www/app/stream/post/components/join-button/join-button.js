@@ -14,7 +14,17 @@ angular.module('sproutApp.directives').directive(
         link: function (scope, elem, attrs) {
 
           scope.pathToImage = scope.post.viewer.isMember ? 'img/icons/join-confirm-icon.svg' : 'img/icons/join-icon.svg';
-          console.log(scope.pathToImage);
+
+          scope.doAction = function(){
+            if (scope.post.viewer.isMember){
+              // don't do anything now, but perhaps leave group
+              $log.debug('Unable to do anything for join button')
+            } else {
+              // subscribe user
+              $log.debug('User is going to join some joinable-thing');
+
+            }
+          }
         }
       }
     }
