@@ -5,5 +5,8 @@
     <span class="author">{{post.owner.firstName + ' ' + post.owner.lastName}}</span> {{post.streamItemDisplay.values.userCaption}}
     <br/>
     <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
+    <img src="img/icons/join-confirm-icon.svg" class="join-btn" data-ng-click="subscribeToGroup()" ng-if="!post.streamItemDisplay.heroImg"/>
+
   </div>
+
 </div>

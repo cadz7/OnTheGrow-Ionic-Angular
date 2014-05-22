@@ -94,10 +94,14 @@
     }
     .join-btn{
       width: 50px;
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
+      float:right;
     }
+   .join-btn-hero{
+     width: 50px;
+     position: absolute;
+     bottom: 15px;
+     right: 15px;
+   }
     hr {
         border: 0;
         height: 1px;

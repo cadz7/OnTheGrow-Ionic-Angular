@@ -1,9 +1,10 @@
+<hr ng-hide="post.streamItemDisplay.heroImg">
 <div class="hero">
     <div class="join">
-        <img src="img/icons/join-confirm-icon.svg" class="join-btn" data-ng-click="subscribeToGroup()" />
-        <img ng-src="{{post.streamItemDisplay.heroImg}}" class="hero-image" data-ng-click="subscribeToGroup()" />
-        COW: {{post}}
+        <img src="img/icons/join-confirm-icon.svg" class="join-btn-hero" data-ng-click="subscribeToGroup()" ng-if="post.streamItemDisplay.heroImg"/>
+        <img ng-src="{{post.streamItemDisplay.heroImg}}" class="hero-image" data-ng-click="subscribeToGroup()"
+                ng-if="post.streamItemDisplay.heroImg"/>
     </div>
 </div>
-<p class="wrap" ng-bind="content"></p>
+<!--<p class="wrap" ng-bind="content"></p>-->
 

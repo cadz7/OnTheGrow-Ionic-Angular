@@ -131,7 +131,7 @@ angular.module('sproutApp.data.stream-items', [
     // This is a stub: the streamItem from API will already have the correct type and template
     var streamItemTypeSlugs = [
       {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}'},
-      {itemType: 'group', template: 'Group post by {user.name}', heroImg: 'img/group/group-default.png'},
+      {itemType: 'group', template: 'Group post by {user.name}', heroImg: ''},
       {itemType: 'event', template: 'Event post by {user.name}', heroImg: 'img/group/event-default.png'},
       {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'img/group/event-default.png'}
     ];
