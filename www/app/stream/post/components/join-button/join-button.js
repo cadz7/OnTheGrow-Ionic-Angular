@@ -2,8 +2,8 @@
 
 angular.module('sproutApp.directives').directive(
   'joinButton',
-  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'joinService',
-    function ($log, STREAM_CONSTANTS, API_CONSTANTS, joinService) {
+  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'joinService', 'Notify',
+    function ($log, STREAM_CONSTANTS, API_CONSTANTS, joinService, Notify) {
       return {
         restrict: 'E',
         templateUrl: 'app/stream/post/components/join-button/join-button.tpl.html',
@@ -24,22 +24,34 @@ angular.module('sproutApp.directives').directive(
               $log.debug('User is going to join some joinable-thing');
               joinService.join(scope.post)
                 .then(function (res) {
-                  return scope.post.refresh('joinedGroup');
+                  // Refresh the post
+                  if (res && res === 'userCanceled'){
+                    $log.info('Canceled join group');
+                  } else {
+                    return scope.post.refresh('joinedGroup');
+                  }
+
                 }, function (err) {
-                  // TODO handle error when trying to join
-                  $log.debug('Failed to join group due to : ' + err);
+                  Notify.apiError('Unable to join group', err)
                 })
                 .then(function (res) {
-                  // TODO this is temporary until post.refresh() is fully implemented to update itself
-                  if (res === 'joinedGroup') {
-                    scope.post.viewer.isMember = 1;
-                  }
+                  _handleRefreshUpdate(res);
                 }, function (err) {
-                  // TODO handle error on refresh post
+                  Notify.apiError('Unable to refresh post', err)
                 })
               ;
             }
-          }
+          };
+
+          var _handleRefreshUpdate = function(res){
+            /**
+             * TODO this is temporary until post.refresh() is fully implemented to update itself
+             * TODO in reality, we just need an err handler for post.refresh(), so this success handler can be null.
+             */
+            if (res === 'joinedGroup') {
+              scope.post.viewer.isMember = 1;
+            }
+          };
         }
       }
     }
