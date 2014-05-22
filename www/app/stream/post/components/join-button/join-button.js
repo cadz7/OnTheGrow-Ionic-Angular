@@ -30,9 +30,9 @@ angular.module('sproutApp.directives').directive(
                   $log.debug('Failed to join group due to : ' + err);
                 })
                 .then(function (res) {
+                  // TODO this is temporary until post.refresh() is fully implemented to update itself
                   if (res === 'joinedGroup') {
                     scope.post.viewer.isMember = 1;
-                    //scope.pathToImage = 'img/icons/join-confirm-icon.svg';
                   }
                 }, function (err) {
                   // TODO handle error on refresh post

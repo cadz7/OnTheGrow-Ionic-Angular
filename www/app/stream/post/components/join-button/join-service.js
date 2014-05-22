@@ -48,18 +48,15 @@ angular.module('sproutApp.services')
             .then(function (groupId) {
               if (groupId) {
                 $log.debug('Picked group #' + groupId);
-                // TODO Based off the type of stream, we need to call the right service
-                return membership.joinChallenge(post.relatedToId, groupId);
+                return membership.join(post, groupId);
               } else {
                 $log.debug('Cancelled group popup');
                 return util.q.makeRejectedPromise('canceled');
               }
             });
-
         } else {
-          return membership.joinChallenge(post.relatedToId);
+          return membership.join(post);
         }
-
       };
 
       return service;
