@@ -22,15 +22,26 @@
 
   <ion-content class="text-center padding has-header">
 
-    <h3 class="rankingTitle">{{currentRankingCategory.title}}</h3>
-    <ion-slide-box id="LeaderboardList" on-slide-changed="changeRankingOption(index)">
-      <ion-slide ng-repeat="rankCategory in rankingOptions">
-        <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'"
-             class="list card leader row">
-        </div>
-      </ion-slide>
+    <div id="leaderBoards" ng-hide="editFilters">
+      <div id="ActivityDurationFilter" ng-click="editFilters = !editFilters">All Activities | Challenge Duration</div>
+      <h3 class="rankingTitle">{{currentRankingCategory.title}}</h3>
+      <ion-slide-box id="LeaderboardList" on-slide-changed="changeRankingOption(index)">
+        <ion-slide ng-repeat="rankCategory in rankingOptions">
+          <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'"
+               class="list card leader row">
+          </div>
+        </ion-slide>
+      </ion-slide-box>
+    </div>
 
-    </ion-slide-box>
+    <div id="FilterView" ng-hide="!editFilters" ng-click="editFilters = !editFilters">
+
+      <div class="list">
+        <a href="#" class="item" ng-repeat="activity in selectedCategory.activities">{{activity.activityName}}</a>
+      </div>
+
+    </div>
+
   </ion-content>
 
 </ion-view>
