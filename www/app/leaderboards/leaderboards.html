@@ -22,7 +22,7 @@
 
   <ion-content class="text-center padding has-header">
 
-    <h2 class="rankingTitle">{{currentRankingCategory.title}}</h2>
+    <h3 class="rankingTitle">{{currentRankingCategory.title}}</h3>
     <ion-slide-box id="LeaderboardList" on-slide-changed="changeRankingOption(index)">
       <ion-slide ng-repeat="rankCategory in rankingOptions">
         <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'"
