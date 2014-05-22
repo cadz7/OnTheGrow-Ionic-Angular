@@ -2,11 +2,13 @@
   .item-note {
     .minutes {
       color: black;
-      font-size: 20px;
+      font-size: 0.75rem;
     }
   }
-
   .activity-name {
-    line-height: 3;
+    color: black;
+    font-size: 0.90rem;
+    line-height: 1.5;
+    font-weight: bolder;
   }
 }
