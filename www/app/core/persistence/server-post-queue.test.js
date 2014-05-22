@@ -10,7 +10,8 @@ var expect = chai.expect;
 describe('sync service', function() {
   var mockData = {}
       ,service
-      ,server;
+      ,server
+      ,networkInformation;
 
   // Load the module
   beforeEach(module('sproutApp.server-post-queue'));
@@ -31,8 +32,9 @@ describe('sync service', function() {
     mockData.user = {
       isAuthenticated: true
     };
-    service = testUtils.getService('server-post-queue');
+    service = testUtils.getService('serverPostQueue');
     server = testUtils.getService('server');
+    networkInformation = testUtils.getService('networkInformation');
   });
 
   it('should get loaded', function () {
@@ -43,7 +45,8 @@ describe('sync service', function() {
     var postMethod = sinon.spy(server, 'post');
 
     service.queue('request', 'arg');
-    server.connected();
+    networkInformation.simulate.toggleStatus();  // toggles to offline
+    networkInformation.simulate.toggleStatus();  // toggles to online which is what triggers it.
 
     postMethod.should.have.been.calledWith('request', 'arg');
   });

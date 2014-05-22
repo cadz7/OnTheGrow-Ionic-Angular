@@ -9,8 +9,8 @@ angular.module('sproutApp.data.activities', [
   'sproutApp.server'
 ])
 
-.factory('activities', ['$q', 'user', 'util', 'cache', 'server-post-queue', 'server', 'API_CONSTANTS',
-  function ($q, user, util, cache, sync, server, API) {
+.factory('activities', ['$q', 'user', 'util', 'cache', 'serverPostQueue', 'server', 'API_CONSTANTS',
+  function ($q, user, util, cache, serverPostQueue, server, API) {
     'use strict';
     var service = {
       categories: [] // an array of currently loaded items
@@ -641,7 +641,6 @@ angular.module('sproutApp.data.activities', [
         cache.set('activity_categories', categories);
       }, function error(e) {
         service.categories = cache.get('activity_categories');
-        // NOTE: this is swallowing the error.  I'm not sure if it should or not.
         throw e;
       });
     };
@@ -700,14 +699,15 @@ angular.module('sproutApp.data.activities', [
                 return savedActivity;
               },
               function error(response) {
-                // A 500 could indicate a temporary failure, in which case we would want to Sync it later.
+                // A 500 could indicate a temporary failure, in which case we would want to serverPostQueue it later.
                 if (response === 'offline' || response.status_code === 500) {
-                  // Let's queue it up to be synced later if we are offline or the a temporary error occurred.
-                  sync.queue(API.activityLogEndpoint, activity);
+                  // Let's queue it up to be serverPostQueueed later if we are offline or the a temporary error occurred.
+                  serverPostQueue.queue(API.activityLogEndpoint, activity);
 
                   // NOTE: if server always rejects the activity, the client will not become inconsistent
                   // because the cached activity_log will get updated with the server values eventually.
                   cache.push('activity_log', activity);
+                  activitiesLogged.push(activity);
                 } else {
                   // something bad happened, maybe the activity id no longer exists on the server,
                   // for whatever reason, this activity cannot be saved permanently.  In this case
@@ -719,7 +719,7 @@ angular.module('sproutApp.data.activities', [
         });
 
         return $q.all(allRequests).then(function() {
-          service.activityLog.push(activitiesLogged);
+          service.activityLog = service.activityLog.concat(activitiesLogged);
           return activitiesLogged;
         });
       });

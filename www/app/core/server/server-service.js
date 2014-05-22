@@ -47,6 +47,9 @@ angular.module('sproutApp.server', [
     };
 
     service.post = function(endpoint, args) {
+      if (offline) {
+        return util.q.makeRejectedPromise('offline');
+      }
       // Will call $http with the right options and headers.
       return util.q.makeResolvedPromise(args);
     };    

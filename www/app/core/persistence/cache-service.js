@@ -3,10 +3,10 @@
  */
 
 angular.module('sproutApp.cache',
-    ['sproutApp.localStorage']
+    ['sproutApp.persistentStorage']
 )
 
-.factory('cache', ['$log', 'localStorage', function($log, localStorage) {
+.factory('cache', ['$log', 'persistentStorage', function($log, persistentStorage) {
   return {
     get: function(key) {
       var val = localStorage.getItem(key);
@@ -26,7 +26,7 @@ angular.module('sproutApp.cache',
     push: function(key, val) {
       var stored = this.get(key);
       if (!stored) {
-        $log.warn('cache: $localStorage does not contain: ', key, ' adding it.');
+        $log.warn('cache: persistentStorage does not contain: ', key, ' adding it.');
         this.set(key, [val]);
       } else {
         if (stored.push) {
