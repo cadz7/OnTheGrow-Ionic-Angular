@@ -18,7 +18,7 @@ angular.module('sproutApp.controllers')
         cat.text = cat.activityCategoryDisplayName;
       });
 
-      $scope.leaderboardFilter = activities.categories[0].activityCategoryDisplayName;
+      $scope.selectedCategory = activities.categories[0];
 
       //Default Params for Leaderboard queries to service - will need to make them more dynamic
       var leaderboardParams = {
@@ -47,6 +47,10 @@ angular.module('sproutApp.controllers')
 
       $scope.changeRankingOption();
 
+      $scope.selectActivityFilter = function(activityObj){
+        $scope.activeActivity = activityObj;
+      };
+
       $scope.showLeaderboardFilter = function () {
 
         $ionicActionSheet.show({
@@ -60,7 +64,6 @@ angular.module('sproutApp.controllers')
           buttonClicked: function (index) {
 
             //Todo: refactor
-            $scope.leaderboardFilter = this.buttons[index].text;
             $scope.selectedCategory = this.buttons[index];
             return true;
           }

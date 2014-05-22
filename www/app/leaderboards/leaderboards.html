@@ -8,7 +8,7 @@
         class="button button-clear icon ion-navicon-round"
         ng-click=""></button>
     </div>
-    <h1 class="title" ng-click="showLeaderboardFilter()">{{leaderboardFilter}}</h1>
+    <h1 class="title" ng-click="showLeaderboardFilter()">{{selectedCategory.text}}</h1>
     <!-- only show if user is logged in -->
     <!-- ng-show="AuthSvc.isLoggedIn()" -->
     <!-- Settings Button -->
@@ -23,7 +23,7 @@
   <ion-content class="text-center padding has-header">
 
     <div id="leaderBoards" ng-hide="editFilters">
-      <div id="ActivityDurationFilter" ng-click="editFilters = !editFilters">All Activities | Challenge Duration</div>
+      <div class="has-footer" id="ActivityDurationFilter" ng-click="editFilters = !editFilters">All Activities | Challenge Duration</div>
       <h3 class="rankingTitle">{{currentRankingCategory.title}}</h3>
       <ion-slide-box id="LeaderboardList" on-slide-changed="changeRankingOption(index)">
         <ion-slide ng-repeat="rankCategory in rankingOptions">
@@ -34,10 +34,12 @@
       </ion-slide-box>
     </div>
 
-    <div id="FilterView" ng-hide="!editFilters" ng-click="editFilters = !editFilters">
+    <div id="FilterView" ng-hide="!editFilters">
 
-      <div class="list">
-        <a href="#" class="item" ng-repeat="activity in selectedCategory.activities">{{activity.activityName}}</a>
+      <div class="button" ng-click="activityView = !activityView">Choose Activity</div>
+      <div class="list has-footer" ng-show="activityView">
+        <a href="" class="item" ng-click="selectActivityFilter(activity)"
+           ng-repeat="activity in selectedCategory.activities">{{activity.activityName}}</a>
       </div>
 
     </div>
