@@ -27,6 +27,7 @@ angular.module('sproutApp.directives').directive(
                   return scope.post.refresh('joinedGroup');
                 }, function (err) {
                   // TODO handle error when trying to join
+                  $log.debug('Failed to join group due to : ' + err);
                 })
                 .then(function (res) {
                   if (res === 'joinedGroup') {

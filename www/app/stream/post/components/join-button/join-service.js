@@ -3,23 +3,24 @@
  * from some stream-item/post.
  */
 angular.module('sproutApp.services')
-  .factory('joinService', ['$log', '$ionicPopup', 'membership','$ionicBackdrop',
-    function ($log, $ionicPopup, membership, $ionicBackdrop) {
+  .factory('joinService', ['$log', '$ionicPopup', 'membership', '$ionicBackdrop', 'util',
+    function ($log, $ionicPopup, membership, $ionicBackdrop, util) {
       'use strict';
 
       var onTapGroup = function (groupId) {
         return function (e) {
-          return groupId;
+          return groupId; // return value for popup's promise
         }
       };
 
 
       function loadButtons(post) {
-        var buttons = [];
+        var buttons = [
+          {text: 'Cancel', type: 'button-default'}
+        ];
         _.forEach(post.viewer.eligibleGroups, function (group) {
-          buttons.push({text: group.name, onTap: onTapGroup(group.id)});
+          buttons.push({text: group.name, onTap: onTapGroup(group.id), type: 'button-positive'});
         });
-
         return buttons;
       }
 
@@ -31,14 +32,6 @@ angular.module('sproutApp.services')
         };
       };
 
-      var joinGroupPopup = null;
-      service.closePopup = function () {
-        if (joinGroupPopup && joinGroupPopup.close) {
-          joinGroupPopup.close();
-          joinGroupPopup = null;
-        }
-      };
-
       /**
        * If the post has groups associated with it, we show a popup that allow the user to pick a group.
        *
@@ -48,23 +41,20 @@ angular.module('sproutApp.services')
 
         if (post.viewer.eligibleGroups) {
 
-          joinGroupPopup = $ionicPopup.show({
+          return $ionicPopup.show({
             title: 'Pick a group',
             buttons: loadButtons(post)
           })
-
-          var close = joinGroupPopup.close;
-
-          var returnedPromise = joinGroupPopup
             .then(function (groupId) {
-              $log.debug('Picked group #' + groupId);
-              // TODO Based off the type of stream, we need to call the right service
-              return membership.joinChallenge(post.relatedToId, groupId);
-            })
-
-          returnedPromise.close = close;
-
-          return returnedPromise;
+              if (groupId) {
+                $log.debug('Picked group #' + groupId);
+                // TODO Based off the type of stream, we need to call the right service
+                return membership.joinChallenge(post.relatedToId, groupId);
+              } else {
+                $log.debug('Cancelled group popup');
+                return util.q.makeRejectedPromise('canceled');
+              }
+            });
 
         } else {
           return membership.joinChallenge(post.relatedToId);
