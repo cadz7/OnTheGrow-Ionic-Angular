@@ -22,7 +22,21 @@ angular.module('sproutApp.directives').directive(
             } else {
               // subscribe user
               $log.debug('User is going to join some joinable-thing');
-              joinService.join(scope.post);
+              joinService.join(scope.post)
+                .then(function (res) {
+                  return scope.post.refresh('joinedGroup');
+                }, function (err) {
+                  // TODO handle error when trying to join
+                })
+                .then(function (res) {
+                  if (res === 'joinedGroup') {
+                    scope.post.viewer.isMember = 1;
+                    //scope.pathToImage = 'img/icons/join-confirm-icon.svg';
+                  }
+                }, function (err) {
+                  // TODO handle error on refresh post
+                })
+              ;
             }
           }
         }

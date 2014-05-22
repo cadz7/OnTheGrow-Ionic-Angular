@@ -14,7 +14,7 @@ angular.module('sproutApp.controllers')
     	
 
     	$scope.closeFullPost = function() {
-    		$scope.streamItemModal.hide();
+        $scope.streamItemModal.hide();
     	}
 
     	$scope.closeModal = function() {
@@ -42,7 +42,8 @@ angular.module('sproutApp.controllers')
 
       $ionicModal.fromTemplateUrl('app/stream/post/modal/full-post-modal.tpl.html', {
         scope: streamItemModalScope,
-        animation: 'slide-in-up'
+        animation: 'slide-in-up',
+        backdropClickToClose: false
       }).then(function(modal) {
         $scope.streamItemModal = modal;
       });

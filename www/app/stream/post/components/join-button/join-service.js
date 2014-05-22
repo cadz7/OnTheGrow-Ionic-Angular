@@ -3,22 +3,21 @@
  * from some stream-item/post.
  */
 angular.module('sproutApp.services')
-  .factory('joinService', ['$log', '$ionicPopup',
-    function ($log, $ionicPopup) {
+  .factory('joinService', ['$log', '$ionicPopup', 'membership','$ionicBackdrop',
+    function ($log, $ionicPopup, membership, $ionicBackdrop) {
       'use strict';
 
-      var onTapGroup = function(groupId){
-        return function(e){
+      var onTapGroup = function (groupId) {
+        return function (e) {
           return groupId;
         }
       };
 
 
-      function loadButtons(post){
+      function loadButtons(post) {
         var buttons = [];
         _.forEach(post.viewer.eligibleGroups, function (group) {
-          buttons.push({text: group.name
-            , onTap: onTapGroup(group.id)});
+          buttons.push({text: group.name, onTap: onTapGroup(group.id)});
         });
 
         return buttons;
@@ -26,8 +25,18 @@ angular.module('sproutApp.services')
 
       var service = {};
 
-      service.getJoinIconImage = function(post){
-        return post.viewer.isMember ? 'img/icons/join-confirm-icon.svg' : 'img/icons/join-icon.svg';
+      service.getJoinIconImage = function (post) {
+        return function () {
+          return post.viewer.isMember ? 'img/icons/join-confirm-icon.svg' : 'img/icons/join-icon.svg'
+        };
+      };
+
+      var joinGroupPopup = null;
+      service.closePopup = function () {
+        if (joinGroupPopup && joinGroupPopup.close) {
+          joinGroupPopup.close();
+          joinGroupPopup = null;
+        }
       };
 
       /**
@@ -35,24 +44,30 @@ angular.module('sproutApp.services')
        *
        * @param post
        */
-      service.join = function(post){
+      service.join = function (post) {
 
-        if (post.viewer.eligibleGroups){
+        if (post.viewer.eligibleGroups) {
 
-          $ionicPopup.show({
+          joinGroupPopup = $ionicPopup.show({
             title: 'Pick a group',
             buttons: loadButtons(post)
-          }).then(function(groupId){
-            $log.debug('Picked group #' + groupId);
-            // TODO call some join service with groupId and entity id
-
-            // Based off the type of stream, we need to call the right service
-
-
           })
 
+          var close = joinGroupPopup.close;
+
+          var returnedPromise = joinGroupPopup
+            .then(function (groupId) {
+              $log.debug('Picked group #' + groupId);
+              // TODO Based off the type of stream, we need to call the right service
+              return membership.joinChallenge(post.relatedToId, groupId);
+            })
+
+          returnedPromise.close = close;
+
+          return returnedPromise;
+
         } else {
-          // TODO call some join service with groupId and entity id
+          return membership.joinChallenge(post.relatedToId);
         }
 
       };

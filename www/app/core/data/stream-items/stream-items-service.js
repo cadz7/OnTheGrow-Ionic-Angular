@@ -197,6 +197,10 @@ angular.module('sproutApp.data.stream-items', [
         }
         return util.q.makeResolvedPromise();
       };
+      item.refresh = function(cmd){
+        // TODO implement me @Yuri
+        return util.q.makeResolvedPromise(cmd);
+      }
 
       return item;
     }
