@@ -4,7 +4,8 @@ angular.module('sproutApp.controllers', [
   'sproutApp.user',
   'sproutApp.data.stream-items',
   'sproutApp.template',
-  'sproutApp.data.activities'
+  'sproutApp.data.activities',
+  'sproutApp.data.filters'
 ]);
 angular.module('sproutApp.services', ['sproutApp.data.leaderboards']);
 angular.module('sproutApp.directives', [

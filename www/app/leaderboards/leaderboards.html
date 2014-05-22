@@ -1,5 +1,5 @@
 <!-- ion-nav-bar goes here -->
-<ion-view title="Leaderboards" >
+<ion-view title="Leaderboards">
   <!-- ion-header-bar -->
   <ion-header-bar class="bar bar-positive nav-title-slide-ios7">
     <!-- Hamburger Button -->
@@ -8,7 +8,7 @@
         class="button button-clear icon ion-navicon-round"
         ng-click=""></button>
     </div>
-    <h1 class="title" ng-click="showLeaderboardFilter()">Filter</h1>
+    <h1 class="title" ng-click="showLeaderboardFilter()">{{leaderboardFilter}}</h1>
     <!-- only show if user is logged in -->
     <!-- ng-show="AuthSvc.isLoggedIn()" -->
     <!-- Settings Button -->
@@ -22,19 +22,15 @@
 
   <ion-content class="text-center padding has-header">
 
-    <h2>{{leaderboardFilter || 'Something'}}</h2>
+    <h3 class="rankingTitle">{{currentRankingCategory.title}}</h3>
+    <ion-slide-box id="LeaderboardList" on-slide-changed="changeRankingOption(index)">
+      <ion-slide ng-repeat="rankCategory in rankingOptions">
+        <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'"
+             class="list card leader row">
+        </div>
+      </ion-slide>
 
-
-    <div class="button-bar">
-      <div class="button button-outline button-calm" ng-click="selectPeriod(period.timePeriodId)"
-           ng-repeat="period in periods">{{period.timePeriodNameDisplay}}</div>
-    </div>
-
-<div id="LeaderboardList">
-    <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'" class="list card leader row">
-
-    </div>
-</div>
+    </ion-slide-box>
   </ion-content>
 
 </ion-view>

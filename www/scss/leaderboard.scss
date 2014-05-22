@@ -11,17 +11,39 @@ $regularLeaderHeight: 75px;
   .leader{
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     height: $regularLeaderHeight;
+    width: 95%;
 
     .position{
       font-size: 45px;
-      flex-direction: column;
-      display: flex;
+
+      -webkit-justify-content: center;
       justify-content: center;
+
+      -webkit-flex-direction: column;
+      flex-direction: column;
+
+      display: -webkit-box;
+      display: -moz-box;
+      display: -webkit-flex;
+      display: flex;
+
+
       font-weight: 100;
       color: $green;
     }
 
     .userImg{
+      display: -webkit-box;
+      display: -moz-box;
+      display: -webkit-flex;
+      display: flex;
+
+      -webkit-justify-content: center;
+      justify-content: center;
+
+      -webkit-flex-direction: column;
+      flex-direction: column;
+
       img{
         width:80%;
       }
@@ -45,7 +67,7 @@ $regularLeaderHeight: 75px;
       }
 
       div:first-child{
-        font-size: $font-size-large;
+        font-size: $font-size-base;
         font-weight: $headings-font-weight;
         color: $orange;
       }
@@ -61,4 +83,8 @@ $regularLeaderHeight: 75px;
     height: ($regularLeaderHeight * $top3Multiplier);
   }
 
+}
+
+.rankingTitle{
+  color: $green;
 }

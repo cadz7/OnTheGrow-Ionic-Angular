@@ -1,67 +1,67 @@
 'use strict';
 
 angular.module('sproutApp.controllers')
-  .controller('LeaderboardsCtrl', ['$scope', 'headerRemote', '$ionicActionSheet', 'leaderboards',
-    function ($scope, headerRemote, $ionicActionSheet, leaderboards) {
+  .controller('LeaderboardsCtrl',
+  ['$scope', 'headerRemote', '$ionicActionSheet', 'leaderboards', 'filters', 'activities',
+    function ($scope, headerRemote, $ionicActionSheet, leaderboards, filters, activities) {
       $scope.header = headerRemote;
 
-      $scope.leaderboardFilter = 'Overall';
 
+      //Periods are used in a repeat to define the period buttons (weekly/quarterly etc) at the top of the
+      //leaderboards page
+      $scope.periods = leaderboards.periods;
+      $scope.leaderboardFilters = filters;
+      $scope.rankingOptions = leaderboards.rankingOptions;
+
+      //adds a text property for the ionicActionSheet
+      activities.categories.forEach(function(cat){
+        cat.text = cat.activityCategoryDisplayName;
+      });
+
+      $scope.leaderboardFilter = activities.categories[0].activityCategoryDisplayName;
+
+      //Default Params for Leaderboard queries to service - will need to make them more dynamic
       var leaderboardParams = {
-        periodId: 101,
-        userFilterId: 201,
-        activityFilterId: 301
+        periodId: $scope.periods[0].timePeriodId,
+        userFilterId: $scope.leaderboardFilters.userFilters[0].filterId,
+        activityFilterId: $scope.leaderboardFilters.activityFilters[0].filterId
       };
 
-      $scope.periods = leaderboards.periods;
 
-      $scope.selectPeriod = function(periodID){
-        if(!periodID){
+      //Checks to see if there is an argument given - if not, it sets to default
+      $scope.changeRankingOption = function(categoryIndex){
+        if(!categoryIndex && categoryIndex !== 0){
+          $scope.currentRankingCategory = $scope.rankingOptions[0];
           leaderboards.getBoard(leaderboardParams).then(function(response){
             $scope.leaderboardData = response;
-            console.log(response);
           });
         }else{
-          leaderboardParams.periodId = periodID;
+          leaderboardParams.activityFilterId = $scope.rankingOptions[categoryIndex].id;
+          $scope.currentRankingCategory = $scope.rankingOptions[categoryIndex];
 
           leaderboards.getBoard(leaderboardParams).then(function(response){
             $scope.leaderboardData = response;
-            console.log(response);
           });
         }
       };
 
-      $scope.selectPeriod();
-
+      $scope.changeRankingOption();
 
       $scope.showLeaderboardFilter = function () {
 
         $ionicActionSheet.show({
           titleText: 'Filter By Type:',
           // buttons: filters,
-          buttons: [
-            {
-              text: 'Overall'
-            },
-            {
-              text: 'Challenge 1'
-            },
-            {
-              text: 'Challenge 2'
-            },
-            {
-              text: 'Challenge 3'
-            },
-            {
-              text: 'Challenge 4'
-            }
-          ],
+          buttons: activities.categories,
           cancelText: 'Back',
           cancel: function () {
             return true;
           },
           buttonClicked: function (index) {
+
+            //Todo: refactor
             $scope.leaderboardFilter = this.buttons[index].text;
+            $scope.selectedCategory = this.buttons[index];
             return true;
           }
         });
