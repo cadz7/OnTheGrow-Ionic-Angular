@@ -77,7 +77,7 @@ angular.module('sproutApp.data.stream-items', [
         }, {
           id: 2314,
           name: 'group 2'
-        }],
+        }]
       },
       relatedToId: 3142,
       relationTypeSlug: 'activity',
@@ -92,7 +92,11 @@ angular.module('sproutApp.data.stream-items', [
           user: {
             'id': '1971',
             'name': 'Will Melbourne'
-          }
+          },
+          mainInfo: 'Main info',
+          subInfo: 'Sub Info',
+          title: 'Some Title',
+          userCaption: 'did something'
         }
       },
       canBePrivate: 1,
@@ -128,7 +132,7 @@ angular.module('sproutApp.data.stream-items', [
     var streamItemTypeSlugs = [
       {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}'},
       {itemType: 'group', template: 'Group post by {user.name}', heroImg: 'img/group/group-default.png'},
-      {itemType: 'event', template: 'Event post by {user.name}', heroImg: 'img/group/event-default.png'},
+      {itemType: 'event', template: 'Event post by {user.name}', heroImg: ''},
       {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'img/group/event-default.png'}
     ];
 
@@ -193,6 +197,10 @@ angular.module('sproutApp.data.stream-items', [
         }
         return util.q.makeResolvedPromise();
       };
+      item.refresh = function(cmd){
+        // TODO implement me @Yuri
+        return util.q.makeResolvedPromise(cmd);
+      }
 
       return item;
     }

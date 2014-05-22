@@ -34,8 +34,8 @@
  */
 angular.module('sproutApp.directives').directive(
   'post',
-  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService',
-    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService) {
+  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService', '$ionicActionSheet',
+    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService, $ionicActionSheet) {
       return {
         restrict: 'E',
         template: '<div ng-include="streamItemResourceService.getContentUrl(post)"></div>',
@@ -47,7 +47,7 @@ angular.module('sproutApp.directives').directive(
         link: function (scope, elem, attrs) {
           scope.STREAM_CONSTANTS = STREAM_CONSTANTS; // make accessible to view
           scope.streamItemResourceService = streamItemResourceService;
-          
+
           scope.showCommentCount = scope.isWrappedInModal ? scope.post.comments.length : STREAM_CONSTANTS.initialCommentCountShown;
 
           scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
@@ -143,6 +143,35 @@ angular.module('sproutApp.directives').directive(
           };
           scope.closeModal = function () {
             scope.modal.hide();
+          };
+
+          scope.deletePost = function (item) {
+            $ionicActionSheet.show({
+              buttons: [
+                { text: 'Hide this post' },
+                { text: '<strong>Hide all by this user</strong>' },
+              ],
+              cancelText: 'Cancel',
+              buttonClicked: function (index) {
+                switch (index) {
+                  case 0: // hide current post
+                    streamItems.deletePost(item).then(function () {
+                        console.log('Your post has been deleted.');
+                      }, function (response) {
+                        if (response.status === 403) {
+                          console.error('You do not have permission to delete this post.');
+                        }
+                      }
+                    );
+                    return true;
+                  case 1: // hide all posts of selected user
+                    // Send to v1/user
+                    return true;
+                  default:
+                    return true;
+                }
+              }
+            });
           };
 
           scope.showFullPost = function (theComment) {

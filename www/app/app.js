@@ -7,7 +7,10 @@ angular.module('sproutApp.controllers', [
   'sproutApp.data.activities',
   'sproutApp.data.filters'
 ]);
-angular.module('sproutApp.services', ['sproutApp.data.leaderboards']);
+angular.module('sproutApp.services', [
+  'sproutApp.data.leaderboards',
+  'sproutApp.data.membership'
+]);
 angular.module('sproutApp.directives', [
   'sproutApp.config',
   'sproutApp.template',

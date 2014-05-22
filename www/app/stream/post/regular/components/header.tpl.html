@@ -1,18 +1,18 @@
 <div class="item-avatar">
-    <img ng-src="{{post.avatarURL}}" />
+  <img ng-src="{{post.avatarURL}}" />
 
-    <div class="post-info row">
-        <div class="col col-75">
-            <span class="author">{{post.owner.firstName + ' ' + post.owner.lastName}}</span>
-            <br />
-            <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
-        </div>
-        <div class="col">
-            <div ng-show="post.points" class="points-container">
-                <span class="points">{{post.points}}</span>
-                <span class="pointsLabel">points</span>
-            </div>
-        </div>
-        <div class="ion-close col" data-ng-click="deletePost(post)"></div>
+  <div class="post-info row">
+    <div class="col col-75">
+      <span class="author">{{post.owner.firstName + ' ' + post.owner.lastName}}</span>
+      <br />
+      <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
     </div>
+    <div class="col">
+      <div ng-show="post.points" class="points-container">
+        <span class="points">{{post.points}}</span>
+        <span class="pointsLabel">points</span>
+      </div>
+    </div>
+    <div class="ion-close col" data-ng-click="deletePost(post)"></div>
+  </div>
 </div>

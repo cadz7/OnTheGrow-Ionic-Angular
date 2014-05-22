@@ -14,7 +14,7 @@ angular.module('sproutApp.controllers')
     	
 
     	$scope.closeFullPost = function() {
-    		$scope.streamItemModal.hide();
+        $scope.streamItemModal.hide();
     	}
 
     	$scope.closeModal = function() {
@@ -42,7 +42,8 @@ angular.module('sproutApp.controllers')
 
       $ionicModal.fromTemplateUrl('app/stream/post/modal/full-post-modal.tpl.html', {
         scope: streamItemModalScope,
-        animation: 'slide-in-up'
+        animation: 'slide-in-up',
+        backdropClickToClose: false
       }).then(function(modal) {
         $scope.streamItemModal = modal;
       });
@@ -72,34 +73,7 @@ angular.module('sproutApp.controllers')
         .then(null, $log.error);
       };
 
-      $scope.deletePost = function(item) {
-      	$ionicActionSheet.show({
-          buttons: [
-            { text: 'Hide this post' },
-            { text: '<strong>Hide all by this user</strong>' },
-          ],
-          cancelText: 'Cancel',
-          buttonClicked: function(index) {
-            switch (index) {
-              case 0: // hide current post
-                streamItems.deletePost(item).then(function() {
-                    console.log('Your post has been deleted.');
-                  }, function(response) {
-                    if (response.status === 403) {
-                      console.error('You do not have permission to delete this post.');
-                    }
-                  }
-                );
-                return true;
-              case 1: // hide all posts of selected user
-                // Send to v1/user
-                return true;
-              default:
-              	return true;
-            }
-          }
-        });
-      };
+
 
       $scope.showFilterOptions = function() {
         $ionicActionSheet.show({
