@@ -283,7 +283,7 @@ angular.module('sproutApp.data.stream-items', [
       updateListeners.forEach(function(listener) {
         listener(items);
       });
-    };
+    }
 
     /**
      * Gets the most recent items - newer than what we've got. This function
