@@ -14,9 +14,19 @@ $regularLeaderHeight: 75px;
 
     .position{
       font-size: 45px;
-      flex-direction: column;
-      display: flex;
+
+      -webkit-justify-content: center;
       justify-content: center;
+
+      -webkit-flex-direction: column;
+      flex-direction: column;
+
+      display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+      display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+      display: -webkit-flex;     /* NEW - Chrome */
+      display: flex;
+
+
       font-weight: 100;
       color: $green;
     }
@@ -61,4 +71,8 @@ $regularLeaderHeight: 75px;
     height: ($regularLeaderHeight * $top3Multiplier);
   }
 
+}
+
+.rankingTitle{
+  color: $green;
 }

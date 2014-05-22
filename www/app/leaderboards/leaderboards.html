@@ -8,7 +8,7 @@
         class="button button-clear icon ion-navicon-round"
         ng-click=""></button>
     </div>
-    <h1 class="title" ng-click="showLeaderboardFilter()">Filter</h1>
+    <h1 class="title" ng-click="showLeaderboardFilter()">{{leaderboardFilter}}</h1>
     <!-- only show if user is logged in -->
     <!-- ng-show="AuthSvc.isLoggedIn()" -->
     <!-- Settings Button -->
@@ -22,16 +22,9 @@
 
   <ion-content class="text-center padding has-header">
 
-    <h2>{{leaderboardFilter || 'Select Category'}}</h2>
-
-    <div class="button-bar">
-      <div class="button button-outline button-calm" ng-click="selectPeriod(period.timePeriodId)"
-           ng-repeat="period in periods">{{period.timePeriodNameDisplay}}
-      </div>
-    </div>
-
-    <ion-slide-box id="LeaderboardList" on-slide-changed="changeChallengeCategory(index)">
-      <ion-slide ng-repeat="activity in leaderboardFilters.activityFilters">
+    <h2 class="rankingTitle">{{currentRankingCategory.title}}</h2>
+    <ion-slide-box id="LeaderboardList" on-slide-changed="changeRankingOption(index)">
+      <ion-slide ng-repeat="rankCategory in rankingOptions">
         <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'"
              class="list card leader row">
         </div>

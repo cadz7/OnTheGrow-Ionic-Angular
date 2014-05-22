@@ -19,6 +19,25 @@ angular.module('sproutApp.data.leaderboards', [
         timePeriodNameDisplay: 'This quarter'
       }
     ];
+    //Todo: REMOVE EVENTUALLY, THIS IS JUST TEMPORARY - ABDELLA
+    service.rankingOptions = [
+      {
+        title: 'Top 10 in Company',
+        id: 301
+      },
+      {
+        title: 'Top 10 in Category',
+        id: 302
+      },
+      {
+        title: 'Top 10 in Something',
+        id: 303
+      },
+      {
+        title: 'Top 10 in That Other Thing',
+        id: 304
+      }
+    ];
 
     var board1 = {
       leaderboardNameDisplay: 'Company',
