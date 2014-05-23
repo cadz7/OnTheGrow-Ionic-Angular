@@ -2,10 +2,9 @@
 
 angular.module('sproutApp.controllers')
   .controller('LeaderboardsCtrl',
-  ['$scope', 'headerRemote', '$ionicActionSheet', 'leaderboards', 'filters', 'activities',
-    function ($scope, headerRemote, $ionicActionSheet, leaderboards, filters, activities) {
+  ['$scope', 'headerRemote', '$ionicActionSheet', '$ionicSlideBoxDelegate', 'leaderboards', 'filters', 'activities',
+    function ($scope, headerRemote, $ionicActionSheet, $ionicSlideBoxDelegate, leaderboards, filters, activities) {
       $scope.header = headerRemote;
-
 
       //Periods are used in a repeat to define the period buttons (weekly/quarterly etc) at the top of the
       //leaderboards page
@@ -46,6 +45,17 @@ angular.module('sproutApp.controllers')
       };
 
       $scope.changeRankingOption();
+
+      $scope.getPeriod = function(periodIndex){
+        $scope.activePeriod = $scope.periods[periodIndex];
+      };
+
+      $scope.editFiltersView = function(){
+        $scope.editFilters = !$scope.editFilters;
+
+        //resolves issue with 0 width slide box until window resize
+        $ionicSlideBoxDelegate.update();
+      };
 
       $scope.selectActivityFilter = function(activityObj){
         $scope.activeActivity = activityObj;

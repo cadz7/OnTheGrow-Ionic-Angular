@@ -23,7 +23,9 @@
   <ion-content class="text-center padding has-header">
 
     <div id="leaderBoards" ng-hide="editFilters">
-      <div class="has-footer" id="ActivityDurationFilter" ng-click="editFilters = !editFilters">All Activities | Challenge Duration</div>
+      <div class="has-footer" id="ActivityDurationFilter" ng-click="editFiltersView()">
+        {{activeActivity || 'All Activities'}} | {{activePeriod || 'Challenge Duration'}}
+      </div>
       <h3 class="rankingTitle">{{currentRankingCategory.title}}</h3>
       <ion-slide-box id="LeaderboardList" on-slide-changed="changeRankingOption(index)">
         <ion-slide ng-repeat="rankCategory in rankingOptions">
@@ -36,11 +38,17 @@
 
     <div id="FilterView" ng-hide="!editFilters">
 
-      <div class="button" ng-click="activityView = !activityView">Choose Activity</div>
-      <div class="list has-footer" ng-show="activityView">
-        <a href="" class="item" ng-click="selectActivityFilter(activity)"
+      <div class="list">
+        <a class="item" ng-click="activityView = !activityView">{{ activeActivity.activityName || 'Choose Activity' }}</a>
+        <a href="" class="item" ng-click="selectActivityFilter(activity)" ng-show="activityView"
            ng-repeat="activity in selectedCategory.activities">{{activity.activityName}}</a>
       </div>
+
+      <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="getPeriod(index)">
+        <ion-slide class="list item" ng-repeat="period in periods">
+          <div class="">{{period.timePeriodNameDisplay}}</div>
+        </ion-slide>
+      </ion-slide-box>
 
     </div>
 
