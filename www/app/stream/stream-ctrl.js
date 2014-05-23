@@ -4,8 +4,8 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$log',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $log) {
+    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$log', 'streamItemModalService',
+    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $log, streamItemModalService) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
@@ -44,6 +44,7 @@ angular.module('sproutApp.controllers')
         backdropClickToClose: false
       }).then(function(modal) {
         $scope.streamItemModal = modal;
+        streamItemModalScope.streamItemModalService = streamItemModalService;
       });
 
       $scope.$on('$destroy', function() {

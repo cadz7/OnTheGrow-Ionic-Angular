@@ -1,7 +1,4 @@
 angular.module('sproutApp.services')
-
-// Generic util methods.
-
   .factory('streamItemResourceService', ['$log',
     function ($log) {
       'use strict';

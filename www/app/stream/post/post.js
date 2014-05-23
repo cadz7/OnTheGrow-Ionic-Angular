@@ -31,17 +31,20 @@
  * A post, when is clicked to view more details, will be opened in a modal. It actually
  * becomes wrapped in a modal.
  *
+ * The
+ *
  */
 angular.module('sproutApp.directives').directive(
   'post',
-  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService', '$ionicActionSheet',
-    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService, $ionicActionSheet) {
+  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService', '$ionicActionSheet', 'streamItemModalService',
+    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService, $ionicActionSheet, streamItemModalService) {
       return {
         restrict: 'E',
         template: '<div ng-include="streamItemResourceService.getContentUrl(post)"></div>',
         scope: {
           post: '=',
           modalContainer: '=',
+          viewType: '=',
           isWrappedInModal: '='
         },
         link: function (scope, elem, attrs) {
@@ -141,9 +144,6 @@ angular.module('sproutApp.directives').directive(
             scope.currentPost = scope.post;
             scope.modal.show();
           };
-          scope.closeModal = function () {
-            scope.modal.hide();
-          };
 
           scope.deletePost = function (item) {
             $ionicActionSheet.show({
@@ -174,21 +174,32 @@ angular.module('sproutApp.directives').directive(
             });
           };
 
-          scope.showFullPost = function (theComment) {
+          function openPostInModal(type) {
             if (scope.modalContainer) {
-              // modal has been given, therefore this post is not wrapped
-              // into a modal
-
-//            scope.modalContainer.scope.content = scope.content;
-//            scope.modalContainer.scope.likePost = scope.likePost;
-//            scope.modalContainer.scope.streamItemResourceService = streamItemResourceService;
-              scope.modalContainer.scope.post = scope.post; // pass the directive's post to the container's scope
+              streamItemModalService.setStreamItem(scope.post, type);
               scope.modalContainer.show();
             } else {
               $log.debug('Trying to open a full post without given a modal container')
             }
+          }
+
+          scope.showFullPost = function (theComment) {
+            openPostInModal(streamItemModalService.COMMENTS_VIEW);
             scope.comment = theComment;
 
+          };
+
+          /**
+           * A detail view of a post typically has more info about the post's subject and no like/commenting (yet).
+           *
+           * For example, Arthur has joined challenge X. Clicking the title will open challenge X's detailed view.
+           */
+          scope.showDetailView = function(){
+            openPostInModal(streamItemModalService.DETAILED_VIEW);
+          };
+
+          scope.isCommentsView = function(){
+            return scope.viewType === streamItemModalService.COMMENTS_VIEW;
           };
 
         }
