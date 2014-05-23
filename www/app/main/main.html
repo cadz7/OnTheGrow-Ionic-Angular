@@ -51,11 +51,12 @@
       <button menu-close class="button button-clear icon ion-close-round col col-20"></button>
     </ion-header-bar>
     <ion-content>
+      <user-profile-summary></user-profile-summary>
       <ul class="list">
         <li><a ui-sref-active="active" menu-close ui-sref="main.stream" class="item left-nav-stream">Stream</a></li>
-        <li><a ui-sref-active="active" ui-sref="main.activities" class="item left-nav-activity">Activity Log</a></li>
+        <li><a ui-sref-active="active" ui-sref="main.activities" class="item left-nav-activity disabled">Activity Log</a></li>
         <li><a ui-sref-active="active" menu-close ui-sref="main.leaderboards" class="item left-nav-leaderboard">Leaderboard</a></li>
-        <li><a ui-sref-active="active" ui-sref="main.settings" class="item left-nav-settings">Settings</a></li>
+        <li><a ui-sref-active="active" ui-sref="main.settings" class="item left-nav-settings disabled">Settings</a></li>
         <li><a ui-sref="signin" data-ng-click="logout()" class="item left-nav-logout">Log out</a></li>
       </ul>
     </ion-content>

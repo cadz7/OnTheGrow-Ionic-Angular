@@ -10,13 +10,14 @@ angular.module('sproutApp.controllers', [
 angular.module('sproutApp.services', [
   'sproutApp.data.leaderboards',
   'sproutApp.data.challenge',
-  'sproutApp.data.membership'
-]);
-angular.module('sproutApp.directives', [
+  'sproutApp.data.membership',
   'sproutApp.config',
   'sproutApp.template',
   'sproutApp.data.stream-items',
   'sproutApp.data.activities'
+]);
+angular.module('sproutApp.directives', [
+  'sproutApp.main.left-nav'
 ]);
 angular.module('sproutApp.filters', []);
 
