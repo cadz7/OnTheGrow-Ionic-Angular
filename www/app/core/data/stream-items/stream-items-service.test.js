@@ -49,14 +49,14 @@ describe('streamItems service', function() {
   function reload() {
     expect(streamItems.items.length).to.equal(0);
     return streamItems.reload()
-      .then(function(items) {
-        var comments = streamItems.items[1].comments;
-        expect(items.length).to.equal(10);
-        expect(streamItems.items.length).to.equal(10);
-        expect(comments.length).to.equal(3);
-        expect(comments[0].commentText).to.be.a.string;
-        return items;
-      });
+        .then(function(items) {
+          var comments = streamItems.items[1].comments;
+          expect(items.length).to.equal(10);
+          expect(streamItems.items.length).to.equal(10);
+          expect(comments.length).to.equal(3);
+          expect(comments[0].commentText).to.be.a.string;
+          return items;
+        });
   }
 
   function getIds(items) {
@@ -83,42 +83,42 @@ describe('streamItems service', function() {
     var item;
 
     return reload()
-      .then(function(items) {
-        item = items[0];
-        return item.getMoreComments();
-      })
-      .then(function(comments) {
-        expect(comments.length).to.equal(3);
-        expect(item.comments.length).to.equal(6);
-        return item.getMoreComments();
-      })
-      .then(function(comments) {
-        expect(comments.length).to.equal(3);
-        expect(item.comments.length).to.equal(9);
-        return item.getMoreComments();
-      })
-      .then(function(comments) {
-        expect(comments).to.be.falsy;
-        expect(item.comments.length).to.equal(9);
-      });
+        .then(function(items) {
+          item = items[0];
+          return item.getMoreComments();
+        })
+        .then(function(comments) {
+          expect(comments.length).to.equal(3);
+          expect(item.comments.length).to.equal(6);
+          return item.getMoreComments();
+        })
+        .then(function(comments) {
+          expect(comments.length).to.equal(3);
+          expect(item.comments.length).to.equal(9);
+          return item.getMoreComments();
+        })
+        .then(function(comments) {
+          expect(comments).to.be.falsy;
+          expect(item.comments.length).to.equal(9);
+        });
   });
 
   it('should get earlier items', function () {
     return reload()
-      .then(function(items) {
-        return streamItems.getEarlier();
-      })
-      .then(function(items) {
-        verifyOrderOfIds(streamItems.items);
-        expect(items.length).to.equal(10);
-        expect(streamItems.items.length).to.equal(20);
-        return streamItems.getEarlier();
-      })
-      .then(function(items) {
-        verifyOrderOfIds(streamItems.items);
-        expect(items.length).to.equal(10);
-        expect(streamItems.items.length).to.equal(30);
-      });
+        .then(function(items) {
+          return streamItems.getEarlier();
+        })
+        .then(function(items) {
+          verifyOrderOfIds(streamItems.items);
+          expect(items.length).to.equal(10);
+          expect(streamItems.items.length).to.equal(20);
+          return streamItems.getEarlier();
+        })
+        .then(function(items) {
+          verifyOrderOfIds(streamItems.items);
+          expect(items.length).to.equal(10);
+          expect(streamItems.items.length).to.equal(30);
+        });
   });
 
   function verifyUpdate(items, prevCount, increment) {
@@ -135,63 +135,66 @@ describe('streamItems service', function() {
 
   it('should get an update', function () {
     return reload()
-      .then(function(items) {
-        return streamItems.getUpdate();
-      })
-      .then(function(items) {
-        verifyUpdate(items, 10, 3);
-        return streamItems.getUpdate();
-      })
-      .then(function(items) {
-        verifyUpdate(items, 13, 3);
-        // streamItems.items.forEach(function(item) {
-        //   console.log(JSON.stringify(item, null, 2));
-        // });
-      });
+        .then(function(items) {
+          return streamItems.getUpdate();
+        })
+        .then(function(items) {
+          verifyUpdate(items, 10, 3);
+          return streamItems.getUpdate();
+        })
+        .then(function(items) {
+          verifyUpdate(items, 13, 3);
+          // streamItems.items.forEach(function(item) {
+          //   console.log(JSON.stringify(item, null, 2));
+          // });
+        });
   });
 
   it('should fail to delete without authentication', function () {
     return reload()
-      .then(function(items) {
-        return streamItems.deletePost(items[5]);
-      })
-      .then(function() {
-        throw new Error ('Should have been rejected');
-      }, function(error) {
-        expect(error).to.be.truthy;
-        expect(streamItems.items.length).to.equal(10);
-      });
+        .then(function(items) {
+          return streamItems.deletePost(items[5]);
+        })
+        .then(function() {
+          throw new Error ('Should have been rejected');
+        }, function(error) {
+          expect(error).to.be.truthy;
+          expect(streamItems.items.length).to.equal(10);
+        });
   });
 
   function authenticate() {
     var user = testUtils.getService('user');
     return user.login('arthur')
-      .then(function() {
-        return reload();
-      });
+        .then(function() {
+          return reload();
+        });
   }
 
   function authenticateAndDelete(postIndex) {
     return authenticate()
-      .then(function(items) {
-        return streamItems.deletePost(items[postIndex]);
-      });
+        .then(function(items) {
+          return streamItems.deletePost(items[postIndex]);
+        });
   }
 
   it('should delete users own post', function () {
-    return authenticateAndDelete(5)
-      .then(function() {
-        expect(streamItems.items.length).to.equal(9);
-      });
+    return authenticate()
+        .then(function() {
+          streamItems.postItem({text:'mostly harmless'}).then(function(post) {
+            streamItems.deletePost(post);
+            expect(streamItems.items.length).to.equal(9);
+          })
+        });
   });
 
   it('should fail to delete someone elses post', function () {
     return authenticateAndDelete(6)
-      .then(function() {
-        throw new Error ('Should have been rejected');
-      }, function(error) {
-        expect(error).to.be.truthy;
-      });
+        .then(function() {
+          throw new Error ('Should have been rejected');
+        }, function(error) {
+          expect(error).to.be.truthy;
+        });
   });
 
   it('should post a new comment', function () {
@@ -201,86 +204,86 @@ describe('streamItems service', function() {
     var comment1;
     var comment2;
     return authenticate()
-      .then(function(items) {
-        item = items[0];
-        return item.postComment(commentText1);
-      })
-      .then(function(comment) {
-        comment1 = comment;
-        expect(comment.commentText).to.equal(commentText1);
-        expect(item.comments[item.comments.length-1]).to.equal(comment1);
-        return item.postComment(commentText2);
-      })
-      .then(function(comment) {
-        comment2 = comment;
-        expect(comment.commentText).to.equal(commentText2);
-        expect(item.comments[item.comments.length-1]).to.equal(comment2);
-        expect(item.comments[item.comments.length-2]).to.equal(comment1);
-      });
+        .then(function(items) {
+          item = items[0];
+          return item.postComment(commentText1);
+        })
+        .then(function(comment) {
+          comment1 = comment;
+          expect(comment.commentText).to.equal(commentText1);
+          expect(item.comments[item.comments.length-1]).to.equal(comment1);
+          return item.postComment(commentText2);
+        })
+        .then(function(comment) {
+          comment2 = comment;
+          expect(comment.commentText).to.equal(commentText2);
+          expect(item.comments[item.comments.length-1]).to.equal(comment2);
+          expect(item.comments[item.comments.length-2]).to.equal(comment1);
+        });
   });
 
   it('should post a new item', function() {
     return authenticate()
-      .then(function() {
-        return streamItems.postItem({text: 'Mostly harmless.'})
-      })
-      .then(function(newItem) {
-        expect(newItem.owner.firstName).to.equal('Arthur');
-        expect(streamItems.items.length).to.equal(11);
-        expect(streamItems.items[0]).to.equal(newItem);
-      });
+        .then(function() {
+          return streamItems.postItem({text: 'Mostly harmless.'})
+        })
+        .then(function(newItem) {
+          expect(newItem.owner.firstName).to.equal('Arthur');
+          expect(streamItems.items.length).to.equal(11);
+          expect(streamItems.items[0]).to.equal(newItem);
+        });
   });
 
   it('should like and unlike a post', function () {
     return reload().then(function(items) {
 
-      // likes are populated by id % 2, starting id is 12345; id decreases as you go down the list
+      // likes are populated by id % 2, starting id is 1
       // likeCount is always set to 10
       // post liking is synchronous (currently)
-      
+
       var item = items[0];
       expect(item.viewer.isLikedByViewer).to.equal(1);
       expect(item.likeCount).to.equal(10);
       item.likePost().then(
-        function() {
-          throw new Error('unauthenticated users should not be allowed to like/unlike');
-        },
-        function(error) {
-          expect(error).to.equal('Not athenticated.');
+          function() {
+            throw new Error('unauthenticated users should not be allowed to like/unlike');
+          },
+          function(error) {
+            expect(error).to.equal('Not athenticated.');
 
-          // starting out with a previously-Liked post (this ordinarily wouldn't happen since the viewer is not logged in)
-          expect(item.viewer.isLikedByViewer).to.equal(1);
-          expect(item.likeCount).to.equal(10);
-
-          authenticate()
-          .then(function(items) {
-            var item = items[0];
-            
-            // should still be the same
+            // starting out with a previously-Liked post (this ordinarily wouldn't happen since the viewer is not logged in)
             expect(item.viewer.isLikedByViewer).to.equal(1);
             expect(item.likeCount).to.equal(10);
 
-            // unlike a liked post
-            item.unlikePost().then( function() {
-              expect(item.viewer.isLikedByViewer).to.equal(0);
-              expect(item.likeCount).to.equal(9);
+            authenticate()
+                .then(function(items) {
+                  var item = items[0];
 
-              // unlike a post that is not currently liked
-              item.unlikePost().then( function() {
-                expect(item.viewer.isLikedByViewer).to.equal(0);
-                expect(item.likeCount).to.equal(9);
-
-                // like a previously unliked post
-                item.likePost().then( function() {
+                  // should still be the same
                   expect(item.viewer.isLikedByViewer).to.equal(1);
                   expect(item.likeCount).to.equal(10);
+
+                  // unlike a liked post
+                  item.unlikePost().then( function() {
+                    expect(item.viewer.isLikedByViewer).to.equal(0);
+                    expect(item.likeCount).to.equal(9);
+
+                    // unlike a post that is not currently liked
+                    item.unlikePost().then( function() {
+                      expect(item.viewer.isLikedByViewer).to.equal(0);
+                      expect(item.likeCount).to.equal(9);
+
+                      // like a previously unliked post
+                      item.likePost().then( function() {
+                        expect(item.viewer.isLikedByViewer).to.equal(1);
+                        expect(item.likeCount).to.equal(10);
+                      });
+                    });
+                  });
+                }).then(null, function(error) {
+                  throw new Error(error);
                 });
-              });
-            });
-          }).then(null, function(error) {
-            throw new Error(error);
-          });
-        }
+          }
       );
     });
   });
@@ -289,24 +292,24 @@ describe('streamItems service', function() {
     var listener1 = sinon.spy();
     var listener2 = sinon.spy();
     return reload()
-      .then(function() {
-        try {
-          streamItems.onUpdate(listener1);
-          streamItems.onUpdate(listener2);
-          streamItems.turnOnAutoUpdate(10);
-        } catch (e) {
-          done(e);
-        }
-        setTimeout(function() {
+        .then(function() {
           try {
-            listener1.should.have.been.called;
-            listener2.should.have.been.called;
-            done();
+            streamItems.onUpdate(listener1);
+            streamItems.onUpdate(listener2);
+            streamItems.turnOnAutoUpdate(10);
           } catch (e) {
             done(e);
           }
-        }, 50);
-      })
+          setTimeout(function() {
+            try {
+              listener1.should.have.been.called;
+              listener2.should.have.been.called;
+              done();
+            } catch (e) {
+              done(e);
+            }
+          }, 50);
+        })
   });
 
 });
