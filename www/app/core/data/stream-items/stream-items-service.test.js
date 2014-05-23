@@ -180,7 +180,7 @@ describe('streamItems service', function() {
 
   it('should delete users own post', function () {
     return authenticate()
-        .then(function() {
+      .then(function() {
           streamItems.postItem({text:'mostly harmless'}).then(function(post) {
             streamItems.deletePost(post);
             expect(streamItems.items.length).to.equal(9);

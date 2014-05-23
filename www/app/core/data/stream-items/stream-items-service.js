@@ -247,6 +247,7 @@ angular.module('sproutApp.data.stream-items', [
     service.postItem = function(item) {
       item.streamItemTypeSlug = 'post';
       return server.post('stream_items', item).then(function(post) {
+        decoratePostsWithFunctionality([post]);
         latestId = post.id;   // TODO: fix race condition here.
         service.items.unshift(post);
         return post;
