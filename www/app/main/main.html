@@ -13,21 +13,52 @@
   Also, consider switching to ion-header instead
 -->
 <!-- The Main Tabbed View -->
-<ion-tabs class="tabs-icon-only tabs-default main" ng-controller="MainCtrl" ng-keyup="keyPress($event.keyCode)">
+<!-- <ion-tabs class="tabs-icon-only tabs-default main" ng-controller="MainCtrl" ng-keyup="keyPress($event.keyCode)">
 
-  <!-- Leaderboards Tab -->
+  
   <ion-tab title="Leaderboards" icon="icon icon-leaderboard" href="#/main/leaderboards">
     <ion-nav-view name="tab-leaderboards"></ion-nav-view>
   </ion-tab>
 
-  <!-- Stream Tab -->
+
   <ion-tab title="Stream" icon="icon icon-streams" href="#/main/stream">
     <ion-nav-view name="tab-stream"></ion-nav-view>
   </ion-tab>
 
-  <!-- Metrics Tab -->
+  
   <ion-tab title="Metrics" icon="icon icon-metrics" href="#/main/metrics">
     <ion-nav-view name="tab-metrics"></ion-nav-view>
   </ion-tab>
 
-</ion-tabs>
+</ion-tabs> -->
+
+<ion-side-menus>
+  <ion-side-menu-content>
+    <!-- <ion-nav-bar class="bar-positive">
+      <ion-nav-back-button class="button-icon ion-arrow-left-c">
+      </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-buttons side="left">
+      <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
+      </button>
+    </ion-nav-buttons> -->
+    <ion-nav-view name="mainContent"></ion-nav-view>
+  </ion-side-menu-content> 
+  
+  <ion-side-menu side="left">
+    <ion-header-bar class="">
+      <h1 class="title col col-80">MENU</h1>
+      <button menu-close class="button button-clear icon ion-close-round col col-20"></button>
+    </ion-header-bar>
+    <ion-content>
+      <ul class="list">
+        <li><a menu-close href="#/main/stream" class="item left-nav-stream">Stream</a></li>
+        <li><a href="#/main/activities" class="item left-nav-activity">Activity Log</a></li>
+        <li><a menu-close href="#/main/leaderboards" class="item left-nav-leaderboard">Leaderboard</a></li>
+        <li><a href="#/main/settings" class="item left-nav-settings">Settings</a></li>
+        <li><a href="#/signin" data-ng-click="logout()" class="item left-nav-logout">Log out</a></li>
+      </ul>
+    </ion-content>
+  </ion-side-menu>
+  
+</ion-side-menus>

@@ -71,7 +71,7 @@ angular.module('sproutApp', [
     .state('main.leaderboards', {
       url: '/leaderboards',
       views: {
-        'tab-leaderboards': {
+        'mainContent': {
           templateUrl: 'app/leaderboards/leaderboards.html',
           controller: 'LeaderboardsCtrl'
         }
@@ -80,7 +80,7 @@ angular.module('sproutApp', [
     .state('main.stream', {
       url: '/stream',
       views: {
-        'tab-stream': {
+        'mainContent': {
           templateUrl: 'app/stream/stream.html',
           controller: 'StreamCtrl'
         }
@@ -89,7 +89,7 @@ angular.module('sproutApp', [
     .state('main.metrics', {
       url: '/metrics',
       views: {
-        'tab-metrics': {
+        'mainContent': {
           templateUrl: 'app/metrics/metrics.html',
           controller: 'MetricsCtrl'
         }

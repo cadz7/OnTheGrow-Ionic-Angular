@@ -3,21 +3,19 @@
   <!-- ion-header-bar -->
   <ion-header-bar class="bar bar-positive nav-title-slide-ios7">
     <!-- Hamburger Button -->
-    <div class="buttons">
-      <button
-        class="button button-clear icon ion-navicon-round"
-        ng-click=""></button>
-    </div>
+
+    <left-nav-toggle-btn></left-nav-toggle-btn>
     <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.text}}</h1>
     <h1 class="title" ng-show="editFilters" ng-click="toggleFiltersView()">Back <i class="icon ion-android-system-back"></i> </h1>
+
     <!-- only show if user is logged in -->
     <!-- ng-show="AuthSvc.isLoggedIn()" -->
     <!-- Settings Button -->
-    <div class="buttons">
+    <!-- <div class="buttons">
       <button
         class="button button-clear icon ion-gear-a"
         ng-click="header.showAccountOptions()"></button>
-    </div>
+    </div> -->
   </ion-header-bar>
 
 
