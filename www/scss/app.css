@@ -1,5 +1,5 @@
 /*
-Syntax error: File to import not found or unreadable: www/lib/ionic/scss/ionic.
+Syntax error: File to import not found or unreadable: www/lib/ionic/scss/ionic.scss.
               Load path: /Users/della/WebstormProjects/sproutapp/www/scss (DEPRECATED)
         on line 9 of app.scss
 
@@ -8,7 +8,7 @@ Syntax error: File to import not found or unreadable: www/lib/ionic/scss/ionic.
 6: @import "variables.scss";
 7: 
 8: // Include all of Ionic
-9: @import "www/lib/ionic/scss/ionic";
+9: @import "www/lib/ionic/scss/ionic.scss";
 10: 
 11: // CSS modules
 12: @import "streams.scss";
@@ -58,4 +58,4 @@ app.scss:9
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: File to import not found or unreadable: www/lib/ionic/scss/ionic.\A               Load path: /Users/della/WebstormProjects/sproutapp/www/scss (DEPRECATED)\A         on line 9 of app.scss\A \A 4: // To customize the look and feel of Ionic, you can\A 5: // override the variables in this file\A 6: @import \"variables.scss\";\A 7: \A 8: // Include all of Ionic\A 9: @import \"www/lib/ionic/scss/ionic\";\A 10: \A 11: // CSS modules\A 12: @import \"streams.scss\";\A 13: @import \"post.scss\";\A 14: @import \"metrics.scss\";"; }
+  content: "Syntax error: File to import not found or unreadable: www/lib/ionic/scss/ionic.scss.\A               Load path: /Users/della/WebstormProjects/sproutapp/www/scss (DEPRECATED)\A         on line 9 of app.scss\A \A 4: // To customize the look and feel of Ionic, you can\A 5: // override the variables in this file\A 6: @import \"variables.scss\";\A 7: \A 8: // Include all of Ionic\A 9: @import \"www/lib/ionic/scss/ionic.scss\";\A 10: \A 11: // CSS modules\A 12: @import \"streams.scss\";\A 13: @import \"post.scss\";\A 14: @import \"metrics.scss\";"; }

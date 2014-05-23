@@ -2,10 +2,11 @@
 
 angular.module('sproutApp.controllers')
   .controller('LeaderboardsCtrl',
-  ['$scope', 'headerRemote', '$ionicActionSheet', 'leaderboards', 'filters', 'activities',
-    function ($scope, headerRemote, $ionicActionSheet, leaderboards, filters, activities) {
+  ['$scope', 'headerRemote', '$ionicActionSheet', '$ionicSlideBoxDelegate',
+    'leaderboards', 'filters', 'activities', 'user',
+    function ($scope, headerRemote, $ionicActionSheet, $ionicSlideBoxDelegate,
+              leaderboards, filters, activities, user) {
       $scope.header = headerRemote;
-
 
       //Periods are used in a repeat to define the period buttons (weekly/quarterly etc) at the top of the
       //leaderboards page
@@ -18,7 +19,7 @@ angular.module('sproutApp.controllers')
         cat.text = cat.activityCategoryDisplayName;
       });
 
-      $scope.leaderboardFilter = activities.categories[0].activityCategoryDisplayName;
+      $scope.selectedCategory = activities.categories[0];
 
       //Default Params for Leaderboard queries to service - will need to make them more dynamic
       var leaderboardParams = {
@@ -29,23 +30,38 @@ angular.module('sproutApp.controllers')
 
 
       //Checks to see if there is an argument given - if not, it sets to default
-      $scope.changeRankingOption = function(categoryIndex){
-        if(!categoryIndex && categoryIndex !== 0){
-          $scope.currentRankingCategory = $scope.rankingOptions[0];
-          leaderboards.getBoard(leaderboardParams).then(function(response){
-            $scope.leaderboardData = response;
+      $scope.getLeaderboards = function(){
+          leaderboards.getBoards(leaderboardParams).then(function(response){
+            $scope.leaderBoards = response;
+            $scope.currentBoardTitle = $scope.leaderBoards[0].leaderboardNameDisplay;
           });
-        }else{
-          leaderboardParams.activityFilterId = $scope.rankingOptions[categoryIndex].id;
-          $scope.currentRankingCategory = $scope.rankingOptions[categoryIndex];
-
-          leaderboards.getBoard(leaderboardParams).then(function(response){
-            $scope.leaderboardData = response;
-          });
-        }
       };
 
-      $scope.changeRankingOption();
+      $scope.switchBoard = function(boardIdx){
+        $scope.currentBoardTitle = $scope.leaderBoards[boardIdx].leaderboardNameDisplay;
+      };
+
+      $scope.getLeaderboards();
+
+      $scope.getPeriod = function(periodIndex){
+        $scope.activePeriod = $scope.periods[periodIndex];
+      };
+
+      $scope.toggleFiltersView = function(){
+        $scope.editFilters = !$scope.editFilters;
+
+        //resolves issue with 0 width slide box until window resize
+        $ionicSlideBoxDelegate.update();
+      };
+
+      $scope.toggleActivityList = function(){
+        $scope.activityView = !$scope.activityView;
+      };
+
+      $scope.selectActivityFilter = function(activityObj){
+        $scope.activeActivity = activityObj;
+        $scope.toggleActivityList();
+      };
 
       $scope.showLeaderboardFilter = function () {
 
@@ -60,7 +76,6 @@ angular.module('sproutApp.controllers')
           buttonClicked: function (index) {
 
             //Todo: refactor
-            $scope.leaderboardFilter = this.buttons[index].text;
             $scope.selectedCategory = this.buttons[index];
             return true;
           }

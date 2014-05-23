@@ -88,3 +88,22 @@ $regularLeaderHeight: 75px;
 .rankingTitle{
   color: $green;
 }
+
+#ActivityDurationFilter{
+  font-size: $font-size-small;
+}
+
+#LeaderboardContent > .scroll{
+
+  @include display-flex();
+  @include flex-direction(column);
+  min-height: 100%;
+
+  #LeaderboardList{
+  }
+}
+
+.currentUser{
+  background-color: $blue;
+  color: white!important;
+}
