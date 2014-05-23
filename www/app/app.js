@@ -10,13 +10,14 @@ angular.module('sproutApp.controllers', [
 angular.module('sproutApp.services', [
   'sproutApp.data.leaderboards',
   'sproutApp.data.challenge',
-  'sproutApp.data.membership'
-]);
-angular.module('sproutApp.directives', [
+  'sproutApp.data.membership',
   'sproutApp.config',
   'sproutApp.template',
   'sproutApp.data.stream-items',
   'sproutApp.data.activities'
+]);
+angular.module('sproutApp.directives', [
+  'sproutApp.main.left-nav'
 ]);
 angular.module('sproutApp.filters', []);
 
@@ -71,7 +72,7 @@ angular.module('sproutApp', [
     .state('main.leaderboards', {
       url: '/leaderboards',
       views: {
-        'tab-leaderboards': {
+        'mainContent': {
           templateUrl: 'app/leaderboards/leaderboards.html',
           controller: 'LeaderboardsCtrl'
         }
@@ -80,7 +81,7 @@ angular.module('sproutApp', [
     .state('main.stream', {
       url: '/stream',
       views: {
-        'tab-stream': {
+        'mainContent': {
           templateUrl: 'app/stream/stream.html',
           controller: 'StreamCtrl'
         }
@@ -89,7 +90,7 @@ angular.module('sproutApp', [
     .state('main.metrics', {
       url: '/metrics',
       views: {
-        'tab-metrics': {
+        'mainContent': {
           templateUrl: 'app/metrics/metrics.html',
           controller: 'MetricsCtrl'
         }
