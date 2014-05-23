@@ -1,16 +1,19 @@
 /* global angular, window */
 
 angular.module('sproutApp.server', [
-  'sproutApp.util'
+  'sproutApp.util',
+  'sproutApp.config'
 ])
 
 // Abstracts interaction with the sprout API server. This service does not do
 // any caching - that should be taken care of at the higher level. It does,
 // however, check connection status before making calls. It also reports
 // connection status to the higher level services.
-.factory('server', ['util', '$log',
-  function(util, $log) {
+
+.factory('server', ['util', '$log','$http','$q','API_URL',
+  function(util, $log, $http,$q,API_URL) {
     var service = {};
+    var options = { headers : {} };//{headers:[{'Authorization':'sprout-token b82da8af04ee46ebbe72557b98dca8d44f391c1f'}]}; //shared options for all http req
 
     service.isReachable = true;
 
@@ -22,46 +25,112 @@ angular.module('sproutApp.server', [
       expirationDateTime: '2014-07-14T15:22:11Z'
     };
 
-    service.login = function(username, password) {
-      $log.info('Simulating login:', username);
-
-      if (username === 'arthur') {
-        return util.q.makeResolvedPromise(user);
-      } else {
-        return util.q.makeRejectedPromise({
-          errorCode: 'wrong-password',
-          errorMessage: 'Wrong username or password.'
-        });
+    //common handler for successful calls to the server. resolves the promise with the response.data if successfull HTTP code, 
+    //otherwise it rejectes the promise
+    function responseHandler(result,promise){
+      switch(result.status){
+        case 401:
+          options.headers['Authorization'] = null;
+          break;
+        case 404 :
+          service.isReachable = false;
+          break;
+        default:
+          service.isReachable = true;
+          break;
       }
+      if(result.status >= 200 && result.status <= 299)
+        promise.resolve(result.data);
+      else
+        promise.reject(result.data);
     };
 
-//  service.get('/streamitems/89')
-
-    var offline = true;
-    service.get = function() {
-      if (offline) {
-        return util.q.makeRejectedPromise('offline');
-      }
-      // Will call $http with the right options and headers.
-      return util.q.makeResolvedPromise(true);
+    //handler if http fails
+    function errorHandler (error, promise){
+      service.isReachable = false;
+      promise.reject(error.data ? error.data : error);
     };
 
-    service.post = function(endpoint, args) {
-      if (offline) {
+    //log the user into the system and return the auth token
+    service.login = function(username, password, rememberMe) {
+      var deferred = $q.defer();
+      $http.post(API_URL+'auth/login',{username:username,password:password,rememberMe:rememberMe})
+      .then(function(result){        
+        options.headers['Authorization'] = 'sprout-token ' +result.data.token;        
+        responseHandler(result,deferred);       
+      },function(error){
+        errorHandler(error,deferred);
+      });
+      
+      return deferred.promise;      
+    }
+
+    //preform a HTTP GET
+    service.get = function(url, params) {
+      var deferred = $q.defer();
+      var config = options;      
+      config.url = API_URL + url;
+      config.params = params;
+      config.method = 'GET';
+      
+      $http(config)
+      .then(function(result){
+        responseHandler(result,deferred);               
+      },function(error){
+        errorHandler(error,deferred);        
+      });
+       
+      return deferred.promise;      
+    };
+
+    //preform a HTTP POST
+    service.post = function(url,data) {
+      if (!service.isReachable) {
         return util.q.makeRejectedPromise('offline');
       }
-      // Will call $http with the right options and headers.
-      return util.q.makeResolvedPromise(args);
+     
+      var deferred = $q.defer();      
+      $http.post(API_URL + url,data, options)
+      .then(function(result){
+        responseHandler(result,deferred);               
+      },function(error){
+        errorHandler(error,deferred);        
+      });
+      
+      return deferred.promise;            
     };    
 
-    service.put = function() {
-      // Will call $http with the right options and headers.
-      return util.q.makeResolvedPromise(true);
+    service.put = function(url,data) {
+      if (!service.isReachable) {
+        return util.q.makeRejectedPromise('offline');
+      }
+
+      var deferred = $q.defer();
+      
+      $http.put(API_URL + url,data, options)
+      .then(function(result){
+        responseHandler(result,deferred);               
+      },function(error){
+        errorHandler(error,deferred);        
+      });
+
+      return deferred.promise;           
     };
 
-    service.delete = function() {
-      // Will call $http with the right options and headers.
-      return util.q.makeResolvedPromise(true);
+    service.delete = function(url) {
+      if (!service.isReachable) {
+        return util.q.makeRejectedPromise('offline');
+      }
+      var deferred = $q.defer();
+      
+      $http.delete(API_URL + url,options)
+      .then(function(result){
+        responseHandler(result,deferred);               
+      },function(error){
+        errorHandler(error,deferred);        
+      });
+
+      return deferred.promise;            
     };
 
     var callbacks = [];

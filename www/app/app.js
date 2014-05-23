@@ -44,7 +44,7 @@ angular.module('sproutApp', [
       }
 
       // Auto-login the user
-      user.login('arthur')
+      user.login('simon@rangle.io','testtest',false)
         .then(null, $log.error);
 
       // Run auto-update on stream items.
@@ -136,16 +136,29 @@ angular.module('sproutApp', [
 ;
 
 angular.module('sproutApp.config', [])
+.constant('API_URL','https://platform.dev.sproutatwork.com/v1/')
 .constant('STREAM_CONSTANTS', {
+  defaultMaxItemCount: 10 , //default number of stream items to get in a single req
   initialCommentCountShown: 2,
   initialPostCharCount: 70
 })
 .constant('API_CONSTANTS', {
   streamitemTypeId: 9,
-  activityLogEndpoint: '/activity_log',
-  activityCategoryEndpoint: '/activity_categories'
+  //AUTHENTICATION note: login is preformed by server.login inorder to keep track of the auth token
+  logoutEndpoint : 'auth/logout',
+  refreshTokenEndpoint : 'auth/refresh_token',
+  currentUserEndpoint : 'auth/current_user',
+
+  //ACTIVITIES
+  activityLogEndpoint: 'activity_log',
+  activityCategoryEndpoint: 'activity_categories',
+
+  //STREAM ITEMS
+  streamItemsEndPoint : 'stream_items'
+
 })
 .constant('APP_CONFIG', {
-  poisonMsgThreshold: 10
-})
-;
+  poisonMsgThreshold: 10,
+  useMockData :  true//use hard coded mock data or connect to the actual sprout api?
+});
+
