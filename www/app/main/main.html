@@ -52,11 +52,11 @@
     </ion-header-bar>
     <ion-content>
       <ul class="list">
-        <li><a menu-close href="#/main/stream" class="item left-nav-stream">Stream</a></li>
-        <li><a href="#/main/activities" class="item left-nav-activity">Activity Log</a></li>
-        <li><a menu-close href="#/main/leaderboards" class="item left-nav-leaderboard">Leaderboard</a></li>
-        <li><a href="#/main/settings" class="item left-nav-settings">Settings</a></li>
-        <li><a href="#/signin" data-ng-click="logout()" class="item left-nav-logout">Log out</a></li>
+        <li><a ui-sref-active="active" menu-close ui-sref="main.stream" class="item left-nav-stream">Stream</a></li>
+        <li><a ui-sref-active="active" ui-sref="main.activities" class="item left-nav-activity">Activity Log</a></li>
+        <li><a ui-sref-active="active" menu-close ui-sref="main.leaderboards" class="item left-nav-leaderboard">Leaderboard</a></li>
+        <li><a ui-sref-active="active" ui-sref="main.settings" class="item left-nav-settings">Settings</a></li>
+        <li><a ui-sref="signin" data-ng-click="logout()" class="item left-nav-logout">Log out</a></li>
       </ul>
     </ion-content>
   </ion-side-menu>
