@@ -63,6 +63,15 @@ angular.module('sproutApp.user', [
             userId: 42,
             firstName: 'Arthur',
             lastName: 'Dent',
+            avatarUrl: 'img/user/arthur.png',
+            department: 'Accounting',
+            location: 'Toronto',
+            points: [
+              {
+                timePeriodId: 2,
+                score: 1500
+              }
+            ],
             token: 'e9c77174292c076359b069aef68468d1463845cf',
             expirationDateTime: '2014-07-14T15:22:11Z'
           };
