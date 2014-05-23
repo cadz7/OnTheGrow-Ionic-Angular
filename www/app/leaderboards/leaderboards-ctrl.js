@@ -2,8 +2,10 @@
 
 angular.module('sproutApp.controllers')
   .controller('LeaderboardsCtrl',
-  ['$scope', 'headerRemote', '$ionicActionSheet', '$ionicSlideBoxDelegate', 'leaderboards', 'filters', 'activities',
-    function ($scope, headerRemote, $ionicActionSheet, $ionicSlideBoxDelegate, leaderboards, filters, activities) {
+  ['$scope', 'headerRemote', '$ionicActionSheet', '$ionicSlideBoxDelegate',
+    'leaderboards', 'filters', 'activities', 'user',
+    function ($scope, headerRemote, $ionicActionSheet, $ionicSlideBoxDelegate,
+              leaderboards, filters, activities, user) {
       $scope.header = headerRemote;
 
       //Periods are used in a repeat to define the period buttons (weekly/quarterly etc) at the top of the
@@ -28,23 +30,18 @@ angular.module('sproutApp.controllers')
 
 
       //Checks to see if there is an argument given - if not, it sets to default
-      $scope.changeRankingOption = function(categoryIndex){
-        if(!categoryIndex && categoryIndex !== 0){
-          $scope.currentRankingCategory = $scope.rankingOptions[0];
-          leaderboards.getBoard(leaderboardParams).then(function(response){
-            $scope.leaderboardData = response;
+      $scope.getLeaderboards = function(){
+          leaderboards.getBoards(leaderboardParams).then(function(response){
+            $scope.leaderBoards = response;
+            $scope.currentBoardTitle = $scope.leaderBoards[0].leaderboardNameDisplay;
           });
-        }else{
-          leaderboardParams.activityFilterId = $scope.rankingOptions[categoryIndex].id;
-          $scope.currentRankingCategory = $scope.rankingOptions[categoryIndex];
-
-          leaderboards.getBoard(leaderboardParams).then(function(response){
-            $scope.leaderboardData = response;
-          });
-        }
       };
 
-      $scope.changeRankingOption();
+      $scope.switchBoard = function(boardIdx){
+        $scope.currentBoardTitle = $scope.leaderBoards[boardIdx].leaderboardNameDisplay;
+      };
+
+      $scope.getLeaderboards();
 
       $scope.getPeriod = function(periodIndex){
         $scope.activePeriod = $scope.periods[periodIndex];

@@ -93,13 +93,17 @@ $regularLeaderHeight: 75px;
   font-size: $font-size-small;
 }
 
-#LeaderboardContent{
+#LeaderboardContent > .scroll{
 
   @include display-flex();
   @include flex-direction(column);
   min-height: 100%;
 
   #LeaderboardList{
-    @include flex(1);
   }
+}
+
+.currentUser{
+  background-color: $blue;
+  color: white!important;
 }

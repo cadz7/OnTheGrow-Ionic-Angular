@@ -41,10 +41,10 @@ describe('leaderboards service', function() {
       userFilterId: 201,
       activityFilterId: 301
     };
-    return leaderboards.getBoard(params)
-      .then(function(board) {
-        expect(board.leaderboardNameDisplay).to.equal('Company');
-        expect(board.items[1].entityId).to.equal(1002);
+    return leaderboards.getBoards(params)
+      .then(function(boards) {
+        expect(boards[0].leaderboardNameDisplay).to.equal('Company');
+        expect(boards[0].items[1].entityId).to.equal(1002);
       });
   });
 
@@ -54,10 +54,10 @@ describe('leaderboards service', function() {
       activityFilterId: null,
       userFilterId: 1
     };
-    return leaderboards.getBoard(params)
-      .then(function(board) {
-        expect(board.leaderboardNameDisplay).to.equal('Foo');
-        expect(board.items[1].entityId).to.equal(2002);
+    return leaderboards.getBoards(params)
+      .then(function(boards) {
+        expect(boards[0].leaderboardNameDisplay).to.equal('Foo');
+        expect(boards[0].items[1].entityId).to.equal(2002);
       });
   });
 

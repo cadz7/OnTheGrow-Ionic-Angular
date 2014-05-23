@@ -29,10 +29,10 @@
         <i class="icon ion-edit" ng-click="toggleFiltersView()"></i>
 
       </div>
-      <h3 class="rankingTitle">{{currentRankingCategory.title}}</h3>
-      <ion-slide-box id="LeaderboardList" on-slide-changed="changeRankingOption(index)">
-        <ion-slide ng-repeat="rankCategory in rankingOptions">
-          <div leader="leaderData" ng-repeat="leaderData in leaderboardData.items | orderBy:'rank'"
+      <h3 class="rankingTitle">{{currentBoardTitle}}</h3>
+      <ion-slide-box id="LeaderboardList" on-slide-changed="switchBoard(index)">
+        <ion-slide ng-repeat="board in leaderBoards">
+          <div leader="leaderData" ng-repeat="leaderData in board.items | orderBy:'rank'"
                class="list card leader row">
           </div>
         </ion-slide>
