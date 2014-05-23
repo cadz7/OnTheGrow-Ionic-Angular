@@ -1,5 +1,9 @@
+<div ng-include="'app/stream/post/joinable/components/activity-log.tpl.html'" ng-if="isCommentsView()"></div>
+
 <div ng-include="'app/stream/post/joinable/components/header.tpl.html'"></div>
 <div ng-include="'app/stream/post/joinable/components/content.tpl.html'"></div>
-<div ng-include="'app/stream/post/joinable/components/activity-log.tpl.html'"></div>
-<div ng-include="'app/stream/post/components/like-comment.tpl.html'"></div>
-<div ng-include="'app/stream/post/components/comments.tpl.html'" ng-if="isWrappedInModal"></div>
+
+<div ng-include="'app/stream/post/components/like-comment.tpl.html'" ng-if="isCommentsView()"></div>
+<div ng-include="'app/stream/post/components/comments.tpl.html'" ng-if="isWrappedInModal && isCommentsView()"></div>
+
+<div ng-include="'app/stream/post/joinable/components/challege-content.html'" ng-if="isDetailView()"></div>

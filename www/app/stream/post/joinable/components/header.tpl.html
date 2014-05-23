@@ -3,8 +3,8 @@
 
     <div class="post-info row">
         <div class="col col-75">
-            <h1 class="title">{{post.streamItemDisplay.values.title}}</h1>
-            <span class="author">{{post.streamItemDisplay.values.mainInfo}}</span> {{post.streamItemDisplay.values.subInfo}}
+            <h1 class="title" ng-click="showDetailView()">{{post.streamItemTypeSlug}}</h1>
+            <span class="author">{{post.streamItemDisplay.values.mainInfo}}</span> {{post.streamItemTypeSlug}}
             <br />
             <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
         </div>
