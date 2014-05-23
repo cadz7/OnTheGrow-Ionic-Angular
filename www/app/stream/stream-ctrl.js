@@ -11,15 +11,13 @@ angular.module('sproutApp.controllers')
     	$scope.header = headerRemote;
     	$scope.filterByType = 'ALL';
 
-    	
-
     	$scope.closeFullPost = function() {
         $scope.streamItemModal.hide();
-    	}
+    	};
 
     	$scope.closeModal = function() {
     		$scope.streamItemModal.hide();
-    	}
+    	};
 
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
