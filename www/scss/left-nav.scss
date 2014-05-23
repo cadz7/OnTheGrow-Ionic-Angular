@@ -1,0 +1,106 @@
+@import"variables";
+
+ion-side-menu {
+  .bar h1.title {
+    padding: 0;
+    position: static;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.8rem;
+    left: 0;
+    height: 38px;
+    line-height: 38px;
+    color: #777;
+  }
+
+  ion-content {
+    li {
+      width: 100%;
+      position: relative;
+
+      a.item {
+        border-bottom-width: 0px;
+        border-top-width: 0px;
+        display: block;
+        margin: 0;
+        border-right:10px solid $base-background-color;
+      }
+      a.item:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        border: 0;
+        height: 1px;
+        width: 100%;
+        background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+        background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+        background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+        background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+      }
+
+      a.item.active {
+        background-color: $base-background-color;
+      }
+      
+      a.item.disabled, a.item.disabled:hover {
+        color: $mediumgrey;
+      }
+
+      .left-nav-stream.active, .left-nav-stream:hover {
+        border-right:10px solid #8cc63e;
+      }
+      .left-nav-activity.active, .left-nav-activity:hover {
+        border-right:10px solid #ef6a33;
+      }
+      .left-nav-leaderboard.active, .left-nav-leaderboard:hover {
+        border-right:10px solid #46c0be;
+      }
+      .left-nav-settings.active, .left-nav-settings:hover {
+        border-right:10px solid #404042;
+      }
+      .left-nav-logout.active, .left-nav-logout:hover {
+        border-right:10px solid #404042;
+      }
+    }
+    
+    user-profile-summary {
+      .row {
+        background-color: $base-background-color;
+      }
+
+      h3.user-full-name {
+        font-size: $font-size-large;
+        margin-bottom: 0;
+        color: $orange;
+      }
+
+      img.avatar {
+        padding: 0;
+        width: $item-avatar-width;
+        height: $item-avatar-height;
+      }
+
+      .location {
+        font-size: $font-size-small;
+        color: $mediumgrey;
+      }
+      
+      .points {
+        color: $orange;
+
+        strong {
+          font-size: $font-size-large;
+        }
+      }
+
+      .points-label {
+        font-size: $font-size-small;
+        color: $mediumgrey;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+      }
+    }
+  }
+}
