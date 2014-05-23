@@ -110,7 +110,7 @@ angular.module('sproutApp.data.leaderboards', [
           entityId : 2002,
           rank: 3,
           name: 'Mice',
-          avatarUrl: 'img/user/cover.png',
+          avatarUrl: 'img/user/fenchurch.png',
           detailsDisplay: {
             template: '{size} cm',
             values: {

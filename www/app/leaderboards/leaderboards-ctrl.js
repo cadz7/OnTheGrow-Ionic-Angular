@@ -50,15 +50,20 @@ angular.module('sproutApp.controllers')
         $scope.activePeriod = $scope.periods[periodIndex];
       };
 
-      $scope.editFiltersView = function(){
+      $scope.toggleFiltersView = function(){
         $scope.editFilters = !$scope.editFilters;
 
         //resolves issue with 0 width slide box until window resize
         $ionicSlideBoxDelegate.update();
       };
 
+      $scope.toggleActivityList = function(){
+        $scope.activityView = !$scope.activityView;
+      };
+
       $scope.selectActivityFilter = function(activityObj){
         $scope.activeActivity = activityObj;
+        $scope.toggleActivityList();
       };
 
       $scope.showLeaderboardFilter = function () {

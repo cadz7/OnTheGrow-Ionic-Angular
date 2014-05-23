@@ -92,3 +92,14 @@ $regularLeaderHeight: 75px;
 #ActivityDurationFilter{
   font-size: $font-size-small;
 }
+
+#LeaderboardContent{
+
+  @include display-flex();
+  @include flex-direction(column);
+  min-height: 100%;
+
+  #LeaderboardList{
+    @include flex(1);
+  }
+}

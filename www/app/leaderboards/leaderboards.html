@@ -8,7 +8,8 @@
         class="button button-clear icon ion-navicon-round"
         ng-click=""></button>
     </div>
-    <h1 class="title" ng-click="showLeaderboardFilter()">{{selectedCategory.text}}</h1>
+    <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.text}}</h1>
+    <h1 class="title" ng-show="editFilters" ng-click="toggleFiltersView()">Back <i class="icon ion-android-system-back"></i> </h1>
     <!-- only show if user is logged in -->
     <!-- ng-show="AuthSvc.isLoggedIn()" -->
     <!-- Settings Button -->
@@ -20,11 +21,13 @@
   </ion-header-bar>
 
 
-  <ion-content class="text-center padding has-header">
+  <ion-content id="LeaderboardContent" class="text-center padding has-header">
 
     <div id="leaderBoards" ng-hide="editFilters">
-      <div class="has-footer" id="ActivityDurationFilter" ng-click="editFiltersView()">
-        {{activeActivity || 'All Activities'}} | {{activePeriod || 'Challenge Duration'}}
+      <div class="has-footer" id="ActivityDurationFilter">
+        {{activeActivity.activityName || 'All Activities'}} | {{activePeriod.timePeriodNameDisplay || 'Challenge Duration'}}
+        <i class="icon ion-edit" ng-click="toggleFiltersView()"></i>
+
       </div>
       <h3 class="rankingTitle">{{currentRankingCategory.title}}</h3>
       <ion-slide-box id="LeaderboardList" on-slide-changed="changeRankingOption(index)">
@@ -39,14 +42,18 @@
     <div id="FilterView" ng-hide="!editFilters">
 
       <div class="list">
-        <a class="item" ng-click="activityView = !activityView">{{ activeActivity.activityName || 'Choose Activity' }}</a>
+        <div class="item" ng-click="toggleActivityList()">
+          {{ activeActivity.activityName || 'Choose Activity' }}
+        </div>
         <a href="" class="item" ng-click="selectActivityFilter(activity)" ng-show="activityView"
            ng-repeat="activity in selectedCategory.activities">{{activity.activityName}}</a>
       </div>
 
       <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="getPeriod(index)">
         <ion-slide class="list item" ng-repeat="period in periods">
-          <div class="">{{period.timePeriodNameDisplay}}</div>
+          <div class="">
+            <h1>{{period.timePeriodNameDisplay}}</h1>
+          </div>
         </ion-slide>
       </ion-slide-box>
 
