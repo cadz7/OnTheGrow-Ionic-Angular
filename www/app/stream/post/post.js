@@ -36,8 +36,8 @@
  */
 angular.module('sproutApp.directives').directive(
   'post',
-  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService', '$ionicActionSheet', 'streamItemModalService',
-    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService, $ionicActionSheet, streamItemModalService) {
+  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService', '$ionicActionSheet', 'streamItemModalService', 'challenge', 'Notify',
+    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService, $ionicActionSheet, streamItemModalService, challenge, Notify) {
       return {
         restrict: 'E',
         template: '<div ng-include="streamItemResourceService.getContentUrl(post)"></div>',
@@ -201,6 +201,22 @@ angular.module('sproutApp.directives').directive(
           scope.isCommentsView = function(){
             return scope.viewType === streamItemModalService.COMMENTS_VIEW;
           };
+
+          scope.isDetailView = function(){
+            return scope.viewType === streamItemModalService.DETAILED_VIEW;
+          };
+
+          function getDetails(){
+            if (scope.isDetailView()){
+              challenge.getChallengeDetails(scope.post.relatedToId)
+                .then(function(detail){
+                  scope.detail = detail;
+                }, function (err){
+                  Notify.apiError(err, err);
+                });
+            }
+          };
+          getDetails();
 
         }
       }
