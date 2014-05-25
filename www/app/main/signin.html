@@ -1,56 +1,53 @@
 <ion-view title="Sign-In" id="loginView">
     <ion-content>
-        <form>
-            <ul class="list">
-              <li>
-                <label class="item item-input">
-                    <span class="input-label">Username</span>
-                    <input type="text" ng-model="userForm.username">
-                </label>
-              </li>
-              <li>
-                <label class="item item-input">
-                  <span class="input-label">Password</span>
-                  <input type="password" ng-model="userForm.password">
-                </label>
-              </li>
-              <li class="toggle">
-                <div class="row">
-                  <div class="col col-80">
-                    <span class="label">Remember Me</span>
-                  </div>
-                  <div class="col">
-                    <label class="toggle toggle-positive">
-                      <input type="checkbox" ng-model="userForm.rememberMe">
-                      <div class="track" >
-                        <div class="handle"></div>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </li>
-                <!--<label class="item item-input ">-->
-                    <!--<span class="input-label">Remember Me</span>-->
-                    <!--<label class="checkbox">-->
-                        <!--<input class="checkbox" type="checkbox" ng-model="userForm.rememberMe" style="width:70px;height:49px">-->
-                    <!--</label>-->
-                <!--</label>-->
-            </ul>
-            <div class="padding">
-                <p class="error text-center">
-                    <span ng-show="!!loginErrorMsg">
-                    <span class="icon ion-alert-circled error"></span>
-                    {{loginErrorMsg}}
-                    </span>
-                </p>
+        <div class="row">
+            <div class="col sign-in">
+                <form>
+                    <ul class="list">
+                      <li>
+                        <img src="img/signin/sprout-logo-white.svg">
+                        <li>
+                            <label class="item item-input">
+                                <span class="input-label">Username</span>
+                                <input type="text" ng-model="userForm.username">
+                            </label>
+                        </li>
+                        <li>
+                            <label class="item item-input">
+                                <span class="input-label">Password</span>
+                                <input type="password" ng-model="userForm.password">
+                            </label>
+                        </li>
+                        <li>
+                            <p class="text-center">
+                                <a href="#/forgot-password">Forgot password?</a>
+                            </p>
+                        </li>
+                    </ul>
+                        <p class="error text-center">
+                            <span ng-show="!!loginErrorMsg">
+                                <span class="icon ion-alert-circled error"></span>
+                                {{loginErrorMsg}}
+                            </span>
+                        </p>
 
-                <button class="button button-block button-positive" ng-click="signIn(userForm)">
-                    Sign-In
-                </button>
-                <p class="text-center">
-                    <a href="#/forgot-password">Forgot password</a>
-                </p>
+                        <button class="button button-block button-positive" ng-click="signIn(userForm)">
+                            Sign-In
+                        </button>
+                        <div class="col col-80 col-offset-10">
+                        <ul class="list">
+                            <li class="item item-toggle">
+                                <span class="label">Remember Me</span>
+                                <label class="toggle toggle-positive">
+                                    <input type="checkbox">
+                                    <div class="track">
+                                        <div class="handle"></div>
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                </form>
+                </div>
             </div>
-        </form>
     </ion-content>
 </ion-view>
