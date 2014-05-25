@@ -58,7 +58,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .modal-backdrop {
   z-index:1000;
 }
-
+.modal .item.post {
+  margin-bottom: 3rem;
+}
 .iconbase {
   margin: 0px auto;
   width: 80px;
