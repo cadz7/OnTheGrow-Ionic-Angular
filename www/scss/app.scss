@@ -25,7 +25,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .has-tabs{
   bottom:0;
 }
-
 .bar{
   @include box-shadow (0px, 0px, 3px, 1px, rgba(50,50,50,0.15));
   z-index: 1000;
@@ -47,6 +46,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     top: 22px;
     margin: 0 auto;
   }
+  .button-clear{
+    color:$darkgrey;
+  }
+  .notifications-icon{
+    width: 24px;
+    margin-top: 4px
+  }
 }
 
 .modal-backdrop {
@@ -65,12 +71,14 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 button {
   border-width: 0 !important;
 }
-
+.button.button-positive{
+   background-color: $green;
+ }
 .main > .tabs {
   background: $positive;
   color: $light;
   background: $greentrans;
-  border-top: 2px solid $greendark;
+  border-top: 2px solid $darkgreen;
   color: $darkgrey;
   height: 50px;  // TOTAL HACK FOR IOS.
   @include box-shadow (0px, 0px, 5px, 1px, rgba(50,50,50,0.25));
@@ -111,14 +119,57 @@ button {
 }
 
 #loginView {
-  .label {
+      background-image: url("../img/signin/sprout-signin.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      font-weight:400;
+  .scroll-content{
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  li{
+    margin-bottom: 1rem;
+    img{
+      opacity: .9;
+      margin-bottom: 1rem;
+    }
+  }
+  .list{
+    margin-bottom: 0;
+  }
+  .row{
+    padding: 20% 1rem;
+  }    
+  .toggle .track{
+    background-color: $darkgrey;
+    border-color: $mediumgrey;
+  }
+  .toggle.toggle-positive input:checked+.track {
+    border-color: $darkgreen;
+    background-color: $green;
+  }
+  .sign-in{
+    max-width: 300px;
+    margin: 0 auto;
+  }    
+  .item-input{
+    margin-bottom: 1rem;
+    padding: 5px 10px 5px 10px;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  .label, a{
     font-size: 0.9rem;
-    font-weight:bold;
-    color: #444
-    //padding-bottom: 5px; // hack to make it in middle
+    color: #fff;
+    text-decoration: none;
   }
   .input-label {
-    font-size: 0.9rem !important;
+    font-size: 0.9rem;
+    font-weight:500;
+  }
+  .item-toggle{
+    background:none;
+    border: none;
   }
 }
 
