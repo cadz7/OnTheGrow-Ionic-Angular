@@ -25,6 +25,15 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .has-tabs{
   bottom:0;
 }
+hr {
+    margin:0;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+}
 .bar{
   @include box-shadow (0px, 0px, 3px, 1px, rgba(50,50,50,0.15));
   z-index: 1000;
@@ -202,64 +211,4 @@ button {
 
 .border-none{
   border: none;
-}
-
-
-/* ________________________________________ Left nav */
-ion-side-menu {
-  .bar h1.title {
-    padding: 0;
-    position: static;
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 1.8rem;
-    left: 0;
-    height: 38px;
-    line-height: 38px;
-    color: #777;
-  }
-
-  ion-content {
-    li {
-      width: 100%;
-      position: relative;
-
-      a.item {
-        border-bottom-width: 0px;
-        border-top-width: 0px;
-        display: block;
-        margin:0;
-      }
-      a.item:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        border: 0;
-        height: 1px;
-        width: 100%;
-        background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-        background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-        background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-        background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-      }
-
-      .left-nav-stream {
-        border-right:10px solid #8cc63e;
-      }
-      .left-nav-activity {
-        border-right:10px solid #ef6a33;
-      }
-      .left-nav-leaderboard {
-        border-right:10px solid #46c0be;
-      }
-      .left-nav-settings {
-        border-right:10px solid #404042;
-      }
-      .left-nav-logout {
-        border-right:10px solid #404042;
-      }
-    }
-    
-  }
 }

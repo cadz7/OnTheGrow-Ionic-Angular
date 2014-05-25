@@ -33,8 +33,8 @@
 </ion-tabs> -->
 
 <ion-side-menus>
-  <ion-side-menu-content>
-    <!-- <ion-nav-bar class="bar-positive">
+    <ion-side-menu-content>
+        <!-- <ion-nav-bar class="bar-positive">
       <ion-nav-back-button class="button-icon ion-arrow-left-c">
       </ion-nav-back-button>
     </ion-nav-bar>
@@ -42,23 +42,120 @@
       <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
       </button>
     </ion-nav-buttons> -->
-    <ion-nav-view name="mainContent"></ion-nav-view>
-  </ion-side-menu-content> 
-  
-  <ion-side-menu side="left">
-    <ion-header-bar class="">
-      <h1 class="title col col-80">MENU</h1>
-    </ion-header-bar>
-    <ion-content>
-      <user-profile-summary></user-profile-summary>
-      <ul class="list">
-        <li><a ui-sref-active="active" menu-close ui-sref="main.stream" class="item left-nav-stream">Stream</a></li>
-        <li><a ui-sref-active="active" menu-close ui-sref="main.metrics" class="item left-nav-activity">Activity Log</a></li>
-        <li><a ui-sref-active="active" menu-close ui-sref="main.leaderboards" class="item left-nav-leaderboard">Leaderboard</a></li>
-        <li><a ui-sref-active="active" ui-sref="main.settings" class="item left-nav-settings disabled">Settings</a></li>
-        <li><a ui-sref="signin" data-ng-click="logout()" class="item left-nav-logout">Log out</a></li>
-      </ul>
-    </ion-content>
-  </ion-side-menu>
-  
+        <ion-nav-view name="mainContent"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left">
+        <ion-header-bar class="">
+            <h1 class="title">MENU</h1>
+        </ion-header-bar>
+        <ion-content>
+            <user-profile-summary></user-profile-summary>
+            <ul class="list">
+                <li>
+                                      <a ui-sref-active="active" menu-close ui-sref="main.stream" class="item left-nav-stream">
+                    <svg class="icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1224 792" enable-background="new 0 0 1224 792" xml:space="preserve">
+                        <g>
+                            <g>
+                                <g>
+                                    <path class="stream-icon" d="M301.1,594V447.5c-23.8-5.9-41.6-27.7-41.6-53.5V186.1c0-29.7,23.8-55.4,55.4-55.4h413.8
+        c29.7,0,55.4,23.8,55.4,55.4V392c0,29.7-23.8,55.4-55.4,55.4H445.7L301.1,594z M319,388.1h41.6v61.4l61.4-61.4h301v-196H319
+        V388.1z" />
+                                </g>
+                                <g>
+                                    <path class="stream-icon" d="M940.7,301H827.8v134.6c0,29.7-23.8,55.4-55.4,55.4H501.1v41.6c0,13.9,11.9,25.7,25.7,25.7h295l103,103
+        v-103h15.8c13.9,0,25.7-11.9,25.7-25.7V326.7C964.4,312.8,954.5,301,940.7,301z" />
+                                </g>
+                                <g>
+                                    <circle class="stream-icon" cx="461.5" cy="285.1" r="21.8" />
+                                    <circle class="stream-icon" cx="526.9" cy="285.1" r="21.8" />
+                                    <circle class="stream-icon" cx="592.2" cy="285.1" r="21.8" />
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+Stream</a>
+                </li>
+                <hr>
+                <li>
+                  <a ui-sref-active="active" menu-close ui-sref="main.metrics" class="item left-nav-activity">
+                    <svg class="icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 7 40 23.5" enable-background="new 0 7 40 23.5" xml:space="preserve">
+                        <g class="activity-icon">
+                            <g>
+                                <rect x="9" y="15.6" width="4.5" height="10.6" />
+                                <path d="M13.6,26.3H9V15.5h4.6V26.3z M9.1,26.1h4.4V15.6H9.1V26.1z" />
+                            </g>
+                            <g>
+                                <rect x="14.8" y="12" width="4.5" height="14.2" />
+                                <path d="M19.4,26.3h-4.6V11.9h4.6V26.3z M14.9,26.1h4.4V12.1h-4.4V26.1z" />
+                            </g>
+                            <g>
+                                <rect x="20.6" y="19.1" width="4.5" height="7.1" />
+                                <path d="M25.1,26.3h-4.6V19h4.6V26.3z M20.6,26.1H25v-7h-4.4V26.1z" />
+                            </g>
+                            <g>
+                                <rect x="26.4" y="14.8" width="4.5" height="11.4" />
+                                <path d="M30.9,26.3h-4.6V14.8h4.6L30.9,26.3L30.9,26.3z M26.4,26.1h4.4V14.9h-4.4V26.1z" />
+                            </g>
+                            <g>
+                                <linex1="9" y1="28.2" x2="30.9" y2="28.2" />
+                                <rect x="9" y="27.8" width="21.9" height="0.9" />
+                            </g>
+                        </g>
+                    </svg>
+                    <span>Activity Log</span></a>
+                </li>
+                <hr>
+                <li>
+                  <a ui-sref-active="active" menu-close ui-sref="main.leaderboards" class="item left-nav-leaderboard">
+                    <svg class="icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1224 792" enable-background="new 0 0 1224 792" xml:space="preserve">
+                        <path class="leaderboard-icon" d="M724.9,342.5V150.5H499.1v130.7H275.4v358.4h223.7h223.7h225.7v-297H724.9z M447.7,479.2h-77.2v27.7h77.2
+  v41.6H328.9V435.6h77.2v-27.7h-77.2v-41.6h118.8V479.2z M641.7,388.1h-41.6V247.5h-35.6v-41.6h77.2V388.1z M907,584.1H788.2v-41.6
+  h77.2v-27.7h-77.2v-41.6h77.2v-27.7h-77.2v-41.6H907V584.1z" />
+                    </svg>
+                    <span>Leaderboard</span></a>
+                </li>
+                <hr>
+                <li>
+                  <a ui-sref-active="active" ui-sref="main.settings" class="item left-nav-settings disabled">
+                    <svg class="icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 7 40 23.5" enable-background="new 0 7 40 23.5" xml:space="preserve">
+                        <g>
+                            <path fill="none" stroke="#404041" stroke-miterlimit="10" d="M95.4,569.4v-2.9l-2.2-0.4c-0.1-0.3-0.2-0.5-0.3-0.8l1.3-1.9
+    l-2.1-2.1l-1.8,1.3c-0.3-0.1-0.5-0.2-0.8-0.3l-0.4-2.2h-2.9l-0.4,2.2c-0.3,0.1-0.5,0.2-0.8,0.3l-1.8-1.3l-2.1,2.1l1.3,1.9
+    c-0.1,0.3-0.2,0.5-0.3,0.8l-2.2,0.4v2.9l2.3,0.4c0.1,0.3,0.2,0.5,0.3,0.8l-1.3,1.9l2.1,2.1l1.9-1.3c0.3,0.1,0.5,0.2,0.8,0.3
+    l0.4,2.3h2.9l0.4-2.3c0.3-0.1,0.5-0.2,0.8-0.3l1.9,1.3l2.1-2.1l-1.3-1.9c0.1-0.3,0.2-0.5,0.3-0.8L95.4,569.4L95.4,569.4z
+     M87.6,569.9c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S88.7,569.9,87.6,569.9z" />
+                        </g>
+                        <g>
+                            <path fill="none" stroke="#404041" stroke-miterlimit="10" d="M27.5,21.4v-2.8l-2.1-0.4c-0.1-0.3-0.2-0.5-0.4-0.8l1.2-1.8l-2-2
+    l-1.8,1.2c-0.3-0.1-0.5-0.3-0.8-0.4l-0.4-2.1h-2.8l-0.3,2.2c-0.3,0.1-0.5,0.2-0.8,0.4l-1.8-1.2l-2,2l1.2,1.8
+    c-0.1,0.3-0.3,0.5-0.4,0.8l-2.1,0.4v2.8l2.1,0.4c0.1,0.3,0.2,0.5,0.4,0.8l-1.2,1.8l2,2l1.8-1.2c0.3,0.1,0.5,0.3,0.8,0.4l0.4,2.1
+    h2.8l0.4-2.1c0.3-0.1,0.5-0.2,0.8-0.4l1.8,1.2l2-2l-1.2-1.8c0.1-0.3,0.3-0.5,0.4-0.8L27.5,21.4L27.5,21.4z M20,21.8
+    c-1.1,0-1.8-0.9-1.8-1.8s0.9-1.8,1.8-1.8c1.1,0,1.8,0.9,1.8,1.8S21,21.8,20,21.8z" />
+                        </g>
+                    </svg>
+                    <span>Settings</span></a>
+                </li>
+                <hr>
+                <li>
+                  <a ui-sref="signin" data-ng-click="logout()" class="item left-nav-logout">
+                    <svg class="icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 7 40 23.5" enable-background="new 0 7 40 23.5" xml:space="preserve">
+                        <g class="logout-icon">
+                            <path fill="none" stroke="#404041" stroke-miterlimit="10" d="M95.4,569.4v-2.9l-2.2-0.4c-0.1-0.3-0.2-0.5-0.3-0.8l1.3-1.9
+    l-2.1-2.1l-1.8,2.4c-0.3-0.1-0.5-0.2-0.8-0.3l-0.4-2.2h-2.9l-0.4,2.2c-0.3,0.1-0.5,0.2-0.8,0.3l-1.8-1.3l-2.1,2.1l1.3,1.9
+    c-0.1,0.3-0.2,0.5-0.3,0.8l-2.2,0.4v2.9l2.3,0.4c0.1,0.3,0.2,0.5,0.3,0.8l-1.3,1.9l2.1,2.1l1.9-1.3c0.3,0.1,0.5,0.2,0.8,0.3
+    l0.4,2.3h2.9l0.4-2.3c0.3-0.1,0.5-0.2,0.8-0.3l1.9,1.3l2.1-2.1l-1.3-1.9c0.1-0.3,0.2-0.5,0.3-0.8L95.4,569.4L95.4,569.4z
+     M87.6,569.9c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S88.7,569.9,87.6,569.9z" />
+                        </g>
+                        <path fill="#221F1F" d="M21.5,13.2V14c3,0.7,5.2,3.3,5.2,6.5c0,3.7-3,6.7-6.7,6.7s-6.7-3-6.7-6.7c0-3.2,2.2-5.8,5.2-6.5v-0.9
+  c-3.4,0.7-6,3.7-6,7.4c0,4.1,3.4,7.5,7.5,7.5c4.1,0,7.5-3.4,7.5-7.5C27.5,16.9,24.9,13.9,21.5,13.2z" />
+                        <rect x="19.6" y="12.5" fill="#231F20" width="0.8" height="7.3" />
+                    </svg>
+                    <span>Log out</span></a>
+                </li>
+                <hr>
+            </ul>
+        </ion-content>
+    </ion-side-menu>
+
 </ion-side-menus>
