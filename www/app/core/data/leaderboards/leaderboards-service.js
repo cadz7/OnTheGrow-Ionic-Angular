@@ -557,7 +557,7 @@ angular.module('sproutApp.data.leaderboards', [
             "avatarUrl": "img/user/ford.png",
             "entityId": 100,
             "name": "Bond",
-            "isViewer": false,
+            "isViewer": true,
             "score": 1622,
             "detailsDisplay": {
               "template": "{department}",
@@ -626,6 +626,612 @@ angular.module('sproutApp.data.leaderboards', [
       }
     ];
 
+    var board3 = [
+      {
+        "leaderboardNameDisplay": "Top 5 in Company",
+        "items": [
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 106,
+            "name": "Bryant",
+            "isViewer": false,
+            "score": 884,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 50,
+            "name": "Merritt",
+            "isViewer": true,
+            "score": 1480,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 70,
+            "name": "Wheeler",
+            "isViewer": false,
+            "score": 434,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 112,
+            "name": "Livingston",
+            "isViewer": false,
+            "score": 543,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/ford.png",
+            "entityId": 25,
+            "name": "Soto",
+            "isViewer": false,
+            "score": 1052,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "leaderboardNameDisplay": "Top 5 In Group",
+        "items": [
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/ford.png",
+            "entityId": 82,
+            "name": "Atkins",
+            "isViewer": true,
+            "score": 786,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 3,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 74,
+            "name": "Norton",
+            "isViewer": false,
+            "score": 562,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          },
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 139,
+            "name": "Holman",
+            "isViewer": false,
+            "score": 1293,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Sales"
+              }
+            }
+          },
+          {
+            "rank": 2,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 121,
+            "name": "Mccall",
+            "isViewer": false,
+            "score": 910,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 5,
+            "avatarUrl": "img/user/ford.png",
+            "entityId": 141,
+            "name": "Vaughan",
+            "isViewer": false,
+            "score": 597,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "leaderboardNameDisplay": "Top 5 in Pronvice",
+        "items": [
+          {
+            "rank": 5,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 109,
+            "name": "Holden",
+            "isViewer": false,
+            "score": 1195,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          },
+          {
+            "rank": 2,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 129,
+            "name": "Lynch",
+            "isViewer": false,
+            "score": 1487,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 45,
+            "name": "Hammond",
+            "isViewer": false,
+            "score": 1471,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Sales"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/ford.png",
+            "entityId": 28,
+            "name": "Ramos",
+            "isViewer": false,
+            "score": 541,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Sales"
+              }
+            }
+          },
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 23,
+            "name": "Dunn",
+            "isViewer": false,
+            "score": 879,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "leaderboardNameDisplay": "Top 5 in Company",
+        "items": [
+          {
+            "rank": 3,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 52,
+            "name": "Macdonald",
+            "isViewer": true,
+            "score": 1379,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 34,
+            "name": "Kaufman",
+            "isViewer": false,
+            "score": 980,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Sales"
+              }
+            }
+          },
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 70,
+            "name": "Scott",
+            "isViewer": false,
+            "score": 1526,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 3,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 78,
+            "name": "Finley",
+            "isViewer": false,
+            "score": 1699,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 5,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 124,
+            "name": "Shelton",
+            "isViewer": false,
+            "score": 1314,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          }
+        ]
+      }
+    ];
+
+    var board4 = [
+      {
+        "leaderboardNameDisplay": "Top 5 In Group",
+        "items": [
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/ford.png",
+            "entityId": 71,
+            "name": "Shannon",
+            "isViewer": false,
+            "score": 489,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Sales"
+              }
+            }
+          },
+          {
+            "rank": 3,
+            "avatarUrl": "img/user/ford.png",
+            "entityId": 149,
+            "name": "Joyner",
+            "isViewer": true,
+            "score": 953,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 5,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 45,
+            "name": "Wheeler",
+            "isViewer": false,
+            "score": 1332,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          },
+          {
+            "rank": 2,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 130,
+            "name": "Stephenson",
+            "isViewer": false,
+            "score": 1697,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 40,
+            "name": "Tucker",
+            "isViewer": false,
+            "score": 910,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "leaderboardNameDisplay": "Top 5 in Pronvice",
+        "items": [
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 138,
+            "name": "Pruitt",
+            "isViewer": false,
+            "score": 1657,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          },
+          {
+            "rank": 5,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 61,
+            "name": "Giles",
+            "isViewer": false,
+            "score": 1299,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/ford.png",
+            "entityId": 134,
+            "name": "Rodriquez",
+            "isViewer": false,
+            "score": 1527,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          },
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 74,
+            "name": "Terry",
+            "isViewer": true,
+            "score": 1301,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 2,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 80,
+            "name": "Lyons",
+            "isViewer": false,
+            "score": 1436,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "leaderboardNameDisplay": "Top 5 In Company",
+        "items": [
+          {
+            "rank": 3,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 89,
+            "name": "Marsh",
+            "isViewer": true,
+            "score": 1094,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 12,
+            "name": "Hoffman",
+            "isViewer": false,
+            "score": 1026,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 108,
+            "name": "Powell",
+            "isViewer": false,
+            "score": 519,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          },
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 141,
+            "name": "Hayes",
+            "isViewer": false,
+            "score": 529,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Sales"
+              }
+            }
+          },
+          {
+            "rank": 1,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 23,
+            "name": "Beach",
+            "isViewer": false,
+            "score": 1015,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "leaderboardNameDisplay": "Top 5 in Department",
+        "items": [
+          {
+            "rank": 5,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 42,
+            "name": "Hewitt",
+            "isViewer": false,
+            "score": 964,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "PR"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/fenchurch.png",
+            "entityId": 104,
+            "name": "Swanson",
+            "isViewer": false,
+            "score": 475,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          },
+          {
+            "rank": 2,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 148,
+            "name": "Gay",
+            "isViewer": false,
+            "score": 1760,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "HR"
+              }
+            }
+          },
+          {
+            "rank": 4,
+            "avatarUrl": "img/user/arthur.png",
+            "entityId": 93,
+            "name": "Frank",
+            "isViewer": true,
+            "score": 1623,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          },
+          {
+            "rank": 2,
+            "avatarUrl": "img/user/ford.png",
+            "entityId": 82,
+            "name": "Avery",
+            "isViewer": false,
+            "score": 759,
+            "detailsDisplay": {
+              "template": "{department}",
+              "values": {
+                "department": "Finances"
+              }
+            }
+          }
+        ]
+      }
+    ];
+
     service.loadPeriods = function() {
       return util.q.makeResolvedPromise();
     };
@@ -634,7 +1240,13 @@ angular.module('sproutApp.data.leaderboards', [
       var board;
       if (params.periodId===101 && params.userFilterId === 13 && params.activityFilterId===301) {
         board = board1;
-      } else {
+      } else if(params.periodId === 102){
+        //Selecting period "this month"
+        board = board3;
+      }else if(params.activityFilterId === 106){
+        //Should fire for at least one activity change - Cardio: Cycling
+        board = board4;
+      }else {
         board = board2;
       }
       return util.q.makeResolvedPromise(_.cloneDeep(board));
