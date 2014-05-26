@@ -13,21 +13,8 @@ angular.module('sproutApp.user-settings', [
     userSettings.fetchSettings = function() {
       userSettings.data = userStorage.get('settings');
 
-      return userSettings.data ? util.q.makeResolvedPromise(userSettings.data) : util.q.makeRejectedPromise();
+      return userSettings.data ? util.q.makeResolvedPromise(userSettings.data) : initializeSettings();
     };
-    
-    userSettings.fetchSettings().then(function() {
-      /* retrieved settings */
-    }, function() {
-      // Set defaults
-      userSettings.data = {
-        autoPostActivities: false,
-        remindNotifications: false,
-        rememberMe: true
-      };
-
-      userSettings.saveSettings(); // this will get called when the watcher is set initially too
-    });
 
     userSettings.saveSettings = function() {
       userStorage.set(userSettings.data, 'settings');
@@ -48,6 +35,31 @@ angular.module('sproutApp.user-settings', [
 
       return deferred.promise;
     };
+    
+    function initializeSettings() {
+      var deferred = $q.defer();
+
+      userSettings.data = {
+        autoPostActivities: false,
+        remindNotifications: false,
+        rememberMe: true
+      };
+
+      userSettings.saveSettings().then(function() {
+        deferred.resolve('saved new settings');
+      }, function(error) {
+        deferred.reject('Error saving new settings');
+      });
+
+      return deferred.promise;
+    }
+    
+    userSettings.fetchSettings().then(function() {
+      /* retrieved settings */
+    }, function() {
+      // Set defaults
+      return initializeSettings();
+    });
 
     return userSettings;
   }
