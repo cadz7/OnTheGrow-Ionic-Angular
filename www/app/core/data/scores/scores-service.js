@@ -3,7 +3,7 @@ angular.module('sproutApp.data.scores', [
   'sproutApp.util'
 ])
 
-  .factory('scores', ['$log', '$q', 'util','user', 'API_CONSTANTS','mockScores',
+  .factory('scores', ['$log', '$q', 'util','user', 'API_CONSTANTS','mockScoresServer',
     function ($log, $q, util, user, API_CONSTANTS, server) {
       var service = {};
 
@@ -25,24 +25,25 @@ angular.module('sproutApp.data.scores', [
     }
   ])//scores
 
-  .factory('mockScores', ['$q','API_CONSTANTS', function($q,API_CONSTANTS){
+  .factory('mockScoresServer', ['$q','API_CONSTANTS', function($q,API_CONSTANTS){
+    var mockScores = [
+                {timePeriodId: 'today',score: 2345},
+                {timePeriodId: 'yesterday',score: 4352},
+                {timePeriodId: 'week',score: 890},
+                {timePeriodId: 'month',score: 789},
+                {timePeriodId: 'year',score: 6879}
+              ];
+
+
     return {
       get : function(url,query){
         var deferred = $q.defer();
         switch(url){
           case API_CONSTANTS.scoresEndPoint:
-            deferred.resolve([
-                {timePeriodId: 2,score: 2345},
-                {timePeriodId: 3,score: 4352},
-                {timePeriodId: 4,score: 890},
-                {timePeriodId: 5,score: 789},
-                {timePeriodId: 6,score: 6879},
-                {timePeriodId: 7,score: 5768},
-                {timePeriodId: 8,score: 4675},
-                {timePeriodId: 9,score: 3546},
-                {timePeriodId: 10,score: 234},
-                {timePeriodId: 11,score: 1234}
-              ]);
+            if(query && query.timePeriodId)
+              deferred.resolve(_.filter(mockScores, function(score){return score.timePeriodId === query.timePeriodId;}));
+            else
+              deferred.resolve(mockScores);
             break;
           default:
             deferred.reject('the mock scores factory received an unexpected url: '+url);
