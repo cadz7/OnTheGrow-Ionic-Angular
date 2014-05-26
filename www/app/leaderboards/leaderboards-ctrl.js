@@ -48,6 +48,8 @@ angular.module('sproutApp.controllers')
 
       $scope.getPeriod = function(periodIndex){
         $scope.activePeriod = $scope.periods[periodIndex];
+        leaderboardParams.periodId = $scope.activePeriod.timePeriodId;
+        $scope.getLeaderboards(leaderboardParams);
       };
 
       $scope.toggleFiltersView = function(){
@@ -63,6 +65,8 @@ angular.module('sproutApp.controllers')
 
       $scope.selectActivityFilter = function(activityObj){
         $scope.activeActivity = activityObj;
+        leaderboardParams.activityFilterId = $scope.activeActivity.unitId;
+        $scope.getLeaderboards(leaderboardParams);
         $scope.toggleActivityList();
       };
 
