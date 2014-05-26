@@ -1,7 +1,7 @@
 
 angular.module('sproutApp.directives')
 
-.directive('leader',['template', 'user', function(template, user){
+.directive('leader',['template', 'user', function(template){
 
     return {
       restrict: 'AE',
@@ -11,7 +11,6 @@ angular.module('sproutApp.directives')
       templateUrl: 'app/leaderboards/leader.tpl.html',
       link: function(scope, element, attrs){
 
-        scope.loggedInUser = user.data;
         scope.leader.additionalInfo = template.fill(scope.leader.detailsDisplay.template, scope.leader.detailsDisplay.values);
       }
     }

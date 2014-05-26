@@ -37,7 +37,7 @@ angular.module('sproutApp.data.leaderboards', [
               }
             },
             score: 1200,
-            isViewer: false
+            isViewer: true
           },
           {
             entityId: 1002,
@@ -51,7 +51,7 @@ angular.module('sproutApp.data.leaderboards', [
               }
             },
             score: 1600,
-            isViewer: true
+            isViewer: false
           },
           {
             entityId: 1003,
@@ -85,7 +85,7 @@ angular.module('sproutApp.data.leaderboards', [
               }
             },
             score: 1200,
-            isViewer: false
+            isViewer: true
           },
           {
             entityId: 1002,
@@ -99,7 +99,7 @@ angular.module('sproutApp.data.leaderboards', [
               }
             },
             score: 1100,
-            isViewer: true
+            isViewer: false
           },
           {
             entityId: 1003,
