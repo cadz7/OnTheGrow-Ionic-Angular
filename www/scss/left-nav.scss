@@ -1,22 +1,47 @@
 @import"variables";
- .menu-left {
-    background-color: #fff;
-    .icon {
-        width: 60px;
-        height:100%;
-        float:left;
-        .stream-icon {
-            fill:$green;
+
+ user-profile-summary {
+    font-family:'roboto', sans-serif;
+    line-height: 18px;
+    font-weight: 400;
+    .row {
+        background-color: $base-background-color;
+    }
+    h3.user-full-name {
+        font-size: 1rem;
+        margin-bottom: 0;
+        color: $orange;
+        font-weight: 400;
+    }
+    img.avatar {
+        padding: 0;
+        width: $item-avatar-width;
+        height: $item-avatar-height;
+    }
+    .location {
+        font-size: $font-size-small;
+        color: $mediumgrey;
+    }
+    .points {
+        color: $orange;
+        font-size: .8rem;
+        text-align: center;
+        display: inherit;
+        strong {
+            font-size: 1rem;
+            font-weight: 500;
         }
-        .activity-icon {
-            fill:$orange;
-        }
-        .leaderboard-icon{
-          fill:$blue;
-        }
+    }
+    .points-label {
+        font-size: $font-size-small;
+        color: $mediumgrey;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
     }
 }
 ion-side-menu {
+  font-family:'roboto', sans-serif;
     ion-content {
         li {
             width: 100%;
@@ -61,36 +86,29 @@ ion-side-menu {
             border-right:10px solid #404042;
         }
     }
-    user-profile-summary {
-        .row {
-            background-color: $base-background-color;
+}
+.menu-left {
+    background-color: #fff;
+    .row {
+        padding:1rem 0
+    }
+    .avatar {
+        border-radius: 0 3px 3px 0;
+        position: relative;
+        left: -5px;
+    }
+    .icon {
+        width: 60px;
+        height:100%;
+        float:left;
+        .stream-icon {
+            fill:$green;
         }
-        h3.user-full-name {
-            font-size: $font-size-large;
-            margin-bottom: 0;
-            color: $orange;
+        .activity-icon {
+            fill:$orange;
         }
-        img.avatar {
-            padding: 0;
-            width: $item-avatar-width;
-            height: $item-avatar-height;
-        }
-        .location {
-            font-size: $font-size-small;
-            color: $mediumgrey;
-        }
-        .points {
-            color: $orange;
-            strong {
-                font-size: $font-size-large;
-            }
-        }
-        .points-label {
-            font-size: $font-size-small;
-            color: $mediumgrey;
-            text-align: center;
-            display: inline-block;
-            width: 100%;
+        .leaderboard-icon {
+            fill:$blue;
         }
     }
 }
