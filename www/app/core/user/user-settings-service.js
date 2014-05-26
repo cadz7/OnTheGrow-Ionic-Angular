@@ -4,8 +4,8 @@ angular.module('sproutApp.user-settings', [
   'sproutApp.user'
 ])
 
-.factory('userSettings', ['userStorage', 'util',
-  function (userStorage, util) {
+.factory('userSettings', ['userStorage', 'util', '$q',
+  function (userStorage, util, $q) {
     'use strict';
     
     var userSettings = {},
@@ -37,6 +37,21 @@ angular.module('sproutApp.user-settings', [
     userSettings.saveSettings = function() {
       userStorage.set(userSettings.data, 'settings');
       return util.q.makeResolvedPromise(userSettings.data);
+    };
+    
+    userSettings.saveSetting = function(key, value) {
+      var deferred = $q.defer();
+
+      if (key in userSettings.data) {
+        userSettings.data[key] = value;
+        userStorage.set(userSettings.data, 'settings');
+        deferred.resolve(userSettings.data);
+      }
+      else {
+        deferred.reject("Unable to save setting: '" + key + "' key was not found");
+      }
+
+      return deferred.promise;
     };
 
     userSettings.mapSettingText = function(setting) {
