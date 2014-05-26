@@ -55,7 +55,7 @@ angular.module('sproutApp.user', [
       var deferred = $q.defer();
       
       if(APP_CONFIG.useMockData){
-        if(username!== 'arthur'){
+        if(username!== 'arthur' && (username !== 'simon@rangle.io' || password !=='testtest')){
           deferred.reject({errorCode:'hallow'});
           return deferred.promise;
         }
