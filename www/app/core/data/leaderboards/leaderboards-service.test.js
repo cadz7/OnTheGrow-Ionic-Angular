@@ -38,13 +38,13 @@ describe('leaderboards service', function() {
   it('should get the first board', function () {
     var params = {
       periodId: 101,
-      userFilterId: 201,
+      userFilterId: 13,
       activityFilterId: 301
     };
     return leaderboards.getBoards(params)
       .then(function(boards) {
-        expect(boards[0].leaderboardNameDisplay).to.equal('Company');
-        expect(boards[0].items[1].entityId).to.equal(1002);
+        expect(boards[0].leaderboardNameDisplay).to.equal('Top 5 in Pronvice');
+        expect(boards[0].items[1].entityId).to.equal(105);
       });
   });
 
@@ -56,8 +56,8 @@ describe('leaderboards service', function() {
     };
     return leaderboards.getBoards(params)
       .then(function(boards) {
-        expect(boards[0].leaderboardNameDisplay).to.equal('Foo');
-        expect(boards[0].items[1].entityId).to.equal(2002);
+        expect(boards[0].leaderboardNameDisplay).to.equal('Top 5 in Company');
+        expect(boards[0].items[1].entityId).to.equal(101);
       });
   });
 
