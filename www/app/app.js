@@ -5,9 +5,11 @@ angular.module('sproutApp.controllers', [
   'sproutApp.data.stream-items',
   'sproutApp.template',
   'sproutApp.data.activities',
-  'sproutApp.data.filters'
+  'sproutApp.data.filters',
+  'sproutApp.controllers.user-settings'
 ]);
 angular.module('sproutApp.services', [
+  'sproutApp.user-settings',
   'sproutApp.data.leaderboards',
   'sproutApp.data.challenge',
   'sproutApp.data.membership',
@@ -96,6 +98,15 @@ angular.module('sproutApp', [
         }
       }
     })
+    .state('main.user-settings', {
+      url: '/user-settings',
+      views: {
+        'mainContent': {
+          templateUrl: 'app/user-settings/user-settings.html',
+          controller: 'UserSettingsCtrl'
+        }
+      }
+    });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main/stream');

@@ -1,0 +1,17 @@
+<!-- ion-nav-bar goes here -->
+<ion-view title="Settings">
+  <!-- ion-header-bar goes here -->
+  <ion-header-bar align-title="center" class="bar">
+    <left-nav-toggle-btn></left-nav-toggle-btn>
+    <h1 class="title">Settings</h1>
+  </ion-header-bar>
+  <ion-content class="padding has-header user-settings">
+      
+      <ion-toggle ng-model="userSettings.autoPostActivities" ng-checked="userSettings.autoPostActivities">Auto-post activities</ion-toggle>
+      <hr />
+      <ion-toggle ng-model="userSettings.remindNotifications" ng-checked="userSettings.remindNotifications">Remind me to track activities</ion-toggle>
+      <hr />
+      <ion-toggle ng-model="userSettings.rememberMe" ng-checked="userSettings.rememberMe">Keep me signed in</ion-toggle>
+
+  </ion-content>
+</ion-view>

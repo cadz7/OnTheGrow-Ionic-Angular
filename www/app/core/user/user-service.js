@@ -5,8 +5,8 @@ angular.module('sproutApp.user', [
   'sproutApp.util'
 ])
 
-.factory('user', ['userStorage', '$q', '$log', '$window', 'util', 'server','API_CONSTANTS','APP_CONFIG',
-  function (userStorage, $q, $log, $window, util, server, API_CONSTANTS,APP_CONFIG) {
+.factory('user', ['userStorage', 'userSettings', '$q', '$log', '$window', 'util', 'server','API_CONSTANTS','APP_CONFIG',
+  function (userStorage, userSettings, $q, $log, $window, util, server, API_CONSTANTS,APP_CONFIG) {
     'use strict';
     var user = {};
     var authenticatedDeferred = $q.defer();
@@ -78,7 +78,11 @@ angular.module('sproutApp.user', [
           user.data = newUser;
           userStorage.set(newUser);
           user.isAuthenticated = true;
-          authenticatedDeferred.resolve();
+          userSettings.fetchSettings().then(function() {
+            authenticatedDeferred.resolve();
+          }, function() {
+            authenticatedDeferred.reject();
+          })
           
           deferred.resolve();
         

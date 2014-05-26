@@ -7,12 +7,12 @@ angular.module('sproutApp.user.storage', [
     'use strict';
     var service = {};
 
-    service.get = function () {
-      return JSON.parse(window.localStorage.getItem('user'));
+    service.get = function (key) {
+      return JSON.parse(window.localStorage.getItem(key || 'user'));
     };
 
-    service.set = function (user) {
-      return window.localStorage.setItem('user', JSON.stringify(user));
+    service.set = function (data, key) {
+      return window.localStorage.setItem(key || 'user', JSON.stringify(data));
     };
 
     service.removeUser = function () {
