@@ -103,6 +103,16 @@ angular.module('sproutApp.controllers')
         });
       };
 
+
+      //
+      // REFRESH STREAM ITEMS HERE
+      //
+      $scope.onRefreshPullDown = function() {
+      
+        // Call this when done
+        $scope.$broadcast('scroll.refreshComplete');        
+      };
+
     }
   ]
 );
