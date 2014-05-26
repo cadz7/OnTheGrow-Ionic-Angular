@@ -771,10 +771,10 @@ angular.module('sproutApp.data.activities', [
                               }
                              ];
   
-
-    var activityLogs = [{activityLogId:1, "activityUnitId":254,"quantity":40,"points":200,"date":"2014-05-14T15:22:11Z"},
-                        {activityLogId:2, "activityUnitId":354,"quantity":60,"points":300,"date":"2014-05-14T15:22:11Z"},
-                        {activityLogId:3, "activityUnitId":454,"quantity":90,"points":3400,"date":"2014-05-16T15:22:11Z"}];
+    //SR NOTE: activityDisplayName is not defined in the API currently, but should be.
+    var activityLogs = [{activityLogId:1, activityDisplayName:'Running',"activityUnitId":254,"quantity":40,"points":200,"date":"2014-05-14T15:22:11Z"},
+                        {activityLogId:2, activityDisplayName:'Walking', "activityUnitId":354,"quantity":60,"points":300,"date":"2014-05-14T15:22:11Z"},
+                        {activityLogId:3, activityDisplayName:'Swimming', "activityUnitId":454,"quantity":90,"points":3400,"date":"2014-05-16T15:22:11Z"}];
 
 
     return {
