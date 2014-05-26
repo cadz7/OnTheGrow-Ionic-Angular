@@ -1,23 +1,24 @@
 'use strict';
 
 angular.module('sproutApp.controllers')
-  .controller('MetricsCtrl', ['$scope', 'headerRemote', 'activities', '$log', function ($scope, headerRemote, activities, $log) {
+  .controller('MetricsCtrl', ['$scope', 'headerRemote', 'activities', '$log','user','filters',
+   function ($scope, headerRemote, activities, $log, user, filters) {
     $scope.header = headerRemote;
-    $scope.logPeriodFilter = 'Week';
+    
 
     // TODO please note that this may not be the final model and will be wrapped in async service
-    $scope.user = {
-      firstName: 'John',
-      lastName: 'Sintal',
-      department: 'Department',
-      location: 'Location',
-      totalScore: '1500'
-    };
+    $scope.user = user.data;
+    $scope.timePeriodFilters = filters.timePeriodFilters;
+    $scope.logPeriodFilter = $scope.timePeriodFilters[0];
 
     activities.whenReady().then(function() {
       $log.debug('activities.activityLog', activities.activityLog);
-      $scope.groupedActivities = activities.activityLog;
+      $scope.groupedActivities = activities.loadActivityLog($scope.logPeriodFilter.id);
+
     });
+
+    //on filter change, get activity log
+
 
 //    $scope.groupedActivities = [
 //      {

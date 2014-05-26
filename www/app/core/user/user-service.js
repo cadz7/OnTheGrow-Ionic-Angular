@@ -66,6 +66,9 @@ angular.module('sproutApp.user', [
             avatarUrl: 'img/user/arthur.png',
             department: 'Accounting',
             location: 'Toronto',
+            sproutScore: 23142,
+            
+
             points: [
               {
                 timePeriodId: 2,
@@ -75,6 +78,11 @@ angular.module('sproutApp.user', [
             token: 'e9c77174292c076359b069aef68468d1463845cf',
             expirationDateTime: '2014-07-14T15:22:11Z'
           };
+
+
+  
+
+
           user.data = newUser;
           userStorage.set(newUser);
           user.isAuthenticated = true;

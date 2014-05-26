@@ -635,8 +635,8 @@ angular.module('sproutApp.data.activities', [
           return categoriesById[id];
         }
       ));
-
-      return service.loadActivityLog();
+      return util.q.makeResolvedPromise();
+      //return service.loadActivityLog();
     };
 
     service.loadActivityCategories = function() {
