@@ -13,6 +13,7 @@ angular.module('sproutApp.services', [
   'sproutApp.data.leaderboards',
   'sproutApp.data.challenge',
   'sproutApp.data.membership',
+  'sproutApp.data.scores',
   'sproutApp.config',
   'sproutApp.template',
   'sproutApp.data.stream-items',
@@ -165,6 +166,9 @@ angular.module('sproutApp.config', [])
   //ACTIVITIES
   activityLogEndpoint: 'activity_log',
   activityCategoryEndpoint: 'activity_categories',
+
+  //SCORES
+  scoresEndPoint:'scores',
 
   //STREAM ITEMS
   streamItemsEndPoint : 'stream_items'
