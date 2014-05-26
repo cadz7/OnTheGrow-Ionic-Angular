@@ -632,7 +632,7 @@ angular.module('sproutApp.data.leaderboards', [
 
     service.getBoards = function(params) {
       var board;
-      if (params.periodId===101 && params.userFilterId === 201 && params.activityFilterId===301) {
+      if (params.periodId===101 && params.userFilterId === 13 && params.activityFilterId===301) {
         board = board1;
       } else {
         board = board2;

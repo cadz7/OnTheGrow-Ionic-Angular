@@ -24,7 +24,7 @@ angular.module('sproutApp.controllers')
       //Default Params for Leaderboard queries to service - will need to make them more dynamic
       var leaderboardParams = {
         periodId: $scope.periods[0].timePeriodId,
-        userFilterId: $scope.leaderboardFilters.userFilters[0].filterId,
+        userFilterId: 13,
         activityFilterId: $scope.leaderboardFilters.activityFilters[0].filterId
       };
 
@@ -34,6 +34,9 @@ angular.module('sproutApp.controllers')
           leaderboards.getBoards(leaderboardParams).then(function(response){
             $scope.leaderBoards = response;
             $scope.currentBoardTitle = $scope.leaderBoards[0].leaderboardNameDisplay;
+
+            //Resolves issue with everything being stretched until resize after a new request
+            $ionicSlideBoxDelegate.update();
           });
       };
 
@@ -74,9 +77,9 @@ angular.module('sproutApp.controllers')
             return true;
           },
           buttonClicked: function (index) {
-
-            //Todo: refactor
             $scope.selectedCategory = this.buttons[index];
+            leaderboardParams.userFilterId = this.buttons[index].activityCategoryId;
+            $scope.getLeaderboards(leaderboardParams);
             return true;
           }
         });
