@@ -1,4 +1,4 @@
-angular.module('sproutApp.filters', [])
+angular.module('sproutApp.filters')
 .filter('inSlicesOf', 
   ['$rootScope',  
   function($rootScope) {
