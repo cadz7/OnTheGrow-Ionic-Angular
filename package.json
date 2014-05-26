@@ -6,6 +6,7 @@
     "gulp": "~3.6.0"
   },
   "dependencies": {
-    "rangle-gulp": "0.0.6"
+    "rangle-gulp": "0.0.6",
+    "koast": "0.2.0"
   }
 }

@@ -1,0 +1,29 @@
+[
+  {
+    "filterId": 101,
+    "displayName": "Fun items",
+    "filterType": "stream_items"
+  }, {
+    "filterId": 102,
+    "displayName": "Boring items",
+    "filterType": "stream_items"
+  },
+  {
+    "filterId": 201,
+    "displayName": "Cool people",
+    "filterType": "users"
+  }, {
+    "filterId": 202,
+    "displayName": "Square people",
+    "filterType": "users"
+  },
+  {
+    "filterId": 301,
+    "displayName": "Exercise",
+    "filterType": "activities"
+  }, {
+    "filterId": 302,
+    "displayName": "Nutrition",
+    "filterType": "activities"
+  }
+]
