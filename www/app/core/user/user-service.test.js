@@ -64,13 +64,13 @@ describe('user service', function() {
 
   it('user service should get loaded', function () {
     expect(user).to.not.be.undefined;
-    userStorage.get.should.have.been.calledOnce;
+    userStorage.get.should.have.been.calledTwice; // Once for 'user', once for 'settings'
   });
 
   it('user should be initially unauthenticated', function () {
     expect(user.data).to.be.falsy;
     expect(user.isAuthenticated).to.be.false;
-    userStorage.get.should.have.been.calledOnce;
+    userStorage.get.should.have.been.calledTwice; // Once for 'user', once for 'settings'
   });
 
   it('should authenticate user', function (done) {
