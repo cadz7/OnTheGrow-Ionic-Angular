@@ -24,11 +24,8 @@ angular.module('sproutApp.controllers')
 
   //search for activities based on the user's text
   $scope.$watch('newPost.text', function(newVal, oldVal){
-    //user is not tracking an activty, dont do anything.
-    if (!$scope.addActivityVisible) return;
-    
     //user has cleared all search text -> take then back to the category select view
-    if (!newVal && oldVal) {
+    if (!newVal) {
       resetActivitySelect();
       return;
     }
@@ -60,7 +57,9 @@ angular.module('sproutApp.controllers')
     $scope.activityListVisible = true;
     $scope.showActivityForm = false;
     $scope.errorMessage = '';
-    $scope.newPost.text = '';
+    $scope.newPost = {
+      text: ''
+    };
     $scope.showNumpad = false;
   }
   resetActivitySelect(); //initalize view

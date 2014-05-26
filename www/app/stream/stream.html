@@ -22,113 +22,32 @@
   <ion-content id="sproutPostsScroller"
     ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]">
 
-      <ion-refresher on-refresh="onRefreshPullDown()"
-        pulling-text="Pull to refresh..."
-        refreshing-text="Refreshing!"
-        refreshing-icon="ion-loading-c">
-                  
-      </ion-refresher>
+    <ion-refresher on-refresh="onRefreshPullDown()"
+      pulling-text="Pull to refresh..."
+      refreshing-text="Refreshing!"
+      refreshing-icon="ion-loading-c">
+                
+    </ion-refresher>
 
 
-    <div class="add-activity-post" ng-controller="ActivityBarCtrl"
-        ng-class="{'activity-select-visible': addActivityVisible}">
-
-      <div class="row create-post">
-        <form>
-          <textarea ng-model="newPost.text" class="post-box"></textarea>
-          <div class="row">
-            <div class="col">
-              <span class="icon ion-edit"></span>
-              <a ng-click="submitPost(newPost)" href="javascript:void(0)">Post To Stream</a>
-            </div>
-            <div class="col">
-              <span class="icon ion-android-stopwatch"></span>
-              <a ng-click="onTrackActivityClick()" href="javascript:void(0)">Track Activity</a>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <div class="activity-select" ng-show="addActivityVisible">
+    <div class="row create-post">
+      <form>
+        <!-- <textarea ng-model="newPost.text" class="post-box"></textarea> -->
         <div class="row">
           <div class="col">
-            <h3 class="activity-title">{{ title }}</h3>
+            <span class="icon ion-edit"></span>
+            <a ng-click="createPost()" href="javascript:void(0)">Post To Stream</a>
           </div>
-        </div>
-
-        <ion-scroll>
-          <div class="row" ng-repeat="row in activityData | inSlicesOf:2" ng-show="activityListVisible">
-            <div class="col col-50 activity-item-container" ng-repeat="item in row">
-              <div class="activity-item" ng-click="onItemSelect(item)">{{item[nameKey]}}</div>
-            </div>
-          </div>
-        </ion-scroll>
-        <form name="activityForm" ng-show="showActivityForm" >
-          <div class="row" >
-            <div class="col col-50">
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Activity</span>
-                <input type="text" ng-model="currentActivity.activityName" readonly required/>
-              </label>
-            </div>
-
-            <div class="col col-50">
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Date</span>
-                <input type="date" name="date" ng-model="currentActivity.date" max="{{maxDate}}" required placeholder="yyyy-MM-dd" style="padding-left: 0px"/>
-                <span class="input-label"  style="color:red" ng-show="activityForm.date.$error.required">Date Required!</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="row" >
-            <div class="col">
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Quantity ({{currentActivity.unitName}})</span>
-                <input type="number" name="quantity" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1" readonly style="text-align: center" ng-click="showNumpad = !showNumpad"/>
-                  <numpad ng-show="showNumpad" model="currentActivity.quantity" accept="alert()"></numpad>
-                  <span class="input-label"  style="color:red" ng-show="activityForm.quantity.$error.required">Number Required!</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col" style="text-align: right">
-              <span style="color:red">{{errorMessage}}</span>
-              <button class="button button-balanced" ng-click="addActivity()" ng-disabled="!activityForm.$valid || savingActivity">Add</button>
-              <button class="button button-assertive" ng-click="clearActivity()">Clear</button>
-            </div>
-          </div>
-        </form>
-
-        <div class="row">
           <div class="col">
-            <h3 class="activity-title">Activity Queue</h3>
+            <span class="icon ion-android-stopwatch"></span>
+            <a ng-click="createActivity()" href="javascript:void(0)">Track Activity</a>
           </div>
         </div>
-        <div class="row" ng-show="!activtyQueue || activtyQueue.length === 0">
-          <div class="col" style="color">
-            No Activites Selected
-          </div>
-        </div>
-        <ion-list  show-delete="true" >
-          <ion-item ng-repeat="post in activtyQueue" class="item-thumbnail-left activity-queue-item">
-            You tracked {{post.quantity}} {{post.unitName}} of {{post.activityName}}
-            <ion-delete-button class="ion-minus-circled" ng-click="activtyQueue.splice($index, 1)">
-          </ion-item>
-        </ion-list>
-        <div class="row">
-          <div class="col" style="text-align: right">
-            <span style="color:red">{{errorMessage}}</span>
-            <button class="button button-balanced" ng-show="activtyQueue && activtyQueue.length > 0" ng-click="saveActivities()" ng-disabled="savingActivities">Save</button>
-            <button class="button button-assertive" ng-click="cancel()">Cancel</button>
-          </div>
-        </div>
-
-      </div><!-- activity-select ng-show=addActivityVisible -->
-
-
+      </form>
     </div>
+
+    <!-- activity-select ng-show=addActivityVisible -->
+
     <!--
       This input box should be a fixed element that sits
       on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
