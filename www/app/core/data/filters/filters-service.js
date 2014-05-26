@@ -9,11 +9,11 @@ angular.module('sproutApp.data.filters', [
 
     service.streamItemFilters = [
       {
-        filterId: 101,
+        filterId: '101',
         displayName: 'Fun items',
         filterType: 'stream_items'
       }, {
-        filterId: 102,
+        filterId: '102',
         displayName: 'Boring items',
         filterType: 'stream_items'
       }
@@ -21,11 +21,11 @@ angular.module('sproutApp.data.filters', [
 
     service.userFilters = [
       {
-        filterId: 201,
+        filterId: '201',
         displayName: 'Cool people',
         filterType: 'users'
       }, {
-        filterId: 202,
+        filterId: '202',
         displayName: 'Square people',
         filterType: 'users'
       }
@@ -33,15 +33,22 @@ angular.module('sproutApp.data.filters', [
 
     service.activityFilters = [
       {
-        filterId: 301,
+        filterId: '301',
         displayName: 'Exercise',
         filterType: 'activities'
       }, {
-        filterId: 302,
+        filterId: '302',
         displayName: 'Nutrition',
         filterType: 'activities'
       }
     ];
+
+    service.timePeriodFilters = [      
+      {"filterId":"today","displayName":"Today","filterType":"time_periods"},
+      {"filterId":"yesterday","displayName":"Yesterday","filterType":"time_periods"},
+      {"filterId":"week","displayName":"This week","filterType":"time_periods"},
+      {"filterId":"month","displayName":"This month","filterType":"time_periods"}
+    ];    
 
     return service;
   }
