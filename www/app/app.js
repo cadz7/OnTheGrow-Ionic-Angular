@@ -164,7 +164,7 @@ angular.module('sproutApp.config', [])
   currentUserEndpoint : 'auth/current_user',
 
   //ACTIVITIES
-  activityLogEndpoint: 'activity_log',
+  activityLogEndpoint: 'activity_logs',
   activityCategoryEndpoint: 'activity_categories',
 
   //SCORES
