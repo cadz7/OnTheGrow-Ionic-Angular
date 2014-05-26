@@ -9,14 +9,18 @@ angular.module('sproutApp.data.activities', [
   'sproutApp.server'
 ])
 
-.factory('activities', ['$q', 'user', 'util', 'cache', 'serverPostQueue', 'server', 'API_CONSTANTS','APP_CONFIG',
+.factory('activities', ['$q', 'user', 'util', 'cache', 'serverPostQueue', 'mockActivitiesServer', 'API_CONSTANTS','APP_CONFIG',
   function ($q, user, util, cache, serverPostQueue, server, API, APP_CONFIG) {
     'use strict';
     var service = {
-      categories: [] // an array of currently loaded items
-    };
+      categories : [], // an array of currently loaded items
+      activityLog : []
+    };   
+    var knownUnitIds = [];
 
-    var flatActivities = [
+
+    //SR NOTE: this is to be removed once we start hitting the sprout API for activities
+     var flatActivities = [
       {
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
@@ -602,8 +606,6 @@ angular.module('sproutApp.data.activities', [
       }
       ];
 
-    var knownUnitIds = [];
-
     service.reload = function () {
       var categoriesById = {};
 
@@ -634,35 +636,29 @@ angular.module('sproutApp.data.activities', [
         }
       ));
 
-      if(APP_CONFIG.useMockData)
-        return util.q.makeResolvedPromise();
-      else
-        return service.loadActivityLog();
+      return service.loadActivityLog();
     };
 
     service.loadActivityCategories = function() {
-
-      if(APP_CONFIG.useMockData){
-
-      }else{
-        return server.get(API.activityCategoryEndpoint, function(categories) {
-          cache.set('activity_categories', categories);
-        }, function error(e) {
-          service.categories = cache.get('activity_categories');
-          throw e;
-        });  
-      }
-
-      
+      return server.get(API.activityCategoryEndpoint, function(categories) {
+        cache.set('activity_categories', categories);
+      }, function error(e) {
+        service.categories = cache.get('activity_categories');
+        throw e;
+      });     
     };
 
-    service.activityLog = [];
-    service.loadActivityLog = function() {
-
-      if(APP_CONFIG.useMockData){
-
-      }else{
-        return server.get(API.activityLogEndpoint).then(function(activityLog) {
+    /*
+    * Loads a collection of logged activities for the current user
+    *
+    * @param {int,required} timePeriodId   Provides the time period  Id for which the activity log should be generated //NOTE: GET FILTERS returns the id as a string -> ????
+    * @param {int} idGreaterThan            An optional parameter to specify the last Id of the activity log for the user shown and get the next items (needed in case customer selected to see log for the year and there were thousands of items)
+    *
+    * @returns {promise}                    a promise containing an array of all activities by the user for the requested timeperiod
+    */
+    service.loadActivityLog = function(timePeriodId, idGreaterThan) {
+      return server.get(API.activityLogEndpoint,{timePeriodId:timePeriodId,idGreaterThan:idGreaterThan})
+        .then(function(activityLog) {
           cache.set('activity_log', activityLog);
           service.activityLog = activityLog;
           return activityLog;
@@ -675,8 +671,7 @@ angular.module('sproutApp.data.activities', [
             return null;
           }
           throw response;
-        })
-      }
+        });      
     };
 
     /**
@@ -694,72 +689,51 @@ angular.module('sproutApp.data.activities', [
         return util.q.makeRejectedPromise('logActivities: expects an array of activities');
       }
       //chai.expect(loggedActivities.length).to.be.above(0);
+      var allRequests = [];
 
-      if(APP_CONFIG.useMockData){
-        var returnedLog = [];
-        return util.q.makeResolvedPromise()
-        .then(function() {
-          chai.expect(loggedActivities).to.be.an.array;
-          chai.expect(loggedActivities.length).to.be.above(0);
-          loggedActivities.forEach(function(activity) {
-            var clone = _.cloneDeep(activity);
-            chai.expect(clone.activityUnitId).to.be.a.number;
-            chai.expect(knownUnitIds).to.contain(clone.activityUnitId);
-            chai.expect(clone.quantity).to.not.be.undefined;
-            chai.expect(clone.quantity).to.be.a.number;
-            clone.date = clone.date || new Date().toISOString();
-            returnedLog.push(clone);
-          });
+      return util.q.makeResolvedPromise().then(function() {
+        var activitiesLogged = [];  // this will contain all the successfully logged requests when the promise returned resolves.
+        loggedActivities.forEach(function (activity) {
+          var clone = _.cloneDeep(activity);
+          chai.expect(clone.activityUnitId).to.be.a.number;
+          chai.expect(knownUnitIds).to.contain(clone.activityUnitId);
+          chai.expect(clone.quantity).to.not.be.undefined;
+          chai.expect(clone.quantity).to.be.a.number;
+          clone.date = clone.date || new Date().toISOString();
 
-          return returnedLog;
+          var request = server.post(API.activityLogEndpoint, activity)
+              .then(function (savedActivity) {
+                // todo: anything that needs to be done upon success.
+                cache.push('activity_log', savedActivity);
+                activitiesLogged.push(savedActivity);
+                return savedActivity;
+              },
+              function error(response) {
+                // A 500 could indicate a temporary failure, in which case we would want to serverPostQueue it later.
+                if (response === 'offline' || response.status_code === 500) {
+                  // Let's queue it up to be serverPostQueueed later if we are offline or the a temporary error occurred.
+                  serverPostQueue.queue(API.activityLogEndpoint, activity);
+
+                  // NOTE: if server always rejects the activity, the client will not become inconsistent
+                  // because the cached activity_log will get updated with the server values eventually.
+                  cache.push('activity_log', activity);
+                  activitiesLogged.push(activity);
+                } else {
+                  // something bad happened, maybe the activity id no longer exists on the server,
+                  // for whatever reason, this activity cannot be saved permanently.  In this case
+                  // we must send error to client:
+                  throw response;
+                }
+              });
+          allRequests.push(request);
         });
-      }else {
 
-        var allRequests = [];
-
-        return util.q.makeResolvedPromise().then(function() {
-          var activitiesLogged = [];  // this will contain all the successfully logged requests when the promise returned resolves.
-          loggedActivities.forEach(function (activity) {
-            var clone = _.cloneDeep(activity);
-            chai.expect(clone.activityUnitId).to.be.a.number;
-            chai.expect(knownUnitIds).to.contain(clone.activityUnitId);
-            chai.expect(clone.quantity).to.not.be.undefined;
-            chai.expect(clone.quantity).to.be.a.number;
-            clone.date = clone.date || new Date().toISOString();
-
-            var request = server.post(API.activityLogEndpoint, activity)
-                .then(function (savedActivity) {
-                  // todo: anything that needs to be done upon success.
-                  cache.push('activity_log', savedActivity);
-                  activitiesLogged.push(savedActivity);
-                  return savedActivity;
-                },
-                function error(response) {
-                  // A 500 could indicate a temporary failure, in which case we would want to serverPostQueue it later.
-                  if (response === 'offline' || response.status_code === 500) {
-                    // Let's queue it up to be serverPostQueueed later if we are offline or the a temporary error occurred.
-                    serverPostQueue.queue(API.activityLogEndpoint, activity);
-
-                    // NOTE: if server always rejects the activity, the client will not become inconsistent
-                    // because the cached activity_log will get updated with the server values eventually.
-                    cache.push('activity_log', activity);
-                    activitiesLogged.push(activity);
-                  } else {
-                    // something bad happened, maybe the activity id no longer exists on the server,
-                    // for whatever reason, this activity cannot be saved permanently.  In this case
-                    // we must send error to client:
-                    throw response;
-                  }
-                });
-            allRequests.push(request);
-          });
-
-          return $q.all(allRequests).then(function() {
-            service.activityLog = service.activityLog.concat(activitiesLogged);
-            return activitiesLogged;
-          });
+        return $q.all(allRequests).then(function() {
+          service.activityLog = service.activityLog.concat(activitiesLogged);
+          return activitiesLogged;
         });
-      }
+      });
+    
     };
 
 
@@ -770,5 +744,69 @@ angular.module('sproutApp.data.activities', [
 
     return service;
   }
-])
-;
+])//ACTIVITIES SERVICE
+.factory('mockActivitiesServer',['$q', 'util', 'API_CONSTANTS',
+ function($q,utils,API_CONSTANTS){
+    'use strict';
+    var service = {
+      categories: [] // an array of currently loaded items
+    };
+
+   
+
+    var activityCategories = [
+                              {
+                                "activityCategoryId":999,
+                                "activityCategoryDisplayName":"cardio",
+                                "activities":[
+                                              {
+                                                "activityName":"running",
+                                                "activityUnits":[{"unitId":555,"unitName":"kms"},{"unitId":444,"unitName":"miles"}]
+                                              },
+                                              {
+                                                "activityName":"cycling",
+                                                "activityUnits":[{"unitId":555,"unitName":"kms"},{"unitId":444,"unitName":"miles"}]
+                                              }
+                                              ]
+                              }
+                             ];
+  
+
+    var activityLogs = [{activityLogId:1, "activityUnitId":254,"quantity":40,"points":200,"date":"2014-05-14T15:22:11Z"},
+                        {activityLogId:2, "activityUnitId":354,"quantity":60,"points":300,"date":"2014-05-14T15:22:11Z"},
+                        {activityLogId:3, "activityUnitId":454,"quantity":90,"points":3400,"date":"2014-05-16T15:22:11Z"}];
+
+
+    return {
+        get : function(url,query) {
+          var deferred = $q.defer();
+          switch(url){
+            case API_CONSTANTS.activityCategoryEndpoint:
+              deferred.resolve(activityCategories);
+            break;
+            case API_CONSTANTS.activityLogEndpoint:
+              deferred.resolve(activityLogs);
+            break;            
+            default:
+              deferred.reject('the mock scores factory received an unexpected url: '+url);
+            break;
+          }
+
+          return deferred.promise;
+        },
+        post : function(url,data) {
+          var deferred = $q.defer();
+          switch(url){
+            case API_CONSTANTS.activityLogEndpoint:
+              deferred.resolve({streamItemId:9999});
+            break;            
+            default:
+              deferred.reject('the mock scores factory received an unexpected url: '+url);
+            break;
+          }
+
+          return deferred.promise;
+        }
+    }; 
+ }
+]);//mockActivitiesServer

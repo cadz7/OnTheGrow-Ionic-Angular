@@ -73,8 +73,7 @@ describe('activities service', function() {
     return activities.logActivities(loggedActivities)
       .then(function(returnedLog) {
         expect(returnedLog).to.be.an.array;
-        expect(returnedLog.length).to.equal(2);
-        expect(returnedLog[0].quantity).to.equal(40);
+        expect(returnedLog[0]).to.have.property('streamItemId');
       });
   });
 
