@@ -8,12 +8,7 @@ angular.module('sproutApp.user-settings', [
   function (userStorage, util, $q) {
     'use strict';
     
-    var userSettings = {},
-        settingTextMapper = { // TODO: fetch this from somewhere?
-          'autoPostActivities': 'Auto-post activities',
-          'remindNotifications': 'Remind me to track activities',
-          'rememberMe': 'Keep me signed in'
-        };
+    var userSettings = {};
 
     userSettings.fetchSettings = function() {
       userSettings.data = userStorage.get('settings');
@@ -53,10 +48,6 @@ angular.module('sproutApp.user-settings', [
 
       return deferred.promise;
     };
-
-    userSettings.mapSettingText = function(setting) {
-      return settingTextMapper[setting] || "";
-    }
 
     return userSettings;
   }
