@@ -15,6 +15,14 @@ angular.module('sproutApp.directives').directive(
 
           scope.pathToImage = joinService.getJoinIconImage(scope.post);
 
+
+          scope.getCssClass = function(){
+            var cssClass = (scope.hasHeroImg)? ' join-btn-hero' : ' join-btn';
+            cssClass += (scope.post.viewer.isMember === 1) ? ' sprout-icon-joined' : ' sprout-icon-join';
+            return cssClass;
+          }
+
+
           scope.doAction = function () {
             if (scope.post.viewer.isMember) {
               // don't do anything now, but perhaps leave group
