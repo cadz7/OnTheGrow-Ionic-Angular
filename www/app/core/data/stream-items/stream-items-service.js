@@ -1,7 +1,7 @@
 angular.module('sproutApp.data.stream-items', [
   'sproutApp.user',
   'sproutApp.util',
-  'sproutApp.cache'
+  'sproutApp.data.stream-items-cache'
 ])
 
 // This service exports a field .items containing an array of currently loaded
@@ -9,8 +9,8 @@ angular.module('sproutApp.data.stream-items', [
 // documentation below.
 
 
-.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval','cache','streamMockServer','API_CONSTANTS','STREAM_CONSTANTS','APP_CONFIG',
-  function ($q, $log, user, util, $interval,cache, server,API_CONSTANTS,STREAM_CONSTANTS,APP_CONFIG) {
+.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval','streamItemsCache','streamMockServer','API_CONSTANTS','STREAM_CONSTANTS','APP_CONFIG',
+  function ($q, $log, user, util, $interval,streamItemsCache, server,API_CONSTANTS,STREAM_CONSTANTS,APP_CONFIG) {
     'use strict';
     var service = {
       items: [] // an array of currently loaded items
@@ -21,38 +21,6 @@ angular.module('sproutApp.data.stream-items', [
         ,stagedUpdate // Updated items we've got from the server and haven't applied yet.
         ,updateListeners = []
         ,autoUpdateInterval;
-
-    var streamItemsBinnedByFilter = {};
-    var streamItemCache = {
-      /**
-       * updates the stream item cache for a given filter.
-       *
-       * @param {int} filterId
-       * @param {int} startId            The startId or null if newest.
-       * @param  {array} items           The list of items retrieved from the server.
-       * @return none
-       */
-      update: function(filterId, startId, items) {
-
-      },
-      getItems: function(filterId, olderThanId, max) {
-        var bin = streamItemsBinnedByFilter[filterId];
-        if (!bin) {
-          streamItemsBinnedByFilter[filterId] = [];
-          return null;
-        }
-
-        var returnCount = 0;
-        var items = _.filter(bin, function(item) {
-          if (returnCount >= max) return false;
-          if (item.id < olderThanId || !olderthanId) {
-            returnCount++;
-            return true;
-          }
-        });
-        return items;
-      }
-    };
 
     function decoratePostsWithFunctionality(items) {
       items.forEach(function(item) {
@@ -107,30 +75,6 @@ angular.module('sproutApp.data.stream-items', [
       });
     }
 
-    function makeStreamItem(id) {
-      var item = _.cloneDeep(mockStreamItemTemplate);
-      item.owner = _.cloneDeep(owners[id % 5]);
-      item.avatarURL = avatarURLs[id % 5];
-      item.viewer.isLikedByViewer = id % 2;
-      item.viewer.isOwnedByViewer = item.owner.userId === 42 ? 1 : 0;
-      item.streamItemId = id;
-      item.streamItemDisplay.values.user.id = item.owner.userId;
-      item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' +
-      item.owner.lastName;
-
-      var streamItemTypeSlug = streamItemTypeSlugs[id % 4];
-      item.streamItemTypeSlug = streamItemTypeSlug.itemType;
-      item.streamItemDisplay.template = streamItemTypeSlug.template;
-      item.streamItemDisplay.heroImg = streamItemTypeSlug.heroImg;
-
-      for (var i = 0; i < 3; i++) {
-        item.comments.push(makeComment(item));
-      }
-      
-
-      return attachFunctionsToStreamItem(item);
-    }
-
     function getStreamItems(params) {
       // TODO: delete posts that are 15 days old.
       var filterId = params.filterId || 'all';
@@ -140,15 +84,17 @@ angular.module('sproutApp.data.stream-items', [
       return server.get(API_CONSTANTS.streamItemsEndPoint, params)
             .then(function(items) {
               decoratePostsWithFunctionality(items);
-              streamItemCache.update(filterId, params, items);
+              streamItemsCache.update(filterId, items, params.idGreaterThan);
               return items;
             }, function error(response) {
               if (response === 'offline') {
-                var streamItems = streamItemCache.getItems(params.filterId, params.idLessThan, params.maxCount);
-                if (!streamItems || !streamItems.length) throw 'Offline and no streams to show...';
+                $log.debug('getting offline stream items');
+                var streamItems = streamItemsCache.getItems(filterId, params.idLessThan, params.maxCount);
+                if (!streamItems || !streamItems.length) throw 'Please connect to the internet to show more...';
                 decoratePostsWithFunctionality(streamItems);
                 return streamItems;
               }
+              throw response;
             });
     }
 
@@ -311,7 +257,7 @@ angular.module('sproutApp.data.stream-items', [
 /////////////////////////////////////////////////////////////////////////////
 
 
-.factory('streamMockServer', ['$q', 'user', 'util', 'cache', function($q, user, util, cache) {
+.factory('streamMockServer', ['$q', 'user', 'util', 'cache', 'networkInformation', function($q, user, util, cache, networkInformation) {
   var latestId = 12345;
   var earliestId = 12345;
   var lastCommentId = 1000;
@@ -463,6 +409,14 @@ angular.module('sproutApp.data.stream-items', [
   }
   latestId = 100;
 
+  var isOnline = true;
+  networkInformation.onOffline(function() {
+    isOnline = false;
+  });
+  networkInformation.onOnline(function() {
+    isOnline = true;
+  });
+
   return {
     get: function(endopint, params) {
       var tempItems = [];
@@ -495,6 +449,9 @@ angular.module('sproutApp.data.stream-items', [
 
       items = items.concat(tempItems);
       //cache.set('mockStreamItems', items);
+      if (!isOnline) {
+        return $q.reject('offline');
+      }
       return $q.when(tempItems);
     },
     post: function(endpoint, item, params) {

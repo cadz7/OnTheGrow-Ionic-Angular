@@ -31,6 +31,7 @@ describe('cache service', function() {
       isAuthenticated: true
     };
     cache = testUtils.getService('cache');
+    cache.deleteAll();
   });
 
   it('should get loaded', function () {
