@@ -78,7 +78,7 @@
     }
     .special-avatar > img:first-child {
         position: absolute;
-//        top: 10px;
+        // top: 10px;
         left: 10px;
         max-width: 50px;
         border: 0;
@@ -86,27 +86,36 @@
         border-top: 0;
         border-radius: 0 0 3px 0;
     }
-    .hero{
-      position: relative;
+    .hero {
+        position: relative;
     }
     .hero-image {
         width:100%;
     }
-    .join{
-      position: relative;
+    .join {
+        position: relative;
     }
-    .join-btn{
-      float:right;
-      color: orange;
-      font-size: 5rem;
+    .join-btn {
+        float:right;
+        color: orange;
+        font-size: 5rem;
     }
-   .join-btn-hero{
-     position: absolute;
-     bottom: 15px;
-     right: 15px;
-     color: orange;
-     font-size: 5rem;
-   }
+    .join-btn-hero {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        font-size: 3rem;
+        background: #FFF;
+        border-radius: 50%;
+        &.sprout-icon-join{
+            border: 1px solid #fff;
+            color: $darkorange;
+        }
+        &.sprout-icon-joined{
+            border: 1px solid #fff;
+            color: $green;
+        }
+    }
     p {
         padding: 10px 0 10px 15px;
         color: $darkgrey;
