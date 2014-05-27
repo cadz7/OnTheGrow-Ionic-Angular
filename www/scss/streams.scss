@@ -5,15 +5,15 @@
         width: 100%;
     }
     .col{
-    	a, .icon{
-    		text-decoration: none;
-    		color: $darkgrey;
-    	}
-    	padding:0;
+      a, .icon{
+        text-decoration: none;
+        color: $darkgrey;
+      }
+      padding:0;
     }
 
     .col:last-child{
-    	text-align: right;
+      text-align: right;
     }
     @include box-shadow (0px, 0px, 5px, 1px, rgba(50,50,50,0.25));
     z-index: 100;
@@ -35,6 +35,49 @@
     border-bottom: 20px solid rgba(0, 0, 0, 0);
 }
 
+/* Modal for creating post */
+ .create-post-modal {
+    ion-header-bar button.post {
+      position: absolute;
+      top: 0px;
+      right: 10px;
+      padding: 10px;
+      margin: 0;
+      line-height: 12px;
+      color: $mediumgrey;
+      background-color: $base-background-color;
+    }
+    ion-header-bar button.post.active {
+      color: $blue;
+    }
+    
+    ion-content {
+
+      @include display-flex();
+      @include flex-direction(column);
+      
+      textarea {
+        @include display-flex();
+        @include flex(1);
+      }
+    }
+}
+.create-activity-modal {
+    ion-header-bar button.post {
+      position: absolute;
+      top: 0px;
+      right: 10px;
+      padding: 10px;
+      margin: 0;
+      line-height: 12px;
+      color: $mediumgrey;
+      background-color: $base-background-color;
+    }
+    ion-header-bar button.post.active {
+      color: $blue;
+    }
+}
+
 .post-box {
   height: 3rem;
   margin: 0 0 1rem 0;
@@ -53,7 +96,6 @@
 
 .add-activity-post {
   /* top: 44px; */
-  position: static;
   width: 100%;
   background: white;
   z-index: 2;
@@ -131,4 +173,8 @@
       &.continue { color: #fff; /*background-color: $active; */}
     }
   }
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
 }

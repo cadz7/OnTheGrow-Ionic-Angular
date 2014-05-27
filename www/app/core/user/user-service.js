@@ -124,7 +124,7 @@ angular.module('sproutApp.user', [
     user.logout = function () {
       user.isAuthenticated = false;
       userStorage.removeUser();
-      $window.location.replace('/');
+      $window.location.replace('/#/signin');
       return util.q.makeResolvedPromise();
     };
 

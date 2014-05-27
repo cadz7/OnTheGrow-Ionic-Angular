@@ -42,7 +42,7 @@
         <ion-header-bar class="">
             <h1 class="title">MENU</h1>
         </ion-header-bar>
-        <ion-content>
+        <ion-content left-nav-menu="">
             <user-profile-summary></user-profile-summary>
             <ul class="list">
                 <li>
@@ -74,7 +74,7 @@
                 </li>
                 <hr>
                 <li>
-                    <a ui-sref="signin" data-ng-click="logout()" class="item left-nav-logout">
+                    <a data-ng-click="logout()" class="item left-nav-logout">
                         <i class="icon sprout-icon-logout"></i>
                         <span>Log out</span>
                     </a>
