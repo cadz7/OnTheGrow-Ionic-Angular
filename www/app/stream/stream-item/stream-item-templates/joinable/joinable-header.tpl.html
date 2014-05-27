@@ -1,0 +1,19 @@
+<div class="special-avatar">
+    <img ng-src="{{headerIcon}}" />
+
+    <div class="post-info row">
+        <div class="col col-75">
+            <h1 class="title" ng-click="showDetailView()">{{streamItemTypeSlug}}</h1>
+            <span class="author">{{owner.firstName + ' ' + owner.lastName}}</span> {{streamItemTypeSlug}}
+            <br />
+            <span class="date">{{dateTimeCreated}}</span>
+        </div>
+        <div class="col">
+            <div ng-show="points" class="points-container">
+                <span class="points">{{points}}</span>
+                <span class="pointsLabel">points</span>
+            </div>
+        </div>
+        <div class="ion-close col" data-ng-click="deletePost(post)"></div>
+    </div>
+</div>
