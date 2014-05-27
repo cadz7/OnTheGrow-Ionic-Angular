@@ -1,5 +1,9 @@
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
+$Sprout-font-path: "../fonts/Sprout/fonts" !default;
+
+//Custom Srotu Icon Font import
+@import "www/fonts/Sprout/style.scss";
 
 // To customize the look and feel of Ionic, you can
 // override the variables in this file
@@ -16,6 +20,25 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "left-nav.scss";
 @import "user-settings.scss";
 
+@font-face {
+  font-family: 'Sprout';
+  src: url('fonts/fonts/Sprout.eot');
+}
+@font-face {
+  font-family: 'Sprout';
+  src: url('../fonts/Sprout/fonts/Sprout.ttf') format('truetype'),
+     url('../fonts/Sprout/fonts/Sprout.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face{ 
+  font-family: 'Garogier';
+  src: url('../fonts/Garogier/Garogier.eot');
+  src: url('../fonts/Garogier/Garogier.eot?iefix') format('eot'),
+       url('../fonts/Garogier/Garogier.woff') format('woff'),
+       url('../fonts/Garogier/Garogier.ttf') format('truetype'),
+       url('../fonts/Garogier/Garogier.svg#webfont') format('svg');
+}
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 // this is currently being used to make the list of posts area appear at the right
