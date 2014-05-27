@@ -54,27 +54,35 @@ angular.module('sproutApp.services')
 
 
       // TODO add a param that indicates content (comment view or detail view)
+      function generateJoinableTemplate(res, item) {
+        res += $templateCache.get('joinable-activity-log');
+        res += $templateCache.get('joinable-header');
+        res += $templateCache.get('joinable-content');
+
+        if (streamItemModalService.getViewType() === streamItemModalService.COMMENTS_VIEW || 1) {
+          res += $templateCache.get('like-comment');
+
+          if (item.comments) {
+            res += $templateCache.get('comments');
+          }
+        }
+        return res;
+      }
+
       service.render = function (item) {
         var res = "";
         item.headerIcon = streamItemResourceService.getJoinableHeaderIcon(item);
         item.points = null;
         item.content = streamItemResourceService.getContent(item);
 
-        if (item.streamItemTypeSlug === 'challenge' || 1){
-          res += $templateCache.get('joinable-activity-log');
-          res += $templateCache.get('joinable-header');
-          res += $templateCache.get('joinable-content');
-
-          if (streamItemModalService.getViewType() === streamItemModalService.COMMENTS_VIEW || 1){
-            res += $templateCache.get('like-comment');
-
-            if (item.comments){
-              res += $templateCache.get('comments');
-            }
-          }
-
+        if (item.streamItemTypeSlug === 'challenge' || 1 ||
+          item.streamItemTypeSlug === 'event' ||
+          item.streamItemTypeSlug === 'group'){
+          res = generateJoinableTemplate(res, item);
+        } else if (item.streamItemTypeSlug === 'post'){
+          res = $templateCache.get('joinable-header'); // TODO
         } else {
-          res = $templateCache.get('joinable-header');
+          res = $templateCache.get('joinable-header'); // TODO
         }
 
 
