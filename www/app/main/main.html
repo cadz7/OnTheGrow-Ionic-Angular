@@ -33,16 +33,9 @@
 </ion-tabs> -->
 
 <ion-side-menus>
+  <div ng-controller="MainCtrl">
     <ion-side-menu-content>
-        <!-- <ion-nav-bar class="bar-positive">
-      <ion-nav-back-button class="button-icon ion-arrow-left-c">
-      </ion-nav-back-button>
-    </ion-nav-bar>
-    <ion-nav-buttons side="left">
-      <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
-      </button>
-    </ion-nav-buttons> -->
-        <ion-nav-view name="mainContent"></ion-nav-view>
+      <ion-nav-view name="mainContent"></ion-nav-view>
     </ion-side-menu-content>
 
     <ion-side-menu side="left">
@@ -162,5 +155,5 @@
             </ul>
         </ion-content>
     </ion-side-menu>
-
+  </div><!-- MainCtrl -->
 </ion-side-menus>

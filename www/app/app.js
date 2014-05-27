@@ -35,8 +35,8 @@ angular.module('sproutApp', [
   'sproutApp.data.stream-items',
   'sproutApp.network-information'
 ])
-.run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems',
-  function($ionicPlatform, user, $log, networkInformation, streamItems) {
+.run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems','$state','$rootScope',
+  function($ionicPlatform, user, $log, networkInformation, streamItems,$state,$rootScope) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -47,10 +47,19 @@ angular.module('sproutApp', [
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+      var SIGNIN_STATE = 'signin';
+      if(!user.isAuthenticated){
+        $state.transitionTo(SIGNIN_STATE);
+      }
 
-      // Auto-login the user
-      user.login('simon@rangle.io','testtest',false)
-        .then(null, $log.error);
+      //if the user has been logged out after they logined, take them back to the login
+      $rootScope.$on('$stateChangeStart',
+        function (event, toState, toParams, fromState, fromParams) {
+          if (!user.isAuthenticated && toState.name !== SIGNIN_STATE) {
+            event.preventDefault();
+            $state.transitionTo(SIGNIN_STATE);
+          }          
+        });
 
       // Run auto-update on stream items.
       streamItems.turnOnAutoUpdate(5000); // Every 5 seconds.
@@ -111,9 +120,7 @@ angular.module('sproutApp', [
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main/stream');
-
 })
-
 // TODO note: @justin will move this to an appropriate place and fully implement it
 .service('toaster', ['$log', function($log) {
   var toaster = { pop: function(type,title,message){console.log("[" + type + "] " + title + ":" + message ); }};
