@@ -8,6 +8,56 @@ angular.module('sproutApp.controllers')
   var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'}; //constants for accessing display name of the activities
   var selectedActitivities = []; //unfiltered list of activites to display
   
+  $scope.currentState = 0;
+
+  // This is to aid in breadcrumb navigation
+  // Might need forward/backward navigation if it gets more complex (currently only 2 levels deep)
+  $scope.states = [
+    {
+      name: STATES.categorySelect,
+      currentValue: null,
+      selectFunction: function(item) {
+        $scope.title = item.activityCategoryDisplayName;
+        $scope.activityData = item.activities;
+        selectedActitivities = $scope.activityData;
+        $scope.nameKey = NAMEKEYS.activityName;
+        $scope.currentState++;
+        $scope.activityListVisible = true;
+        $scope.showActivityForm = false;
+
+        this.currentValue = item;
+      }
+    },
+    {
+      name: STATES.activitySelect,
+      currentValue: null,
+      selectFunction: function(item) {
+        $scope.title = item.activityName;
+        $scope.activityListVisible = false;
+        $scope.showActivityForm = true;
+        
+        $scope.currentActivity = {
+          activityName : item.activityName,
+          activityCategoryId : item.activityCategoryId,
+          activityUnitId : item.unitId,
+          unitName : item.unitName,
+          quantity : 1,
+          date:$scope.maxDate        
+        };
+        $scope.currentState++;
+
+        this.currentValue = item;
+      }
+    },
+    {
+      name: STATES.activityForm,
+      currentValue: null,
+      selectFunction: function(item) {
+        this.currentValue = item;
+      }
+    }
+  ];
+  
   //initilze empty scope variables
   $scope.errorMessage = '';
   $scope.activtyQueue = [];
@@ -32,10 +82,10 @@ angular.module('sproutApp.controllers')
     }
 
     //if the user has not selected an activity category, search all activities. else search the selected activity category
-    switch (state) {      
+    switch ($scope.states[$scope.currentState].name) {
       case STATES.categorySelect:
         //change view to the activities view state
-        state = STATES.activitySelect;
+        $scope.currentState++;
         $scope.title = 'Activities';
         $scope.nameKey = NAMEKEYS.activityName;
         selectedActitivities = _.flatten(_.pluck(activities.categories,'activities'), true);      
@@ -50,7 +100,7 @@ angular.module('sproutApp.controllers')
 
   //reset the activity tracking view state
   function resetActivitySelect() {
-    state = STATES.categorySelect;
+    $scope.currentState = 0;
     $ionicScrollDelegate.scrollTop();
     $scope.title = 'Activity Categories';
     $scope.activityData = activities.categories;
@@ -62,35 +112,34 @@ angular.module('sproutApp.controllers')
       text: ''
     };
     $scope.showNumpad = false;
+
+    _.each($scope.itemStack, function(item) {
+      item.currentValue = {};
+    });
   }
   resetActivitySelect(); //initalize view
 
   //change the state of the view when the user selects an activity category or activity
   $scope.onItemSelect = function(item) {
-    if(state === STATES.categorySelect) {
-      $scope.title = item.activityCategoryDisplayName;
-      $scope.activityData = item.activities;
-      selectedActitivities = $scope.activityData;
-      $scope.nameKey = NAMEKEYS.activityName;
-      state = STATES.activitySelect;      
-    } else if(state === STATES.activitySelect) {
-      $scope.title = item.activityName;
-      $scope.activityListVisible = false;
-      $scope.showActivityForm = true;
-      
-      $scope.currentActivity = {
-        activityName : item.activityName,
-        activityCategoryId : item.activityCategoryId,
-        activityUnitId : item.unitId,
-        unitName : item.unitName,
-        quantity : 1,
-        date:$scope.maxDate        
-      };
-      state = STATES.activityForm;
+    var currentState = $scope.states[$scope.currentState];
 
-    } else if(state === STATES.activityForm) {
+    if (currentState) {
+      currentState.selectFunction(item);
     }
   };
+
+  $scope.backtrackBreadcrumb = function() {
+    var currentState = $scope.states[$scope.currentState],
+        rootIndex = $scope.currentState - 2;
+
+    if (rootIndex > -1) {
+      var rootState = $scope.states[rootIndex];
+      rootState.selectFunction(rootState.currentValue);
+    }
+    else {
+      resetActivitySelect();
+    }
+  }
 
   //user cancels the track activty -> go back to the stream
   $scope.cancel = function() {
@@ -102,7 +151,7 @@ angular.module('sproutApp.controllers')
      });
      confirmPopup.then(function(res) {
        if(res) {
-          //$scope.createActivityModal.hide();
+          $scope.createActivityModal.hide();
           resetActivitySelect();
           $scope.activtyQueue = [];
           $scope.addActivityVisible = false;
@@ -133,7 +182,7 @@ angular.module('sproutApp.controllers')
     .then(function(result){
       streamItems.reload();
       $scope.savingActivty = false;
-      $scope.cancel();      
+      $scope.activtyQueue.length = 0;
     },function(response){
       $scope.savingActivty = false;
       var errorMessage;

@@ -62,7 +62,8 @@ angular.module('sproutApp.controllers')
       // Modal for create-post
       $ionicModal.fromTemplateUrl('app/stream/post/modal/create-post-modal.tpl.html', {
         scope: createStreamItemModalScope,
-        animation: 'slide-in-up'
+        animation: 'slide-in-up',
+        focusFirstInput: true
       }).then(function(modal) {
         $scope.createStreamItemModal = modal;
       });

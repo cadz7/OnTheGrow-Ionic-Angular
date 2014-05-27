@@ -2,9 +2,10 @@
 
 <div class="modal create-activity-modal" ng-controller="ActivityBarCtrl">
   <ion-header-bar>
-    <button class="button button-icon icon ion-chevron-left" ng-click="closeCreateActivityModal()"></button>
-    <h1 class="title">POST TO STREAM</h1>
+    <button class="button button-icon icon ion-chevron-left" ng-click="cancel()"></button>
+    <h1 class="title">TRACK ACTIVITY</h1>
     <button class="post active" ng-show="activtyQueue && activtyQueue.length > 0" ng-click="saveActivities()" ng-disabled="savingActivities">Save</button>
+    <div ng-show="errorMessage.length > 0" style="color:red">{{errorMessage}}</div>
   </ion-header-bar>
   <ion-content class="padding has-header add-activity-post">
     <div class="row create-post">
@@ -16,7 +17,7 @@
     <div class="activity-select">
       <div class="row">
         <div class="col">
-          <h3 class="activity-title">{{ title }}</h3>
+          <h3 class="activity-title" ng-click="backtrackBreadcrumb()"><span class="icon ion-chevron-left" ng-hide="currentState == 0"></span> {{ title }}</h3>
         </div>
       </div>
 
@@ -32,7 +33,7 @@
           <div class="col col-50">
             <label class="item item-input item-stacked-label">
               <span class="input-label">Activity</span>
-              <input type="text" ng-model="currentActivity.activityName" readonly required/>
+              <input type="text" class="ellipsis" ng-model="currentActivity.activityName" readonly required/>
             </label>
           </div>
 
@@ -81,13 +82,6 @@
           <ion-delete-button class="ion-minus-circled" ng-click="activtyQueue.splice($index, 1)">
         </ion-item>
       </ion-list>
-      <div class="row">
-        <div class="col" style="text-align: right">
-          <span style="color:red">{{errorMessage}}</span>
-          <button class="button button-balanced" ng-show="activtyQueue && activtyQueue.length > 0" ng-click="saveActivities()" ng-disabled="savingActivities">Save</button>
-          <button class="button button-assertive" ng-click="cancel()">Cancel</button>
-        </div>
-      </div>
 
     </div>
   </ion-content>
