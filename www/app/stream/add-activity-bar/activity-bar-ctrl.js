@@ -1,7 +1,7 @@
 
 
 angular.module('sproutApp.controllers')
-.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', function($scope, activities,streamItems,$ionicScrollDelegate) {
+.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', 'networkInformation', function($scope, activities,streamItems,$ionicScrollDelegate, networkInformation) {
 
   var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'}; //constants for view state
   var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'}; //constants for accessing display name of the activities
@@ -131,6 +131,13 @@ angular.module('sproutApp.controllers')
     });
   };
 
+  $scope.keyPress = function(keyCode) {
+    if (keyCode===113) { // F2
+      if (networkInformation.simulate) {
+        networkInformation.simulate.toggleStatus();
+      }
+    }
+  };
   
 }])
 

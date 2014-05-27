@@ -36,6 +36,12 @@ angular.module('sproutApp.cache',
           throw 'cache: cannot call push on a non-array type.';
         }
       }
+    },
+    delete: function(key) {
+      persistentStorage.removeItem(key);
+    },
+    deleteAll: function() {
+      persistentStorage.clear();
     }
   };
 }])
