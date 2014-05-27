@@ -63,10 +63,10 @@ describe('activities service', function() {
   it('should post a new log', function () {
     var loggedActivities = [
       {
-        activityUnitId : 104, 
+        activityUnitId : 101, 
         quantity: 40
       }, {
-        activityUnitId : 105,
+        activityUnitId : 102,
         quantity: 60
       }
     ];
@@ -93,7 +93,7 @@ describe('activities service', function() {
   it('should reject a post without a quantity', function () {
     var loggedActivities = [
       {
-        activityUnitId : 104
+        activityUnitId : 101
       }
     ];
     return activities.logActivities(loggedActivities)
