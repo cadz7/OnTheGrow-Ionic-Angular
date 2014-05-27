@@ -24,8 +24,11 @@ angular.module('sproutApp.user', [
     function getUserStatus() {
       user.data = userStorage.get();
       if (_.isObject(user.data) && user.data.userId) {
+        console.log('loaded user from cache')
         user.isAuthenticated = true;
         authenticatedDeferred.resolve();
+      }else{
+        user.isAuthenticated = false;        
       }
       return user.data;
     }
@@ -43,7 +46,7 @@ angular.module('sproutApp.user', [
     };
 
     /**
-     * Tries to logs the user in with the provided user name and password, and stores the user profile if successful
+     * Tries to logs the user in with the provided user name and password, and stores the user profile + settings if successful
      *
      * @param  {String} username       User name.
      * @param  {String} password       Password.
@@ -55,45 +58,37 @@ angular.module('sproutApp.user', [
       var deferred = $q.defer();
       
       if(APP_CONFIG.useMockData){
-        if(username!== 'arthur' && (username !== 'simon@rangle.io' || password !=='testtest')){
+        if(username!== 'arthur' && !(username==='simon@rangle.io'&&password==='testtest')){
           deferred.reject({errorCode:'hallow'});
           return deferred.promise;
         }
-          var newUser = {
-            userId: 42,
-            firstName: 'Arthur',
-            lastName: 'Dent',
-            avatarUrl: 'img/user/arthur.png',
-            department: 'Accounting',
-            location: 'Toronto',
-            sproutScore: 23142,
-            
 
-            points: [
-              {
-                timePeriodId: 2,
-                score: 1500
-              }
-            ],
-            token: 'e9c77174292c076359b069aef68468d1463845cf',
-            expirationDateTime: '2014-07-14T15:22:11Z'
-          };
+        var newUser = {
+          userId: 42,
+          firstName: 'Arthur',
+          lastName: 'Dent',
+          avatarUrl: 'img/user/arthur.png',
+          department: 'Accounting',
+          location: 'Toronto',
+          sproutScore: 23142,
+          points: [
+            {
+              timePeriodId: 2,
+              score: 1500
+            }
+          ],
+          token: 'e9c77174292c076359b069aef68468d1463845cf',
+          expirationDateTime: '2014-07-14T15:22:11Z'
+        };
 
-
-  
-
-
-          user.data = newUser;
-          userStorage.set(newUser);
-          user.isAuthenticated = true;
-          userSettings.fetchSettings().then(function() {
-            authenticatedDeferred.resolve();
-          }, function() {
-            authenticatedDeferred.reject();
-          })
-          
-          deferred.resolve();
+        user.data = newUser;
+        userStorage.set(newUser);
+        user.isAuthenticated = true;
+        userSettings.fetchSettings().then(function() {
+          authenticatedDeferred.resolve();
+        });
         
+        deferred.resolve();
       }else{
        server.login(username, password)
         .then(function(){
@@ -102,6 +97,8 @@ angular.module('sproutApp.user', [
         .then(function(newUser) {
           user.data = newUser;
           userStorage.set(newUser);
+          return  userSettings.fetchSettings();
+        }).then(function(){        
           user.isAuthenticated = true;
           authenticatedDeferred.resolve();
           deferred.resolve();
@@ -109,8 +106,7 @@ angular.module('sproutApp.user', [
         .then(null,function(error){
           user.data = null;
           userStorage.removeUser();
-          user.isAuthenticated = false;
-          authenticatedDeferred.reject(error);
+          user.isAuthenticated = false;         
           deferred.reject(error);
         });
       }
