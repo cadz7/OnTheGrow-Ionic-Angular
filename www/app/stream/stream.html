@@ -41,6 +41,8 @@
 
 
   <ion-content id="sproutPostsScroller"
+    delegate-handle="streamScroller"
+    header-shrink scroll-event-interval="5"
     ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]">
 
     <ion-refresher on-refresh="onRefreshPullDown()"
