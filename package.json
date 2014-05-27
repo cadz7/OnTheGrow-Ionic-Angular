@@ -6,6 +6,11 @@
     "gulp": "~3.6.0"
   },
   "dependencies": {
-    "rangle-gulp": "0.0.6"
+    "chai": "^1.9.1",
+    "lodash": "^2.4.1",
+    "q": "^1.0.1",
+    "querystring": "^0.2.0",
+    "rangle-gulp": "0.0.6",
+    "supertest": "^0.13.0"
   }
 }

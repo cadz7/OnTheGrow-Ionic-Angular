@@ -1,0 +1,10 @@
+{
+  "portNumber": 3000,
+  "routes" : [
+    {
+      "route" : "/v1",
+      "type": "module",
+      "module" : "mock-server/lib/api"    
+    }
+  ]
+}
