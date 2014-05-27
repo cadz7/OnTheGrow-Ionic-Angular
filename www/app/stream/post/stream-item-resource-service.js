@@ -8,9 +8,10 @@ angular.module('sproutApp.services')
       var templatePath = 'app/stream/post/';
       var headerIconPath = 'img/icons/';
       var resourcesForPost = {
-        event: {template: 'joinable/event.tpl.html', headerIcon: 'event-icon.svg'},
-        group: {template: 'joinable/group.tpl.html', headerIcon: 'group-icon.svg'},
-        challenge: {template: 'joinable/challenge.tpl.html', headerIcon: 'challenge-icon.svg'},
+        //sprout-icon-group
+        event: {template: 'joinable/event.tpl.html', headerIcon: 'sprout-icon-event'},
+        group: {template: 'joinable/group.tpl.html', headerIcon: 'sprout-icon-group'},
+        challenge: {template: 'joinable/challenge.tpl.html', headerIcon: 'sprout-icon-challenge'},
         custom: {template: 'regular/custom.tpl.html', headerIcon: ''},
         post: {template: 'regular/custom.tpl.html', headerIcon: ''},
         add_notification: {template: 'regular/custom.tpl.html', headerIcon: ''},
@@ -34,7 +35,7 @@ angular.module('sproutApp.services')
       };
 
       service.getJoinableHeaderIcon = function(streamItem){
-        return headerIconPath + getResource(streamItem).headerIcon;
+        return getResource(streamItem).headerIcon;
       };
 
       return service;
