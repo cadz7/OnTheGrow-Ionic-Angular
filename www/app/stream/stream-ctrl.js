@@ -4,15 +4,33 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$log', 'streamItemModalService',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $log, streamItemModalService) {
+    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$ionicPopup', '$log', 'streamItemModalService',
+    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $ionicPopup, $log, streamItemModalService) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
     	$scope.filterByType = 'ALL';
 
-      $scope.closeCreatePostModal = function() {
+      var closeCreatePostModal = function() {
         $scope.createStreamItemModal.hide();
+      };
+
+      $scope.cancelCreatePost = function(post) {
+        if (post.text.length > 0) {
+          // A confirm dialog
+         var confirmPopup = $ionicPopup.confirm({
+           title: 'Cancel post',
+           template: 'Are you sure you want to discard this post?'
+         });
+         confirmPopup.then(function(res) {
+           if(res) {
+              closeCreatePostModal();
+           }
+         });
+        }
+        else {
+          closeCreatePostModal();
+        }
       };
 
       $scope.closeCreateActivityModal = function() {
@@ -93,7 +111,7 @@ angular.module('sproutApp.controllers')
             .then(function() {
               console.log('Your post has been created.');
               $scope.newPost.text = '';
-              $scope.closeCreatePostModal();
+              closeCreatePostModal();
             }, function(response) {
               if (response.status === 403) {
                 console.error('You do not have permission to create this post.');

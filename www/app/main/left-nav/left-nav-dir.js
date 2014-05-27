@@ -43,4 +43,42 @@ angular.module('sproutApp.main.left-nav', [
       };
     }
   ]
+).directive(
+  'leftNavMenu',
+  [
+    'user', '$state', '$ionicActionSheet',
+    function(user, $state, $ionicActionSheet) {
+      return {
+        restrict: 'A',
+        link: function(scope, elem, attrs) {
+          scope.logout = function() {
+            $ionicActionSheet.show({
+              buttons: [
+                { text: 'Logout' }
+              ],
+              titleText: 'Logging out will lose any unsaved changes. Continue?',
+              cancelText: 'Cancel',
+              buttonClicked: function(index) {
+                if (index === 0) {
+                  // Log them out
+                  user.logout().then(
+                    function() {
+                      $state.transitionTo('signin');
+                      $ionicActionSheet.hide();
+                    },
+                    function(err) {
+                      // redirect anyway
+                      $log.error("unable to log out");
+                      $state.transitionTo('signin');
+                    }
+                  );
+                }
+                return true;
+              }
+            });
+          }
+        }
+      };
+    }
+  ]
 );
