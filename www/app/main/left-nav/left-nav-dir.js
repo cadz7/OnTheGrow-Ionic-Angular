@@ -10,7 +10,7 @@ angular.module('sproutApp.main.left-nav', [
     function($ionicSideMenuDelegate) {
       return {
         restrict: 'E',
-        template: '<div class="buttons"><button class="button button-clear icon ion-navicon" data-ng-click="toggleLeftMenu()"></button></div>',
+        template: '<div class="buttons"><button class="button button-clear icon sprout-icon-menu" data-ng-click="toggleLeftMenu()"></button></div>',
         replace: true,
         link: function(scope, elem, attrs) {
           scope.toggleLeftMenu = function() {

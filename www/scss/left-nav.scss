@@ -71,19 +71,19 @@ ion-side-menu {
             color: $mediumgrey;
         }
         .left-nav-stream.active, .left-nav-stream:hover {
-            border-right:10px solid #8cc63e;
+            border-right:10px solid $green;
         }
         .left-nav-activity.active, .left-nav-activity:hover {
-            border-right:10px solid #ef6a33;
+            border-right:10px solid $orange;
         }
         .left-nav-leaderboard.active, .left-nav-leaderboard:hover {
-            border-right:10px solid #46c0be;
+            border-right:10px solid $blue;
         }
         .left-nav-settings.active, .left-nav-settings:hover {
-            border-right:10px solid #404042;
+            border-right:10px solid $purple;
         }
         .left-nav-logout.active, .left-nav-logout:hover {
-            border-right:10px solid #404042;
+            border-right:10px solid $darkgrey;
         }
     }
 }
@@ -98,17 +98,24 @@ ion-side-menu {
         left: -5px;
     }
     .icon {
-        width: 60px;
-        height:100%;
-        float:left;
-        .stream-icon {
-            fill:$green;
+        font-size: 2.5rem;
+        vertical-align: middle;
+        padding: 0 10px;
+        &.sprout-icon-stream {
+            color:$green;
         }
-        .activity-icon {
-            fill:$orange;
+        &.sprout-icon-activity {
+            color:$orange;
+
         }
-        .leaderboard-icon {
-            fill:$blue;
+        &.sprout-icon-leaderboard {
+            color:$blue;
+        }
+        &.sprout-icon-settings {
+            color:$purple;
+        }
+        &.sprout-icon-logout {
+            color:$darkgrey;
         }
     }
 }
