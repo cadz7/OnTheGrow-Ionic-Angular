@@ -23,7 +23,13 @@ describe('filters service', function() {
   });
 
   it('filters service should get loaded', function () {
-    expect(filters.userFilters[0].displayName).to.equal('Cool people');
+    expect(filters).to.not.be.undefined;
   });
 
+  it('should define all the requried filterTypes', function(){
+    expect(filters).to.have.property('streamItemFilters');
+    expect(filters).to.have.property('userFilters');
+    expect(filters).to.have.property('activityFilters');
+    expect(filters).to.have.property('timePeriodFilters');
+  });
 });

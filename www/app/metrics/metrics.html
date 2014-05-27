@@ -13,12 +13,10 @@
     </ion-header-bar>
     <ion-content class="padding has-header">
 
+
         <!--Time period filter-->
-        <div class="btn-group btn-group-justified">
-            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Week'">Week</label>
-            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Month'">Month</label>
-            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Quarter'">Quarter</label>
-            <label class="btn btn-primary" ng-model="logPeriodFilter" btn-radio="'Year'">Year</label>
+        <div class="btn-group btn-group-justified row">
+            <a ng-repeat="filter in timePeriodFilters" class="btn btn-primary col" ng-click="applyFilter(filter)" href="javascript:void(0)">{{filter.displayName}}</a>            
         </div>
 
 
@@ -32,7 +30,7 @@
 
                 <p>{{user.department + ' ' + user.location}}</p>
                 <i class="icon">
-                    <h2>{{user.totalScore}}</h2>
+                    <h2>{{visibleSproutScore}}</h2>
                 </i>
             </div>
         </div>
@@ -41,24 +39,19 @@
         <!--Activity log-->
         <h3>Activity Log</h3>
 
-        <!--<div class="list">-->
-            <!--<div ng-repeat="groupedActivity in groupedActivities">-->
-                <!--<div class="item item-divider">-->
-                    <!--{{groupedActivity.timePeriod}}-->
-                <!--</div>-->
+        
       <div class="list">
         <div class="item item-divider">
-          This Week
+          {{logPeriodFilter.displayName}}
         </div>
         <div ng-repeat="activity in groupedActivities" class="card">
           <div class="item">
-            <div class="activity-name">{{activity.activityName}}</span>
+            <div class="activity-name">{{activity.activityDisplayName || 'Unknown Activity'}}</span>
               <div class="item-note text-center" style="text-align:right">
-                <div class="minutes">{{activity.quantity}} {{activity.unitName}}</div>
-                <div>{{activity.points || '10'}} points</div>
+                <div class="minutes">{{activity.quantity}} {{getUnitName(activity.activityUnitId)}}</div>
+                <div>{{activity.points}} points</div>
               </div>
             </div>
-            <!--<span>{{activity.date}}</span>  commented out because we don't show date.-->
           </div>
         </div>
       </div>
