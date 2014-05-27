@@ -1,24 +1,45 @@
 <!-- ion-nav-bar goes here -->
 <ion-view title="Streams">
-  <!-- ion-header-bar -->
-   <ion-header-bar align-title="center" class="bar">
-    <left-nav-toggle-btn></left-nav-toggle-btn>
-    <h1 class="title" ng-click="showFilterOptions()">
-      {{filterByType}}
-    </h1>
-    <span class="icon ion-chevron-down filter-chevron"></span>
-    <!-- only show if user is logged in -->
-    <!-- ng-show="AuthSvc.isLoggedIn()" -->
-    <!-- Settings Button -->
 
-    <div class="buttons">
-      <button class="button button-clear icon sprout-icon-notification"></button>
+
+  <div id="stream-header">
+
+    <ion-header-bar align-title="center" class="bar">
+      <left-nav-toggle-btn></left-nav-toggle-btn>
+      <h1 class="title" ng-click="showFilterOptions()">
+        {{filterByType}}
+      </h1>
+      <span class="icon ion-chevron-down filter-chevron"></span>
+      <!-- only show if user is logged in -->
+      <!-- ng-show="AuthSvc.isLoggedIn()" -->
+      <!-- Settings Button -->
+
+      <div class="buttons">
+        <button class="button button-clear icon notifications-icon"><img src="../img/icons/flag.svg"></button>
+      </div>
+
+    </ion-header-bar>
+
+
+    <div class="row create-post">
+      <form>
+        <textarea ng-model="newPost.text" class="post-box"></textarea>
+        <div class="row">
+          <div class="col">
+            <span class="icon ion-edit"></span>
+            <a ng-click="submitPost(newPost)" href="javascript:void(0)">Post To Stream</a>
+          </div>
+          <div class="col">
+            <span class="icon ion-android-stopwatch"></span>
+            <a ng-click="onTrackActivityClick()" href="javascript:void(0)">Track Activity</a>
+          </div>
+        </div>
+      </form>
     </div>
-    
 
-  </ion-header-bar>
+  </div>
 
-	<!-- <ion-content header-shrink scroll-event-interval="5" id="sproutPostsScroller" style="top: 165px;" -->
+
   <ion-content id="sproutPostsScroller"
     ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]">
 
@@ -48,82 +69,10 @@
       This input box should be a fixed element that sits
       on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
      -->
-     <!-- <div class="row createPost">
-      <form>
-        <textarea ng-model="post.content" class="post-box"></textarea>
-        <div class="row">
-          <div class="col">
-            <span class="icon ion-edit"></span>
-            <a ng-click="submitPost()" href="javascript:void(0)">Post To Stream</a>
-          </div>
-          <div class="col">
-            <span class="icon ion-android-stopwatch"></span>
-            <a>Track Activity</a>
-          </div>
-        </div>
-      </form>
-    </div> -->
-    <!--<div class="item post" ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog" data-ng-switch="post.streamItemTypeSlug">-->
-      <!--<sprout-event-post data-ng-switch-when="event" class="eventItem"></sprout-event-post>-->
-      <!--<sprout-group-post data-ng-switch-when="group" class="groupItem"></sprout-group-post>-->
-      <!--<sprout-post data-ng-switch-default=""></sprout-post>-->
-    <!--</div>-->
 
       <div class="item post" ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog">
           <post post="post" modal-container="streamItemModal" is-wrapped-in-modal="false" view-type="'COMMENTS'"></post>
       </div>
-
-
-      <!--
-          This input box should be a fixed element that sits
-          on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
-       -->
-
-
-	  <!--
-			The ro-post directive is making a modal for every
-			item in the strea. Therefore, you end up with 100's
-			of modals on the DOM plus the actual posts. This is bad
-			practice. Have the modals be generated in the controller
-			and pick the data that is being used to populate the modal.
-	   -->
-		<!-- <div class="list" data-ng-repeat="item in items">
-      	<ro-post ng-model="item" user="user" delete-post="deletePost(item)"></ro-post>
-    </div> -->
-
-    <!-- <ion-content>
-    ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]"
-
-    <div class="list card" ng-repeat="item in stream.items">
-      <div class="item item-avatar">
-        <img ng-src="{{item.avatar}}">
-        <h2>{{item.author}}</h2>
-        <p>{{item.date | date:'medium'}}</p>
-      </div>
-
-      <div class="item item-body">
-        <p>{{item.content}}</p>
-        <p>
-          <a href="#" class="subdued">{{item.likeCount}} Like</a>
-          <a href="#" class="subdued">{{item.commentCount}} Comments</a>
-        </p>
-      </div>
-
-      <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#">
-          <i class="icon ion-thumbsup"></i>
-          Like
-        </a>
-        <a class="tab-item" href="#">
-          <i class="icon ion-chatbox"></i>
-          Comment
-        </a>
-        <a class="tab-item" href="#">
-          <i class="icon ion-share"></i>
-          Share
-        </a>
-      </div>
-    </div> -->
 
 
     <!--
