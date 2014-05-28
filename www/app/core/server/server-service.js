@@ -10,8 +10,8 @@ angular.module('sproutApp.server', [
 // however, check connection status before making calls. It also reports
 // connection status to the higher level services.
 
-.factory('server', ['util', '$log','$http','$q','API_URL',
-  function(util, $log, $http,$q,API_URL) {
+.factory('server', ['util', '$log','$http','$q','API_URL', 'Notify',
+  function(util, $log, $http,$q,API_URL, Notify) {
     var service = {};
     var options = { headers : {} };//{headers:[{'Authorization':'sprout-token b82da8af04ee46ebbe72557b98dca8d44f391c1f'}]}; //shared options for all http req
 
@@ -76,6 +76,10 @@ angular.module('sproutApp.server', [
 
     //preform a HTTP GET
     service.get = function(url, params) {
+      if (!service.isReachable) {
+        return util.q.makeRejectedPromise('offline');
+      }
+
       var deferred = $q.defer();
       var config = options;      
       config.url = API_URL + url;
@@ -140,19 +144,6 @@ angular.module('sproutApp.server', [
       });
 
       return deferred.promise;            
-    };
-
-    var callbacks = [];
-    service.onConnection = function(callback) {
-      // Adds callback to an array of functions to call when
-      // network connection becomes available.
-      callbacks.push(callback);
-    };
-
-    service.connected = function() {
-      callbacks.forEach(function(cb) {
-        cb();
-      });
     };
 
     return service;
