@@ -183,3 +183,21 @@
 .ellipsis {
   text-overflow: ellipsis;
 }
+
+// Scroll stuff
+
+#stream-header {
+  position: absolute;
+  width: 100%;
+  z-index: 99999;
+  background: white;
+}
+
+#sproutPostsScroller {
+  top: 0px;
+}
+
+.create-post {
+  top: 44px;
+  position: absolute;
+}
