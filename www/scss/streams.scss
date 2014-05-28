@@ -1,193 +1,175 @@
 @import"variables";
-
  .create-post {
-    @include box-shadow (0px, 0px, 5px, 1px, rgba(50,50,50,0.25));
+    @include box-shadow (0px, 0px, 5px, 1px, rgba(50, 50, 50, 0.25));
     z-index: 100;
     padding: 0;
     background: #fff;
     border-bottom: 1px solid $mediumgrey;
     border-top: 1px solid $mediumgrey;
-    font-family: 'roboto', sans-serif;
+    font-family:'roboto', sans-serif;
     text-align: center;
     form {
         width: 100%;
     }
-    .col{
-      padding: 10px 15px 10px 10px;
-      a, .icon{
-        text-decoration: none;
-        color: $blue;
-      }
-    .col:last-child{
-      text-align: right;
+    .col {
+        padding: 10px 15px 10px 10px;
+        a, .icon {
+            text-decoration: none;
+            color: $blue;
+        }
+        .col:last-child {
+            text-align: right;
+        }
     }
 }
-}
-
-
 /* Modal for creating post */
  .create-post-modal {
     ion-header-bar button.post {
-      position: absolute;
-      top: 0px;
-      right: 10px;
-      padding: 10px;
-      margin: 0;
-      line-height: 12px;
-      color: $mediumgrey;
-      background-color: $base-background-color;
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        padding: 10px;
+        margin: 0;
+        line-height: 12px;
+        color: $mediumgrey;
+        background-color: $base-background-color;
     }
     ion-header-bar button.post.active {
-      color: $blue;
+        color: $blue;
     }
-    
     ion-content {
-
-      @include display-flex();
-      @include flex-direction(column);
-      
-      textarea {
         @include display-flex();
-        @include flex(1);
-      }
+        @include flex-direction(column);
+        textarea {
+            @include display-flex();
+            @include flex(1);
+        }
     }
 }
 .create-activity-modal {
     ion-header-bar button.post {
-      position: absolute;
-      top: 0px;
-      right: 10px;
-      padding: 10px;
-      margin: 0;
-      line-height: 12px;
-      color: $mediumgrey;
-      background-color: $base-background-color;
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        padding: 10px;
+        margin: 0;
+        line-height: 12px;
+        color: $mediumgrey;
+        background-color: $base-background-color;
     }
     ion-header-bar button.post.active {
-      color: $blue;
+        color: $blue;
     }
 }
-
 .post-box {
-  height: 1rem;
-  margin: 0 0 1rem 0;
-  padding: .5rem;
-  border: 0px solid $mediumgrey;
-  border-radius: 0px;
-  resize: none;
+    height: 1rem;
+    margin: 0 0 1rem 0;
+    padding: .5rem;
+    border: 0px solid $mediumgrey;
+    border-radius: 0px;
+    resize: none;
 }
-
 .search-box {
-  height: 1rem;
-  margin: 0 0 1rem 0;
-  padding: .5rem;
-  border: 0px solid $mediumgrey;
-  border-radius: 0px;
-  resize: none;
+    height: 1rem;
+    margin: 0 0 1rem 0;
+    padding: .5rem;
+    border: 0px solid $mediumgrey;
+    border-radius: 0px;
+    resize: none;
 }
 .add-activity-post.activity-select-visible {
-  height: 100% !important;
+    height: 100% !important;
 }
-
 .add-activity-post {
-  /* top: 44px; */
-  width: 100%;
-  background: white;
-  z-index: 2;
-
-  height: auto;
-  overflow: hidden;
-
-  h3.activity-title {
-    font-size: 14px;
-    color: $mediumgrey;
-    padding-bottom: 3px;
-    border-bottom: 1px solid $mediumgrey;
-    margin-bottom: 0px;
-  }
-
-  .activity-select {
-    height: 100%;
-
-    .activity-item-container {
-      &:nth-child(odd)  { padding-right : 3px; }
-      &:nth-child(even) { padding-left  : 3px; }
-
-      .activity-item {
-        background-color: $green;
-        padding: 3px;
-        color: white;
-        border-radius: 3px;
-        text-align: center;
-      }
+    /* top: 44px; */
+    width: 100%;
+    background: white;
+    z-index: 2;
+    height: auto;
+    overflow: hidden;
+    h3.activity-title {
+        font-size: 14px;
+        color: $mediumgrey;
+        padding-bottom: 3px;
+        border-bottom: 1px solid $mediumgrey;
+        margin-bottom: 0px;
     }
-  }
-  .activity-queue-item{
-    min-height: 0px;
-
-    .item-content{
-      padding-left: 0px;
-      min-height: 0px;
+    .activity-select {
+        height: 100%;
+        .activity-item-container {
+            &:nth-child(odd) {
+                padding-right : 3px;
+            }
+            &:nth-child(even) {
+                padding-left : 3px;
+            }
+            .activity-item {
+                background-color: $green;
+                padding: 3px;
+                color: white;
+                border-radius: 3px;
+                text-align: center;
+            }
+        }
     }
-  }
+    .activity-queue-item {
+        min-height: 0px;
+        .item-content {
+            padding-left: 0px;
+            min-height: 0px;
+        }
+    }
 }
-
 .numpad-container {
-  bottom: 0px;
-  width: 100%;
-  text-align: center;
-  border-top: 1px solid #e6e6e6;
- 
-  .numpad-row {
-    @include display-flex();
-    @include flex-direction(row);
-    @include flex(1);
- 
-    .key {
-      @include flex(1);
-      text-align: center;
-      background-color: #f7f7f7;
-      color: #333;
-      height: 52px;
-      line-height: 52px;
-      // Squish keyboard for iPhone 4S
-      @media (max-height: 567px) {
-        height: 40px !important;
-        line-height: 40px !important;
-      }
- 
-      &:nth-child(2n) {
-        border-right: 1px solid #e6e6e6;
-        border-left: 1px solid #e6e6e6;
-      }
-      &:nth-child(-n+11) {
-        border-bottom: 1px solid #e6e6e6;
-      }
- 
-      &.skip { color: #999; }
-      &.continue { color: #fff; /*background-color: $active; */}
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid #e6e6e6;
+    .numpad-row {
+        @include display-flex();
+        @include flex-direction(row);
+        @include flex(1);
+        .key {
+            @include flex(1);
+            text-align: center;
+            background-color: #f7f7f7;
+            color: #333;
+            height: 52px;
+            line-height: 52px;
+            // Squish keyboard for iPhone 4S @media (max-height: 567px) {
+                height: 40px !important;
+                line-height: 40px !important;
+            }
+            &:nth-child(2n) {
+                border-right: 1px solid #e6e6e6;
+                border-left: 1px solid #e6e6e6;
+            }
+            &:nth-child(-n+11) {
+                border-bottom: 1px solid #e6e6e6;
+            }
+            &.skip {
+                color: #999;
+            }
+            &.continue {
+                color: #fff;
+                /*background-color: $active; */
+            }
+        }
     }
-  }
 }
-
 .ellipsis {
-  text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
-
-// Scroll stuff
-
-#stream-header {
-  position: absolute;
-  width: 100%;
-  z-index: 99999;
-  background: white;
+// Scroll stuff #stream-header {
+    position: absolute;
+    width: 100%;
+    z-index: 99999;
+    background: white;
 }
-
 #sproutPostsScroller {
-  top: 0px;
+    top: 0px;
 }
-
 .create-post {
-  top: 44px;
-  position: absolute;
+    top: 44px;
+    position: absolute;
 }
