@@ -3,24 +3,43 @@ angular.module('sproutApp.data.challenge', [
   'sproutApp.util'
 ])
 
-  .factory('challenge', ['$log', '$q', 'user', 'util',
-    function ($log, $q, user, util) {
+  .factory('challenge', ['$log', '$q', 'user', 'util', 'API_CONSTANTS', 'mockChallengeServer',
+    function ($log, $q, user, util, API_CONSTANTS, server) {
       var service = {};
 
-      var mockChallengeDetailData = {
-        challengeName: 'someChallengeName',
-        challengeDescription: 'someChallengeDescription'
-
-      };
 
       service.getChallengeDetails = function (challengeId) {
-        if (challengeId > 1) {
-          return util.q.makeResolvedPromise(mockChallengeDetailData);
-        } else {
-          return util.q.makeRejectedPromise('error');
-        }
+        return server.get(API_CONSTANTS.challengesEndpoint + '/' + challengeId);
       };
 
       return service;
     }
-  ]);
+  ])
+  .factory('mockChallengeServer', ['$q', 'util', 'API_CONSTANTS', '$log',
+    function ($q, utils, API_CONSTANTS, $log) {
+      'use strict';
+
+      var mockChallengeDetailData = {
+        challengeId: 666,
+        challengeName: 'Bike to work',
+        challengeDescription: 'Bike to work for a week',
+        challengeInstruction: 'Ride your bike to work from home, and back for a week',
+        challengeImageURL: 'app/stream/post/joinable/components/detail/sample-images/biketowork.jpg',
+        challengeType: 'someType',
+        challengeDeadline: new Date(),
+        numChallengeParticipants: 42,
+        challengeParticipants: {}
+      };
+
+
+      return {
+        get: function (url, query) {
+          $log.debug('called mock challenge service ' + url, query)
+          var deferred = $q.defer();
+          deferred.resolve(mockChallengeDetailData);
+          return deferred.promise;
+        }
+      };
+    }
+  ])
+;

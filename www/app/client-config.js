@@ -25,7 +25,18 @@ angular.module('sproutApp.config', [])
       scoresEndPoint:'scores',
 
       //STREAM ITEMS
-      streamItemsEndPoint : 'stream_items'
+      streamItemsEndPoint : 'stream_items',
+
+      //GROUPS
+      groupsEndpoint : 'groups',
+
+      //CHALLENGES
+      challengesEndpoint : 'challenges',
+
+      //EVENTS
+      eventsEndpoint : 'events'
+
+
 
     })
     .constant('APP_CONFIG', {
