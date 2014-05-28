@@ -136,7 +136,7 @@ angular.module('sproutApp.user', [
     };
 
     /**
-     * Attemps to log out the user.
+     * Attemps to log out the user. Will reload the page if successful
      *
      * @return {promise}               A $q promise that is rejected if the
      *                                 logout fails. (We don't return anything
@@ -146,7 +146,8 @@ angular.module('sproutApp.user', [
     user.logout = function () {
       user.isAuthenticated = false;
       userStorage.removeUser();
-      $window.location.replace('/#/signin');
+      //Note: the complexity of this is derived from cordova's hosting the app as just opening a local file in the browser (ie. file://.....)      
+      $window.location.replace($window.location.toString().split('#')[0]);
       return util.q.makeResolvedPromise();
     };
 
