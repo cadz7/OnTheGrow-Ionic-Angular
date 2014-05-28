@@ -36,8 +36,8 @@
  */
 angular.module('sproutApp.directives').directive(
   'post',
-  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService', '$ionicActionSheet', 'streamItemModalService', 'Notify', 'joinableStreamItemService',
-    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService, $ionicActionSheet, streamItemModalService, Notify, joinableStreamItemService) {
+  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService', '$ionicActionSheet', 'streamItemModalService', 'Notify',
+    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService, $ionicActionSheet, streamItemModalService, Notify) {
       return {
         restrict: 'E',
         template: '<div ng-include="streamItemResourceService.getContentUrl(post)"></div>',
@@ -172,11 +172,8 @@ angular.module('sproutApp.directives').directive(
 
           function openPostInModal(type) {
             if (scope.modalContainer) {
-              streamItemModalService.setStreamItem(scope.post, type);
-              joinableStreamItemService.getDetail(scope.post)
-                .then(function(details){
-                  scope.modalContainer.show();
-                })
+              streamItemModalService.loadStreamItemDetails(scope.post, type);
+              scope.modalContainer.show();
             } else {
               $log.debug('Trying to open a full post without given a modal container')
             }
@@ -204,22 +201,6 @@ angular.module('sproutApp.directives').directive(
           scope.isDetailView = function(){
             return scope.viewType === streamItemModalService.DETAILED_VIEW;
           };
-
-
-
-          function getDetails(){
-            if (scope.isDetailView()){
-              joinableStreamItemService.getDetail(scope.post)
-                .then(function(detail){
-                  scope.detail = detail;
-                }, function (err){
-                  Notify.apiError(err, err);
-                });
-            }
-          };
-
-
-          //getDetails();
 
         }
       }

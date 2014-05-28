@@ -24,8 +24,16 @@ angular.module('sproutApp.data.joinable-stream-item-service', [
         }
       };
 
+      /**
+       * Details are persisted in this service, on top
+       * of being resolved in the returned promise.
+       *
+       * @param post
+       * @returns {*}
+       */
       service.getDetail = function(post){
-        console.debug('getDetail called');
+        service.data = {};
+
         return _getDetail(post)
           .then(function(detail){
             service.data = detail;
