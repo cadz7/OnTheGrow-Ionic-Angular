@@ -221,7 +221,11 @@ angular.module('sproutApp.data.stream-items', [
      *                                 item when the item has been created.
      */
     service.postItem = function(item) {
-      item.streamItemTypeSlug = 'post';
+
+      // Commenting out this until we have worked out the correct slug type for a generic post
+      // item.streamItemTypeSlug = 'post';
+
+      item.streamItemTypeSlug = 'add_notification';
       return server.post(API_CONSTANTS.streamItemsEndPoint, item).then(function(post) {
         decoratePostsWithFunctionality([post]);
         latestId = post.id;   // TODO: fix race condition here.
@@ -379,7 +383,7 @@ angular.module('sproutApp.data.stream-items', [
     return comment;
   }
 
-  function makeStreamItem(id) {
+  function makeStreamItem(id, forcedType) {
     var item = _.cloneDeep(mockStreamItemTemplate);
     item.id = id;
     item.owner = _.cloneDeep(owners[id % 5]);
@@ -391,7 +395,10 @@ angular.module('sproutApp.data.stream-items', [
     item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' +
         item.owner.lastName;
 
-    var streamItemTypeSlug = streamItemTypeSlugs[0];
+    var streamItemTypeSlug = forcedType
+          ? (_.find(streamItemTypeSlugs, function(targetType) { return targetType.itemType == forcedType; }) || streamItemTypeSlugs[id % 4])
+          :  streamItemTypeSlugs[id % 4];
+
     item.streamItemTypeSlug = streamItemTypeSlug.itemType;
     item.streamItemDisplay.template = streamItemTypeSlug.template;
     item.streamItemDisplay.heroImg = streamItemTypeSlug.heroImg;
@@ -456,6 +463,7 @@ angular.module('sproutApp.data.stream-items', [
     },
     post: function(endpoint, item, params) {
       var createdItem = makeStreamItem(latestId++);
+      createdItem.streamItemTypeSlug = item.streamItemTypeSlug;
       createdItem.owner = _.clone(user.data);
       createdItem.viewer.isOwnedByViewer = true;
       createdItem.dateTimeCreated = new Date().toISOString();
