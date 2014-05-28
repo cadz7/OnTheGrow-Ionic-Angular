@@ -11,6 +11,12 @@ angular.module('sproutApp.controllers.main', [
     $scope.logout = function(){
       user.logout();
     }
+
+    $scope.simulateOffline = function() {
+      if (networkInformation.simulate) {
+        networkInformation.simulate.toggleStatus();
+      }
+    };
   }
 ]);
 
