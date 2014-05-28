@@ -275,3 +275,25 @@
 .post a.tab-item .inactive {
     color: #CCC;
 }
+
+.action-sheet-backdrop{
+  z-index: 99999;
+}
+
+.challenge-description{
+  font-weight: 200;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font: roboto, sans-serif;
+}
+
+.challenge-instructions{
+  font-family: roboto, sans-serif;
+  margin-top: 5px;
+  margin-bottom: 50px;
+}
+
+.text-bold{
+  font-weight: bold;
+}

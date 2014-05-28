@@ -339,7 +339,10 @@ angular.module('sproutApp.data.stream-items', [
           'id': '1971',
           'name': 'Will Melbourne'
         }
-      }
+      },
+      title: 'some title',
+      text1: 'text1',
+      text2: 'text2'
     },
     canBePrivate: 1,
     likeCount: 10,
@@ -349,10 +352,10 @@ angular.module('sproutApp.data.stream-items', [
 
   // This is a stub: the streamItem from API will already have the correct type and template
   var streamItemTypeSlugs = [
-    {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}'},
-    {itemType: 'group', template: 'Group post by {user.name}', heroImg: 'img/group/group-default.png'},
-    {itemType: 'event', template: 'Event post by {user.name}', heroImg: 'img/group/event-default.png'},
-    {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'img/group/event-default.png'}
+    {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}', title: 'someTitle'},
+    {itemType: 'group', template: 'Group post by {user.name}', heroImg: 'img/group/group-default.png',title: 'Yoga Group', greyText: null, orangeText: '22 Members'},
+    {itemType: 'event', template: 'Event post by {user.name}', heroImg: 'img/group/event-default.png',title: '5k Marathon', greyText: 'May 9, 2014', orangeText: '200 Attending'},
+    {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'app/stream/post/joinable/components/detail/sample-images/biketowork.jpg',title: 'Bike to Work', greyText: 'Ends: May 1, 2014', orangeText: '66 Challegers'}
   ];
 
   function makeComment(item, author, commentText) {
@@ -395,6 +398,10 @@ angular.module('sproutApp.data.stream-items', [
     item.streamItemTypeSlug = streamItemTypeSlug.itemType;
     item.streamItemDisplay.template = streamItemTypeSlug.template;
     item.streamItemDisplay.heroImg = streamItemTypeSlug.heroImg;
+    item.streamItemDisplay.title = streamItemTypeSlug.title;
+
+    item.streamItemDisplay.greyText = streamItemTypeSlug.greyText;
+    item.streamItemDisplay.orangeText = streamItemTypeSlug.orangeText;
 
     for (var i = 0; i < 3; i++) {
       item.comments.push(makeComment(item));
