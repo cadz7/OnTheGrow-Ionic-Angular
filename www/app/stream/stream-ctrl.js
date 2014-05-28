@@ -4,8 +4,8 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$ionicPopup', '$log', 'streamItemModalService', 'Notify',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $ionicPopup, $log, streamItemModalService, Notify) {
+    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService',
+    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
@@ -85,14 +85,20 @@ angular.module('sproutApp.controllers')
       });
 
       // Modal for full-post
-      $ionicModal.fromTemplateUrl('app/stream/post/modal/full-post-modal.tpl.html', {
-        scope: streamItemModalScope,
-        animation: 'slide-in-up',
-        backdropClickToClose: false
-      }).then(function(modal) {
-        $scope.streamItemModal = modal;
-        streamItemModalScope.streamItemModalService = streamItemModalService;
-      });
+      $scope.makeFullPostModal = function(){
+        $ionicModal.fromTemplateUrl('app/stream/post/modal/full-post-modal.tpl.html', {
+          scope: streamItemModalScope,
+          animation: 'slide-in-up',
+          backdropClickToClose: false
+        }).then(function(modal) {
+          $scope.streamItemModal = modal;
+          streamItemModalScope.streamItemModalService = streamItemModalService;
+          streamItemModalScope.joinableStreamItemService = joinableStreamItemService;
+
+        });
+      };
+      $scope.makeFullPostModal();
+
 
       // Clean up modals when scope is destroyed
       $scope.$on('$destroy', function() {
