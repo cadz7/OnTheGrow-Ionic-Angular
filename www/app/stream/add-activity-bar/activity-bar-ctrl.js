@@ -195,15 +195,6 @@ angular.module('sproutApp.controllers')
       $scope.errorMessage = errorMessage;
     });
   };
-
-  $scope.keyPress = function(keyCode) {
-    if (keyCode===113) { // F2
-      if (networkInformation.simulate) {
-        networkInformation.simulate.toggleStatus();
-      }
-    }
-  };
-  
 }])
 
 /*
