@@ -80,5 +80,4 @@ describe('user settings service', function() {
       done();
     });
   });
-
 });

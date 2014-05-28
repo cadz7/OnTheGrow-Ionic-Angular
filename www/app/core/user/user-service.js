@@ -48,23 +48,25 @@ angular.module('sproutApp.user', [
     /**
      * Tries to logs the user in with the provided user name and password, and stores the user profile + settings if successful
      *
-     * @param  {String} username       User name.
+     * @param  {String} email       User name.
      * @param  {String} password       Password.
+     * @param  {bool} rememberMe       put the user in local storage?
      * @return {promise}               A $q promise that resolves when the user
      *                                 is logged in or is rejected when the
      *                                 login fails.
      */
-    user.login = function (username, password) {
+    user.login = function (email, password, rememberMe) {
       var deferred = $q.defer();
       
       if(APP_CONFIG.useMockData){
-        if(username!== 'arthur' && !(username==='simon@rangle.io'&&password==='testtest')){
+        if(email!== 'arthur' && !(email==='simon@rangle.io'&&password==='testtest')){
           deferred.reject({errorCode:'hallow'});
           return deferred.promise;
         }
 
         var newUser = {
           userId: 42,
+          email : 'simon@rangle.io',
           firstName: 'Arthur',
           lastName: 'Dent',
           avatarUrl: 'img/user/arthur.png',
@@ -82,23 +84,43 @@ angular.module('sproutApp.user', [
         };
 
         user.data = newUser;
-        userStorage.set(newUser);
+        
+        if(rememberMe){
+          userStorage.set(newUser);
+        }else{
+          userStorage.removeUser();          
+        }
+
         user.isAuthenticated = true;
-        userSettings.fetchSettings().then(function() {
+        userSettings.fetchSettings()
+        .then(function(){
+          return userSettings.saveSetting('rememberMe',rememberMe);
+        })
+        .then(function() {
           authenticatedDeferred.resolve();
         });
         
         deferred.resolve();
       }else{
-       server.login(username, password)
+        server.login(email, password,rememberMe)
         .then(function(){
           return server.get(API_CONSTANTS.currentUserEndpoint);
         })
         .then(function(newUser) {
           user.data = newUser;
-          userStorage.set(newUser);
+          
+          if(rememberMe){
+            userStorage.set(newUser);
+          }else{
+            userStorage.removeUser();
+          }
+
           return  userSettings.fetchSettings();
-        }).then(function(){        
+        })
+        .then(function(){
+          return userSettings.saveSetting('rememberMe',rememberMe);
+        })
+        .then(function(){        
           user.isAuthenticated = true;
           authenticatedDeferred.resolve();
           deferred.resolve();
@@ -114,7 +136,7 @@ angular.module('sproutApp.user', [
     };
 
     /**
-     * Attemps to log out the user.
+     * Attemps to log out the user. Will reload the page if successful
      *
      * @return {promise}               A $q promise that is rejected if the
      *                                 logout fails. (We don't return anything
@@ -124,7 +146,8 @@ angular.module('sproutApp.user', [
     user.logout = function () {
       user.isAuthenticated = false;
       userStorage.removeUser();
-      $window.location.replace('/#/signin');
+      //Note: the complexity of this is derived from cordova's hosting the app as just opening a local file in the browser (ie. file://.....)      
+      $window.location.replace($window.location.toString().split('#')[0]);
       return util.q.makeResolvedPromise();
     };
 
