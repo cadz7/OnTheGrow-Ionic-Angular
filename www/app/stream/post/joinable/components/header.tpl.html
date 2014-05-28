@@ -1,9 +1,8 @@
 <div class="special-avatar">
     <!-- <img ng-src="{{streamItemResourceService.getJoinableHeaderIcon(post)}}" /> -->
     <!-- <i ng-class="icon sprout-icon-group"></i> -->
-    <i class="icon" ng-class="streamItemResourceService.getJoinableHeaderIcon(post)"></i>
-
     <div class="post-info row">
+        <i class="icon" ng-class="streamItemResourceService.getJoinableHeaderIcon(post)"></i>
         <div class="col col-75">
             <h1 class="title" ng-click="showDetailView()">{{post.streamItemTypeSlug}}</h1>
             <span class="author">{{post.streamItemDisplay.values.mainInfo}}</span> {{post.streamItemTypeSlug}}
@@ -16,6 +15,5 @@
                 <span class="pointsLabel">points</span>
             </div>
         </div>
-        <div class="ion-close col" data-ng-click="deletePost(post)"></div>
     </div>
 </div>
