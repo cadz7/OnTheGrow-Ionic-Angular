@@ -3,8 +3,8 @@
  *
  */
 angular.module('sproutApp.services')
-  .factory('streamItemModalService', ['$log',
-    function ($log) {
+  .factory('streamItemModalService', ['$log', 'joinableStreamItemService',
+    function ($log, joinableStreamItemService) {
       'use strict';
 
       var service = {};
@@ -23,20 +23,17 @@ angular.module('sproutApp.services')
        * If the user clicks the comment on the stream item (from stream view), we remain of the comments
        * view. If the user clicks anywhere else, we should see a detail view of the stream.
        *
-       * The post directive reacts correspondingly based on the .type attribute for streamItem.
-       *
-       * TODO should fetch from the server a detail version of streamItem if viewing the detail
-       *
-       *
        * @param streamItem
        * @param viewType
        */
-      service.setStreamItem = function(streamItem, viewType){
-//        _streamItem = angular.copy(streamItem);
-
+      service.loadStreamItemDetails = function(streamItem, viewType){
         _streamItem = streamItem;
-        _streamItem.type = viewType;
         _viewType = viewType;
+
+        // Fetch data for this post
+        if (viewType === service.DETAILED_VIEW){
+          joinableStreamItemService.getDetail(streamItem);
+        }
       };
 
       service.getStreamItem = function(){
