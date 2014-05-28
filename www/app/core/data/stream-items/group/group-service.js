@@ -22,7 +22,7 @@ angular.module('sproutApp.data.group', [
       var mockGroupDetailData = {
         groupId: 242,
         groupName: 'IT Group',
-        groupImageURL: '',
+        groupImageURL: 'app/stream/post/joinable/components/detail/sample-images/itgroup.jpeg',
         numGroupMembers: '20',
         groupMembers: {}
       };

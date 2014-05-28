@@ -24,7 +24,7 @@ angular.module('sproutApp.data.event', [
         eventName: '5k Marathon',
         eventDateTime: new Date(),
         eventLocation: '1337 Front St',
-        eventImageURL: '',
+        eventImageURL: 'app/stream/post/joinable/components/detail/sample-images/marathon.JPG',
         numEventAttendees: 192,
         eventAttendees: {},
         eventDescription: 'The flat and fast features of this event have consistently been the reason for so many ' +
