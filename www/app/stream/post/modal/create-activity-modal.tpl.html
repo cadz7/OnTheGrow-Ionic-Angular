@@ -77,8 +77,8 @@
         </div>
       </div>
       <ion-list  show-delete="true" >
-        <ion-item ng-repeat="post in activtyQueue" class="item-thumbnail-left activity-queue-item">
-          You tracked {{post.quantity}} {{post.unitName}} of {{post.activityName}}
+        <ion-item ng-repeat="activity in activtyQueue" class="item-thumbnail-left activity-queue-item" ng-click="restoreActivity(activity)">
+          You tracked {{activity.quantity}} {{activity.unitName}} of {{activity.activityName}}
           <ion-delete-button class="ion-minus-circled" ng-click="activtyQueue.splice($index, 1)">
         </ion-item>
       </ion-list>
