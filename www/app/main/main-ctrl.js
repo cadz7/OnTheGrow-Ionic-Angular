@@ -2,7 +2,7 @@ angular.module('sproutApp.controllers.main', [
   'sproutApp.network-information'
 ])
 
-.controller('MainCtrl', ['$scope', 'networkInformation','user','$state', '$ionicModal', 'APP_CONFIG'
+.controller('MainCtrl', ['$scope', 'networkInformation','user','$state', '$ionicModal', 'APP_CONFIG',
   function ($scope, networkInformation,user,$state, $ionicModal, APP_CONFIG) {
     'use strict';
     var developerMenu;
