@@ -6,7 +6,8 @@ angular.module('sproutApp.controllers', [
   'sproutApp.template',
   'sproutApp.data.activities',
   'sproutApp.data.filters',
-  'sproutApp.controllers.user-settings'
+  'sproutApp.controllers.user-settings',
+  'sproutApp.network-information'
 ]);
 angular.module('sproutApp.services', [
   'sproutApp.user-settings',

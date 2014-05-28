@@ -4,8 +4,8 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService) {
+    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService', 'networkInformation',
+    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService, networkInformation) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
@@ -153,7 +153,11 @@ angular.module('sproutApp.controllers')
       };
 
       $scope.createPost = function() {
-        $scope.createStreamItemModal.show();
+        if (!networkInformation.isOnline) {
+          Notify.userError('You cannot post in offline mode.');
+        } else {
+          $scope.createStreamItemModal.show();
+        }
       };
 
       $scope.createActivity = function() {
