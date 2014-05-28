@@ -7,7 +7,7 @@ angular.module('sproutApp.config', [])
     .constant('API_URL','https://platform.dev.sproutatwork.com/v1/')
     .constant('STREAM_CONSTANTS', {
       defaultMaxItemCount: 10 , //default number of stream items to get in a single req
-      initialCommentCountShown: 2,
+      initialCommentCountShown: 3,
       initialPostCharCount: 70
     })
     .constant('API_CONSTANTS', {

@@ -1,6 +1,5 @@
-<div class="list">
-
-    <div class="item hide-after comment" data-ng-repeat="comment in comments">
+<div class="list" data-ng-show="commentsExist || isWrappedInModal">
+    <div class="item hide-after comment" data-ng-repeat="comment in comments | trimToLatest:numCommentsDisplayed:isWrappedInModal">
         <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
     </div>
 
