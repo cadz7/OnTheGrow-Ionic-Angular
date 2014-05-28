@@ -11,7 +11,10 @@ angular.module('sproutApp.controllers', [
 angular.module('sproutApp.services', [
   'sproutApp.user-settings',
   'sproutApp.data.leaderboards',
+  'sproutApp.data.joinable-stream-item-service',
   'sproutApp.data.challenge',
+  'sproutApp.data.group',
+  'sproutApp.data.event',
   'sproutApp.data.membership',
   'sproutApp.data.scores',
   'sproutApp.config',
