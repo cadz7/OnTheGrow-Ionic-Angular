@@ -1,0 +1,9 @@
+<div class="item item-divider tabs tabs-secondary tabs-icon-left">
+    <a class="tab-item" data-ng-click="likePost(post)">
+        <span class="count">{{likeCount}}</span><i class="icon ion-thumbsup" data-ng-class="{'inactive':!viewer.isLikedByViewer}"></i>
+    </a>
+    <div class="vertical-divider"></div>
+    <a class="tab-item" href="javascript:void(0)" ng-click="showFullPost()">
+        <span class="count">{{comments.length}}</span><i class="icon ion-chatbox"></i>
+    </a>
+</div>
