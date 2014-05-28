@@ -8,10 +8,10 @@
         {{showCommentCount==post.comments.length && 'hide more' || 'show more'}}
     </div> -->
     <div class="postInputArea row">
-    <input type="text" ng-model="post.newComment" ng-enter="postComment(post.newComment)" placeholder="Add a comment..."
-           class="add-comment col col-80">
-    <button type="button" class="button button-small button-stable col col-20" ng-click="postComment(post.newComment)">
-        Post
-    </button>
-</div>
+      <input type="text" ng-model="post.newComment" ng-enter="postComment(post.newComment)" placeholder="Add a comment..."
+             class="add-comment col col-80">
+      <button type="button" class="button button-small button-stable col col-20" ng-click="postComment(post.newComment)">
+          Post
+      </button>
+    </div>
 </div>

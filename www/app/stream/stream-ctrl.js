@@ -4,8 +4,8 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$ionicPopup', '$log', 'streamItemModalService',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $ionicPopup, $log, streamItemModalService) {
+    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$ionicPopup', '$log', 'streamItemModalService', 'Notify',
+    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $ionicPopup, $log, streamItemModalService, Notify) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
@@ -109,18 +109,15 @@ angular.module('sproutApp.controllers')
       $scope.submitPost = function(post) {
         if (post.text.length > 0) {
           streamItems.postItem(post)
-            .then(function() {
-              console.log('Your post has been created.');
-              $scope.newPost.text = '';
-              closeCreatePostModal();
-            }, function(response) {
-              if (response.status === 403) {
-                console.error('You do not have permission to create this post.');
-              } else {
-                throw response;
-              }
-            }
-          )
+          .then(function() {
+            Notify.userSuccess('Your post has been sent!');
+            $scope.newPost.text = '';
+            closeCreatePostModal();
+          }, Notify.notifyTheCommonErrors(function(response) {
+            Notify.apiError(Notify.errorMsg.POST_FAILED_TO_SEND);
+            throw response;
+          })
+        )
           .then(null, $log.error);
         }
       };
@@ -163,8 +160,6 @@ angular.module('sproutApp.controllers')
           }
         });
       };
-
-
       //
       // REFRESH STREAM ITEMS HERE
       //

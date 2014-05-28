@@ -7,6 +7,8 @@
 
     <link href="css/app.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,500' rel='stylesheet' type='text/css'>
+    <link href="lib/bower-components/AngularJS-Toaster/toaster.css" rel="stylesheet" />
+
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
@@ -17,10 +19,14 @@
 
     <!-- The Base App View -->
     <ion-nav-view></ion-nav-view>
+    <toaster-container></toaster-container>
 
-    <!-- app scripts -->
+    <!-- 3rd party scripts -->
+    <script src="lib/bower-components/AngularJS-Toaster/toaster.js"></script>
     <script src="lib/bower-components/lodash/dist/lodash.min.js"></script>
     <script src="lib/bower-components/chai/chai.js"></script>
+
+    <!-- app scripts -->
     <script src="app/app.js"></script>
     <script src="app/core/header-service.js"></script>
     <script src="app/core/util/util-service.js"></script>
@@ -60,10 +66,7 @@
     <script src="app/stream/post/modal/stream-item-modal-service.js"></script>
     <script src="app/core/data/challenge/challenge-service.js"></script>
     <script src="app/core/data/scores/scores-service.js"></script>
-
-
-
-
-    <!-- 3rd party scripts -->
+    <script src="app/client-config.js"></script>
+    <script src="app/core/notifications/notify-service.js"></script>
   </body>
 </html>

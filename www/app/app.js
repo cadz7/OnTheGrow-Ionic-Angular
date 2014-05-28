@@ -33,7 +33,8 @@ angular.module('sproutApp', [
   'sproutApp.directives',
   'sproutApp.filters',
   'sproutApp.data.stream-items',
-  'sproutApp.network-information'
+  'sproutApp.network-information',
+  'sproutApp.notification'
 ])
 .run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems','$state','$rootScope',
   function($ionicPlatform, user, $log, networkInformation, streamItems,$state,$rootScope) {
@@ -121,68 +122,6 @@ angular.module('sproutApp', [
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main/stream');
 })
-// TODO note: @justin will move this to an appropriate place and fully implement it
-.service('toaster', ['$log', function($log) {
-  var toaster = { pop: function(type,title,message){console.log("[" + type + "] " + title + ":" + message ); }};
-  return toaster;
-}])
-
-// TODO note: @justin will move this to an appropriate place and fully implement it
-.service('Notify', ['$log', 'toaster', function($log, toaster) {
-  $log.debug('Notify() Initialized...');
-  return {
-    userError: function(msg, title) {
-      if (!title) {
-        title = 'Error Detected';
-      }
-      $log.log(title, msg);
-      toaster.pop('error', title, msg);
-    },
-    apiError: function(msg, title) {
-      if (!title) {
-        title = 'Error';
-      }
-      $log.error(msg);
-      toaster.pop('error', title, msg);
-    },
-    userSuccess: function(msg, title) {
-      if (!title) {
-        title = 'Good News';
-      }
-      $log.debug(title, msg);
-      toaster.pop('success', title, msg);
-    }
-  };
-}])
 ;
 
-angular.module('sproutApp.config', [])
-.constant('API_URL','https://platform.dev.sproutatwork.com/v1/')
-.constant('STREAM_CONSTANTS', {
-  defaultMaxItemCount: 10 , //default number of stream items to get in a single req
-  initialCommentCountShown: 2,
-  initialPostCharCount: 70
-})
-.constant('API_CONSTANTS', {
-  streamitemTypeId: 9,
-  //AUTHENTICATION note: login is preformed by server.login inorder to keep track of the auth token
-  logoutEndpoint : 'auth/logout',
-  refreshTokenEndpoint : 'auth/refresh_token',
-  currentUserEndpoint : 'auth/current_user',
-
-  //ACTIVITIES
-  activityLogEndpoint: 'activity_logs',
-  activityCategoryEndpoint: 'activity_categories',
-
-  //SCORES
-  scoresEndPoint:'scores',
-
-  //STREAM ITEMS
-  streamItemsEndPoint : 'stream_items'
-
-})
-.constant('APP_CONFIG', {
-  poisonMsgThreshold: 10,
-  useMockData :  true//use hard coded mock data or connect to the actual sprout api?
-});
 

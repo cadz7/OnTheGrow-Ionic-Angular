@@ -76,6 +76,10 @@ angular.module('sproutApp.server', [
 
     //preform a HTTP GET
     service.get = function(url, params) {
+      if (!service.isReachable) {
+        return util.q.makeRejectedPromise('offline');
+      }
+
       var deferred = $q.defer();
       var config = options;      
       config.url = API_URL + url;
@@ -140,19 +144,6 @@ angular.module('sproutApp.server', [
       });
 
       return deferred.promise;            
-    };
-
-    var callbacks = [];
-    service.onConnection = function(callback) {
-      // Adds callback to an array of functions to call when
-      // network connection becomes available.
-      callbacks.push(callback);
-    };
-
-    service.connected = function() {
-      callbacks.forEach(function(cb) {
-        cb();
-      });
     };
 
     return service;
