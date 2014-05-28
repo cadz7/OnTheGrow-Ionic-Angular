@@ -1,27 +1,27 @@
 @import"variables";
 
  .create-post {
+    @include box-shadow (0px, 0px, 5px, 1px, rgba(50,50,50,0.25));
+    z-index: 100;
+    padding: 0;
+    background: #fff;
+    border-bottom: 1px solid $mediumgrey;
+    border-top: 1px solid $mediumgrey;
+    font-family: 'roboto', sans-serif;
+    text-align: center;
     form {
         width: 100%;
     }
     .col{
+      padding: 10px 15px 10px 10px;
       a, .icon{
         text-decoration: none;
-        color: $darkgrey;
+        color: $blue;
       }
-      padding:0;
-    }
-
     .col:last-child{
       text-align: right;
     }
-    @include box-shadow (0px, 0px, 5px, 1px, rgba(50,50,50,0.25));
-    z-index: 100;
-    padding: 1rem 0.5rem 0.5rem 0.5rem;
-    background: $lightgrey;
-    border-bottom: 1px solid $mediumgrey;
-    border-top: 1px solid $mediumgrey;
-    font-family: 'roboto', sans-serif;
+}
 }
 .create-post:before{
     content:"";
@@ -79,17 +79,22 @@
 }
 
 .post-box {
-  height: 3rem;
+  height: 1rem;
   margin: 0 0 1rem 0;
   padding: .5rem;
   border: 0px solid $mediumgrey;
   border-radius: 0px;
   resize: none;
-  -webkit-box-shadow: inset 0px 1px 2px 0px rgba(50, 50, 50, 0.4);
-  -moz-box-shadow: inset 0px 1px 2px 0px rgba(50, 50, 50, 0.4);
-  box-shadow: inset 0px 1px 2px 0px rgba(50, 50, 50, 0.4);
 }
 
+.search-box {
+  height: 1rem;
+  margin: 0 0 1rem 0;
+  padding: .5rem;
+  border: 0px solid $mediumgrey;
+  border-radius: 0px;
+  resize: none;
+}
 .add-activity-post.activity-select-visible {
   height: 100% !important;
 }

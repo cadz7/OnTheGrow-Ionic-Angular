@@ -19,8 +19,8 @@
         &.row{
             padding: 0;
         }
-        .col:first-child{
-            padding: 5px 5px 5px 10px;
+        .col{
+            padding: 10px 5px 5px 10px;
         }
     }
     .sprout-icon-challenge, .sprout-icon-event, .sprout-icon-group {
@@ -46,7 +46,7 @@
     }
     .author {
         padding: 0 0 0 0;
-        font-size: 1rem;
+        font-size: .8rem;
         font-weight: 400;
         color: $orange;
     }
