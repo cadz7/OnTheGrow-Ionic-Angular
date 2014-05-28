@@ -45,14 +45,38 @@ angular.module('sproutApp.controllers')
         $scope.streamItemModal.hide();
       };
 
+      function ifNoStreamItemsShowNoConnectionScreen() {
+        if (!$scope.stream.items || !$scope.stream.items.length) {
+          $log.debug('No Connection Screen Shown');
+          $scope.showNoConnectionScreen = true;
+        }
+      }
+
+
+
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
           streamItems.getEarlier().then(function() {
+            $scope.showNoConnectionScreen = false;
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+          })
+          .then(null, function error() {
+            ifNoStreamItemsShowNoConnectionScreen();
             $scope.$broadcast('scroll.infiniteScrollComplete');
           });
         });
       }, 250);
 
+      $scope.refresh = function() {
+        streamItems.reload().then(function() {
+          $scope.showNoConnectionScreen = false;
+        }, function error(response) {
+          ifNoStreamItemsShowNoConnectionScreen();
+          Notify.apiError('Failed to fetch any stream items!');
+          $log.error(response);
+        });
+      };
+      $scope.refresh();
       // Create child scopes to hold streaItem data (passed in when modal is opened)
       var createStreamItemModalScope = $scope.$new(),
           createActivityModalScope = $scope.$new(),
@@ -135,8 +159,6 @@ angular.module('sproutApp.controllers')
       $scope.createActivity = function() {
         $scope.createActivityModal.show();
       };
-
-
 
       $scope.showFilterOptions = function() {
         $ionicActionSheet.show({

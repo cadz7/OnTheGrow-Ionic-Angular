@@ -9,22 +9,33 @@ angular.module('sproutApp.data.stream-items-cache', [
 .factory('streamItemsCache', ['cache', '$log', function(cache, $log) {
   var streamItemsBinnedByFilter = {};
 
-  var filters = cache.get('filters');
-  if (filters) {
-    filters.forEach(function(filter) {
-      streamItemsBinnedByFilter[filter] = cache.get('filter'+filter);
-      var fifteenDaysAgo = addDays(new Date(), -15);
+  var service = {
+    initialize: function() {
+      streamItemsBinnedByFilter = {};
+      var filters = cache.get('filters');
+      if (filters) {
+        filters.forEach(function(filter) {
+          streamItemsBinnedByFilter[filter] = cache.get('filter'+filter);
+          var fifteenDaysAgo = addDays(new Date(), -15);
 
-      streamItemsBinnedByFilter[filter] = _.filter(streamItemsBinnedByFilter[filter], function(streamItem) {
-        // if the stream item is newer than 15 days, allow it to pass through the filter.
-        return new Date(streamItem.dateTimeCreated) > fifteenDaysAgo;
-      });
+          streamItemsBinnedByFilter[filter] = _.filter(streamItemsBinnedByFilter[filter], function(streamItem) {
+            // if the stream item is newer than 15 days, allow it to pass through the filter.
+            return new Date(streamItem.dateTimeCreated) > fifteenDaysAgo;
+          });
 
-      cache.set('filter'+filter, streamItemsBinnedByFilter[filter]);
-    });
-  }
-
-  var streamItemCache = {
+          cache.set('filter'+filter, streamItemsBinnedByFilter[filter]);
+        });
+      }
+    },
+    clear: function() {
+      var filters = cache.get('filters');
+      if (filters) {
+        filters.forEach(function(filter) {
+          cache.delete('filter'+filter);
+        });
+      }
+      cache.delete('filters');
+    },
     /**
      * updates the stream item cache for a given filter.
      *
@@ -92,7 +103,9 @@ angular.module('sproutApp.data.stream-items-cache', [
     );
   }
 
-  return streamItemCache;
+  service.initialize();
+
+  return service;
 }])
 
 ;

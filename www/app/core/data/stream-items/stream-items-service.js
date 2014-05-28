@@ -89,11 +89,15 @@ angular.module('sproutApp.data.stream-items', [
             }, function error(response) {
               if (response === 'offline') {
                 $log.debug('getting offline stream items');
+
                 var streamItems = streamItemsCache.getItems(filterId, params.idLessThan, params.maxCount);
-                if (!streamItems || !streamItems.length) throw 'Please connect to the internet to show more...';
+                if (!streamItems || !streamItems.length)
+                  throw new Error('No stream items...');
+
                 decoratePostsWithFunctionality(streamItems);
                 return streamItems;
               }
+
               throw response;
             });
     }
@@ -125,9 +129,10 @@ angular.module('sproutApp.data.stream-items', [
       if (autoUpdateInterval) {
         $interval.cancel(autoUpdateInterval);
       }
+      service.items.splice(0, service.items.length);
+
       return getStreamItems(params)
         .then(function (items) {
-          service.items.splice(0, service.items.length);
           pushItemsAtTheBottom(items);
           return items;
         });
@@ -150,6 +155,8 @@ angular.module('sproutApp.data.stream-items', [
         .then(function (items) {
           pushItemsAtTheBottom(items);
           return items;
+        }, function error(r) {
+            throw r;
         });
     };
 

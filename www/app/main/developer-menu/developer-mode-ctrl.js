@@ -4,8 +4,8 @@
 
 angular.module('sproutApp')
 
-.controller('DeveloperCtrl', ['$scope', 'networkInformation','user','$state', 'streamItems',
-  function ($scope, networkInformation,user,$state, streamItems) {
+.controller('DeveloperCtrl', ['$scope', 'networkInformation','user','$state', 'streamItems', 'streamItemsCache',
+  function ($scope, networkInformation,user,$state, streamItems, streamItemsCache) {
     'use strict';
     $scope.user = user;
 
@@ -23,6 +23,11 @@ angular.module('sproutApp')
 
     $scope.reloadStreams = function() {
       streamItems.reload();
+    };
+
+    $scope.clearStreamCache = function() {
+      streamItemsCache.clear();
+      streamItemsCache.initialize();
     };
 
     $scope.status = networkInformation.isOnline ? 'online' : 'offline';
