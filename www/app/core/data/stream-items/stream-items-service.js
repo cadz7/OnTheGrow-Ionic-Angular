@@ -383,7 +383,7 @@ angular.module('sproutApp.data.stream-items', [
     return comment;
   }
 
-  function makeStreamItem(id, forcedType) {
+  function makeStreamItem(id) {
     var item = _.cloneDeep(mockStreamItemTemplate);
     item.id = id;
     item.owner = _.cloneDeep(owners[id % 5]);
@@ -395,9 +395,7 @@ angular.module('sproutApp.data.stream-items', [
     item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' +
         item.owner.lastName;
 
-    var streamItemTypeSlug = forcedType
-          ? (_.find(streamItemTypeSlugs, function(targetType) { return targetType.itemType == forcedType; }) || streamItemTypeSlugs[id % 4])
-          :  streamItemTypeSlugs[id % 4];
+    var streamItemTypeSlug = streamItemTypeSlugs[id % 4];
 
     item.streamItemTypeSlug = streamItemTypeSlug.itemType;
     item.streamItemDisplay.template = streamItemTypeSlug.template;
