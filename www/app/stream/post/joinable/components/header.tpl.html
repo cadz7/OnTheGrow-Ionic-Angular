@@ -4,8 +4,11 @@
     <div class="post-info row">
         <i class="icon" ng-class="streamItemResourceService.getJoinableHeaderIcon(post)"></i>
         <div class="col col-75">
-            <h1 class="title" ng-click="showDetailView()">{{post.streamItemTypeSlug}}</h1>
-            <span class="author">{{post.streamItemDisplay.values.mainInfo}}</span> {{post.streamItemTypeSlug}}
+          <h1 class="title" ng-click="showDetailView()">{{post.streamItemDisplay.title}}</h1>
+          <div class="" ng-if="post.streamItemDisplay.greyText">{{post.streamItemDisplay.greyText}}</div>
+          <div class="" ng-if="detail.challengeType">{{detail.challengeType}}</div>
+          <div class="author">{{post.streamItemDisplay.orangeText}}</div>
+
             <br />
             <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
         </div>

@@ -159,7 +159,7 @@ angular.module('sproutApp.controllers')
           },
           buttonClicked: function(index) {
             $log.debug('actionIndex=', index);
-            PostCacheSvc.setCurrentFilter(this.buttons[index].text);
+            //PostCacheSvc.setCurrentFilter(this.buttons[index].text);
             $scope.filterByType = this.buttons[index].text;
             // TODO: scroll to top.
             return true;

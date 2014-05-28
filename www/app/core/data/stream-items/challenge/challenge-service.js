@@ -25,7 +25,7 @@ angular.module('sproutApp.data.challenge', [
         challengeDescription: 'Bike to work for a week',
         challengeInstruction: 'Ride your bike to work from home, and back for a week',
         challengeImageURL: 'app/stream/post/joinable/components/detail/sample-images/biketowork.jpg',
-        challengeType: 'someType',
+        challengeType: 'Company Goal',
         challengeDeadline: new Date(),
         numChallengeParticipants: 42,
         challengeParticipants: {}
