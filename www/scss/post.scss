@@ -8,6 +8,26 @@
     border-radius: 4px;
     font-family:'roboto', sans-serif;
     font-weight: 300;
+    font-size: .8rem;
+    line-height: 1.2;
+    .post-info {
+        img {
+        border-radius: 0 0 3px 0;
+        width: 50px;
+        height: 100%;
+        }
+        &.row{
+            padding: 0;
+        }
+        .col:first-child{
+            padding: 5px 5px 5px 10px;
+        }
+    }
+    .sprout-icon-challenge, .sprout-icon-event, .sprout-icon-group {
+        font-size: 4rem;
+        color: $green;
+        line-height: 1.3;
+    }
     .tabs {
         background-size: 0;
         //clears extra border bug
@@ -73,24 +93,12 @@
         border-top: 0;
         border-radius: 0 0 3px 0;
     }
-    .special-avatar {
-        padding-left: 65px;
-    }
-    .special-avatar > img:first-child {
-        position: absolute;
-        // top: 10px;
-        left: 10px;
-        max-width: 50px;
-        border: 0;
-        border-left: 0;
-        border-top: 0;
-        border-radius: 0 0 3px 0;
-    }
     .hero {
         position: relative;
     }
     .hero-image {
         width:100%;
+        margin-top: 10px;
     }
     .join {
         position: relative;
@@ -103,7 +111,7 @@
     .join-btn-hero {
         position: absolute;
         bottom: 15px;
-        right: 15px;
+        right: 10px;
         font-size: 3rem;
         background: #FFF;
         border-radius: 50%;
@@ -117,9 +125,9 @@
         }
     }
     p {
-        padding: 10px 0 10px 15px;
+        padding: 10px;
         color: $darkgrey;
-        font-family:'garogier', serif;
+        font-family:'Garogier', serif;
         font-weight: 400;
         font-size: 1rem;
         line-height: 1.4;
