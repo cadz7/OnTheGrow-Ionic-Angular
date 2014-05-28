@@ -391,7 +391,7 @@ angular.module('sproutApp.data.stream-items', [
     item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' +
         item.owner.lastName;
 
-    var streamItemTypeSlug = streamItemTypeSlugs[id % 4];
+    var streamItemTypeSlug = streamItemTypeSlugs[0];
     item.streamItemTypeSlug = streamItemTypeSlug.itemType;
     item.streamItemDisplay.template = streamItemTypeSlug.template;
     item.streamItemDisplay.heroImg = streamItemTypeSlug.heroImg;
