@@ -110,7 +110,12 @@ angular.module('sproutApp.directives').directive(
                 $log.debug("success toggling like");
               },
               function (err) {
-                $log.error(err);
+                if (err==='offline') {
+                  Notify.apiError('You cannot like items in offline mode...');
+                } else {
+                  Notify.apiError('Failed to like post!  Check that you have an internet connection.');
+                  $log.error(err);
+                }
               }
             )
           };
@@ -131,8 +136,16 @@ angular.module('sproutApp.directives').directive(
               $log.debug('Comment posted: ', comment);
               scope.commentsExist = true;
               scope.post.newComment = ''; // clears only if the post comment was successful.
-            })/*['finally'](function() {})*/;
-          };
+            },
+              function (err) {
+                if (err==='offline') {
+                  Notify.apiError('You cannot post comments in offline mode...', 'Failed to post a comment!');
+                } else {
+                  Notify.apiError('There was an error communicating with the server.', 'Failed to post a comment!');
+                  $log.error(err);
+                }
+              }
+            )};
 
 
           scope.showEditMenu = function (theComment) {
