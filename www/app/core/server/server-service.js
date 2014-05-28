@@ -2,7 +2,8 @@
 
 angular.module('sproutApp.server', [
   'sproutApp.util',
-  'sproutApp.config'
+  'sproutApp.config',
+  'sproutApp.network-information'
 ])
 
 // Abstracts interaction with the sprout API server. This service does not do
@@ -10,8 +11,8 @@ angular.module('sproutApp.server', [
 // however, check connection status before making calls. It also reports
 // connection status to the higher level services.
 
-.factory('server', ['util', '$log','$http','$q','API_URL',
-  function(util, $log, $http,$q,API_URL) {
+.factory('server', ['util', '$log','$http','$q','API_URL', 'networkInformation',
+  function(util, $log, $http,$q,API_URL, networkInformation) {
     var service = {};
     var options = { headers : {} };//{headers:[{'Authorization':'sprout-token b82da8af04ee46ebbe72557b98dca8d44f391c1f'}]}; //shared options for all http req
 
@@ -59,6 +60,14 @@ angular.module('sproutApp.server', [
       service.isReachable = false;
       promise.reject(error.data ? error.data : error);
     };
+
+    networkInformation.onOnline(function() {
+      service.isReachable = true;
+    });
+
+    networkInformation.onOffline(function() {
+      service.isReachable = false;
+    });
 
     //log the user into the system and return the auth token
     service.login = function(username, password, rememberMe) {
