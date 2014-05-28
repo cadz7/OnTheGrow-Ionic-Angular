@@ -1,27 +1,25 @@
 'use strict';
+
+console.log("ASD");
  
 angular.module('sproutApp.directives')
   .directive('headerShrink', ['$document', '$ionicScrollDelegate',
     function($document, $ionicScrollDelegate) {
       
-      var shrink = function(header, content, amt, max) {
-        ionic.requestAnimationFrame(function() {
-          console.log(amt);
-          header.style[ionic.CSS.TRANSFORM] = 'translate3d(0,-' + amt + 'px, 0)';
-        });
-      };
 
       return {
         restrict: 'A',
         link: function($scope, $element, $attr) {
-          var starty = $scope.$eval($attr.headerShrink) || 0;
-          var shrinkAmt;
           
           var header = $document[0].body.querySelector('#stream-header');
           var headerHeight = 0;
-
           for(var i = 0; i < header.children.length; i++) {
             headerHeight += header.children[i].offsetHeight;
+          }
+          
+          if(ionic.Platform.platform() === 'ios') {
+            var postBar = $document[0].body.querySelector('.create-post');
+            postBar.style.top = '64px';
           }
 
           var headerPos = 0;
@@ -31,7 +29,7 @@ angular.module('sproutApp.directives')
           }
 
           // Push the stream down below the post box
-          $element[0].style[ionic.CSS.TRANSFORM] = 'translate3d(0,' + headerHeight + 'px, 0)';
+          $element[0].style[ionic.CSS.TRANSFORM] = 'translate3d(0,' + (headerHeight - 5) + 'px, 0)';
 
           var prev = 0,
               delta = 0,
@@ -42,36 +40,27 @@ angular.module('sproutApp.directives')
           var contentShift;
 
           $element.bind('scroll', function(e) {
+            var amt = 0;
+            var streamAmt = 0;
+
             delta = e.detail.scrollTop - prev;
             dir = delta >= 0 ? 1 : -1;
-            // Capture change of direction
-            if(dir !== prevDir) {
-              starty = e.detail.scrollTop;
-            }
 
-            var scroll = e.detail.scrollTop;
-
-            // If scrolling down
             if(dir === 1) {
-              contentShift = headerHeight - e.detail.scrollTop;
-
-              if(contentShift >= 0) {
-                $element[0].style[ionic.CSS.TRANSFORM] = 'translate3d(0,' + contentShift + 'px, 0)';
+              // Start shrinking
+              if(e.detail.scrollTop >= 0) {
+                amt = Math.max(-headerHeight, Math.min(0, headerPos - delta));
+                moveHeader(amt);
               }
 
-              if(headerPos * -1 <= headerHeight && scroll >= 0) {
-                console.log(headerPos, headerHeight);
-                moveHeader(headerPos - delta);
-              }
-
+              contentShift = headerHeight - Math.min(headerHeight, e.detail.scrollTop) - 5;
+              $element[0].style[ionic.CSS.TRANSFORM] = 'translate3d(0,' + contentShift + 'px, 0)';
+              
+            } else {
+              amt = Math.min(0, headerPos - delta);
+              moveHeader(amt);
             }
 
-            // If scrolling up (pulling down)
-            else {
-              if(headerPos < 0) {
-                moveHeader(headerPos - delta);
-              }
-            }
 
             prevDir = dir;
             prev = e.detail.scrollTop;
