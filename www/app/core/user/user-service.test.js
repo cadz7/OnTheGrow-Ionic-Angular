@@ -45,10 +45,14 @@ describe('user service', function() {
       $provide.factory('userStorage', function () {
         return {
           get: sinon.spy(function(key) {
-            return mockData.user;
+            if(typeof key === 'undefined' || ! key)
+              key = 'user';
+            return mockData[key];
           }),
-          set: sinon.spy(function(key, value) {
-            mockData.user = value;
+          set: sinon.spy(function(value, key) {
+            if(typeof key === 'undefined' || ! key)
+              key = 'user';            
+            mockData[key] = value;
           }),
           removeUser: sinon.spy(function() {
             mockData.user = null;
@@ -84,6 +88,44 @@ describe('user service', function() {
         expect(promise.isPending()).to.be.falsy;
         done();
       },done);     
+  });
+
+  it('should put the user in userStorage if rememberMe is checked',function(done){
+    return user.login('simon@rangle.io','testtest', true)
+      .then(function(result) {
+        var storedUser = userStorage.get('user');
+        expect(storedUser).to.exist;
+        expect(storedUser.email).to.equal('simon@rangle.io');
+        done();
+      },done);     
+  });
+
+  it('should not put the user in userStorage if rememberMe is not checked',function(done){
+   return user.login('arthur','arthur', false)
+      .then(function(result) {
+        expect(userStorage.get('user')).to.not.exist; 
+        done();
+      },done);     
+  });
+
+  it('should update the user settings to match the value of rememberMe=true', function(done){
+    return user.login('simon@rangle.io','testtest', true)
+      .then(function(result) {
+        var settings = userStorage.get('settings');
+        expect(settings).to.exist;
+        expect(settings.rememberMe).to.be.true;
+        done();
+      },done);  
+  });
+
+  it('should update the user settings to match the value of rememberMe=false', function(done){
+    return user.login('simon@rangle.io','testtest', false)
+      .then(function(result) {
+        var settings = userStorage.get('settings');
+        expect(settings).to.exist;
+        expect(settings.rememberMe).to.be.false;
+        done();
+      },done);  
   });
 
   it('should not authenticate wrong username', function (done) {

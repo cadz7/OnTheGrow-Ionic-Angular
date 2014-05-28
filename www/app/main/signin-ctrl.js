@@ -5,25 +5,27 @@ angular.module('sproutApp.controllers')
  function($scope, user, $log, $state, APP_CONFIG) {
 	if(APP_CONFIG.useMockData){
 		$scope.userForm = {
-			username: 'simon@rangle.io',
+			email: 'simon@rangle.io',
 			password: 'testtest',
-			rememberMe: false
+			rememberMe: true
 		};
 	}else{
 		$scope.userForm = {
-			username: '',
+			email: '',
 			password: '',
-			rememberMe: false
+			rememberMe: true
 		};
 	}
 
 	$scope.signIn = function(submission) {
 		// TODO: rememberMe
-		user.login(submission.username, submission.password).then (
+		$scope.loginErrorMsg = '';
+		user.login(submission.email, submission.password,submission.rememberMe).then (
 			function() {
 				$state.transitionTo('main.stream');
 			},
 			function() {
+				$scope.loginErrorMsg = 'Incorrect Email/Password';
 				$log.error('death', arguments);
 			}
 		);

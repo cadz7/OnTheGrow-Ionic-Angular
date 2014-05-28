@@ -7,14 +7,14 @@
                       <li>
                         <img src="img/signin/sprout-logo-white.svg">
                         <li>
-                            <label class="item item-input">
-                                <span class="input-label">Username</span>
-                                <input type="text" ng-model="userForm.username">
+                            <label class="item item-input" >
+                                <span class="input-label" ng-class="{ assertive : loginErrorMsg }">Email</span>
+                                <input type="email" ng-model="userForm.email">
                             </label>
                         </li>
                         <li>
-                            <label class="item item-input">
-                                <span class="input-label">Password</span>
+                            <label class="item item-input" >
+                                <span class="input-label" ng-class="{ assertive : loginErrorMsg }">Password</span>
                                 <input type="password" ng-model="userForm.password">
                             </label>
                         </li>
@@ -24,9 +24,9 @@
                             </p>
                         </li>
                     </ul>
-                        <p class="error text-center">
+                        <p class="error text-center ">
                             <span ng-show="!!loginErrorMsg">
-                                <span class="icon ion-alert-circled error"></span>
+                                <span class="icon ion-alert-circled "></span>
                                 {{loginErrorMsg}}
                             </span>
                         </p>
@@ -39,7 +39,7 @@
                             <li class="item item-toggle">
                                 <span class="label">Remember Me</span>
                                 <label class="toggle toggle-positive">
-                                    <input type="checkbox">
+                                    <input type="checkbox" ng-model="userForm.rememberMe">
                                     <div class="track">
                                         <div class="handle"></div>
                                     </div>

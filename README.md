@@ -25,9 +25,12 @@
 		<TBD>
 
 ## Configuration
-to edit the API URL change the value 
-`.constant('API_URL','https://platform.dev.sproutatwork.com/v1/')` 
-in www/app.js.
+
+All app configuration should be done through www/client-config.js
+
+
+- the API endpoint is defined at `.constant('API_URL',...)`
+- To use mock data change `.constant(APP_CONFIG, ... useMockData )` to true and foreach service change the injected server to the mock server factory below the service  
 
 ## Build and Release
 ### Configure to Build
