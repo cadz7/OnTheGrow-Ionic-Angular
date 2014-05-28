@@ -10,7 +10,6 @@ describe('server service', function() {
   beforeEach(module('sproutApp.config'));
   beforeEach(function() {
     server = testUtils.getService('server');
-
   });
 
   beforeEach(inject(function($injector) {
@@ -72,6 +71,7 @@ describe('server service', function() {
         },function(error){done(error)})
         .then(function(){done(new Error('promise should have been rejected due to 401'))},
               function(){
+                server.isReachable = true;
                 return server.get('test')
               })
         .then(function(result){done(new Error('should have been rejected'))},
@@ -100,6 +100,7 @@ describe('server service', function() {
 
     it('should make a get req and receive a json obj since the server returns 200',function(done){
       $httpBackend.expectGET(apiRoot+'test?param=1').respond(200,{test:true});
+
 
       server.get('test',{param:1})
       .then(function(result){
