@@ -3,24 +3,39 @@ angular.module('sproutApp.data.group', [
   'sproutApp.util'
 ])
 
-  .factory('group', ['$log', '$q', 'user', 'util',
-    function ($log, $q, user, util) {
+  .factory('group', ['$log', '$q', 'user', 'util', 'API_CONSTANTS', 'mockGroupServer',
+    function ($log, $q, user, util, API_CONSTANTS, server) {
       var service = {};
 
-      var mockGroupDetailData = {
-        groupName: 'someGroupName',
-        groupDescription: 'someGroupDescription'
-
-      };
 
       service.getGroupDetails = function (groupId) {
-        if (groupId > 1) {
-          return util.q.makeResolvedPromise(mockGroupDetailData);
-        } else {
-          return util.q.makeRejectedPromise('error');
-        }
+        return server.get(API_CONSTANTS.groupsEndpoint + '/' + groupId);
       };
 
       return service;
     }
-  ]);
+  ])
+  .factory('mockGroupServer', ['$q', 'util', 'API_CONSTANTS', '$log',
+    function ($q, utils, API_CONSTANTS, $log) {
+      'use strict';
+
+      var mockGroupDetailData = {
+        groupId: 242,
+        groupName: 'IT Group',
+        groupImageURL: '',
+        numGroupMembers: '20',
+        groupMembers: {}
+      };
+
+
+      return {
+        get: function (url, query) {
+          $log.debug('called mock group service ' + url, query)
+          var deferred = $q.defer();
+          deferred.resolve(mockGroupDetailData);
+          return deferred.promise;
+        }
+      };
+    }
+  ])
+;
