@@ -10,8 +10,8 @@ angular.module('sproutApp.server', [
 // however, check connection status before making calls. It also reports
 // connection status to the higher level services.
 
-.factory('server', ['util', '$log','$http','$q','API_URL', 'Notify',
-  function(util, $log, $http,$q,API_URL, Notify) {
+.factory('server', ['util', '$log','$http','$q','API_URL',
+  function(util, $log, $http,$q,API_URL) {
     var service = {};
     var options = { headers : {} };//{headers:[{'Authorization':'sprout-token b82da8af04ee46ebbe72557b98dca8d44f391c1f'}]}; //shared options for all http req
 

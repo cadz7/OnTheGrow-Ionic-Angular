@@ -34,7 +34,7 @@ angular.module('sproutApp', [
   'sproutApp.filters',
   'sproutApp.data.stream-items',
   'sproutApp.network-information',
-  'toaster'
+  'sproutApp.notification'
 ])
 .run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems','$state','$rootScope',
   function($ionicPlatform, user, $log, networkInformation, streamItems,$state,$rootScope) {
