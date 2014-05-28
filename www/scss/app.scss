@@ -159,21 +159,19 @@ button {
       background-repeat: no-repeat;
       background-size: cover;
       font-weight:400;
-  .scroll-content{
-    background-color: rgba(0, 0, 0, 0.3);
-  }
   li{
     margin-bottom: 1rem;
     img{
       opacity: .9;
       margin-bottom: 1rem;
+      width:100%;
     }
   }
   .list{
     margin-bottom: 0;
   }
   .row{
-    padding: 20% 1rem;
+    padding: 10% 1rem;
   }    
   .toggle .track{
     background-color: $darkgrey;
