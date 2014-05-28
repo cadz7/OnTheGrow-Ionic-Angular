@@ -129,7 +129,7 @@ angular.module('sproutApp.directives').directive(
             scope.post.postComment(commentText).then(function (comment) {
               $log.debug('Comment posted: ', comment);
               scope.commentsExist = true;
-              scope.commentText = ''; // clears only if the post comment was successful.
+              scope.post.newComment = ''; // clears only if the post comment was successful.
             })/*['finally'](function() {})*/;
           };
 
