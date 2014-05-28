@@ -22,7 +22,9 @@ angular.module('sproutApp.services', [
 angular.module('sproutApp.directives', [
   'sproutApp.main.left-nav'
 ]);
-angular.module('sproutApp.filters', []);
+angular.module('sproutApp.filters', [
+  'sproutApp.comment.trimToLatest'
+]);
 
 angular.module('sproutApp', [
   'ionic',

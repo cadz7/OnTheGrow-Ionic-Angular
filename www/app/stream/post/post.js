@@ -51,7 +51,7 @@ angular.module('sproutApp.directives').directive(
           scope.STREAM_CONSTANTS = STREAM_CONSTANTS; // make accessible to view
           scope.streamItemResourceService = streamItemResourceService;
 
-          scope.showCommentCount = scope.isWrappedInModal ? scope.post.comments.length : STREAM_CONSTANTS.initialCommentCountShown;
+          scope.numCommentsDisplayed = scope.isWrappedInModal ? scope.post.comments.length : STREAM_CONSTANTS.initialCommentCountShown;
 
           scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
           scope.liked = false;
@@ -82,20 +82,16 @@ angular.module('sproutApp.directives').directive(
             return scope.user && scope.user.id.toString() === scope.post.author_id.toString();
           };
 
+/* hiding this for now - comment fix
           scope.showAllComments = function () {
-            if (scope.showCommentCount === scope.post.comments.length) {
-              scope.showCommentCount = STREAM_CONSTANTS.initialCommentCountShown;
-              return;
-            }
-
-            if (scope.post.comments.length === scope.post.comments.length) {
-              scope.showCommentCount = scope.post.comments.length;
+            if (scope.numCommentsDisplayed === scope.post.comments.length) {
+              scope.numCommentsDisplayed = STREAM_CONSTANTS.initialCommentCountShown;
               return;
             }
 
             stream.getPost(scope.post.id, true, true).then(function (post) {
               scope.post.comments = post.comments;
-              scope.showCommentCount = post.comments.length;
+              scope.numCommentsDisplayed = post.comments.length;
             }, function () {
               console.error('Failed to get comments');
             })['finally'](function () {
@@ -105,7 +101,7 @@ angular.module('sproutApp.directives').directive(
 
           if (!angular.isNumber(scope.post.likeCount)) {
             scope.post.likeCount = 0;
-          }
+          }*/
 
           scope.likePost = function (post) {
             post[post.viewer.isLikedByViewer ? "unlikePost" : "likePost"]().then(
@@ -133,7 +129,6 @@ angular.module('sproutApp.directives').directive(
             scope.post.postComment(commentText).then(function (comment) {
               $log.debug('Comment posted: ', comment);
               scope.commentsExist = true;
-              scope.showCommentCount += 1;
               scope.commentText = ''; // clears only if the post comment was successful.
             })/*['finally'](function() {})*/;
           };
