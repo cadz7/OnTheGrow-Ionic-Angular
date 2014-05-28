@@ -2,21 +2,38 @@ angular.module('sproutApp.controllers.main', [
   'sproutApp.network-information'
 ])
 
-.controller('MainCtrl', ['$scope', 'networkInformation','user','$state',
-  function ($scope, networkInformation,user,$state) {
+.controller('MainCtrl', ['$scope', 'networkInformation','user','$state', '$ionicModal',
+  function ($scope, networkInformation,user,$state, $ionicModal) {
     'use strict';
+    var developerMenu;
+
     $scope.user = user;
-    
+
+    $ionicModal.fromTemplateUrl('app/main/developer-menu/developer-menu.tpl.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true
+    }).then(function(modal) {
+      developerMenu = modal;
+    });
+
     //logs out user and reloads the page
     $scope.logout = function(){
       user.logout();
     }
 
-    $scope.simulateOffline = function() {
-      if (networkInformation.simulate) {
-        networkInformation.simulate.toggleStatus();
-      }
+    $scope.showDevMenu = function() {
+      developerMenu.show();
     };
+
+    $scope.hideDeveloperMenu =function() {
+      developerMenu.hide();
+    };
+
+    // Clean up modals when scope is destroyed
+    $scope.$on('$destroy', function() {
+      developerMenu.remove();
+    });
   }
 ]);
 
