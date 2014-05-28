@@ -9,6 +9,7 @@ angular.module('sproutApp.controllers')
   var selectedActitivities = []; //unfiltered list of activites to display
   
   $scope.currentState = 0;
+  $scope.amEditing = null;
 
   // This is to aid in breadcrumb navigation
   // Might need forward/backward navigation if it gets more complex (currently only 2 levels deep)
@@ -39,9 +40,9 @@ angular.module('sproutApp.controllers')
         $scope.currentActivity = {
           activityName : item.activityName,
           activityCategoryId : item.activityCategoryId,
-          activityUnitId : item.unitId,
+          activityUnitId : item.activityUnitId || item.unitId,
           unitName : item.unitName,
-          quantity : 1,
+          quantity : item.quantity || 1,
           date:$scope.maxDate        
         };
         $scope.currentState++;
@@ -116,6 +117,8 @@ angular.module('sproutApp.controllers')
     _.each($scope.itemStack, function(item) {
       item.currentValue = {};
     });
+
+    $scope.amEditing = false;
   }
   resetActivitySelect(); //initalize view
 
@@ -171,13 +174,20 @@ angular.module('sproutApp.controllers')
 
   //add activity record to the queuse and go back to category select
   $scope.addActivity = function(){
-    $scope.activtyQueue.push($scope.currentActivity);
+    if ($scope.amEditing) {
+      var oldIndex = _.indexOf($scope.activtyQueue, $scope.amEditing);
+      $scope.activtyQueue.splice(oldIndex, 1, $scope.currentActivity);
+    }
+    else {
+      $scope.activtyQueue.push($scope.currentActivity);
+    }
     resetActivitySelect();    
   };
 
   //save the activity queue and go back to stream if successful, else display an error
   $scope.saveActivities = function() {
     $scope.savingActivty = true;
+    console.table($scope.activtyQueue);
     activities.logActivities($scope.activtyQueue)
     .then(function(result){
       streamItems.reload();
@@ -195,6 +205,11 @@ angular.module('sproutApp.controllers')
       $scope.errorMessage = errorMessage;
     });
   };
+
+  $scope.restoreActivity = function(item) {
+    $scope.amEditing = item;
+    $scope.states[1].selectFunction(item);
+  }
 }])
 
 /*
