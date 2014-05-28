@@ -1,6 +1,6 @@
 angular.module('sproutApp.services')
-  .factory('streamItemResourceService', ['$log',
-    function ($log) {
+  .factory('streamItemResourceService', ['$log', 'template',
+    function ($log, template) {
       'use strict';
 
       var service = {};
@@ -37,6 +37,19 @@ angular.module('sproutApp.services')
       service.getJoinableHeaderIcon = function(streamItem){
         return getResource(streamItem).headerIcon;
       };
+
+      service.getContent = function(streamItem, arg){
+        var postContent = template.fill(streamItem.streamItemDisplay.template, streamItem.streamItemDisplay.values);
+//        var contentIsOverflowing = postContent.length > STREAM_CONSTANTS.initialPostCharCount;
+//
+//        var tempContent = postContent.substr(0, STREAM_CONSTANTS.initialPostCharCount);
+//        var partialContent = (postContent.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
+
+        return postContent;
+
+      };
+
+
 
       return service;
     }
