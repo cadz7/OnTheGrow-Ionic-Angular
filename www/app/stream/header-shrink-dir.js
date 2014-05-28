@@ -1,4 +1,6 @@
 'use strict';
+
+console.log("ASD");
  
 angular.module('sproutApp.directives')
   .directive('headerShrink', ['$document', '$ionicScrollDelegate',
@@ -8,13 +10,16 @@ angular.module('sproutApp.directives')
       return {
         restrict: 'A',
         link: function($scope, $element, $attr) {
-          var starty = $scope.$eval($attr.headerShrink) || 0;
-          var shrinkAmt;
           
           var header = $document[0].body.querySelector('#stream-header');
           var headerHeight = 0;
           for(var i = 0; i < header.children.length; i++) {
             headerHeight += header.children[i].offsetHeight;
+          }
+          
+          if(ionic.Platform.platform() === 'ios') {
+            var postBar = $document[0].body.querySelector('.create-post');
+            postBar.style.top = '64px';
           }
 
           var headerPos = 0;
@@ -35,25 +40,27 @@ angular.module('sproutApp.directives')
           var contentShift;
 
           $element.bind('scroll', function(e) {
-            var scroll = e.detail.scrollTop;
+            var amt = 0;
+            var streamAmt = 0;
 
             delta = e.detail.scrollTop - prev;
             dir = delta >= 0 ? 1 : -1;
 
-            //Capture change of direction
-            if(dir !== prevDir) {
-              starty = e.detail.scrollTop;
-            }
-
             if(dir === 1) {
               // Start shrinking
-              var amt = Math.max(-86, headerPos - delta);
-              moveHeader(amt);
-              console.log(headerPos - delta);
+              if(e.detail.scrollTop >= 0) {
+                amt = Math.max(-headerHeight, Math.min(0, headerPos - delta));
+                moveHeader(amt);
+              }
+
+              contentShift = headerHeight - Math.min(headerHeight, e.detail.scrollTop) - 5;
+              $element[0].style[ionic.CSS.TRANSFORM] = 'translate3d(0,' + contentShift + 'px, 0)';
+              
             } else {
-              var amt = Math.min(0, headerPos - delta);
+              amt = Math.min(0, headerPos - delta);
               moveHeader(amt);
-            } 
+            }
+
 
             prevDir = dir;
             prev = e.detail.scrollTop;
