@@ -187,7 +187,6 @@ angular.module('sproutApp.controllers')
   //save the activity queue and go back to stream if successful, else display an error
   $scope.saveActivities = function() {
     $scope.savingActivty = true;
-    console.table($scope.activtyQueue);
     activities.logActivities($scope.activtyQueue)
     .then(function(result){
       streamItems.reload();
@@ -201,7 +200,7 @@ angular.module('sproutApp.controllers')
       }else {
         errorMessage = 'failed to save activity';
       }
-      console.error(response);
+      
       $scope.errorMessage = errorMessage;
     });
   };
