@@ -165,7 +165,9 @@ angular.module('sproutApp.directives').directive(
               buttonClicked: function (index) {
                 switch (index) {
                   case 0: // hide current post
+
                     streamItems.hidePost(item).then(function () {
+                        streamItemModalService.hideModal();
                       }, function (response) {
                         Notify.apiError('Failed to delete post!', response.message);
                       }
