@@ -75,6 +75,7 @@ angular.module('sproutApp.data.stream-items', [
       var filterId = params.filterId || 'all';
 
       params.maxCount = params.maxCount || STREAM_CONSTANTS.defaultMaxItemCount;
+      $log.debug('getting streams items', params);
 
       return server.get(API_CONSTANTS.streamItemsEndPoint, params)
             .then(function(items) {
@@ -113,13 +114,14 @@ angular.module('sproutApp.data.stream-items', [
      * Replaces the current items with whatever are the latest matching items
      * on the server.
      *
-     * @param  {Object} options        An object of options.
+     * @param  {Object} filterId        filter id
      * @return {promise}               A $q promise that resolves to the list
      *                                 of loaded items.
      */
-    service.reload = function (options) {
+    service.reload = function (filterId) {
       var params = {
         //idLessThan: latestId
+        filterId: filterId
       };
       if (autoUpdateInterval) {
         $interval.cancel(autoUpdateInterval);
@@ -143,9 +145,10 @@ angular.module('sproutApp.data.stream-items', [
      * @return {promise}               A $q promise that resolves to the list
      *                                 of added items.
      */
-    service.getEarlier = function () {
+    service.getEarlier = function (filterId) {
       var params = {
-        idLessThan: earliestId || null  // if earliestId is 0 then don't actually send it.
+        idLessThan: earliestId || null,  // if earliestId is 0 then don't actually send it.
+        filterId: filterId
       };
       return getStreamItems(params)
         .then(function (items) {
@@ -362,7 +365,7 @@ angular.module('sproutApp.data.stream-items', [
     {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}', title: 'someTitle'},
     {itemType: 'group', template: 'Group post by {user.name}', heroImg: 'img/group/group-default.png',title: 'Yoga Group', greyText: null, orangeText: '22 Members'},
     {itemType: 'event', template: 'Event post by {user.name}', heroImg: 'img/group/event-default.png',title: '5k Marathon', greyText: 'May 9, 2014', orangeText: '200 Attending'},
-    {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'app/stream/post/joinable/components/detail/sample-images/biketowork.jpg',title: 'Bike to Work', greyText: 'Ends: May 1, 2014', orangeText: '66 Challegers'}
+    {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'app/stream/post/joinable/components/detail/sample-images/biketowork.jpg',title: 'Bike to Work', greyText: 'Ends: May 1, 2014', orangeText: '66 Challengers'}
   ];
 
   function makeComment(item, author, commentText) {
