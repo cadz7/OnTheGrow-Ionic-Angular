@@ -10,23 +10,17 @@
     </ion-header-bar>
     <ion-content class="padding has-header">
 
-        <ion-slide-box id="PeriodSlider" show-pager="false" >
+        <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="applyFilter($index)">
 
             <ion-slide class="list item" ng-repeat="filter in timePeriodFilters">
                 <div class="row">
-                    <div class="col col-30 filter" style="text-align: left"
-                    ng-class="{selected : (($index-1) == filterIndex)}" 
-                    ng-click="applyFilter($index -1)">
+                    <div class="col col-30 filter" style="text-align: left">
                         {{timePeriodFilters[$index - 1].displayName}} 
                     </div>
-                    <div class="col col-40 filter" style="text-align: center" 
-                    ng-class="{selected : ($index == filterIndex)}" 
-                    ng-click="applyFilter($index)">
+                    <div class="col col-40 filter selected" style="text-align: center">
                         {{$index > 0 ? '|' : ''}} {{filter.displayName}} {{$index < timePeriodFilters.length ? '|' : ''}}
                     </div>
-                    <div class="col col-30 filter" style="text-align: right" 
-                    ng-class="{selected : ($index+1 == filterIndex)}" 
-                    ng-click="applyFilter($index + 1)">
+                    <div class="col col-30 filter" style="text-align: right">
                        {{timePeriodFilters[$index + 1].displayName}}
                     </div>
                 </div>
