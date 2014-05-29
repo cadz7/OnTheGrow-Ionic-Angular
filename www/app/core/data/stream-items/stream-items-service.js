@@ -9,8 +9,8 @@ angular.module('sproutApp.data.stream-items', [
 // documentation below.
 
 
-.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval','streamItemsCache','streamMockServer','API_CONSTANTS','STREAM_CONSTANTS','APP_CONFIG',
-  function ($q, $log, user, util, $interval,streamItemsCache, server,API_CONSTANTS,STREAM_CONSTANTS,APP_CONFIG) {
+.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval','streamItemsCache','streamMockServer','API_CONSTANTS','STREAM_CONSTANTS','APP_CONFIG', Notify,
+  function ($q, $log, user, util, $interval,streamItemsCache, server,API_CONSTANTS,STREAM_CONSTANTS,APP_CONFIG, Notify) {
     'use strict';
     var service = {
       items: [] // an array of currently loaded items
@@ -31,9 +31,12 @@ angular.module('sproutApp.data.stream-items', [
           // note: the item param is harmless in production, but used by mock server.
           return server.post('/comments', {streamItemId: item.streamItemId, commentText: commentText}, item)
               .then(function(comment) {
-            item.comments.push(comment);
-            return comment;
-          });
+                Notify.userSuccess('You posted a comment!');
+                item.comments.push(comment);
+                return comment;
+              }, Notify.notifyTheCommonErrors(function(response) {
+                Notify.apiError('Failed to post your comment.');
+              }));
         };
         item.likePost = function () {
           // TODO: remove this kind of stuff and let server-service take care of it.
