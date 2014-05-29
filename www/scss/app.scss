@@ -42,6 +42,9 @@ $Sprout-font-path: "../fonts/Sprout/fonts" !default;
 body{
   color:$darkgrey;
 }
+.subdued{
+  color:$mediumgrey;
+}
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 // this is currently being used to make the list of posts area appear at the right

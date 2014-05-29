@@ -14,7 +14,7 @@
         <textarea ng-model="newPost.text" class="post-box " placeholder="e.g. - Cardio, Housework, Veggies..."></textarea><i class="icon ion-ios7-search"></i>
       </form>
     </div> -->
-<div class=list>
+<div class="list">
   <label class="item item-input">
     <input type="text" ng-model="newPost.text" placeholder="e.g. - Cardio, Housework, Veggies...">
     <i class="icon ion-ios7-search placeholder-icon"></i>
@@ -27,13 +27,13 @@
         </div>
       </div>
 
-      <ion-scroll>
+      <div class="list">
         <div class="row" ng-repeat="row in activityData | inSlicesOf:2" ng-show="activityListVisible">
           <div class="col col-50 activity-item-container" ng-repeat="item in row">
             <div class="activity-item" ng-click="onItemSelect(item)">{{item[nameKey]}}</div>
           </div>
         </div>
-      </ion-scroll>
+      </div>
       <form name="activityForm" ng-show="showActivityForm" >
         <div class="row" >
           <div class="col col-50">
@@ -78,8 +78,8 @@
         </div>
       </div>
       <div class="row" ng-show="!activtyQueue || activtyQueue.length === 0">
-        <div class="col" style="color">
-          No Activites Selected
+        <div class="col">
+          <span class="subdued">No Activites Selected<span>
         </div>
       </div>
       <ion-list  show-delete="true" >
