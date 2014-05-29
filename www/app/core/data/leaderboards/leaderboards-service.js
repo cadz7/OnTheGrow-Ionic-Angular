@@ -328,7 +328,7 @@ angular.module('sproutApp.data.leaderboards', [
         "leaderboardNameDisplay": "Top 5 in Company",
         "items": [
           {
-            "rank": 4,
+            "rank": 3,
             "avatarUrl": "img/user/fenchurch.png",
             "entityId": 145,
             "name": "Peterson",
@@ -347,7 +347,7 @@ angular.module('sproutApp.data.leaderboards', [
             "entityId": 101,
             "name": "Wade",
             "isViewer": false,
-            "score": 1649,
+            "score": 1499,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
@@ -361,7 +361,7 @@ angular.module('sproutApp.data.leaderboards', [
             "entityId": 48,
             "name": "Walters",
             "isViewer": false,
-            "score": 1277,
+            "score": 1577,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
@@ -370,12 +370,12 @@ angular.module('sproutApp.data.leaderboards', [
             }
           },
           {
-            "rank": 1,
+            "rank": 4,
             "avatarUrl": "img/user/fenchurch.png",
             "entityId": 89,
             "name": "Cox",
             "isViewer": true,
-            "score": 1353,
+            "score": 1300,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
@@ -384,7 +384,7 @@ angular.module('sproutApp.data.leaderboards', [
             }
           },
           {
-            "rank": 2,
+            "rank": 5,
             "avatarUrl": "img/user/ford.png",
             "entityId": 133,
             "name": "Simmons",
@@ -403,12 +403,12 @@ angular.module('sproutApp.data.leaderboards', [
         "leaderboardNameDisplay": "Top 5 In Group",
         "items": [
           {
-            "rank": 5,
+            "rank": 6,
             "avatarUrl": "img/user/ford.png",
             "entityId": 99,
             "name": "Pollard",
             "isViewer": false,
-            "score": 1225,
+            "score": 12,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
@@ -422,7 +422,7 @@ angular.module('sproutApp.data.leaderboards', [
             "entityId": 48,
             "name": "Cole",
             "isViewer": false,
-            "score": 820,
+            "score": 1820,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
@@ -459,12 +459,12 @@ angular.module('sproutApp.data.leaderboards', [
             }
           },
           {
-            "rank": 4,
+            "rank": 5,
             "avatarUrl": "img/user/fenchurch.png",
             "entityId": 103,
             "name": "Blackwell",
             "isViewer": false,
-            "score": 1194,
+            "score": 114,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
@@ -497,7 +497,7 @@ angular.module('sproutApp.data.leaderboards', [
             "entityId": 19,
             "name": "Shelton",
             "isViewer": false,
-            "score": 1016,
+            "score": 106,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
@@ -525,7 +525,7 @@ angular.module('sproutApp.data.leaderboards', [
             "entityId": 21,
             "name": "Perkins",
             "isViewer": false,
-            "score": 1743,
+            "score": 173,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
@@ -557,7 +557,7 @@ angular.module('sproutApp.data.leaderboards', [
             "avatarUrl": "img/user/ford.png",
             "entityId": 100,
             "name": "Bond",
-            "isViewer": true,
+            "isViewer": false,
             "score": 1622,
             "detailsDisplay": {
               "template": "{department}",
@@ -567,7 +567,7 @@ angular.module('sproutApp.data.leaderboards', [
             }
           },
           {
-            "rank": 2,
+            "rank": 3,
             "avatarUrl": "img/user/ford.png",
             "entityId": 104,
             "name": "Ortiz",
@@ -581,7 +581,7 @@ angular.module('sproutApp.data.leaderboards', [
             }
           },
           {
-            "rank": 2,
+            "rank": 4,
             "avatarUrl": "img/user/fenchurch.png",
             "entityId": 25,
             "name": "Mack",
@@ -595,12 +595,12 @@ angular.module('sproutApp.data.leaderboards', [
             }
           },
           {
-            "rank": 2,
+            "rank": 5,
             "avatarUrl": "img/user/ford.png",
             "entityId": 105,
             "name": "Daugherty",
             "isViewer": false,
-            "score": 1766,
+            "score": 766,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
@@ -609,12 +609,12 @@ angular.module('sproutApp.data.leaderboards', [
             }
           },
           {
-            "rank": 3,
+            "rank": 6,
             "avatarUrl": "img/user/fenchurch.png",
             "entityId": 39,
             "name": "Hall",
             "isViewer": true,
-            "score": 581,
+            "score": 1,
             "detailsDisplay": {
               "template": "{department}",
               "values": {
