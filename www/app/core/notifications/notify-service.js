@@ -2,7 +2,8 @@
  * Created by justin on 2014-05-28.
  */
 
-angular.module('sproutApp.notification', ['toaster'])
+angular.module('sproutApp.notification', ['toaster', 'sproutApp.config'])
+
 .service('Notify', ['$log', 'toaster', 'APP_CONFIG', function($log, toaster, APP_CONFIG) {
   $log.debug('Notify() Initialized...');
   var service = {

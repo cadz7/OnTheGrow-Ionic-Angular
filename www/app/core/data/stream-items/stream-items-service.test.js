@@ -13,6 +13,14 @@ describe('streamItems service', function() {
   // Provide mocks
   beforeEach(module(function($provide) {
 
+    $provide.factory('Notify', function() {
+    return {
+      userError: function() {},
+      apiError: function() {},
+      userSuccess: function() {},
+      notifyTheCommonErrors: function() {}
+    }});
+
     $provide.factory('server',function(){
       return {
         get : function(url,params){
