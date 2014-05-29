@@ -62,11 +62,12 @@ All app configuration should be done through www/client-config.js
 3. Set the project provisioning profile
 
 ## Plugins used
-### To install 'ionic plugin add <plugin name or URL if provided>'
+### To install 'cordova plugin add <plugin name or URL if provided>'
 
-org.apache.cordova.device
-org.apache.cordova.console
-com.ionic.keyboard (https://github.com/driftyco/ionic-plugins-keyboard.git)
+cordova plugin add org.apache.cordova.device
+cordova plugin add org.apache.cordova.console
+cordova plugin add https://github.com/driftyco/ionic-plugins-keyboard.git
+cordova plugin add https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin.git
 
 
 ## Debugging Notes
