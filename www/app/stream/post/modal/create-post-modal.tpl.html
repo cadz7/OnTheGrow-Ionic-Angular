@@ -2,9 +2,9 @@
 
 <div class="modal create-post-modal">
   <ion-header-bar>
-    <button class="button button-icon icon ion-chevron-left" ng-click="cancelCreatePost(newPost)"></button>
+    <button class="button button-icon icon sprout-icon-close" ng-click="cancelCreatePost(newPost)"></button>
     <h1 class="title">POST TO STREAM</h1>
-    <button type="button" class="button" ng-class="{'active':newPost.text.length>0}" ng-click="submitPost(newPost)">POST</button>
+    <button type="button" class="button button-clear post active" ng-class="{'active':newPost.text.length>0}" ng-click="submitPost(newPost)">POST</button>
   </ion-header-bar>
   <ion-content class="padding has-header">
     <div class="list">
@@ -20,7 +20,7 @@
       </label>
     </div>
 
-    <textarea ng-model="newPost.text" class="post-box"></textarea>
+    <textarea ng-model="newPost.text" class="post-box" placeholder="Share and update..."></textarea>
 
   </ion-content>
 </div>

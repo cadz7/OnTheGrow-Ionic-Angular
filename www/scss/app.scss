@@ -39,6 +39,9 @@ $Sprout-font-path: "../fonts/Sprout/fonts" !default;
        url('../fonts/Garogier/Garogier.ttf') format('truetype'),
        url('../fonts/Garogier/Garogier.svg#webfont') format('svg');
 }
+body{
+  color:$darkgrey;
+}
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 // this is currently being used to make the list of posts area appear at the right
@@ -66,8 +69,11 @@ hr {
     font-family: 'roboto', helvetica, arial, sans-serif;
     font-weight: 100;
   }
+  .sprout-icon-close {
+    right: 10px;
+  }
   .title{
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-family: 'roboto', helvetica, arial, sans-serif;
     font-weight: 100;
     text-transform: uppercase;
