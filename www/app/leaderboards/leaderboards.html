@@ -1,62 +1,56 @@
 <!-- ion-nav-bar goes here -->
 <ion-view title="Leaderboards">
-  <!-- ion-header-bar -->
-  <ion-header-bar class="bar bar-positive nav-title-slide-ios7">
-    <!-- Hamburger Button -->
+    <!-- ion-header-bar -->
+    <ion-header-bar align-title="center" class="bar">
+        <!-- Hamburger Button -->
 
-    <left-nav-toggle-btn></left-nav-toggle-btn>
-    <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.text}}</h1>
-    <h1 class="title" ng-show="editFilters" ng-click="toggleFiltersView()">Back <i class="icon ion-android-system-back"></i> </h1>
-
-    <!-- only show if user is logged in -->
-    <!-- ng-show="AuthSvc.isLoggedIn()" -->
-    <!-- Settings Button -->
-    <!-- <div class="buttons">
-      <button
-        class="button button-clear icon ion-gear-a"
-        ng-click="header.showAccountOptions()"></button>
-    </div> -->
-  </ion-header-bar>
-
-
-  <ion-content id="LeaderboardContent" class="text-center padding has-header">
-
-    <div id="leaderBoards" ng-hide="editFilters">
-      <div class="has-footer" id="ActivityDurationFilter">
-        {{activeActivity.activityName || 'All Activities'}} | {{activePeriod.timePeriodNameDisplay || 'Challenge Duration'}}
-        <i class="icon ion-edit" ng-click="toggleFiltersView()"></i>
-
-      </div>
-      <h3 class="rankingTitle">{{currentBoardTitle}}</h3>
-      <ion-slide-box id="LeaderboardList" on-slide-changed="switchBoard(index)">
-        <ion-slide ng-repeat="board in leaderBoards">
-          <div leader="leaderData" ng-repeat="leaderData in board.items | orderBy:'rank'"
-               class="list card leader row">
-          </div>
-        </ion-slide>
-      </ion-slide-box>
-    </div>
-
-    <div id="FilterView" ng-hide="!editFilters">
-
-      <div class="list">
-        <div class="item" ng-click="toggleActivityList()">
-          {{ activeActivity.activityName || 'Choose Activity' }}
+        <left-nav-toggle-btn></left-nav-toggle-btn>
+        <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.text}}</h1>
+        <h1 class="title" ng-show="editFilters" ng-click="toggleFiltersView()">Back <i class="icon ion-android-system-back"></i> 
+        </h1>
+        
+        <span class="icon ion-chevron-down filter-chevron"></span>
+        <div class="buttons">
+            <button class="button button-clear icon sprout-icon-notification"></button>
         </div>
-        <a href="" class="item" ng-click="selectActivityFilter(activity)" ng-show="activityView"
-           ng-repeat="activity in selectedCategory.activities">{{activity.activityName}}</a>
-      </div>
+    </ion-header-bar>
 
-      <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="getPeriod(index)">
-        <ion-slide class="list item" ng-repeat="period in periods">
-          <div class="">
-            <h1>{{period.timePeriodNameDisplay}}</h1>
-          </div>
-        </ion-slide>
-      </ion-slide-box>
 
-    </div>
+    <ion-content id="LeaderboardContent" class="text-center padding has-header">
 
-  </ion-content>
+        <div id="leaderBoards" ng-hide="editFilters">
+            <div class="has-footer" id="ActivityDurationFilter" ng-click="toggleFiltersView()">
+                {{activeActivity.activityName || 'All Activities'}} | {{activePeriod.timePeriodNameDisplay || 'Challenge Duration'}}
+                <i class="icon ion-edit"></i>
+            </div>
+            <h3 class="rankingTitle">{{currentBoardTitle}}</h3>
+            <ion-slide-box id="LeaderboardList" on-slide-changed="switchBoard(index)">
+                <ion-slide ng-repeat="board in leaderBoards">
+                    <div leader="leaderData" ng-repeat="leaderData in board.items | orderBy:'rank'" class="list card leader row">
+                    </div>
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+
+        <div id="FilterView" ng-hide="!editFilters">
+
+            <div class="list">
+                <div class="item" ng-click="toggleActivityList()">
+                    {{ activeActivity.activityName || 'Choose Activity' }}
+                </div>
+                <a href="" class="item" ng-click="selectActivityFilter(activity)" ng-show="activityView" ng-repeat="activity in selectedCategory.activities">{{activity.activityName}}</a>
+            </div>
+
+            <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="getPeriod(index)">
+                <ion-slide class="list item" ng-repeat="period in periods">
+                    <div class="">
+                        <h1>{{period.timePeriodNameDisplay}}</h1>
+                    </div>
+                </ion-slide>
+            </ion-slide-box>
+
+        </div>
+
+    </ion-content>
 
 </ion-view>
