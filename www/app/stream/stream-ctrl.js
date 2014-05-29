@@ -10,6 +10,7 @@ angular.module('sproutApp.controllers')
 
     	$scope.header = headerRemote;
     	$scope.filterByType = 'ALL';
+      $scope.filterId = null;
 
       var closeCreatePostModal = function() {
         $scope.createStreamItemModal.hide();
@@ -56,7 +57,7 @@ angular.module('sproutApp.controllers')
 
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
-          streamItems.getEarlier().then(function() {
+          streamItems.getEarlier($scope.filterId).then(function() {
             $scope.showNoConnectionScreen = false;
             $scope.$broadcast('scroll.infiniteScrollComplete');
           })
@@ -68,7 +69,7 @@ angular.module('sproutApp.controllers')
       }, 250);
 
       $scope.refresh = function() {
-        streamItems.reload().then(function() {
+        streamItems.reload($scope.filterId).then(function() {
           $scope.showNoConnectionScreen = false;
         }, function error(response) {
           ifNoStreamItemsShowNoConnectionScreen();
@@ -169,15 +170,20 @@ angular.module('sproutApp.controllers')
           titleText: 'Filter By Type:',
           // buttons: filters,
           buttons: [{
-            text: 'All Posts'
+            text: 'All Posts',
+            id: 2
           }, {
-            text: 'Activity Only'
+            text: 'Activity Only',
+            id: 3
           }, {
-            text: 'My Department'
+            text: 'My Department',
+            id: 4
           }, {
-            text: 'My Location'
+            text: 'My Location',
+            id: 5
           }, {
-            text: 'All'
+            text: 'All',
+            id: 0
           }],
           cancelText: 'Back',
           cancel: function() {
@@ -185,9 +191,10 @@ angular.module('sproutApp.controllers')
           },
           buttonClicked: function(index) {
             $log.debug('actionIndex=', index);
-            //PostCacheSvc.setCurrentFilter(this.buttons[index].text);
             $scope.filterByType = this.buttons[index].text;
+            $scope.filterId = this.buttons[index].id;
             // TODO: scroll to top.
+            $scope.refresh();
             return true;
           }
         });
