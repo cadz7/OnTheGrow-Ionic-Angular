@@ -5,6 +5,10 @@
     //This is a magic number, but otherwise the cards would touch the right side of the view padding-right: 3%;
     padding-top: 1rem;
     height: 600px;
+
+    .topThree{
+        height: 100px !important;
+    }
     .leader {
         height: $regularLeaderHeight;
         padding: 0;
