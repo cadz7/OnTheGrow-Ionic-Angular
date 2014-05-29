@@ -7,6 +7,7 @@
           <h1 class="title" ng-click="showDetailView()">{{post.streamItemDisplay.title}}</h1>
           <div class="" ng-if="post.streamItemDisplay.greyText">{{post.streamItemDisplay.greyText}}</div>
           <div class="" ng-if="detail.challengeType">{{detail.challengeType}}</div>
+          <div class="" ng-if="detail.eventLocation"><i class="icon ion-ios7-location header-location-icon"></i>{{detail.eventLocation}}</div>
           <div class="author">{{post.streamItemDisplay.orangeText}}</div>
         </div>
         <div class="col">
