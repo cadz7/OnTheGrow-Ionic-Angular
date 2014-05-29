@@ -27,13 +27,12 @@
         </div>
       </div>
 
-      <div class="list">
-        <div class="row" ng-repeat="row in activityData | inSlicesOf:2" ng-show="activityListVisible">
-          <div class="col col-50 activity-item-container" ng-repeat="item in row">
-            <div class="activity-item" ng-click="onItemSelect(item)">{{item[nameKey]}}</div>
-          </div>
+      <div class="list" ng-show="activityListVisible">
+        <div class="col col-50 activity-item-container" ng-repeat="item in activityData">
+          <div class="activity-item" ng-click="onItemSelect(item)">{{item[nameKey]}}</div>
         </div>
       </div>
+
       <form name="activityForm" ng-show="showActivityForm" >
         <div class="row" >
           <div class="col col-50">
