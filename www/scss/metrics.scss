@@ -15,6 +15,10 @@
 }
 
 .selected {
-  font-weight !important bold;
-  color: !important $darkgrey;
+  font-weight : bold !important;
+  color:  $darkgrey !important;
+}
+
+.filter {
+  color: $mediumgrey;
 }
