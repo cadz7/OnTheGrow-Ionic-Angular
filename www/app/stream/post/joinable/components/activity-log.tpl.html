@@ -10,7 +10,7 @@
         <!--<img src="img/icons/join-confirm-icon.svg" class="join-btn" data-ng-click="subscribeToGroup()" ng-if="!post.streamItemDisplay.heroImg"/>-->
         <join-button has-hero-img="post.streamItemDisplay.heroImg" post="post" ng-if="!post.streamItemDisplay.heroImg"></join-button>
       </div>
-    <div class="col">
-        <div class="ion-close col" data-ng-click="deletePost(post)"></div>
+    <div class="col" data-ng-click="deletePost(post)">
+        <div class="ion-close col"></div>
     </div>
 </div>

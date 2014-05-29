@@ -117,6 +117,7 @@ angular.module('sproutApp.controllers')
           backdropClickToClose: false
         }).then(function(modal) {
           $scope.streamItemModal = modal;
+          streamItemModalService.modal = modal;
           streamItemModalScope.streamItemModalService = streamItemModalService;
           streamItemModalScope.joinableStreamItemService = joinableStreamItemService;
 

@@ -7,7 +7,7 @@ angular.module('sproutApp.services')
     function ($log, joinableStreamItemService) {
       'use strict';
 
-      var service = {};
+      var service = {modal: null};
 
       service.DETAILED_VIEW = 'DETAIL';
       service.COMMENTS_VIEW = 'COMMENTS';
@@ -42,6 +42,12 @@ angular.module('sproutApp.services')
 
       service.getViewType = function(){
         return _viewType;
+      };
+
+      service.hideModal = function(){
+        if (service.modal){
+          service.modal.hide();
+        }
       };
 
       return service;
