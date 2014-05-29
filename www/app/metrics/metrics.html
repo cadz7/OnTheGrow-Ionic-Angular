@@ -1,22 +1,19 @@
 <!-- ion-nav-bar goes here -->
 <ion-view title="Metrics">
     <!-- ion-header-bar goes here -->
-    <ion-header-bar align-title="center" class="bar-positive">
+    <ion-header-bar align-title="center" class="bar">
         <left-nav-toggle-btn></left-nav-toggle-btn>
-        <h1 class="title">Metrics</h1>
-        <!-- only show if user is logged in -->
-        <!-- ng-show="AuthSvc.isLoggedIn()" -->
-        <!-- Settings Button -->
-        <!-- <div class="buttons">
-            <button ng-click="header.showAccountOptions()" class="button icon ion-gear-a"></button>
-        </div> -->
+        <h1 class="title">Activity Log</h1>
+        <div class="buttons">
+            <button class="button button-clear icon sprout-icon-notification"></button>
+        </div>
     </ion-header-bar>
     <ion-content class="padding has-header">
 
 
         <!--Time period filter-->
         <div class="btn-group btn-group-justified row">
-            <a ng-repeat="filter in timePeriodFilters" class="btn btn-primary col" ng-click="applyFilter(filter)" href="javascript:void(0)">{{filter.displayName}}</a>            
+            <a ng-repeat="filter in timePeriodFilters" class="btn btn-primary col" ng-click="applyFilter(filter)" href="javascript:void(0)">{{filter.displayName}}</a> 
         </div>
 
 
@@ -34,29 +31,29 @@
                 </i>
             </div>
         </div>
-        
+
 
         <!--Activity log-->
         <h3>Activity Log</h3>
 
-        
-      <div class="list">
-        <div class="item item-divider">
-          {{logPeriodFilter.displayName}}
-        </div>
-        <div ng-repeat="activity in groupedActivities" class="card">
-          <div class="item">
-            <div class="activity-name">{{activity.activityDisplayName || 'Unknown Activity'}}</span>
-              <div class="item-note text-center" style="text-align:right">
-                <div class="minutes">{{activity.quantity}} {{getUnitName(activity.activityUnitId)}}</div>
-                <div>{{activity.points}} points</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-            <!--</div>-->
+        <div class="list">
+            <div class="item item-divider">
+                {{logPeriodFilter.displayName}}
+            </div>
+            <div ng-repeat="activity in groupedActivities" class="card">
+                <div class="item">
+                    <div class="activity-name">{{activity.activityDisplayName || 'Unknown Activity'}}</span>
+                        <div class="item-note text-center" style="text-align:right">
+                            <div class="minutes">{{activity.quantity}} {{getUnitName(activity.activityUnitId)}}</div>
+                            <div>{{activity.points}} points</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--</div>-->
         <!--</div>-->
 
     </ion-content>
