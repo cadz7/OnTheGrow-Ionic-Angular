@@ -83,6 +83,20 @@ angular.module('sproutApp.server', [
       return deferred.promise;      
     }
 
+    //logs the user out of the API and clears the client's auth token
+    service.logout = function(){
+      var deferred = $q.defer();
+      $http.post(API_URL+'auth/logout')
+      .then(function(result){        
+        options.headers['Authorization'] = null;
+        responseHandler(result,deferred);       
+      },function(error){
+        errorHandler(error,deferred);
+      });
+      
+      return deferred.promise;       
+    }
+
     //preform a HTTP GET
     service.get = function(url, params) {
       if (!service.isReachable) {
