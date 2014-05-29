@@ -42,7 +42,7 @@ angular.module('sproutApp.services')
         if (post.viewer.eligibleGroups) {
 
           return $ionicPopup.show({
-            title: 'Pick a group',
+            title: 'Who do you want to represent?',
             buttons: loadButtons(post)
           })
             .then(function (groupId) {

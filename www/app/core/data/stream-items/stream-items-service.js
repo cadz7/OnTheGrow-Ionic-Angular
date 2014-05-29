@@ -339,13 +339,14 @@ angular.module('sproutApp.data.stream-items', [
       isOwnedByViewer: 0,
       isPrivacyOn: 0,
       isMember: 0,
-      eligibleGroups: [{
+      eligibleGroups: [
+        {
         id: 1324,
-        name: 'group 1'
+        name: 'Alpha'
       }, {
         id: 2314,
-        name: 'group 2'
-      }],
+        name: 'Beta'
+      }]
     },
     relatedToId: 3142,
     relationTypeSlug: 'activity',
