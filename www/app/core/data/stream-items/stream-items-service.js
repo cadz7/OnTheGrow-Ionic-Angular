@@ -24,59 +24,51 @@ angular.module('sproutApp.data.stream-items', [
 
     function decoratePostsWithFunctionality(items) {
       items.forEach(function(item) {
-        item.getMoreComments = function () {
-          var moreComments;
-          // TODO: fix
-          if (item.comments.length < 9) {
-            moreComments = [];
-            for (var i = 0; i < 3; i++) {
-              moreComments.push(server.makeComment(item));
-              item.comments.push(server.makeComment(item));
-            }
-          }
-          return util.q.makeResolvedPromise(moreComments);
-        };
         item.postComment = function (commentText) {
-          var newComment;
           if (!user.isAuthenticated) {
             return util.q.makeRejectedPromise('Not authenticated.');
           }
-          //TODO: fix
-          newComment = server.makeComment(item, user.data, commentText);
-          item.comments.push(newComment);
-          return util.q.makeResolvedPromise(newComment);
+          // note: the item param is harmless in production, but used by mock server.
+          return server.post('/comments', {streamItemId: item.streamItemId, commentText: commentText}, item)
+              .then(function(comment) {
+            item.comments.push(comment);
+            return comment;
+          });
         };
         item.likePost = function () {
-          if (!user.isAuthenticated) {
-            return util.q.makeRejectedPromise('Not authenticated.');
-          }
+          // TODO: remove this kind of stuff and let server-service take care of it.
+        if (!user.isAuthenticated) {
+          return util.q.makeRejectedPromise('Not authenticated.');
+        }
 
-          if (item.viewer.isLikedByViewer === 0) {
-            item.viewer.isLikedByViewer = 1;
-            item.likeCount++;
-          }
-          return util.q.makeResolvedPromise();
+          return server.post('/likes', {toUserId: user.data.id, streamItemId: item.streamItemId})
+              .then(
+              function() {
+                if (item.viewer.isLikedByViewer === 0) {
+                  item.viewer.isLikedByViewer = 1;
+                  item.likeCount++;
+                }
+              });
         };
         item.unlikePost = function () {
           if (!user.isAuthenticated) {
             return util.q.makeRejectedPromise('Not authenticated.');
           }
-          if (item.viewer.isLikedByViewer === 1) {
-            item.viewer.isLikedByViewer = 0;
-            item.likeCount--;
-          }
-          return util.q.makeResolvedPromise();
+          return server.delete('/likes', {toUserId: user.data.id, streamItemId: item.streamItemId}).then(function() {
+            if (item.viewer.isLikedByViewer === 1) {
+              item.viewer.isLikedByViewer = 0;
+              item.likeCount--;
+            }
+          });
         };
         item.refresh = function(cmd){
           // TODO implement me @Yuri
           return util.q.makeResolvedPromise(cmd);
         }
-
       });
     }
 
     function getStreamItems(params) {
-      // TODO: delete posts that are 15 days old.
       var filterId = params.filterId || 'all';
 
       params.maxCount = params.maxCount || STREAM_CONSTANTS.defaultMaxItemCount;
@@ -89,11 +81,15 @@ angular.module('sproutApp.data.stream-items', [
             }, function error(response) {
               if (response === 'offline') {
                 $log.debug('getting offline stream items');
+
                 var streamItems = streamItemsCache.getItems(filterId, params.idLessThan, params.maxCount);
-                if (!streamItems || !streamItems.length) throw 'Please connect to the internet to show more...';
+                if (!streamItems || !streamItems.length)
+                  throw new Error('No stream items...');
+
                 decoratePostsWithFunctionality(streamItems);
                 return streamItems;
               }
+
               throw response;
             });
     }
@@ -125,6 +121,8 @@ angular.module('sproutApp.data.stream-items', [
       if (autoUpdateInterval) {
         $interval.cancel(autoUpdateInterval);
       }
+
+
       return getStreamItems(params)
         .then(function (items) {
           service.items.splice(0, service.items.length);
@@ -150,6 +148,8 @@ angular.module('sproutApp.data.stream-items', [
         .then(function (items) {
           pushItemsAtTheBottom(items);
           return items;
+        }, function error(r) {
+            throw r;
         });
     };
 
@@ -460,6 +460,20 @@ angular.module('sproutApp.data.stream-items', [
       }
 
       items = items.concat(tempItems);
+      tempItems.forEach(function(item) {
+        item.getMoreComments = function () {
+          var moreComments;
+          if (item.comments.length < 9) {
+            moreComments = [];
+            for (var i = 0; i < 3; i++) {
+              moreComments.push(makeComment(item));
+              item.comments.push(makeComment(item));
+            }
+          }
+          return $q.when(moreComments);
+        };
+      });
+
       //cache.set('mockStreamItems', items);
       if (!isOnline) {
         return $q.reject('offline');
@@ -467,32 +481,44 @@ angular.module('sproutApp.data.stream-items', [
       return $q.when(tempItems);
     },
     post: function(endpoint, item, params) {
-      var createdItem = makeStreamItem(latestId++);
-      createdItem.streamItemTypeSlug = item.streamItemTypeSlug;
-      createdItem.owner = _.clone(user.data);
-      createdItem.viewer.isOwnedByViewer = true;
-      createdItem.dateTimeCreated = new Date().toISOString();
 
-      createdItem.streamItemDisplay = {
-        template: '{user.firstName} says: {text}',
-        values: {
-          user: _.clone(user.data),
-          text: item.text
-        }
-      };
-      createdItem.likeCount = 0;
+      if (!isOnline) {
+        return $q.reject('offline');
+      }
+      if (endpoint === '/comments') {
+        return $q.when(makeComment(params, user.data, item.commentText));
+      }
+      else if (endpoint === '/likes') {
+        return $q.when(true);
+      } else {
+        var createdItem = makeStreamItem(latestId++);
+        createdItem.streamItemTypeSlug = item.streamItemTypeSlug;
+        createdItem.owner = _.clone(user.data);
+        createdItem.viewer.isOwnedByViewer = true;
+        createdItem.dateTimeCreated = new Date().toISOString();
+        createdItem.streamItemDisplay = {
+          template: '{user.firstName} says: {text}',
+          values: {
+            user: _.clone(user.data),
+            text: item.text
+          }
+        };
+        createdItem.likeCount = 0;
 
-      items.unshift(createdItem);
-      //cache.set('mockStreamItems', items);
-      return $q.when(createdItem);
+        items.unshift(createdItem);
+        //cache.set('mockStreamItems', items);
+        return $q.when(createdItem);
+      }
     },
     delete: function(endpoint, item) {
+      if (!isOnline) {
+        return $q.reject('offline');
+      }
       var foundIdx = _.indexOf(items, item);
       items.splice(foundIdx, 1);
       //cache.set('mockStreamItems', items);
       return $q.when(true);
-    },
-    makeComment: makeComment  // TOTAL HACK
+    }
   };
 }])
 ;
