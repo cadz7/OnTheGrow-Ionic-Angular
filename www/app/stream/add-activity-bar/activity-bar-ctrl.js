@@ -1,8 +1,8 @@
 
 
 angular.module('sproutApp.controllers')
-.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', '$ionicPopup', 'networkInformation',
-  function($scope, activities,streamItems,$ionicScrollDelegate, $ionicPopup, networkInformation) {
+.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', '$ionicPopup', 'networkInformation', 'Notify',
+  function($scope, activities,streamItems,$ionicScrollDelegate, $ionicPopup, networkInformation, Notify) {
 
   var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'}; //constants for view state
   var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'}; //constants for accessing display name of the activities
@@ -192,17 +192,11 @@ angular.module('sproutApp.controllers')
       streamItems.reload();
       $scope.savingActivty = false;
       $scope.activtyQueue.length = 0;
-    },function(response){
+      Notify.userSuccess("You logged activities!");
+    }, Notify.notifyTheCommonErrors(function(response){
       $scope.savingActivty = false;
-      var errorMessage;
-      if (response.status === 403) {
-        errorMessage ='You do not have permission to log activities.';        
-      }else {
-        errorMessage = 'failed to save activity';
-      }
-      
-      $scope.errorMessage = errorMessage;
-    });
+      Notify.apiError('Failed to log activities.');
+    }));
   };
 
   $scope.restoreActivity = function(item) {
