@@ -63,12 +63,12 @@ angular.module('sproutApp.main.left-nav', [
                   // Log them out
                   user.logout().then(
                     function() {
-                      $state.transitionTo('signin');
-                      $ionicActionSheet.hide();
+                     // $state.transitionTo('signin');
+                      //$ionicActionSheet.hide();
                     },
                     function(err) {
                       // redirect anyway
-                      $log.error("unable to log out");
+                      $log.error("unable to log out",err);
                       $state.transitionTo('signin');
                     }
                   );

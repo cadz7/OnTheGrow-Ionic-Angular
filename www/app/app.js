@@ -69,7 +69,9 @@ angular.module('sproutApp', [
         });
 
       // Run auto-update on stream items.
-      streamItems.turnOnAutoUpdate(5000); // Every 5 seconds.
+      user.whenAuthenticated().then(function(){
+        streamItems.turnOnAutoUpdate(5000); // Every 5 seconds.
+      });
     });
   }
 ])
@@ -126,7 +128,7 @@ angular.module('sproutApp', [
     });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/main/stream');
+  $urlRouterProvider.otherwise('/sigin');
 })
 ;
 

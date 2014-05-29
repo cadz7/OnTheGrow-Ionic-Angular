@@ -144,11 +144,18 @@ angular.module('sproutApp.user', [
      *                                 reloaded at this point.)
      */
     user.logout = function () {
-      user.isAuthenticated = false;
-      userStorage.removeUser();
-      //Note: the complexity of this is derived from cordova's hosting the app as just opening a local file in the browser (ie. file://.....)      
-      $window.location.replace($window.location.toString().split('#')[0]);
-      return util.q.makeResolvedPromise();
+      if(APP_CONFIG.useMockData){
+        user.isAuthenticated = false;
+        userStorage.removeUser();
+        //Note: the complexity of this is derived from cordova's hosting the app as just opening a local file in the browser (ie. file://.....)      
+        $window.location.replace($window.location.toString().split('#')[0]);      
+        return util.q.makeResolvedPromise();
+      }else{
+        user.isAuthenticated = false;
+        userStorage.removeUser();
+        //Note: the complexity of this is derived from cordova's hosting the app as just opening a local file in the browser (ie. file://.....)      
+        return server.logout().then(function(){$window.location.replace($window.location.toString().split('#')[0]);});      
+      }
     };
 
     // Runs initialization.

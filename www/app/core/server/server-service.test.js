@@ -96,6 +96,35 @@ describe('server service', function() {
 
   });//LOGIN
 
+  describe('logout', function(){
+    it('should make a post req',function(done){
+      $httpBackend.expectPOST(apiRoot+'auth/logout').respond(201);
+      server.logout()
+      .then(function(result){        
+        done();
+      },function(error){done(error)});
+      $httpBackend.flush();      
+    });
+
+    it('should clear the Authorization header field', function(done){
+      $httpBackend.expectPOST(apiRoot+'auth/login',{username:'user',password:'pass',rememberMe:false}).respond(201,{token:'token',expirationDateTime:new Date().toUTCString()});
+      $httpBackend.expectPOST(apiRoot+'auth/logout').respond(201);      
+      $httpBackend.expectGET(apiRoot+'test',undefined,function(headers){return headers['Authorization'] === null;}).respond(200,{test:1});
+      
+      server.login('user','pass',false)
+            .then(function(result){
+                return server.logout();               
+              })
+
+            .then(function() {
+              return server.get('test');
+            })
+            .then(function(){done()})
+            .then(null,function(error){done(error)});
+      $httpBackend.flush();      
+    });
+  });
+
   describe('get',function(){
 
     it('should make a get req and receive a json obj since the server returns 200',function(done){

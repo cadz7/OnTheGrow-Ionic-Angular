@@ -30,9 +30,6 @@ angular.module('sproutApp.services')
                 if (user.isAuthenticated) {
                   user.logout();
                 }
-                else {
-                  $state.transitionTo('signin');
-                }
                 break;
               default:
                 break;
