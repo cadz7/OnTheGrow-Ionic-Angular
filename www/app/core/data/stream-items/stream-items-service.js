@@ -64,10 +64,7 @@ angular.module('sproutApp.data.stream-items', [
             }
           });
         };
-        item.refresh = function(cmd){
-          // TODO implement me @Yuri
-          return util.q.makeResolvedPromise(cmd);
-        }
+
       });
     }
 
@@ -270,6 +267,15 @@ angular.module('sproutApp.data.stream-items', [
       }
     };
 
+    service.updateStreamItem = function(streamItem){
+      return server.get(API_CONSTANTS.streamItemsEndPoint + '/' + streamItem.streamItemId)
+        .then(function(updatedStreamItem){
+          // TODO use the updatedStreamItem to be assigned to the original streamItem
+          streamItem.viewer.isMember = 1;
+          return streamItem;
+        });
+    }
+
     return service;
   }
 ])
@@ -339,13 +345,14 @@ angular.module('sproutApp.data.stream-items', [
       isOwnedByViewer: 0,
       isPrivacyOn: 0,
       isMember: 0,
-      eligibleGroups: [{
+      eligibleGroups: [
+        {
         id: 1324,
-        name: 'group 1'
+        name: 'Alpha'
       }, {
         id: 2314,
-        name: 'group 2'
-      }],
+        name: 'Beta'
+      }]
     },
     relatedToId: 3142,
     relationTypeSlug: 'activity',
@@ -448,7 +455,14 @@ angular.module('sproutApp.data.stream-items', [
   });
 
   return {
-    get: function(endopint, params) {
+    get: function(endpoint, params) {
+
+      if (endpoint.indexOf("/") !=-1){
+        return $q.when('test');
+      }
+
+
+
       var tempItems = [];
       if (params.idGreaterThan) {
         for (var i = params.idGreaterThan+params.maxCount; i > params.idGreaterThan; i--) {
