@@ -46,8 +46,11 @@ angular.module('sproutApp.data.filters', [
     service.timePeriodFilters = [      
       {"filterId":"today","displayName":"Today","filterType":"time_periods"},
       {"filterId":"yesterday","displayName":"Yesterday","filterType":"time_periods"},
-      {"filterId":"week","displayName":"This week","filterType":"time_periods"},
-      {"filterId":"month","displayName":"This month","filterType":"time_periods"}
+      {"filterId":"week","displayName":"Week","filterType":"time_periods"},
+      {"filterId":"month","displayName":"Month","filterType":"time_periods"},
+      {"filterId":"year","displayName":"Year","filterType":"time_periods"}
+
+
     ];    
 
     return service;

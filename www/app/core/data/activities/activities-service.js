@@ -806,6 +806,11 @@ angular.module('sproutApp.data.activities', [
                                     {activityLogId:11,  activityUnitId:102,"quantity":60,"points":3000,"date":lastMonth.toUTCString()},
                                     {activityLogId:12,  activityUnitId:103,"quantity":90,"points":4000,"date":lastMonth.toUTCString()}];
 
+                var laterDate= new Date();
+                laterDate.setDate(now.getDate() - 60);
+                var laterActLogs = [{activityLogId:13, activityUnitId:101,"quantity":401,"points":20000,"date":laterDate.toUTCString()},
+                                    {activityLogId:14,  activityUnitId:102,"quantity":601,"points":30000,"date":laterDate.toUTCString()},
+                                    {activityLogId:15,  activityUnitId:103,"quantity":901,"points":40000,"date":laterDate.toUTCString()}];
 
 
                 var PAGE_SIZE = 2; //small value to test pagination
@@ -825,7 +830,7 @@ angular.module('sproutApp.data.activities', [
                         logs = _.union(activityLogs, yesterdayActivityLogs,lastWeekActivityLogs,lastMonthActivityLogs);
                     break;
                     case 'year':
-                        logs = _.union(activityLogs, yesterdayActivityLogs,lastWeekActivityLogs, lastMonthActivityLogs);
+                        logs = _.union(activityLogs, yesterdayActivityLogs,lastWeekActivityLogs, lastMonthActivityLogs, laterActLogs);
                     break;
                     default:
                         logs = activityLogs;
