@@ -56,6 +56,12 @@
             @include flex(1);
         }
     }
+    .item-input{
+      padding: 0px 10px;
+    }
+    .ion-ios7-search{
+      font-size: 1.5rem ;
+    }
 }
 .post-box {
     height: 1rem;

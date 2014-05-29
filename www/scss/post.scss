@@ -4,7 +4,7 @@
     padding: 0;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    border: 1px solid #eee;
+    border: 1px solid #ddd;
     border-radius: 4px;
     font-family:'roboto', sans-serif;
     font-weight: 300;
@@ -12,14 +12,14 @@
     line-height: 1.2;
     .post-info {
         img {
-        border-radius: 0 0 3px 0;
-        width: 50px;
-        height: 50px;
+            border-radius: 0 0 3px 0;
+            width: 50px;
+            height: 50px;
         }
-        &.row{
+        &.row {
             padding: 0;
         }
-        .col{
+        .col {
             padding: 10px 5px 5px 10px;
         }
     }
@@ -42,12 +42,13 @@
         font-size: 1.8rem;
         color:$blue;
         font-weight: 300;
-        margin-bottom: 5px;
+        margin-bottom: 0px;
     }
     .author {
         padding: 0 0 0 0;
         font-size: .8rem;
         font-weight: 400;
+        line-height: 1.4;
         color: $orange;
     }
     .date {
@@ -115,11 +116,11 @@
         font-size: 3rem;
         background: #FFF;
         border-radius: 50%;
-        &.sprout-icon-join{
+        &.sprout-icon-join {
             border: 1px solid #fff;
             color: $darkorange;
         }
-        &.sprout-icon-joined{
+        &.sprout-icon-joined {
             border: 1px solid #fff;
             color: $green;
         }
@@ -200,6 +201,22 @@
         display: inline-block;
         vertical-align: middle;
     }
+    .challenge-description {
+        font-weight: 300;
+        text-align: center;
+        margin: 5px 0;
+        padding:0;
+        font-family:'roboto', sans-serif;
+    }
+    .text-bold {
+        font-weight: 400;
+        font-family:'roboto', sans-serif;
+    }
+    .challenge-instructions {
+        font-family:'garogier', serif;
+        margin-top: 5px;
+        margin-bottom: 1rem;
+    }
 }
 .comment {
     background: #F9F9F9;
@@ -275,25 +292,6 @@
 .post a.tab-item .inactive {
     color: #CCC;
 }
-
-.action-sheet-backdrop{
-  z-index: 99999;
-}
-
-.challenge-description{
-  font-weight: 200;
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 5px;
-  font: roboto, sans-serif;
-}
-
-.challenge-instructions{
-  font-family: roboto, sans-serif;
-  margin-top: 5px;
-  margin-bottom: 50px;
-}
-
-.text-bold{
-  font-weight: bold;
+.action-sheet-backdrop {
+    z-index: 99999;
 }
