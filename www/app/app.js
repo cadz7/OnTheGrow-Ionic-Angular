@@ -128,7 +128,7 @@ angular.module('sproutApp', [
     });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/sigin');
+  $urlRouterProvider.otherwise('/signin');
 })
 ;
 
