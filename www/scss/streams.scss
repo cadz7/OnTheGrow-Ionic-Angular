@@ -97,6 +97,7 @@
     .activity-select {
         height: 100%;
         .activity-item-container {
+            display: inline-block;
             &:nth-child(odd) {
                 padding-right : 3px;
             }
