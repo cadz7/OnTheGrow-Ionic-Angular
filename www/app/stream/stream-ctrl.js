@@ -159,6 +159,7 @@ angular.module('sproutApp.controllers')
           Notify.userError('You cannot post in offline mode.');
         } else {
           $scope.createStreamItemModal.show();
+          document.getElementById('post-to-stream-text').focus();
         }
       };
 

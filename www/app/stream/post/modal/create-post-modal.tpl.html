@@ -7,7 +7,7 @@
     <button type="button" class="button button-clear post active" ng-class="{'active':newPost.text.length>0}" ng-click="submitPost(newPost)">POST</button>
   </ion-header-bar>
   <ion-content class="padding has-header">
-    <div class="list">
+    <div class="list create-post-input">
       <label class="item item-input item-select">
         <div class="input-label">
           Share with:
@@ -20,7 +20,7 @@
       </label>
     </div>
       <ion-content class="list list-item">
-          <textarea ng-model="newPost.text" class="post-box" placeholder="Share and update..."></textarea>
+          <textarea id="post-to-stream-text" ng-model="newPost.text" class="post-box" placeholder="Share and update..."></textarea>
         </ion-content>
 
   </ion-content>
