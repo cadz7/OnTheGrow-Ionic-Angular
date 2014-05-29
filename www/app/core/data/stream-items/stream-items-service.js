@@ -9,7 +9,7 @@ angular.module('sproutApp.data.stream-items', [
 // documentation below.
 
 
-.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval','streamItemsCache','streamMockServer','API_CONSTANTS','STREAM_CONSTANTS','APP_CONFIG', Notify,
+.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval','streamItemsCache','streamMockServer','API_CONSTANTS','STREAM_CONSTANTS','APP_CONFIG', 'Notify',
   function ($q, $log, user, util, $interval,streamItemsCache, server,API_CONSTANTS,STREAM_CONSTANTS,APP_CONFIG, Notify) {
     'use strict';
     var service = {
