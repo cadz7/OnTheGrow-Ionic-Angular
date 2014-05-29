@@ -4,13 +4,13 @@
   <ion-header-bar>
     <button class="button button-icon icon sprout-icon-close" ng-click="cancel()"></button>
     <h1 class="title">TRACK ACTIVITIES</h1>
-    <button class="post active" ng-show="activtyQueue && activtyQueue.length > 0" ng-click="saveActivities()" ng-disabled="savingActivities">Save</button>
+    <button class="button button-clear post active" ng-show="activtyQueue && activtyQueue.length > 0" ng-click="saveActivities()" ng-disabled="savingActivities">SAVE</button>
     <div ng-show="errorMessage.length > 0" style="color:red">{{errorMessage}}</div>
   </ion-header-bar>
   <ion-content class="padding has-header add-activity-post">
     <div class="row create-post">
       <form>
-        <textarea ng-model="newPost.text" class="post-box"></textarea>
+        <textarea ng-model="newPost.text" class="post-box" placeholder="e.g. - Cardio, Housework, Veggies..."></textarea>
       </form>
     </div>
 

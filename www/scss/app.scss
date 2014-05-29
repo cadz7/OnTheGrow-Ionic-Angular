@@ -39,6 +39,9 @@ $Sprout-font-path: "../fonts/Sprout/fonts" !default;
        url('../fonts/Garogier/Garogier.ttf') format('truetype'),
        url('../fonts/Garogier/Garogier.svg#webfont') format('svg');
 }
+body{
+  color:$darkgrey;
+}
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 // this is currently being used to make the list of posts area appear at the right

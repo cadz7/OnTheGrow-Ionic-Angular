@@ -1,4 +1,11 @@
-@import"variables";
+@import "variables";
+
+  // Scroll refresher (for pull to refresh)
+.scroll-refresher {
+  position: absolute;
+  top: -70px;
+}
+
  .create-post {
     @include box-shadow (0px, 0px, 5px, 1px, rgba(50, 50, 50, 0.25));
     z-index: 100;
@@ -16,14 +23,15 @@
         a, .icon {
             text-decoration: none;
             color: $blue;
+            vertical-align: middle;
         }
-        .col:last-child {
-            text-align: right;
+        .icon{
+          font-size: 1.2rem;
         }
     }
 }
 /* Modal for creating post */
- .create-post-modal {
+ .create-post-modal, .create-activity-modal {
     ion-header-bar button.post {
         position: absolute;
         top: 0px;
@@ -33,9 +41,12 @@
         line-height: 12px;
         color: $mediumgrey;
         background-color: $base-background-color;
+        height: 100%;
     }
     ion-header-bar button.post.active {
         color: $blue;
+        font-weight: 500;
+        opacity: 1;
     }
     ion-content {
         @include display-flex();
@@ -46,21 +57,7 @@
         }
     }
 }
-.create-activity-modal {
-    ion-header-bar button.post {
-        position: absolute;
-        top: 0px;
-        right: 10px;
-        padding: 10px;
-        margin: 0;
-        line-height: 12px;
-        color: $mediumgrey;
-        background-color: $base-background-color;
-    }
-    ion-header-bar button.post.active {
-        color: $blue;
-    }
-}
+
 .post-box {
     height: 1rem;
     margin: 0 0 1rem 0;
@@ -104,9 +101,10 @@
                 padding-left : 3px;
             }
             .activity-item {
-                background-color: $green;
+                border: 1px solid $green;
+                background: $lightgreen;
                 padding: 3px;
-                color: white;
+                color: $darkgreen;
                 border-radius: 3px;
                 text-align: center;
             }
@@ -156,7 +154,6 @@
             }
         }
     }
-}
 .ellipsis {
     text-overflow: ellipsis;
 }
@@ -168,7 +165,7 @@
     background: white;
 }
 #sproutPostsScroller {
-    top: 0px;
+    top: 5px;
 }
 .create-post {
     top: 44px;
