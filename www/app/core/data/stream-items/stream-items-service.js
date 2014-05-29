@@ -249,12 +249,24 @@ angular.module('sproutApp.data.stream-items', [
       } else if (user.data.userId !== item.owner.userId) {
         return util.q.makeRejectedPromise(new Error('Not allowed.'));
       } else {
-        return server.delete(API_CONSTANTS.streamItemsEndPoint +'/'+item.streamItemId).then(function() {
-          var foundIdx = _.indexOf(service.items, item);
-          if (foundIdx >= 0) {
-            service.items.splice(foundIdx, 1);
-          }
-        });
+        return deletePost(item);
+      }
+    };
+
+    function deletePost(streamItem) {
+      return server.delete(API_CONSTANTS.streamItemsEndPoint + '/' + streamItem.streamItemId).then(function () {
+        var foundIdx = _.indexOf(service.items, streamItem);
+        if (foundIdx >= 0) {
+          service.items.splice(foundIdx, 1);
+        }
+      });
+    }
+
+    service.hidePost = function(streamItem){
+      if (!user.isAuthenticated) {
+        return util.q.makeRejectedPromise(new Error('Not authenticated.'));
+      } else{
+        return deletePost(streamItem);
       }
     };
 

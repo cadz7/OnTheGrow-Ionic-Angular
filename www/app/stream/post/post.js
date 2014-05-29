@@ -158,18 +158,16 @@ angular.module('sproutApp.directives').directive(
             $ionicActionSheet.show({
               buttons: [
                 { text: 'Hide this post' },
-                { text: '<strong>Hide all by this user</strong>' },
+//                { text: '<strong>Hide all by this user</strong>' },
               ],
               cancelText: 'Cancel',
+              cancel: function(i){},
               buttonClicked: function (index) {
                 switch (index) {
                   case 0: // hide current post
-                    streamItems.deletePost(item).then(function () {
-                        console.log('Your post has been deleted.');
+                    streamItems.hidePost(item).then(function () {
                       }, function (response) {
-                        if (response.status === 403) {
-                          console.error('You do not have permission to delete this post.');
-                        }
+                        Notify.apiError('Failed to delete post!', response.message);
                       }
                     );
                     return true;
