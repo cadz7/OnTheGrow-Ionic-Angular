@@ -11,4 +11,14 @@
     line-height: 1.5;
     font-weight: bolder;
   }
+  
+}
+
+.selected {
+  font-weight : bold !important;
+  color:  $darkgrey !important;
+}
+
+.filter {
+  color: $mediumgrey;
 }

@@ -10,18 +10,36 @@
     </ion-header-bar>
     <ion-content class="padding has-header">
 
+        <ion-slide-box id="PeriodSlider" show-pager="false" >
 
-        <!--Time period filter-->
-        <div class="btn-group btn-group-justified row">
-            <a ng-repeat="filter in timePeriodFilters" class="btn btn-primary col" ng-click="applyFilter(filter)" href="javascript:void(0)">{{filter.displayName}}</a> 
-        </div>
+            <ion-slide class="list item" ng-repeat="filter in timePeriodFilters">
+                <div class="row">
+                    <div class="col col-30 filter" style="text-align: left"
+                    ng-class="{selected : (($index-1) == filterIndex)}" 
+                    ng-click="applyFilter($index -1)">
+                        {{timePeriodFilters[$index - 1].displayName}} 
+                    </div>
+                    <div class="col col-40 filter" style="text-align: center" 
+                    ng-class="{selected : ($index == filterIndex)}" 
+                    ng-click="applyFilter($index)">
+                        {{$index > 0 ? '|' : ''}} {{filter.displayName}} {{$index < timePeriodFilters.length ? '|' : ''}}
+                    </div>
+                    <div class="col col-30 filter" style="text-align: right" 
+                    ng-class="{selected : ($index+1 == filterIndex)}" 
+                    ng-click="applyFilter($index + 1)">
+                       {{timePeriodFilters[$index + 1].displayName}}
+                    </div>
+                </div>
+            </ion-slide>
+          </ion-slide-box>
+
 
 
         <!--User profile and main scoreboard-->
         <div class="list">
 
             <div class="item item-thumbnail-left item-icon-right border-none" href="#">
-                <img src="/img/user/cover.png">
+                <img ng-src="{{user.avatarUrl}}">
 
                 <h2>{{user.firstName + ' ' + user.lastName}}</h2>
 
@@ -34,27 +52,25 @@
 
 
         <!--Activity log-->
-        <h3>Activity Log</h3>
+      <h3>Activity Log</h3>
+        
+      <div class="list">
+        <div ng-repeat="activity in groupedActivities" class="card">
+          <div ng-if="$index == 0 || insertNewDateGrouping($index)">
+            {{ generateDisplayDate(activity.date) }}
+          </div>          
 
+          <div class="item">
+            <div class="activity-name">{{activity.activityDisplayName}}
 
-        <div class="list">
-            <div class="item item-divider">
-                {{logPeriodFilter.displayName}}
+              <div class="item-note text-center" style="text-align:right">
+                <div class="minutes">{{activity.quantity}} {{activity.activityUnitDisplayName}}</div>
+                <div>{{activity.points}} points</div>
+              </div>
             </div>
-            <div ng-repeat="activity in groupedActivities" class="card">
-                <div class="item">
-                    <div class="activity-name">{{activity.activityDisplayName || 'Unknown Activity'}}</span>
-                        <div class="item-note text-center" style="text-align:right">
-                            <div class="minutes">{{activity.quantity}} {{getUnitName(activity.activityUnitId)}}</div>
-                            <div>{{activity.points}} points</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
 
-        <!--</div>-->
-        <!--</div>-->
-
+        <ion-infinite-scroll on-infinite="performInfiniteScroll()" icon="ion-loading-c" distance="1%"></ion-infinite-scroll>
     </ion-content>
 </ion-view>

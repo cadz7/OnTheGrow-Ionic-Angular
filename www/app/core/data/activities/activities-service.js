@@ -25,19 +25,19 @@ angular.module('sproutApp.data.activities', [
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
         'activityName': 'Running',
-        'unitId': 104,
+        'unitId': 101,
         'unitName': 'km'
       }, {
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
         'activityName': 'Running',
-        'unitId': 105,
+        'unitId': 102,
         'unitName': 'mins'
       }, {
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
         'activityName': 'Cycling',
-        'unitId': 106,
+        'unitId': 103,
         'unitName': 'km'
       }, {
         'activityCategoryDisplayName': 'Cardio',
@@ -78,37 +78,37 @@ angular.module('sproutApp.data.activities', [
       }, {
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
-        'activityName': 'Swimming',
+        'activityName': 3,
         'unitId': 113,
         'unitName': 'mins'
       }, {
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
-        'activityName': 'Swimming',
+        'activityName': 3,
         'unitId': 114,
         'unitName': 'km'
       }, {
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
-        'activityName': 'Swimming',
+        'activityName': 3,
         'unitId': 115,
         'unitName': 'laps'
       }, {
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
-        'activityName': 'Walking',
+        'activityName': 2,
         'unitId': 116,
         'unitName': 'km'
       }, {
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
-        'activityName': 'Walking',
+        'activityName': 2,
         'unitId': 117,
         'unitName': 'steps'
       }, {
         'activityCategoryDisplayName': 'Cardio',
         'activityCategoryId': 13,
-        'activityName': 'Walking',
+        'activityName': 2,
         'unitId': 118,
         'unitName': 'mins'
       }, {
@@ -609,6 +609,7 @@ angular.module('sproutApp.data.activities', [
     service.reload = function () {
       var categoriesById = {};
 
+
       flatActivities.forEach(function (activity) {
         var category = categoriesById[activity.activityCategoryId];
         if (!category) {
@@ -620,6 +621,7 @@ angular.module('sproutApp.data.activities', [
           categoriesById[activity.activityCategoryId] = category;
         }
         category.activities.push({
+          activityId : activity.activityId,
           activityName: activity.activityName,
           unitId: activity.unitId,
           unitName: activity.unitName
@@ -635,7 +637,7 @@ angular.module('sproutApp.data.activities', [
           return categoriesById[id];
         }
       ));
-      return util.q.makeResolvedPromise();
+      return service.loadActivityCategories();
       //return service.loadActivityLog();
     };
 
@@ -772,10 +774,7 @@ angular.module('sproutApp.data.activities', [
                              ];
   
     //SR NOTE: activityDisplayName is not defined in the API currently, but should be.
-    var activityLogs = [{activityLogId:1, activityDisplayName:'Running',"activityUnitId":254,"quantity":40,"points":200,"date":"2014-05-14T15:22:11Z"},
-                        {activityLogId:2, activityDisplayName:'Walking', "activityUnitId":354,"quantity":60,"points":300,"date":"2014-05-14T15:22:11Z"},
-                        {activityLogId:3, activityDisplayName:'Swimming', "activityUnitId":454,"quantity":90,"points":3400,"date":"2014-05-16T15:22:11Z"}];
-
+   
 
     return {
         get : function(url,query) {
@@ -785,7 +784,67 @@ angular.module('sproutApp.data.activities', [
               deferred.resolve(activityCategories);
             break;
             case API_CONSTANTS.activityLogEndpoint:
-              deferred.resolve(activityLogs);
+                //note: low-dash removes items from the source array when using .remove() so we re-init the arrays for each req
+                //lazy, but stuff to do
+                var now = new Date();
+                 var activityLogs = [{activityLogId:1, activityUnitId:101,"quantity":40,"points":2,"date":now.toUTCString()},
+                        {activityLogId:2,  activityUnitId:102,"quantity":60,"points":3,"date":now.toUTCString()},
+                        {activityLogId:3,  activityUnitId:103,"quantity":90,"points":4,"date":now.toUTCString()}];
+                var yesterday = new Date();
+                yesterday.setDate(now.getDate() -1 );
+                var yesterdayActivityLogs = [{activityLogId:4, activityUnitId:101,"quantity":40,"points":20,"date":yesterday.toUTCString()},
+                                    {activityLogId:5,  activityUnitId:102,"quantity":60,"points":30,"date":yesterday.toUTCString()},
+                                    {activityLogId:6,  activityUnitId:103,"quantity":90,"points":40,"date":yesterday.toUTCString()}];
+                var lastWeek = new Date();
+                lastWeek.setDate(now.getDate() - 7 );
+                var lastWeekActivityLogs = [{activityLogId:7, activityUnitId:101,"quantity":40,"points":200,"date":lastWeek.toUTCString()},
+                                    {activityLogId:8,  activityUnitId:102,"quantity":60,"points":300,"date":lastWeek.toUTCString()},
+                                    {activityLogId:9,  activityUnitId:103,"quantity":90,"points":400,"date":lastWeek.toUTCString()}];
+                var lastMonth= new Date();
+                lastMonth.setDate(now.getDate() - 31);
+                var lastMonthActivityLogs = [{activityLogId:10, activityUnitId:101,"quantity":40,"points":2000,"date":lastMonth.toUTCString()},
+                                    {activityLogId:11,  activityUnitId:102,"quantity":60,"points":3000,"date":lastMonth.toUTCString()},
+                                    {activityLogId:12,  activityUnitId:103,"quantity":90,"points":4000,"date":lastMonth.toUTCString()}];
+
+                var laterDate= new Date();
+                laterDate.setDate(now.getDate() - 60);
+                var laterActLogs = [{activityLogId:13, activityUnitId:101,"quantity":401,"points":20000,"date":laterDate.toUTCString()},
+                                    {activityLogId:14,  activityUnitId:102,"quantity":601,"points":30000,"date":laterDate.toUTCString()},
+                                    {activityLogId:15,  activityUnitId:103,"quantity":901,"points":40000,"date":laterDate.toUTCString()}];
+
+
+                var PAGE_SIZE = 2; //small value to test pagination
+                var logs;
+                switch(query.timePeriodId){
+                    case 'today':
+                        logs = activityLogs;
+                        
+                    break;
+                    case 'yesterday':
+                        logs = yesterdayActivityLogs;
+                    break;
+                    case 'week':
+                        logs = _.union(activityLogs, yesterdayActivityLogs);
+                    break;
+                    case 'month':
+                        logs = _.union(activityLogs, yesterdayActivityLogs,lastWeekActivityLogs,lastMonthActivityLogs);
+                    break;
+                    case 'year':
+                        logs = _.union(activityLogs, yesterdayActivityLogs,lastWeekActivityLogs, lastMonthActivityLogs, laterActLogs);
+                    break;
+                    default:
+                        logs = activityLogs;
+                    break;
+                }
+
+                var result = _.chain(logs)
+                             .remove(function(log){
+                                if(!query || !query.idGreaterThan) return true;
+                                return log.activityLogId > query.idGreaterThan;
+                            })
+                            .first(PAGE_SIZE);
+                
+                deferred.resolve(result.value());
             break;            
             default:
               deferred.reject('the mock scores factory received an unexpected url: '+url);
