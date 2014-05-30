@@ -3,11 +3,11 @@
 angular.module('sproutApp.controllers')
 .controller('SignInCtrl', ['$scope', 'user', '$log', '$state', 'APP_CONFIG',
  function($scope, user, $log, $state, APP_CONFIG) {
-	if(APP_CONFIG.useMockData){
+	if(APP_CONFIG.useMockData || APP_CONFIG.useSimonsCredentials){
 		$scope.userForm = {
 			email: 'simon@rangle.io',
 			password: 'testtest',
-			rememberMe: true
+			rememberMe: false
 		};
 	}else{
 		$scope.userForm = {
@@ -29,5 +29,9 @@ angular.module('sproutApp.controllers')
 				$log.error('death', arguments);
 			}
 		);
-	}
+	};
+
+  if (APP_CONFIG.useSimonsCredentials){
+    $scope.signIn($scope.userForm);
+  }
 }]);

@@ -74,12 +74,15 @@ angular.module('sproutApp.data.stream-items', [
       params.maxCount = params.maxCount || STREAM_CONSTANTS.defaultMaxItemCount;
       $log.debug('getting streams items', params);
 
-      return server.get(API_CONSTANTS.streamItemsEndPoint, params)
-            .then(function(items) {
-              decoratePostsWithFunctionality(items);
-              //streamItemsCache.update(filterId, items, params.idGreaterThan);
-              return items;
-            }, function error(response) {
+      return user.whenAuthenticated()
+        .then(function(){
+          return server.get(API_CONSTANTS.streamItemsEndPoint, params)
+        })
+        .then(function(items) {
+          decoratePostsWithFunctionality(items);
+          //streamItemsCache.update(filterId, items, params.idGreaterThan);
+          return items;
+        }, function error(response) {
 //              if (response === 'offline') {
 //                $log.debug('getting offline stream items');
 //
@@ -91,20 +94,20 @@ angular.module('sproutApp.data.stream-items', [
 //                return streamItems;
 //              }
 
-              throw response;
-            });
+          throw response;
+        });
     }
 
     function pushItemsAtTheBottom(items) {
       Array.prototype.push.apply(service.items, items);
-      earliestId = _.min(service.items, 'id').id;
-      latestId = _.max(service.items, 'id').id;
+      earliestId = _.min(service.items, 'streamItemId').streamItemId;
+      latestId = _.max(service.items, 'streamItemId').streamItemId;
     }
 
     function pushItemsAtTheTop(items) {
       Array.prototype.unshift.apply(service.items, items);
-      earliestId = _.min(service.items, 'id').id;
-      latestId = _.max(service.items, 'id').id;
+      earliestId = _.min(service.items, 'streamItemId').streamItemId;
+      latestId = _.max(service.items, 'streamItemId').id;
     }
 
     /**
@@ -116,10 +119,14 @@ angular.module('sproutApp.data.stream-items', [
      *                                 of loaded items.
      */
     service.reload = function (filterId) {
-      var params = {
-        //idLessThan: latestId
-        filterId: filterId
-      };
+      var params = {};
+
+      if (filterId){
+        params = {
+          filterId: filterId
+        };
+      }
+
       if (autoUpdateInterval) {
         $interval.cancel(autoUpdateInterval);
       }
@@ -133,7 +140,7 @@ angular.module('sproutApp.data.stream-items', [
         });
     };
 
-    service.reload();
+    //service.reload();
 
     /**
      * Loads the next batch of earlier items in the stream, adding them to the
@@ -231,7 +238,7 @@ angular.module('sproutApp.data.stream-items', [
       item.streamItemTypeSlug = 'add_notification';
       return server.post(API_CONSTANTS.streamItemsEndPoint, item).then(function(post) {
         decoratePostsWithFunctionality([post]);
-        latestId = post.id;   // TODO: fix race condition here.
+        latestId = post.streamItemId;   // TODO: fix race condition here.
         service.items.unshift(post);
         return post;
       });
@@ -413,7 +420,6 @@ angular.module('sproutApp.data.stream-items', [
 
   function makeStreamItem(id) {
     var item = _.cloneDeep(mockStreamItemTemplate);
-    item.id = id;
     item.owner = _.cloneDeep(owners[id % 5]);
     item.avatarURL = avatarURLs[id % 5];
     item.viewer.isLikedByViewer = id % 2;

@@ -58,6 +58,7 @@ angular.module('sproutApp.controllers')
 
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
+          $log.debug('Running performInfiniteScroll');
           streamItems.getEarlier($scope.filterId).then(function() {
             $scope.showNoConnectionScreen = false;
             $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -67,7 +68,7 @@ angular.module('sproutApp.controllers')
             $scope.$broadcast('scroll.infiniteScrollComplete');
           });
         });
-      }, 250);
+      }, 1000);
 
       $scope.refresh = function() {
         streamItems.reload($scope.filterId).then(function() {
@@ -78,7 +79,7 @@ angular.module('sproutApp.controllers')
           $log.error(response);
         });
       };
-      $scope.refresh();
+      //$scope.refresh();
       // Create child scopes to hold streaItem data (passed in when modal is opened)
       var createStreamItemModalScope = $scope.$new(),
           createActivityModalScope = $scope.$new(),

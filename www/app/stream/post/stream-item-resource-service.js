@@ -13,10 +13,11 @@ angular.module('sproutApp.services')
         group: {template: 'joinable/group.tpl.html', headerIcon: 'sprout-icon-group'},
         challenge: {template: 'joinable/challenge.tpl.html', headerIcon: 'sprout-icon-challenge'},
         custom: {template: 'regular/custom.tpl.html', headerIcon: ''},
+        generic: {template: 'regular/custom.tpl.html', headerIcon: ''},
         post: {template: 'regular/custom.tpl.html', headerIcon: ''},
         add_notification: {template: 'regular/custom.tpl.html', headerIcon: ''},
         activity: {template: 'regular/custom.tpl.html', headerIcon: ''},
-        error: {template: 'components/error.tpl.html', headerIcon: ''}
+        error: {template: 'joinable/error.tpl.html', headerIcon: ''}
       };
 
       function getResource(streamItem) {
@@ -25,8 +26,8 @@ angular.module('sproutApp.services')
         if (resource) {
           return resource;
         } else {
-          $log.error('Could not find resource for streamItemTypeSlug', slug);
-          return resourcesForPost['error'];
+          //$log.error('Could not find resource for streamItemTypeSlug', slug);
+          return resourcesForPost['generic'];
         }
       }
 

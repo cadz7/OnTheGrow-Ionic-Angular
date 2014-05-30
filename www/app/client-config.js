@@ -42,6 +42,7 @@ angular.module('sproutApp.config', [])
     .constant('APP_CONFIG', {
       poisonMsgThreshold: 10,
       useMockData :  true,//use hard coded mock data or connect to the actual sprout api?
+      useSimonsCredentials :  true,//use hard coded mock data or connect to the actual sprout api?
       errorMsg: {
         SORRY_BUT_YOU_ARE_OFFLINE: 'You are not currently connected to to the internet and cannot perform this action.',
         POST_FAILED_TO_SEND: 'Your post could not be saved due to an error communicating with the sprout server.',
