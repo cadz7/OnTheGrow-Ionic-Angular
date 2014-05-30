@@ -1,16 +1,20 @@
 <div class="post-info row">
 
-    <div class="col-90">
-      <img ng-src="{{post.avatarURL}}" class="activity-log-avatar"/>
-      <!--TODO replace {user.name} with class author and add as link, right now it's hardcoded below -->
-        <span class="author">{{post.owner.firstName + ' ' + post.owner.lastName}}</span>
-        <span class="activity-log-content">{{content}}</span>
-        <br/>
-        <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
-        <!--<img src="img/icons/join-confirm-icon.svg" class="join-btn" data-ng-click="subscribeToGroup()" ng-if="!post.streamItemDisplay.heroImg"/>-->
-        <join-button has-hero-img="post.streamItemDisplay.heroImg" post="post" ng-if="!post.streamItemDisplay.heroImg"></join-button>
-      </div>
-    <div class="col" data-ng-click="deletePost(post)">
-        <div class="ion-close col"></div>
+  <div class="col-90">
+    <img ng-src="{{post.avatarURL}}" class="activity-log-avatar"/>
+    <!--TODO replace {user.name} with class author and add as link, right now it's hardcoded below -->
+    <div class="author-wrapper">
+      <span class="author">{{post.owner.firstName + ' ' + post.owner.lastName}}</span>
+      <span class="activity-log-content">{{content}}</span>
     </div>
+
+    <br/>
+    <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
+    <!--<img src="img/icons/join-confirm-icon.svg" class="join-btn" data-ng-click="subscribeToGroup()" ng-if="!post.streamItemDisplay.heroImg"/>-->
+    <join-button has-hero-img="post.streamItemDisplay.heroImg" post="post"
+                 ng-if="!post.streamItemDisplay.heroImg"></join-button>
+  </div>
+  <div class="col" data-ng-click="deletePost(post)">
+    <div class="ion-close col"></div>
+  </div>
 </div>

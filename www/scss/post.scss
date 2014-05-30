@@ -260,7 +260,14 @@
         line-height: 1.4;
         white-space: pre-wrap !important;
     }
+
 }
+
+.author-wrapper{
+  padding: 10px 5px 0px 10px;
+}
+
+
 .post a.tab-item:after {
     background: #333;
     background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#333));
