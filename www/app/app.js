@@ -65,8 +65,14 @@ angular.module('sproutApp', [
 //      // create an event silently (on Android < 4 an interactive dialog is shown)
 //      window.plugins.calendar.createEvent(title,location,notes,startDate,endDate,success,error);
 
-      if (!window.cordova.plugins.calendar) {
-        $log.error('You are missing the calendar plugin.');
+      if (!window.cordova) {
+        $log.error('cordova namespace missing.');
+      } else if (!window.cordova.plugins) {
+        $log.error('cordova plugins namespace missing');
+      } else {
+        if (!window.cordova.plugins.calendar) {
+          $log.error('You are missing the calendar plugin.');
+        }
       }
     }
 
