@@ -20,8 +20,7 @@
       </label>
     </div>
       <ion-content class="list list-item">
-          <textarea id="post-to-stream-text" ng-model="newPost.text" class="post-box" placeholder="Share and update..."></textarea>
-        </ion-content>
-
+          <textarea tabindex="0" id="post-to-stream-text" ng-model="newPost.text" class="post-box" placeholder="Share and update..." set-focus="showKeyboard" ng-click="showKeyboard=true"></textarea>
+      </ion-content>
   </ion-content>
 </div>
