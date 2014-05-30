@@ -77,19 +77,19 @@ angular.module('sproutApp.data.stream-items', [
       return server.get(API_CONSTANTS.streamItemsEndPoint, params)
             .then(function(items) {
               decoratePostsWithFunctionality(items);
-              streamItemsCache.update(filterId, items, params.idGreaterThan);
+              //streamItemsCache.update(filterId, items, params.idGreaterThan);
               return items;
             }, function error(response) {
-              if (response === 'offline') {
-                $log.debug('getting offline stream items');
-
-                var streamItems = streamItemsCache.getItems(filterId, params.idLessThan, params.maxCount);
-                if (!streamItems || !streamItems.length)
-                  throw new Error('No stream items...');
-
-                decoratePostsWithFunctionality(streamItems);
-                return streamItems;
-              }
+//              if (response === 'offline') {
+//                $log.debug('getting offline stream items');
+//
+//                var streamItems = streamItemsCache.getItems(filterId, params.idLessThan, params.maxCount);
+//                if (!streamItems || !streamItems.length)
+//                  throw new Error('No stream items...');
+//
+//                decoratePostsWithFunctionality(streamItems);
+//                return streamItems;
+//              }
 
               throw response;
             });
