@@ -8,61 +8,57 @@
             <button class="button button-clear icon sprout-icon-notification"></button>
         </div>
     </ion-header-bar>
-    <ion-content class="padding has-header">
-
-        <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="applyFilter($index)">
-
-            <ion-slide class="list item" ng-repeat="filter in timePeriodFilters">
-                <div class="row">
-                    <div class="col col-30 filter" style="text-align: left">
-                        {{timePeriodFilters[$index - 1].displayName}} 
-                    </div>
-                    <div class="col col-40 filter selected" style="text-align: center">
-                        {{$index > 0 ? '|' : ''}} {{filter.displayName}} {{$index < timePeriodFilters.length ? '|' : ''}}
-                    </div>
-                    <div class="col col-30 filter" style="text-align: right">
-                       {{timePeriodFilters[$index + 1].displayName}}
-                    </div>
-                </div>
-            </ion-slide>
-          </ion-slide-box>
-
-
+    <ion-content class="has-header">
 
         <!--User profile and main scoreboard-->
-        <div class="list">
+        <div class="fixed">
+        <div class="metrics list">
 
-            <div class="item item-thumbnail-left item-icon-right border-none" href="#">
+            <div class="item item-thumbnail-left border-none" href="#">
                 <img ng-src="{{user.avatarUrl}}">
+                <span class="points">
+                    <span class="number">{{visibleSproutScore}}<br></span>points</span>
+                <h2 class="user-name">{{user.firstName + ' ' + user.lastName}}</h2>
 
-                <h2>{{user.firstName + ' ' + user.lastName}}</h2>
-
-                <p>{{user.department + ' ' + user.location}}</p>
-                <i class="icon">
-                    <h2>{{visibleSproutScore}}</h2>
-                </i>
+                <p>{{user.department + ' - ' + user.location}}</p>
             </div>
         </div>
+    <!--Time Period slider-->
+     <hr>
+        <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="applyFilter($index)">
 
-
+            <ion-slide class="list item metrics-slide" ng-repeat="filter in timePeriodFilters">
+                <div class="row">
+                    <div class="col col-30 filter left" style="text-align: left">
+                        {{timePeriodFilters[$index - 1].displayName}}
+                    </div>
+                    <div class="col col-40 filter selected" style="text-align: center">
+                        {{$index > 0 ? '' : ''}} {{filter.displayName}} {{$index
+                        < timePeriodFilters.length ? '' : ''}} </div>
+                            <div class="col col-30 filter right" style="text-align: right">
+                                {{timePeriodFilters[$index + 1].displayName}}
+                            </div>
+                    </div>
+            </ion-slide>
+        </ion-slide-box>
+        <hr>
+</div>
         <!--Activity log-->
-      <h3>Activity Log</h3>
-        
-      <div class="list">
-        <div ng-repeat="activity in groupedActivities" class="card">
-          <div ng-if="$index == 0 || insertNewDateGrouping($index)">
-            {{ generateDisplayDate(activity.date) }}
-          </div>          
 
-          <div class="item">
-            <div class="activity-name">{{activity.activityDisplayName}}
+        <div class="list metrics activity-log">
+            <div ng-repeat="activity in groupedActivities" class="card">
+                <div ng-if="$index == 0 || insertNewDateGrouping($index)" class="date">
+                    {{ generateDisplayDate(activity.date) }}
+                </div>
 
-              <div class="item-note text-center" style="text-align:right">
-                <div class="minutes">{{activity.quantity}} {{activity.activityUnitDisplayName}}</div>
-                <div>{{activity.points}} points</div>
-              </div>
+                <div class="item">
+                    <div class="activity-name">{{activity.activityDisplayName}}
+                        <span class="minutes">- {{activity.quantity}} {{activity.activityUnitDisplayName}}</span>
+                        <div class="points">
+                            <span class="number">{{activity.points}}</span> pts</div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
 
         <ion-infinite-scroll on-infinite="performInfiniteScroll()" icon="ion-loading-c" distance="1%"></ion-infinite-scroll>

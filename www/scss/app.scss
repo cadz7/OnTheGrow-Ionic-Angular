@@ -15,10 +15,10 @@ $Sprout-font-path: "../fonts/Sprout/fonts" !default;
 // CSS modules
 @import "streams.scss";
 @import "post.scss";
-@import "metrics.scss";
 @import "leaderboard.scss";
 @import "left-nav.scss";
 @import "user-settings.scss";
+@import "activity-log.scss";
 
 @font-face {
   font-family: 'Sprout';
