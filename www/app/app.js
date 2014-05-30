@@ -186,18 +186,26 @@ angular.module('sproutApp', [
     var prepareLogFn = function(logFn) {
       var enhancedLogFn = function () {
         var args = Array.prototype.slice.call(arguments),
-            now  = new Date().format('hh:mm:ss:SSS');
+            now  = new Date().format('hh:mm:ss:S');
 
         // prepends timestamp to the message
         args[0] = supplant("{0} - {1}", [ now, args[0] ]);
-        var msg = supplant.apply(null, args);
+        //var msg = supplant.apply(null, args);
+        var msg = '';
+        args.forEach(function(arg) {
+          if (angular.isString(arg)) {
+            msg += " " + arg;
+          } else {
+            msg += ": "+JSON.stringify(arg);
+          }
+        });
 
         $log.messages.unshift(msg);
         if ($log.messages.count > APP_CONFIG.maxLogSize + 50) {
           $log.messages = $log.messages.slice(0, APP_CONFIG.maxLogSize-50);
         }
 
-        logFn.call(null, msg);
+        logFn.apply(null, args);
       };
 
       // needed to support angular-mocks expectations
@@ -217,6 +225,16 @@ angular.module('sproutApp', [
 
     function supplant( template, values, pattern ) {
       pattern = pattern || /\{([^\{\}]*)\}/g;
+
+      if (values && values.length) {
+        for (var i=0; i<values.length; i++) {
+          if (values[i] === false) {
+            values[i] = 'false';
+          } else if (values[i] === true) {
+            values[i] = 'true';
+          }
+        }
+      }
 
       return template.replace(pattern, function(a, b) {
         var p = b.split('.'),
