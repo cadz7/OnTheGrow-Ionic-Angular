@@ -32,6 +32,9 @@ angular.module('sproutApp.data.stream-items', [
           return server.post('/comments', {streamItemId: item.streamItemId, commentText: commentText}, item)
               .then(function(comment) {
                 Notify.userSuccess('You posted a comment!');
+                if (!item.comments){
+                  item.comments = [];
+                }
                 item.comments.push(comment);
                 return comment;
               }, Notify.notifyTheCommonErrors(function(response) {
