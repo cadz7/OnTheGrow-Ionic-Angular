@@ -45,6 +45,26 @@ angular.module('sproutApp', [
 .run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems','$state','$rootScope',
   function($ionicPlatform, user, $log, networkInformation, streamItems,$state,$rootScope) {
 
+    window.onerror = function(error) {
+      $log.error(error);
+    };
+
+    function logDeviceDetails() {
+      var buildInfo = {
+        IonicVersion: ionic.version
+      };
+
+      var deviceDetails = {
+        Platform: ionic.Platform.platform(),
+        Version: ionic.Platform.version(),
+        Grade: ionic.Platform.grade
+      };
+
+      $log.info('====== BUILD INFO =======\r\n', buildInfo);
+      $log.info('====== DEVICE INFO ====== \r\n', deviceDetails);
+      $log.info('Welcome to Sprout App!');
+    }
+
     function verifyRequiredPluginsAreInstalled() {
 //      var startDate = new Date(2014,2,15,18,30,0,0,0); // beware: month 0 = january, 11 = december
 //      var endDate = new Date(2014,2,15,19,30,0,0,0);
@@ -70,13 +90,18 @@ angular.module('sproutApp', [
       } else if (!window.cordova.plugins) {
         $log.error('cordova plugins namespace missing');
       } else {
+        $log.info('Plugins Installed: ', window.cordova.plugins);
         if (!window.cordova.plugins.calendar) {
           $log.error('You are missing the calendar plugin.');
+        }
+        if (!window.cordova.plugins.Keyboard) {
+          $log.error('You are missing the keyboard plugin.');
         }
       }
     }
 
     $ionicPlatform.ready(function() {
+      logDeviceDetails();
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if(window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -90,6 +115,10 @@ angular.module('sproutApp', [
       if(!user.isAuthenticated){
         $state.transitionTo(SIGNIN_STATE);
       }
+
+      // according to docs, if you set preference Fullscreen="true" in confix.xml you must
+      // set ionic.PlatformisFullScreen = true; manually for android.
+      ionic.Platform.isFullScreen = true;
 
       //if the user has been logged out after they logined, take them back to the login
       $rootScope.$on('$stateChangeStart',

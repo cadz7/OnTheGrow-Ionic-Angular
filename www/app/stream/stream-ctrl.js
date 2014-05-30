@@ -84,6 +84,8 @@ angular.module('sproutApp.controllers')
           editStreamItemModalScope = $scope.$new(),
           streamItemModalScope = $scope.$new();
 
+      createStreamItemModalScope.showKeyboard = true;
+
       // Modal for create-post
       $ionicModal.fromTemplateUrl('app/stream/post/modal/create-post-modal.tpl.html', {
         scope: createStreamItemModalScope,
