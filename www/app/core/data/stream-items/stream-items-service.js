@@ -24,6 +24,10 @@ angular.module('sproutApp.data.stream-items', [
 
     function decoratePostsWithFunctionality(items) {
       items.forEach(function(item) {
+
+        if (!item.comments){
+          item.comments = [];
+        }
         item.postComment = function (commentText) {
           if (!user.isAuthenticated) {
             return util.q.makeRejectedPromise('Not authenticated.');
@@ -32,11 +36,7 @@ angular.module('sproutApp.data.stream-items', [
           return server.post('/comments', {streamItemId: item.streamItemId, commentText: commentText}, item)
               .then(function(comment) {
                 Notify.userSuccess('You posted a comment!');
-                if (!item.comments){
-                  item.comments = [];
-                }
                 item.comments.push(comment);
-                debugger;
                 return comment;
               }, Notify.notifyTheCommonErrors(function(response) {
                 Notify.apiError('Failed to post your comment.');
