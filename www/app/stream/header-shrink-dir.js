@@ -1,7 +1,7 @@
 'use strict';
 
-console.log("ASD");
- 
+
+
 angular.module('sproutApp.directives')
   .directive('headerShrink', ['$document', '$ionicScrollDelegate',
     function($document, $ionicScrollDelegate) {

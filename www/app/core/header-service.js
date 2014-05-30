@@ -5,7 +5,7 @@ angular.module('sproutApp.services')
     function($log, $ionicActionSheet, user, $state) {
 
       var service = {};
-      $log.debug(user.isAuthenticated);
+      $log.debug('User is authenticated: ', user.isAuthenticated);
 
       service.showAccountOptions = function() {
         $ionicActionSheet.show({

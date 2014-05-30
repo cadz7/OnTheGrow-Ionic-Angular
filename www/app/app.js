@@ -44,6 +44,38 @@ angular.module('sproutApp', [
 ])
 .run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems','$state','$rootScope',
   function($ionicPlatform, user, $log, networkInformation, streamItems,$state,$rootScope) {
+
+    function verifyRequiredPluginsAreInstalled() {
+//      var startDate = new Date(2014,2,15,18,30,0,0,0); // beware: month 0 = january, 11 = december
+//      var endDate = new Date(2014,2,15,19,30,0,0,0);
+//      var title = "My nice event";
+//      var location = "Home";
+//      var notes = "Some notes about this event.";
+//      var success = function(message) { alert("Success: " + JSON.stringify(message)); };
+//      var error = function(message) { alert("Error: " + message); };
+//
+//      // create a calendar (iOS only for now)
+//      window.plugins.calendar.createCalendar(calendarName,success,error);
+//      // if you want to create a calendar with a specific color, pass in a JS object like this:
+//      var createCalOptions = window.plugins.calendar.getCreateCalendarOptions();
+//      createCalOptions.calendarName = "My Cal Name";
+//      createCalOptions.calendarColor = "#FF0000"; // an optional hex color (with the # char), default is null, so the OS picks a color
+//      window.plugins.calendar.createCalendar(createCalOptions,success,error);
+//
+//      // create an event silently (on Android < 4 an interactive dialog is shown)
+//      window.plugins.calendar.createEvent(title,location,notes,startDate,endDate,success,error);
+
+      if (!window.cordova) {
+        $log.error('cordova namespace missing.');
+      } else if (!window.cordova.plugins) {
+        $log.error('cordova plugins namespace missing');
+      } else {
+        if (!window.cordova.plugins.calendar) {
+          $log.error('You are missing the calendar plugin.');
+        }
+      }
+    }
+
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -67,6 +99,8 @@ angular.module('sproutApp', [
             $state.transitionTo(SIGNIN_STATE);
           }          
         });
+
+      verifyRequiredPluginsAreInstalled();
 
       // Run auto-update on stream items.
       user.whenAuthenticated().then(function(){
@@ -130,6 +164,99 @@ angular.module('sproutApp', [
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/signin');
 })
+
+.config([ "$provide", 'APP_CONFIG', function( $provide, APP_CONFIG ) {
+  $provide.decorator( '$log', [ "$delegate", function( $delegate ) {
+    var $log = $delegate;
+
+    Date.prototype.format = function(format) {
+      var o = {
+        "M+" : this.getMonth()+1, //month
+        "d+" : this.getDate(),    //day
+        "h+" : this.getHours(),   //hour
+        "m+" : this.getMinutes(), //minute
+        "s+" : this.getSeconds(), //second
+        "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+        "S" : this.getMilliseconds() //millisecond
+      }
+
+      if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+          (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+      for(var k in o)if(new RegExp("("+ k +")").test(format))
+        format = format.replace(RegExp.$1,
+                RegExp.$1.length==1 ? o[k] :
+                ("00"+ o[k]).substr((""+ o[k]).length));
+      return format;
+    }
+
+    var prepareLogFn = function(logFn) {
+      var enhancedLogFn = function () {
+        var args = Array.prototype.slice.call(arguments),
+            now  = new Date().format('hh:mm:ss:S');
+
+        // prepends timestamp to the message
+        args[0] = supplant("{0} - {1}", [ now, args[0] ]);
+        //var msg = supplant.apply(null, args);
+        var msg = '';
+        args.forEach(function(arg) {
+          if (angular.isString(arg)) {
+            msg += " " + arg;
+          } else {
+            msg += ": "+JSON.stringify(arg);
+          }
+        });
+
+        $log.messages.unshift(msg);
+        if ($log.messages.count > APP_CONFIG.maxLogSize + 50) {
+          $log.messages = $log.messages.slice(0, APP_CONFIG.maxLogSize-50);
+        }
+
+        logFn.apply(null, args);
+      };
+
+      // needed to support angular-mocks expectations
+      enhancedLogFn.logs = [ ];
+
+      return enhancedLogFn;
+    };
+
+    $log.log   = prepareLogFn( $log.log );
+    $log.info  = prepareLogFn( $log.info );
+    $log.warn  = prepareLogFn( $log.warn );
+    $log.debug = prepareLogFn( $log.debug );
+    $log.error = prepareLogFn( $log.error );
+    $log.messages = [];
+
+    return $log;
+
+    function supplant( template, values, pattern ) {
+      pattern = pattern || /\{([^\{\}]*)\}/g;
+
+      if (values && values.length) {
+        for (var i=0; i<values.length; i++) {
+          if (values[i] === false) {
+            values[i] = 'false';
+          } else if (values[i] === true) {
+            values[i] = 'true';
+          }
+        }
+      }
+
+      return template.replace(pattern, function(a, b) {
+        var p = b.split('.'),
+            r = values;
+
+        try {
+          for (var s in p) { r = r[p[s]];  }
+        } catch(e){
+          r = a;
+        }
+
+        return (typeof r === 'string' || typeof r === 'number') ? r : a;
+      });
+    };
+  }]);
+}]);
 ;
 
 

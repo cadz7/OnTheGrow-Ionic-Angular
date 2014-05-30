@@ -4,8 +4,8 @@
 
 angular.module('sproutApp')
 
-.controller('DeveloperCtrl', ['$scope', 'networkInformation','user','$state', 'streamItems', 'streamItemsCache',
-  function ($scope, networkInformation,user,$state, streamItems, streamItemsCache) {
+.controller('DeveloperCtrl', ['$scope', 'networkInformation','user','$state', 'streamItems', 'streamItemsCache', '$log',
+  function ($scope, networkInformation,user,$state, streamItems, streamItemsCache, $log) {
     'use strict';
     $scope.user = user;
 
@@ -31,5 +31,7 @@ angular.module('sproutApp')
     };
 
     $scope.status = networkInformation.isOnline ? 'online' : 'offline';
+
+    $scope.log = $log.messages;
   }
 ]);

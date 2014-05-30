@@ -47,6 +47,7 @@ angular.module('sproutApp.config', [])
         POST_FAILED_TO_SEND: 'Your post could not be saved due to an error communicating with the sprout server.',
         UNAUTHORIZED: 'You do not have permission to perform this action.'
       },
-      debug: true  // enables the developer menu.
-    })
+      debug: true,  // enables the developer menu.
+      maxLogSize: 120 // when this size is reached, 50 msgs are deleted.  don't make this less than 75.
+    });
 ;
