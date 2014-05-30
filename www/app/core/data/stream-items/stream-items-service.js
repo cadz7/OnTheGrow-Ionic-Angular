@@ -36,6 +36,7 @@ angular.module('sproutApp.data.stream-items', [
                   item.comments = [];
                 }
                 item.comments.push(comment);
+                debugger;
                 return comment;
               }, Notify.notifyTheCommonErrors(function(response) {
                 Notify.apiError('Failed to post your comment.');
@@ -47,7 +48,7 @@ angular.module('sproutApp.data.stream-items', [
           return util.q.makeRejectedPromise('Not authenticated.');
         }
 
-          return server.post('/likes', {toUserId: user.data.id, streamItemId: item.streamItemId})
+          return server.post('/likes', {toUserId: user.data.userId, streamItemId: item.streamItemId})
               .then(
               function() {
                 if (item.viewer.isLikedByViewer === 0) {
@@ -60,7 +61,7 @@ angular.module('sproutApp.data.stream-items', [
           if (!user.isAuthenticated) {
             return util.q.makeRejectedPromise('Not authenticated.');
           }
-          return server.delete('/likes', {toUserId: user.data.id, streamItemId: item.streamItemId}).then(function() {
+          return server.delete('/likes', {toUserId: user.data.userId, streamItemId: item.streamItemId}).then(function() {
             if (item.viewer.isLikedByViewer === 1) {
               item.viewer.isLikedByViewer = 0;
               item.likeCount--;
