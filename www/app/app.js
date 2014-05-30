@@ -133,7 +133,7 @@ angular.module('sproutApp', [
 
       // Run auto-update on stream items.
       user.whenAuthenticated().then(function(){
-        streamItems.turnOnAutoUpdate(5000); // Every 5 seconds.
+        //streamItems.turnOnAutoUpdate(5000); // Every 5 seconds.
       });
     });
   }

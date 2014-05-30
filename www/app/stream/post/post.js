@@ -72,6 +72,7 @@ angular.module('sproutApp.directives').directive(
           else {
             scope.content = postContent;
           }
+          scope.post.content = scope.content;
 
           scope.contentIsOverflowing = contentIsOverflowing;
 
