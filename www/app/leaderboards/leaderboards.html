@@ -5,7 +5,7 @@
         <!-- Hamburger Button -->
 
         <left-nav-toggle-btn></left-nav-toggle-btn>
-        <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.text}}</h1>
+        <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.displayName}}</h1>
         <h1 class="title" ng-show="editFilters" ng-click="toggleFiltersView()">Back <i class="icon ion-android-system-back"></i> 
         </h1>
         
@@ -20,7 +20,7 @@
 
         <div id="leaderBoards" ng-hide="editFilters">
             <div class="has-footer" id="ActivityDurationFilter" ng-click="toggleFiltersView()">
-                {{activeActivity.activityName || 'All Activities'}} | {{activePeriod.timePeriodNameDisplay || 'Challenge Duration'}}
+                {{selectedCategory.displayName}} | {{activePeriod.displayName}}
                 <i class="icon ion-edit"></i>
             </div>
             <h3 class="rankingTitle">{{currentBoardTitle}}</h3>
@@ -36,15 +36,15 @@
 
             <div class="list">
                 <div class="item" ng-click="toggleActivityList()">
-                    {{ activeActivity.activityName || 'Choose Activity' }}
+                    {{ selectedCategory.displayName || 'Choose Activity' }}
                 </div>
-                <a href="" class="item" ng-click="selectActivityFilter(activity)" ng-show="activityView" ng-repeat="activity in selectedCategory.activities">{{activity.activityName}}</a>
+                <a href="" class="item" ng-click="selectActivityFilter(activity)" ng-show="activityView" ng-repeat="activity in (selectedCategory.subFilters.length > 0) ? selectedCategory.subFilters : activityFilters">{{activity.displayName}}</a>
             </div>
 
             <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="getPeriod(index)">
                 <ion-slide class="list item" ng-repeat="period in periods">
                     <div class="">
-                        <h1>{{period.timePeriodNameDisplay}}</h1>
+                        <h1>{{period.displayName}}</h1>
                     </div>
                 </ion-slide>
             </ion-slide-box>

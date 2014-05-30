@@ -21,6 +21,12 @@ angular.module('sproutApp.config', [])
       activityLogEndpoint: 'activity_logs',
       activityCategoryEndpoint: 'activity_categories',
 
+      //FILTERS
+      filtersEndpoint : 'filters',
+
+      //LEADERBOARDS
+      leaderboardsEndpoint : 'leaderboards',
+
       //SCORES
       scoresEndPoint:'scores',
 

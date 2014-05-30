@@ -13,13 +13,13 @@
         <!--User profile and main scoreboard-->
         <div class="fixed">
         <div class="metrics list">
-
-            <div class="item item-thumbnail-left border-none" href="#">
-                <img ng-src="{{user.avatarUrl}}">
+            <div class="item item-thumbnail-left item-icon-right border-none" href="#">
+                <img ng-src="{{user.avatarURL}}">
                 <span class="points">
-                    <span class="number">{{visibleSproutScore}}<br></span>points</span>
-                <h2 class="user-name">{{user.firstName + ' ' + user.lastName}}</h2>
-
+                    <span class="number">{{visibleSproutScore}}<br></span>
+                    points
+                </span>
+                <h2 class="user-name">{{user.firstNameDisplay + ' ' + user.lastNameDisplay}}</h2>
                 <p>{{user.department + ' - ' + user.location}}</p>
             </div>
         </div>

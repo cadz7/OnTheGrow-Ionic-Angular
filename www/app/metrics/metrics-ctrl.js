@@ -9,12 +9,15 @@ angular.module('sproutApp.controllers')
 
     // TODO please note that this may not be the final model and will be wrapped in async service
     $scope.user = user.data;
-    $scope.timePeriodFilters = filters.timePeriodFilters;
     $scope.filterIndex = 0;
     $scope.visibleSproutScore = 0; //total user sprout score for the current timespan (ie. log period)
     var allActivities = []; //holds a flattened array of all the activities
     var logPeriodFilter = {};
-    activities.whenReady().then(function() {
+    filters.whenReady().then(function(){
+      $scope.timePeriodFilters = filters.timePeriodFilters;
+      return activities.whenReady();
+    })
+    .then(function() {
        allActivities = _.flatten(_.pluck(activities.categories,'activities'));
       $scope.applyFilter(0);
     })

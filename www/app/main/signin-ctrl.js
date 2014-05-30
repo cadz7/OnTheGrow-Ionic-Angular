@@ -7,7 +7,7 @@ angular.module('sproutApp.controllers')
 		$scope.userForm = {
 			email: 'simon@rangle.io',
 			password: 'testtest',
-			rememberMe: false
+			rememberMe: true
 		};
 	}else{
 		$scope.userForm = {

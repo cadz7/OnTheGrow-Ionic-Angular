@@ -27,11 +27,11 @@ angular.module('sproutApp.data.scores', [
 
   .factory('mockScoresServer', ['$q','API_CONSTANTS', function($q,API_CONSTANTS){
     var mockScores = [
-                {timePeriodId: 'today',score: 2345},
-                {timePeriodId: 'yesterday',score: 4352},
-                {timePeriodId: 'week',score: 890},
-                {timePeriodId: 'month',score: 789},
-                {timePeriodId: 'year',score: 6879}
+                {timePeriodId: 1,score: 2345},
+                {timePeriodId: 2,score: 4352},
+                {timePeriodId: 3,score: 890},
+                {timePeriodId: 4,score: 789},
+                {timePeriodId: 5,score: 6879}
               ];
 
 
@@ -40,8 +40,15 @@ angular.module('sproutApp.data.scores', [
         var deferred = $q.defer();
         switch(url){
           case API_CONSTANTS.scoresEndPoint:
-            if(query && query.timePeriodId)
-              deferred.resolve(_.filter(mockScores, function(score){return score.timePeriodId === query.timePeriodId;}));
+            if(query && query.timePeriodId){
+              var result = _.filter(mockScores, function(score){return score.timePeriodId === query.timePeriodId;});
+              if (typeof result !== 'undefined' && result.length > 0){
+                deferred.resolve(result);
+              }
+              else{
+                deferred.resolve(mockScores);
+              }
+            }
             else
               deferred.resolve(mockScores);
             break;
