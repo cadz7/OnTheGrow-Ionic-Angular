@@ -17,24 +17,7 @@ angular.module('sproutApp.server', [
     var options = { headers : {} };//{headers:[{'Authorization':'sprout-token b82da8af04ee46ebbe72557b98dca8d44f391c1f'}]}; //shared options for all http req
 
     service.isReachable = true;
-
-    var user = {
-      userId: 42,
-      firstName: 'Arthur',
-      lastName: 'Dent',
-      avatarUrl: 'img/user/arthur.png',
-      department: 'Accounting',
-      location: 'Toronto',
-      points: [
-        {
-          timePeriodId: 2,
-          score: 1500
-        }
-      ],
-      token: 'e9c77174292c076359b069aef68468d1463845cf',
-      expirationDateTime: '2014-07-14T15:22:11Z'
-    };
-
+        
     //common handler for successful calls to the server. resolves the promise with the response.data if successfull HTTP code, 
     //otherwise it rejectes the promise
     function responseHandler(result,promise){

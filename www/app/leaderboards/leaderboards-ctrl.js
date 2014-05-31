@@ -8,26 +8,32 @@ angular.module('sproutApp.controllers')
               leaderboards, filters, activities, user) {
       $scope.header = headerRemote;
 
+      var leaderboardParams = {};
+      var activityCategoryFilters =[];
       //Periods are used in a repeat to define the period buttons (weekly/quarterly etc) at the top of the
       //leaderboards page
-      $scope.periods = leaderboards.periods;
-      $scope.leaderboardFilters = filters;
-      $scope.rankingOptions = leaderboards.rankingOptions;
+      filters.whenReady().then(function(){
+        console.log('filters ready')
+        
+        $scope.periods = filters.timePeriodFilters;
+        $scope.activityFilters = filters.activityFilters;
+        angular.forEach(filters.activityFilters,function(cat){
+          cat.text = cat.displayName;
+          activityCategoryFilters.push(cat);
+        });
 
-      //adds a text property for the ionicActionSheet
-      activities.categories.forEach(function(cat){
-        cat.text = cat.activityCategoryDisplayName;
+        $scope.selectedCategory = filters.activityFilters[0];
+        $scope.activePeriod = filters.defaultTimePeriod;
+        
+        leaderboardParams = {
+          periodId: $scope.activePeriod.filterId,
+          userFilterId: user.data.userId,
+          activityFilterId: filters.activityFilters[0].filterId
+        };
+
+        $scope.getLeaderboards();
+
       });
-
-      $scope.selectedCategory = activities.categories[0];
-
-      //Default Params for Leaderboard queries to service - will need to make them more dynamic
-      var leaderboardParams = {
-        periodId: $scope.periods[0].timePeriodId,
-        userFilterId: 13,
-        activityFilterId: $scope.leaderboardFilters.activityFilters[0].filterId
-      };
-
 
       //Checks to see if there is an argument given - if not, it sets to default
       $scope.getLeaderboards = function(){
@@ -44,7 +50,6 @@ angular.module('sproutApp.controllers')
         $scope.currentBoardTitle = $scope.leaderBoards[boardIdx].leaderboardNameDisplay;
       };
 
-      $scope.getLeaderboards();
 
       $scope.getPeriod = function(periodIndex){
         $scope.activePeriod = $scope.periods[periodIndex];
@@ -64,8 +69,8 @@ angular.module('sproutApp.controllers')
       };
 
       $scope.selectActivityFilter = function(activityObj){
-        $scope.activeActivity = activityObj;
-        leaderboardParams.activityFilterId = $scope.activeActivity.unitId;
+        $scope.selectedCategory = activityObj;
+        leaderboardParams.activityFilterId = activityObj.filterId;
         $scope.getLeaderboards(leaderboardParams);
         $scope.toggleActivityList();
       };
@@ -75,7 +80,7 @@ angular.module('sproutApp.controllers')
         $ionicActionSheet.show({
           titleText: 'Filter By Type:',
           // buttons: filters,
-          buttons: activities.categories,
+          buttons: activityCategoryFilters,
           cancelText: 'Back',
           cancel: function () {
             return true;

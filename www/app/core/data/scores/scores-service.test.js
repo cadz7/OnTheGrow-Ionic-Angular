@@ -22,8 +22,8 @@ describe('scores service', function () {
           this.isAuthenticated = true;
           this.data = {
             userId: 42,
-            firstName: 'Arthur',
-            lastName: 'Dent'
+            firstDisplayName: 'Arthur',
+            lastDisplayName: 'Dent'
           };
           deferred.resolve();
           return deferred.promise;

@@ -1,14 +1,14 @@
 <div class="row">
     <div class=" col col-20">
-        <img class="avatar" ng-src="{{avatarUrl}}" />
+        <img class="avatar" ng-src="{{avatarURL}}" />
     </div>
     <div class="col col-50">
         <h3 class="user-full-name" ng-bind="fullName"></h3>
         <span class="location" ng-bind="locationFormatted"></span>
     </div>
-    <div class="col col-30 points-container" ng-show="points">
+    <div class="col col-30 points-container" >
         <span class="points">
-            <strong>{{points.score}}</strong> pts</span>
+            <strong>{{score}}</strong> pts</span>
         <span class="points-label" ng-bind="pointsLabel"></span>
     </div>
 </div>

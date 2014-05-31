@@ -67,20 +67,11 @@ angular.module('sproutApp.user', [
         var newUser = {
           userId: 42,
           email : 'simon@rangle.io',
-          firstName: 'Arthur',
-          lastName: 'Dent',
-          avatarUrl: 'img/user/arthur.png',
+          firstNameDisplay: 'Arthur',
+          lastNameDisplay: 'Dent',
+          avatarURL: 'img/user/arthur.png',
           department: 'Accounting',
-          location: 'Toronto',
-          sproutScore: 23142,
-          points: [
-            {
-              timePeriodId: 2,
-              score: 1500
-            }
-          ],
-          token: 'e9c77174292c076359b069aef68468d1463845cf',
-          expirationDateTime: '2014-07-14T15:22:11Z'
+          location: 'Toronto'          
         };
 
         user.data = newUser;
@@ -92,7 +83,7 @@ angular.module('sproutApp.user', [
         }
 
         user.isAuthenticated = true;
-        userSettings.fetchSettings()
+       return userSettings.fetchSettings()
         .then(function(){
           return userSettings.saveSetting('rememberMe',rememberMe);
         })
@@ -100,9 +91,8 @@ angular.module('sproutApp.user', [
           authenticatedDeferred.resolve();
         });
         
-        deferred.resolve();
       }else{
-        server.login(email, password,rememberMe)
+        return server.login(email, password,rememberMe)
         .then(function(){
           return server.get(API_CONSTANTS.currentUserEndpoint);
         })
@@ -126,13 +116,13 @@ angular.module('sproutApp.user', [
           deferred.resolve();
         })
         .then(null,function(error){
+          $log.error(error)
           user.data = null;
           userStorage.removeUser();
           user.isAuthenticated = false;         
           deferred.reject(error);
         });
       }
-        return deferred.promise;
     };
 
     /**

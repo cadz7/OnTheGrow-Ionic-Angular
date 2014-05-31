@@ -42,8 +42,8 @@ angular.module('sproutApp.controllers')
         $scope.currentActivity = {
           activityName : item.activityName,
           activityCategoryId : item.activityCategoryId,
-          activityUnitId : item.activityUnitId || item.unitId,
-          unitName : item.unitName,
+          activityUnitId : item.activityUnits[0].unitId,
+          unitName : item.activityUnits[0].unitName,
           quantity : item.quantity || 1,
           date:$scope.maxDate        
         };
@@ -122,7 +122,9 @@ angular.module('sproutApp.controllers')
 
     $scope.amEditing = false;
   }
-  resetActivitySelect(); //initalize view
+  activities.whenReady()
+  .then(function(){ resetActivitySelect(); /*initalize view*/});
+  
 
   //change the state of the view when the user selects an activity category or activity
   $scope.onItemSelect = function(item) {

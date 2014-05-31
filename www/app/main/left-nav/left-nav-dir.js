@@ -23,22 +23,25 @@ angular.module('sproutApp.main.left-nav', [
 ).directive(
   'userProfileSummary',
   [
-    'user',
-    function(user) {
+    'user','scores','filters','$log',
+    function(user, scores, filters,$log) {
       return {
         restrict: 'E',
         templateUrl: 'app/main/left-nav/user-profile-summary.tpl.html',
         link: function(scope, elem, attrs) {
-          user.whenAuthenticated().then(function(){
-            scope.avatarUrl = user.data.avatarUrl;
-            scope.fullName = [user.data.firstName, ' ', user.data.lastName].join('');
+          
+          filters.whenReady()   //filters are loaded after user is auth'd       
+          .then(function(){
+            return scores.getScoresForUser(filters.defaultTimePeriod.filterId);
+          })
+          .then(function(scores){
+            scope.avatarURL = user.data.avatarURL;
+            scope.fullName = [user.data.firstNameDisplay, ' ', user.data.lastNameDisplay].join('');
             scope.locationFormatted = [user.data.department, ' - ', user.data.location].join('');
-            
-            // Careful opening the fridge!
-            // TODO: replace this with correct implementation once API is determined using the timePeriod service.
-            scope.points = user.data.points[0];
-          });
-          scope.pointsLabel = 'this month'; // TODO: user.data.points[0].timePeriodId;
+            scope.score = scores[0].score;
+            scope.pointsLabel = filters.defaultTimePeriod.displayName;
+          })
+          .then(null,$log.error);
         }
       };
     }
@@ -46,8 +49,8 @@ angular.module('sproutApp.main.left-nav', [
 ).directive(
   'leftNavMenu',
   [
-    'user', '$state', '$ionicActionSheet',
-    function(user, $state, $ionicActionSheet) {
+    'user', '$state', '$ionicActionSheet','$log',
+    function(user, $state, $ionicActionSheet, $log) {
       return {
         restrict: 'A',
         link: function(scope, elem, attrs) {
@@ -62,11 +65,7 @@ angular.module('sproutApp.main.left-nav', [
                 if (index === 0) {
                   // Log them out
                   user.logout().then(
-                    function() {
-                     // $state.transitionTo('signin');
-                      //$ionicActionSheet.hide();
-                    },
-                    function(err) {
+                    null,function(err) {
                       // redirect anyway
                       $log.error("unable to log out",err);
                       $state.transitionTo('signin');
