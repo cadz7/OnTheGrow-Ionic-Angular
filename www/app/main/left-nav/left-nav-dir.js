@@ -64,13 +64,9 @@ angular.module('sproutApp.main.left-nav', [
               buttonClicked: function(index) {
                 if (index === 0) {
                   // Log them out
-                  user.logout().then(
-                    null,function(err) {
-                      // redirect anyway
-                      $log.error("unable to log out",err);
-                      $state.transitionTo('signin');
-                    }
-                  );
+                  user.logout();
+                    
+                 
                 }
                 return true;
               }

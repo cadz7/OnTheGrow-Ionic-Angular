@@ -11,12 +11,16 @@ angular.module('sproutApp.server', [
 // however, check connection status before making calls. It also reports
 // connection status to the higher level services.
 
-.factory('server', ['util', '$log','$http','$q','API_URL', 'networkInformation',
-  function(util, $log, $http,$q,API_URL, networkInformation) {
-    var service = {};
-    var options = { headers : {} };//{headers:[{'Authorization':'sprout-token b82da8af04ee46ebbe72557b98dca8d44f391c1f'}]}; //shared options for all http req
+.factory('server', ['util', '$log','$http','$q','API_URL', 'networkInformation','cache',
+  function(util, $log, $http,$q,API_URL, networkInformation,cache) {
+    var service = {
+       isReachable : true,
 
-    service.isReachable = true;
+    };
+    var options = { headers : {} };//{headers:[{'Authorization':'sprout-token b82da8af04ee46ebbe72557b98dca8d44f391c1f'}]}; //shared options for all http req
+    
+    service.getCacheKey = function(){return 'Authorization';};
+    
         
     //common handler for successful calls to the server. resolves the promise with the response.data if successfull HTTP code, 
     //otherwise it rejectes the promise
@@ -24,6 +28,7 @@ angular.module('sproutApp.server', [
       switch(result.status){
         case 401:
           options.headers['Authorization'] = null;
+          cache.delete(service.getCacheKey());
           break;
         case 404 :
           service.isReachable = false;
@@ -56,8 +61,10 @@ angular.module('sproutApp.server', [
     service.login = function(username, password, rememberMe) {
       var deferred = $q.defer();
       $http.post(API_URL+'auth/login',{username:username,password:password,rememberMe:rememberMe})
-      .then(function(result){        
-        options.headers['Authorization'] = 'sprout-token ' +result.data.token;        
+      .then(function(result){     
+        var token =    'sprout-token ' +result.data.token;
+        if(rememberMe) cache.set(service.getCacheKey(),token)
+        options.headers['Authorization'] = token;        
         responseHandler(result,deferred);       
       },function(error){
         errorHandler(error,deferred);
@@ -69,8 +76,9 @@ angular.module('sproutApp.server', [
     //logs the user out of the API and clears the client's auth token
     service.logout = function(){
       var deferred = $q.defer();
-      $http.post(API_URL+'auth/logout')
-      .then(function(result){        
+      $http.post(API_URL+'auth/logout',null,options)
+      .then(function(result){ 
+        cache.delete(service.getCacheKey());      
         options.headers['Authorization'] = null;
         responseHandler(result,deferred);       
       },function(error){
@@ -151,6 +159,18 @@ angular.module('sproutApp.server', [
 
       return deferred.promise;            
     };
+    
+    //remove the sprout auth token from cache
+    service.clearAuthToken = function(){
+      cache.delete(service.getCacheKey());      
+    };
+
+    //saves the current auth token to the cache
+    service.saveAuthToken = function(){
+      cache.set(service.getCacheKey(),options.headers['Authorization']);
+    };
+
+    options.headers['Authorization'] = cache.get(service.getCacheKey());        
 
     return service;
   }

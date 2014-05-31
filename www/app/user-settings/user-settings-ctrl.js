@@ -1,7 +1,7 @@
 angular.module('sproutApp.controllers.user-settings', [])
 
-.controller('UserSettingsCtrl', ['$scope', 'userSettings', '$log', 'userStorage','user',
-  function ($scope, userSettings, $log, userStorage, user) {
+.controller('UserSettingsCtrl', ['$scope', 'userSettings', '$log', 'userStorage','user','server',
+  function ($scope, userSettings, $log, userStorage, user,server) {
     'use strict';
 
     $scope.userSettings = userSettings.data;
@@ -14,8 +14,10 @@ angular.module('sproutApp.controllers.user-settings', [])
         if(newVal.rememberMe){
           //add the user to localstorage
           userStorage.set(user.data,'user');
+          server.saveAuthToken();
         }else if (! newVal.rememberMe){
-          userStorage.removeUser();          
+          userStorage.removeUser();   
+          server.clearAuthToken();                 
         }
      
       })

@@ -5,13 +5,35 @@ var expect = chai.expect;
 describe('server service', function() {
   var server
   ,$httpBackend
-  ,apiRoot;
+  ,apiRoot
+  ,cache
+  ,mockData;
   beforeEach(module('sproutApp.server'));
-  beforeEach(module('sproutApp.config'));
-  beforeEach(function() {
-    server = testUtils.getService('server');
-  });
 
+
+  beforeEach(module(function ($provide) {
+    $provide.factory('cache', function () {
+        return {
+          get: sinon.spy(function(key) {
+            return mockData[key];
+          }),
+          set: sinon.spy(function(key, value) {
+            mockData[key] = value;
+          }),
+          delete: sinon.spy(function(key) {
+            mockData[key] = null;
+          })
+        };
+    });
+   
+  }));
+
+  beforeEach(function(){
+
+    mockData = {};
+    server = testUtils.getService('server');
+    cache = testUtils.getService('cache');  
+  })
   beforeEach(inject(function($injector) {
     apiRoot = $injector.get('API_URL');
     $httpBackend = $injector.get('$httpBackend');   
@@ -94,7 +116,63 @@ describe('server service', function() {
       $httpBackend.flush();
     });
 
+    it('should put the token in the cache if rememberMe = true',function(done){
+      $httpBackend.expectPOST(apiRoot+'auth/login',{username:'user',password:'pass',rememberMe:true}).respond(200,{token:'Something'});
+      var result = server.login('user','pass',true)
+      .then(function(result){
+        expect(cache.get(server.getCacheKey())).to.equal('sprout-token Something');
+        done();
+      },done);
+      $httpBackend.flush();
+    });
+
+    it('should not put the token in the cache if rememberMe = false',function(done){
+      $httpBackend.expectPOST(apiRoot+'auth/login',{username:'user',password:'pass',rememberMe:false}).respond(200,{token:'Something'});
+      var result = server.login('user','pass',false)
+      .then(function(result){
+        expect(cache.get(server.getCacheKey())).to.be.falsely;
+        done();
+      },done);
+      $httpBackend.flush();
+    });
+
   });//LOGIN
+  
+  describe('getCacheKey', function(){
+    it('should return a string', function(){
+      expect(server.getCacheKey()).to.be.a.string;
+    });
+  });
+
+  describe('clearAuthToken', function(){
+    it('should clear the auth token', function(done){
+      $httpBackend.expectPOST(apiRoot+'auth/login',{username:'user',password:'pass',rememberMe:true}).respond(201,{token:'test',expirationDateTime:new Date().toUTCString()});
+      
+      server.login('user','pass',true)
+            .then(function(result){
+                expect(cache.get(server.getCacheKey())).to.not.be.falsely;
+                server.clearAuthToken();
+                expect(cache.get(server.getCacheKey())).to.be.falsely;
+                done();
+              },done);
+      $httpBackend.flush();  
+    });
+  });
+
+  describe('saveAuthToken', function(){
+    it('should set the auth token from the headers', function(done){
+      $httpBackend.expectPOST(apiRoot+'auth/login',{username:'user',password:'pass',rememberMe:false}).respond(201,{token:'test',expirationDateTime:new Date().toUTCString()});
+      
+      server.login('user','pass',false)
+            .then(function(result){
+                expect(cache.get(server.getCacheKey())).to.be.falsely;
+                server.saveAuthToken();
+                expect(cache.get(server.getCacheKey())).to.equal('sprout-token test');
+                done();
+              },done);
+      $httpBackend.flush();  
+    });
+  });
 
   describe('logout', function(){
     it('should make a post req',function(done){
@@ -121,6 +199,16 @@ describe('server service', function() {
             })
             .then(function(){done()})
             .then(null,function(error){done(error)});
+      $httpBackend.flush();      
+    });
+
+    it('should clear the auth token from cache',function(done){
+      $httpBackend.expectPOST(apiRoot+'auth/logout').respond(201);
+      server.logout()
+      .then(function(result){    
+        expect(cache.get('Authorization')).to.be.null;    
+        done();
+      },function(error){done(error)});
       $httpBackend.flush();      
     });
   });
