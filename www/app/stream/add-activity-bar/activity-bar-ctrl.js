@@ -25,6 +25,7 @@ angular.module('sproutApp.controllers')
         $scope.currentState++;
         $scope.activityListVisible = true;
         $scope.showActivityForm = false;
+        $ionicScrollDelegate.scrollTop(false);
 
         this.currentValue = item;
       }
@@ -36,6 +37,7 @@ angular.module('sproutApp.controllers')
         $scope.title = item.activityName;
         $scope.activityListVisible = false;
         $scope.showActivityForm = true;
+        $ionicScrollDelegate.scrollTop(false);
         
         $scope.currentActivity = {
           activityName : item.activityName,
