@@ -144,7 +144,9 @@ angular.module('sproutApp.user', [
         user.isAuthenticated = false;
         userStorage.removeUser();
         //Note: the complexity of this is derived from cordova's hosting the app as just opening a local file in the browser (ie. file://.....)      
-        return server.logout().then(function(){$window.location.replace($window.location.toString().split('#')[0]);});      
+        return server.logout()
+                     .then(null,$log.error)
+                    .finally(function(result){$window.location.replace($window.location.toString().split('#')[0]);})      
       }
     };
 
