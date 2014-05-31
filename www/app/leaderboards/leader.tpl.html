@@ -1,10 +1,10 @@
 <div class="position col col-10" ng-class="{currentUser: leader.isViewer}">{{leader.rank}}</div>
-<div class="userImg col col-20"><img ng-src="{{leader.avatarURL}}" alt="{{leader.name}}"/></div>
-<div class="userInfo col col-50">
+<div class="userImg"><img ng-src="{{leader.avatarUrl}}" alt="{{leader.name}}"/></div>
+<div class="userInfo col">
   <div class="userName row">{{leader.name}}</div>
   <div class="userDepartment row">{{leader.additionalInfo}}</div>
 </div>
-<div class="userScore col">
-  <div class="row">{{leader.score}}</div>
-  <div class="row">points</div>
+<div class="userScore col points">
+  <div class="number">{{leader.score}}
+  <span class="points">pts</span></div>
 </div>
