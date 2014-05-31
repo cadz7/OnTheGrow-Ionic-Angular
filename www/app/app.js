@@ -207,7 +207,7 @@ angular.module('sproutApp', [
         "s+" : this.getSeconds(), //second
         "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
         "S" : this.getMilliseconds() //millisecond
-      }
+      };
 
       if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
           (this.getFullYear()+"").substr(4 - RegExp.$1.length));
@@ -223,8 +223,12 @@ angular.module('sproutApp', [
         var args = Array.prototype.slice.call(arguments),
             now  = new Date().format('hh:mm:ss:S');
 
-        // prepends timestamp to the message
-        args[0] = supplant("{0} - {1}", [ now, args[0] ]);
+        if (angular.isString(args[0])) {
+          // prepends timestamp to the message
+          args[0] = supplant("{0} - {1}", [ now, args[0] ]);
+        } else {
+          args[0] = now + ' - ' + JSON.stringify(args[0]);
+        }
         //var msg = supplant.apply(null, args);
         var msg = '';
         args.forEach(function(arg) {

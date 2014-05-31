@@ -54,8 +54,6 @@ angular.module('sproutApp.controllers')
         }
       }
 
-
-
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
           $log.debug('Running performInfiniteScroll');
@@ -162,11 +160,10 @@ angular.module('sproutApp.controllers')
         if (!networkInformation.isOnline) {
           Notify.userError('You cannot post in offline mode.');
         } else {
-          $scope.createStreamItemModal.show();
-          var textArea = document.getElementById('post-to-stream-text');
-          textArea.click();
-          console.log('click triggered.')
-          }
+          $scope.createStreamItemModal.show().then(function() {
+            SoftKeyboard.show();
+          });
+        }
       };
 
       $scope.createActivity = function() {
