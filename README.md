@@ -69,6 +69,7 @@ cordova plugin add org.apache.cordova.console
 cordova plugin add https://github.com/driftyco/ionic-plugins-keyboard.git
 cordova plugin add https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin.git
 
+cordova plugin add https://github.com/phonostar/PhoneGap-SoftKeyboard.git
 
 ## Debugging Notes
 - if plugins aren't installed user autologin won't work due to plugin error stopping it from running.
