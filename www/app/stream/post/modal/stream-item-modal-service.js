@@ -29,11 +29,7 @@ angular.module('sproutApp.services')
       service.loadStreamItemDetails = function(streamItem, viewType){
         _streamItem = streamItem;
         _viewType = viewType;
-
-        // Fetch data for this post
-        if (viewType === service.DETAILED_VIEW){
-          joinableStreamItemService.getDetail(streamItem);
-        }
+        joinableStreamItemService.getDetail(streamItem);
       };
 
       service.getStreamItem = function(){

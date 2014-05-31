@@ -195,100 +195,100 @@ angular.module('sproutApp', [
 })
 
 .config([ "$provide", 'APP_CONFIG', function( $provide, APP_CONFIG ) {
-  $provide.decorator( '$log', [ "$delegate", function( $delegate ) {
-    var $log = $delegate;
-
-    Date.prototype.format = function(format) {
-      var o = {
-        "M+" : this.getMonth()+1, //month
-        "d+" : this.getDate(),    //day
-        "h+" : this.getHours(),   //hour
-        "m+" : this.getMinutes(), //minute
-        "s+" : this.getSeconds(), //second
-        "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
-        "S" : this.getMilliseconds() //millisecond
-      };
-
-      if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
-          (this.getFullYear()+"").substr(4 - RegExp.$1.length));
-      for(var k in o)if(new RegExp("("+ k +")").test(format))
-        format = format.replace(RegExp.$1,
-                RegExp.$1.length==1 ? o[k] :
-                ("00"+ o[k]).substr((""+ o[k]).length));
-      return format;
-    }
-
-    var prepareLogFn = function(logFn) {
-      var enhancedLogFn = function () {
-        var args = Array.prototype.slice.call(arguments),
-            now  = new Date().format('hh:mm:ss:S');
-
-        if (angular.isString(args[0])) {
-          // prepends timestamp to the message
-          args[0] = supplant("{0} - {1}", [ now, args[0] ]);
-        } else {
-          args[0] = now + ' - ' + JSON.stringify(args[0]);
-        }
-        //var msg = supplant.apply(null, args);
-        var msg = '';
-        args.forEach(function(arg) {
-          if (angular.isString(arg)) {
-            msg += " " + arg;
-          } else {
-            msg += ": "+JSON.stringify(arg);
-          }
-        });
-
-        $log.messages.unshift(msg);
-        if ($log.messages.count > APP_CONFIG.maxLogSize + 50) {
-          $log.messages = $log.messages.slice(0, APP_CONFIG.maxLogSize-50);
-        }
-
-        logFn.apply(null, args);
-      };
-
-      // needed to support angular-mocks expectations
-      enhancedLogFn.logs = [ ];
-
-      return enhancedLogFn;
-    };
-
-    $log.log   = prepareLogFn( $log.log );
-    $log.info  = prepareLogFn( $log.info );
-    $log.warn  = prepareLogFn( $log.warn );
-    $log.debug = prepareLogFn( $log.debug );
-    $log.error = prepareLogFn( $log.error );
-    $log.messages = [];
-
-    return $log;
-
-    function supplant( template, values, pattern ) {
-      pattern = pattern || /\{([^\{\}]*)\}/g;
-
-      if (values && values.length) {
-        for (var i=0; i<values.length; i++) {
-          if (values[i] === false) {
-            values[i] = 'false';
-          } else if (values[i] === true) {
-            values[i] = 'true';
-          }
-        }
-      }
-
-      return template.replace(pattern, function(a, b) {
-        var p = b.split('.'),
-            r = values;
-
-        try {
-          for (var s in p) { r = r[p[s]];  }
-        } catch(e){
-          r = a;
-        }
-
-        return (typeof r === 'string' || typeof r === 'number') ? r : a;
-      });
-    };
-  }]);
+//  $provide.decorator( '$log', [ "$delegate", function( $delegate ) {
+//    var $log = $delegate;
+//
+//    Date.prototype.format = function(format) {
+//      var o = {
+//        "M+" : this.getMonth()+1, //month
+//        "d+" : this.getDate(),    //day
+//        "h+" : this.getHours(),   //hour
+//        "m+" : this.getMinutes(), //minute
+//        "s+" : this.getSeconds(), //second
+//        "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+//        "S" : this.getMilliseconds() //millisecond
+//      };
+//
+//      if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+//          (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+//      for(var k in o)if(new RegExp("("+ k +")").test(format))
+//        format = format.replace(RegExp.$1,
+//                RegExp.$1.length==1 ? o[k] :
+//                ("00"+ o[k]).substr((""+ o[k]).length));
+//      return format;
+//    }
+//
+//    var prepareLogFn = function(logFn) {
+//      var enhancedLogFn = function () {
+//        var args = Array.prototype.slice.call(arguments),
+//            now  = new Date().format('hh:mm:ss:S');
+//
+//        if (angular.isString(args[0])) {
+//          // prepends timestamp to the message
+//          args[0] = supplant("{0} - {1}", [ now, args[0] ]);
+//        } else {
+//          args[0] = now + ' - ' + JSON.stringify(args[0]);
+//        }
+//        //var msg = supplant.apply(null, args);
+//        var msg = '';
+//        args.forEach(function(arg) {
+//          if (angular.isString(arg)) {
+//            msg += " " + arg;
+//          } else {
+//            msg += ": "+JSON.stringify(arg);
+//          }
+//        });
+//
+//        $log.messages.unshift(msg);
+//        if ($log.messages.count > APP_CONFIG.maxLogSize + 50) {
+//          $log.messages = $log.messages.slice(0, APP_CONFIG.maxLogSize-50);
+//        }
+//
+//        logFn.apply(null, args);
+//      };
+//
+//      // needed to support angular-mocks expectations
+//      enhancedLogFn.logs = [ ];
+//
+//      return enhancedLogFn;
+//    };
+//
+//    $log.log   = prepareLogFn( $log.log );
+//    $log.info  = prepareLogFn( $log.info );
+//    $log.warn  = prepareLogFn( $log.warn );
+//    $log.debug = prepareLogFn( $log.debug );
+//    $log.error = prepareLogFn( $log.error );
+//    $log.messages = [];
+//
+//    return $log;
+//
+//    function supplant( template, values, pattern ) {
+//      pattern = pattern || /\{([^\{\}]*)\}/g;
+//
+//      if (values && values.length) {
+//        for (var i=0; i<values.length; i++) {
+//          if (values[i] === false) {
+//            values[i] = 'false';
+//          } else if (values[i] === true) {
+//            values[i] = 'true';
+//          }
+//        }
+//      }
+//
+//      return template.replace(pattern, function(a, b) {
+//        var p = b.split('.'),
+//            r = values;
+//
+//        try {
+//          for (var s in p) { r = r[p[s]];  }
+//        } catch(e){
+//          r = a;
+//        }
+//
+//        return (typeof r === 'string' || typeof r === 'number') ? r : a;
+//      });
+//    };
+//  }]);
 }]);
 ;
 

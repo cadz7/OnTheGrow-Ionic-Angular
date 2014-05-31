@@ -1,6 +1,6 @@
 angular.module('sproutApp.services')
-  .factory('streamItemResourceService', ['$log', 'template',
-    function ($log, template) {
+  .factory('streamItemResourceService', ['$log', 'template', 'STREAM_CONSTANTS',
+    function ($log, template, STREAM_CONSTANTS) {
       'use strict';
 
       var service = {};
@@ -39,15 +39,11 @@ angular.module('sproutApp.services')
         return getResource(streamItem).headerIcon;
       };
 
-      service.getContent = function(streamItem, arg){
-        var postContent = template.fill(streamItem.streamItemDisplay.template, streamItem.streamItemDisplay.values);
-//        var contentIsOverflowing = postContent.length > STREAM_CONSTANTS.initialPostCharCount;
-//
-//        var tempContent = postContent.substr(0, STREAM_CONSTANTS.initialPostCharCount);
-//        var partialContent = (postContent.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
-
-        return postContent;
-
+      service.getContent = function(streamItem, isTruncated){
+        var fullContent = template.fill(streamItem.streamItemDisplay.template, streamItem.streamItemDisplay.values);
+        var tempContent = fullContent.substr(0, STREAM_CONSTANTS.initialPostCharCount);
+        var truncatedContent = (fullContent.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
+        return isTruncated && (fullContent.length > STREAM_CONSTANTS.initialPostCharCount) ? truncatedContent : fullContent;
       };
 
 

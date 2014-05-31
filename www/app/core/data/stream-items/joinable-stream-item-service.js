@@ -6,8 +6,8 @@ angular.module('sproutApp.data.joinable-stream-item-service', [
   'sproutApp.util'
 ])
 
-  .factory('joinableStreamItemService', ['$log', 'challenge', 'group', 'event',
-    function ($log, challenge, group, event) {
+  .factory('joinableStreamItemService', ['$log', 'challenge', 'group', 'event', '$q',
+    function ($log, challenge, group, event, $q) {
       var service = {data : {}};
 
 
@@ -20,7 +20,10 @@ angular.module('sproutApp.data.joinable-stream-item-service', [
         }  else if (post.streamItemTypeSlug === 'event') {
           return event.getEventDetails(post.relatedToId);
         } else {
-          $log.error('unable to find details for ', post);
+          $log.debug('unable to find details for ', post);
+          var deferred = $q.defer();
+          deferred.resolve();
+          return deferred.promise;
         }
       };
 

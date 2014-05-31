@@ -8,9 +8,9 @@ angular.module('sproutApp.data.stream-items', [
 // items and three methods that affect the content of that array. See
 // documentation below.
 
-
-.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval','streamItemsCache','streamMockServer','API_CONSTANTS','STREAM_CONSTANTS','APP_CONFIG', 'Notify',
-  function ($q, $log, user, util, $interval,streamItemsCache, server,API_CONSTANTS,STREAM_CONSTANTS,APP_CONFIG, Notify) {
+//streamMockServer
+.factory('streamItems', ['$q', '$log', 'user', 'util', '$interval','streamItemsCache','streamMockServer','API_CONSTANTS','STREAM_CONSTANTS','APP_CONFIG', 'Notify', 'streamItemResourceService',
+  function ($q, $log, user, util, $interval,streamItemsCache, server,API_CONSTANTS,STREAM_CONSTANTS,APP_CONFIG, Notify, streamItemResourceService) {
     'use strict';
     var service = {
       items: [] // an array of currently loaded items
@@ -68,6 +68,9 @@ angular.module('sproutApp.data.stream-items', [
             }
           });
         };
+
+        item.content = streamItemResourceService.getContent(item, false);
+        item.truncatedContent = streamItemResourceService.getContent(item, true);
 
       });
     }
