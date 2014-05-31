@@ -36,8 +36,8 @@
  */
 angular.module('sproutApp.directives').directive(
   'post',
-  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'template', 'streamItems', 'streamItemResourceService', '$ionicActionSheet', 'streamItemModalService', 'Notify',
-    function ($log, STREAM_CONSTANTS, API_CONSTANTS, template, streamItems, streamItemResourceService, $ionicActionSheet, streamItemModalService, Notify) {
+  ['$log', 'STREAM_CONSTANTS', 'API_CONSTANTS', 'streamItems', 'streamItemResourceService', '$ionicActionSheet', 'streamItemModalService', 'Notify',
+    function ($log, STREAM_CONSTANTS, API_CONSTANTS, streamItems, streamItemResourceService, $ionicActionSheet, streamItemModalService, Notify) {
       return {
         restrict: 'E',
         template: '<div ng-include="streamItemResourceService.getContentUrl(post)"></div>',
@@ -57,24 +57,7 @@ angular.module('sproutApp.directives').directive(
           scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
           scope.liked = false;
 
-          var postContent = template.fill(scope.post.streamItemDisplay.template, scope.post.streamItemDisplay.values),
-            contentIsOverflowing = postContent.length > STREAM_CONSTANTS.initialPostCharCount;
-
-          if (contentIsOverflowing) {
-            if (scope.arg === 'full') {
-              scope.content = postContent;
-            }
-            else {
-              var tempContent = postContent.substr(0, STREAM_CONSTANTS.initialPostCharCount);
-              scope.content = (postContent.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
-            }
-          }
-          else {
-            scope.content = postContent;
-          }
-          scope.post.content = scope.content;
-
-          scope.contentIsOverflowing = contentIsOverflowing;
+          scope.contentIsOverflowing =  scope.post.content.length > STREAM_CONSTANTS.initialPostCharCount;
 
           scope.isEditable = function () {
             if (!scope.user || !scope.post || !scope.post.author_id) {
