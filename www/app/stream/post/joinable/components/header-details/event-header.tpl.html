@@ -1,0 +1,21 @@
+<h1 class="title">{{post.detail.eventName}}</h1>
+<a ng-if="isWrappedInModal" class="event-location" ng-href="{{post.detail.eventLocationUrl}}"><i class="icon ion-ios7-location header-location-icon"></i>{{post.detail.eventLocation}}</a>
+<div class="">{{post.detail.eventDateTime | date : 'MMM d, h:mma'}}</div>
+<div class="author">{{post.detail.numEventAttendees}} Attending</div>
+
+
+
+
+<!--var mockEventDetailData = {-->
+<!--eventId: 22,-->
+<!--eventName: '5k Marathon',-->
+<!--eventDateTime: new Date(),-->
+<!--eventLocation: '1337 Front St',-->
+<!--eventLocationUrl: 'https://www.google.ca/maps/place/1337+Front+St+W/@43.6407934,-79.4011051,17z/data=!3m1!4b1!4m2!3m1!1s0x882b35207a8d77db:0xe4110e4611d64d6b',-->
+<!--eventImageURL: 'app/stream/post/joinable/components/detail/sample-images/marathon.JPG',-->
+<!--numEventAttendees: 192,-->
+<!--eventAttendees: {},-->
+<!--eventDescription: 'The flat and fast features of this event have consistently been the reason for so many ' +-->
+<!--'people achieving a personal best, qualifying for Boston, having a memorable first marathon or an outstanding' +-->
+<!--' race. Power walkers and slower runners also love this course because of its 6 hour time limit. read more »'-->
+<!--};-->

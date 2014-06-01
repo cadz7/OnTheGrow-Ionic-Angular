@@ -57,7 +57,7 @@ angular.module('sproutApp.directives').directive(
           scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
           scope.liked = false;
 
-          scope.contentIsOverflowing =  scope.post.content.length > STREAM_CONSTANTS.initialPostCharCount;
+          scope.contentIsOverflowing = scope.post.content.length > STREAM_CONSTANTS.initialPostCharCount && !scope.isWrappedInModal;
 
           scope.isEditable = function () {
             if (!scope.user || !scope.post || !scope.post.author_id) {

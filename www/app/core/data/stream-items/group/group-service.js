@@ -22,7 +22,7 @@ angular.module('sproutApp.data.group', [
       var mockGroupDetailData = {
         groupId: 242,
         groupName: 'IT Group',
-        groupImageURL: 'app/stream/post/joinable/components/detail/sample-images/itgroup.jpeg',
+        groupImageURL: 'img/group/group-default.png',
         numGroupMembers: '20',
         groupMembers: {}
       };
@@ -34,6 +34,10 @@ angular.module('sproutApp.data.group', [
           var deferred = $q.defer();
           deferred.resolve(mockGroupDetailData);
           return deferred.promise;
+        },
+
+        getMockData: function(){
+          return mockGroupDetailData;
         }
       };
     }

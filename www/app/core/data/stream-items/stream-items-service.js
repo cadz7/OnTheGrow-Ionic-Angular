@@ -72,6 +72,10 @@ angular.module('sproutApp.data.stream-items', [
         item.content = streamItemResourceService.getContent(item, false);
         item.truncatedContent = streamItemResourceService.getContent(item, true);
 
+        if (item.detail){
+          item.streamItemDisplay.heroImg = item.detail.eventImageURL || item.detail.challengeImageURL || item.detail.groupImageURL;
+        }
+
       });
     }
 
@@ -288,7 +292,7 @@ angular.module('sproutApp.data.stream-items', [
           streamItem.viewer.isMember = 1;
           return streamItem;
         });
-    }
+    };
 
     return service;
   }
@@ -299,7 +303,8 @@ angular.module('sproutApp.data.stream-items', [
 /////////////////////////////////////////////////////////////////////////////
 
 
-.factory('streamMockServer', ['$q', 'user', 'util', 'cache', 'networkInformation', function($q, user, util, cache, networkInformation) {
+.factory('streamMockServer', ['$q', 'user', 'util', 'cache', 'networkInformation', 'mockGroupServer', 'mockEventServer', 'mockChallengeServer',
+    function($q, user, util, cache, networkInformation, mockGroupServer, mockEventServer, mockChallengeServer) {
   var latestId = 12345;
   var earliestId = 12345;
   var lastCommentId = 1000;
@@ -393,12 +398,14 @@ angular.module('sproutApp.data.stream-items', [
     comments: []
   };
 
+
+
   // This is a stub: the streamItem from API will already have the correct type and template
   var streamItemTypeSlugs = [
-    {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}', title: 'someTitle'},
-    {itemType: 'group', template: 'Group post by {user.name}', heroImg: 'img/group/group-default.png',title: 'Yoga Group', greyText: null, orangeText: '22 Members'},
-    {itemType: 'event', template: 'Event post by {user.name}', heroImg: 'img/group/event-default.png',title: '5k Marathon', greyText: 'May 9, 2014', orangeText: '200 Attending'},
-    {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'app/stream/post/joinable/components/detail/sample-images/biketowork.jpg',title: 'Bike to Work', greyText: 'Ends: May 1, 2014', orangeText: '66 Challengers'}
+    {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}', title: 'someTitle', detail: {}},
+    {itemType: 'group', template: 'Group post by {user.name}', heroImg: 'img/group/group-default.png',title: 'Yoga Group', greyText: null, orangeText: '22 Members', detail: mockGroupServer.getMockData()},
+    {itemType: 'event', template: 'Event post by {user.name}', heroImg: 'img/group/event-default.png',title: '5k Marathon', greyText: 'May 9, 2014', orangeText: '200 Attending', detail: mockEventServer.getMockData()},
+    {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'app/stream/post/joinable/components/detail/sample-images/biketowork.jpg',title: 'Bike to Work', greyText: 'Ends: May 1, 2014', orangeText: '66 Challengers', detail: mockChallengeServer.getMockData()}
   ];
 
   function makeComment(item, author, commentText) {
@@ -445,6 +452,8 @@ angular.module('sproutApp.data.stream-items', [
 
     item.streamItemDisplay.greyText = streamItemTypeSlug.greyText;
     item.streamItemDisplay.orangeText = streamItemTypeSlug.orangeText;
+
+    item.detail = streamItemTypeSlug.detail;
 
     for (var i = 0; i < 3; i++) {
       item.comments.push(makeComment(item));

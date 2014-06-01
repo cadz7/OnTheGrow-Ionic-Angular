@@ -1,20 +1,38 @@
-<div class="special-avatar">
-    <!-- <img ng-src="{{streamItemResourceService.getJoinableHeaderIcon(post)}}" /> -->
-    <!-- <i ng-class="icon sprout-icon-group"></i> -->
+<div class="special-avatar" ng-click="showDetailView()">
+
+
     <div class="post-info row">
+
         <i class="icon" ng-class="streamItemResourceService.getJoinableHeaderIcon(post)"></i>
+
         <div class="col col-75">
-          <h1 class="title" ng-click="showDetailView()">{{post.streamItemDisplay.title}}</h1>
-          <div class="" ng-if="post.streamItemDisplay.greyText">{{post.streamItemDisplay.greyText}}</div>
-          <div class="" ng-if="detail.challengeType">{{detail.challengeType}}</div>
-          <a class="event-location" ng-if="detail.eventLocation" ng-href="{{detail.eventLocationUrl}}"><i class="icon ion-ios7-location header-location-icon"></i>{{detail.eventLocation}}</a>
-          <div class="author">{{post.streamItemDisplay.orangeText}}</div>
+          <div ng-switch="post.streamItemTypeSlug" ng-if="post.detail">
+            <div ng-switch-when="group">
+              <div ng-include="'app/stream/post/joinable/components/header-details/group-header.tpl.html'"></div>
+            </div>
+
+            <div ng-switch-when="event">
+              <div ng-include="'app/stream/post/joinable/components/header-details/event-header.tpl.html'"></div>
+            </div>
+
+            <div ng-switch-when="challenge">
+              <div ng-include="'app/stream/post/joinable/components/header-details/challenge-header.tpl.html'"></div>
+            </div>
+
+            <div ng-switch-default>
+              <span>Error find details for {{post}}</span>
+            </div>
+          </div>
         </div>
+
+
         <div class="col">
             <div ng-show="post.points" class="points-container">
                 <span class="points">{{post.points}}</span>
                 <span class="pointsLabel">points</span>
             </div>
         </div>
+
+
     </div>
 </div>
