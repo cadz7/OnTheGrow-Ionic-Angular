@@ -66,9 +66,16 @@ angular.module('sproutApp.controllers')
      function attachDisplayNames(activityLogs) {
         
       return _.map(activityLogs, function(activityLog) {
-        var activity = _.find(allActivities,{unitId:activityLog.activityUnitId});
+        var activity = _.find(allActivities,function(act){
+          return _.any(act.activityUnits,{unitId:activityLog.activityUnitId});
+        });
         activityLog.activityDisplayName = activity ? activity.activityName : 'Unknown Activity';
-        activityLog.activityUnitDisplayName = activity ? activity.unitName :'Unknown Unit';
+        if(typeof activity !== 'undefined' && activity){
+          var unit =  _.find(activity.activityUnits,{unitId:activityLog.activityUnitId});
+          activityLog.activityUnitDisplayName = unit ? unit.unitName :'Unknown Unit';
+        }else{
+          activityLog.activityUnitDisplayName = 'Unknown Unit';
+        }
         return activityLog;
       });      
      };     
@@ -83,7 +90,8 @@ angular.module('sproutApp.controllers')
       $q.all([activities.loadActivityLog(logPeriodFilter.filterId,0), 
                scores.getScoresForUser(logPeriodFilter.filterId)])
       .then(function(results) {
-          $scope.groupedActivities = attachDisplayNames(activities.activityLog);
+        console.log(results)
+          $scope.groupedActivities = attachDisplayNames(results[0]);
           $scope.visibleSproutScore = results[1][0].score;
         })
         .then(null,$log.error);
