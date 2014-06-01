@@ -1,7 +1,7 @@
 <img class="comment-avatar" ng-src="{{comment.avatarURL}}"/>
 <span class="icon ion-edit editIcon" ng-click="showEditMenu(comment)" ng-show="isEditable()"></span>
 <div>
-  <span class="author">{{comment.owner.firstName}}</span>
+  <span class="author">{{comment.owner.firstNameDisplay}}</span>
   -
   <span class="date">{{comment.dateTimeCreated | date : 'MMM d, y h:mm:ss'}}</span>
 </div>
