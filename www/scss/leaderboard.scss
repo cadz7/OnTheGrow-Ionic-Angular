@@ -1,16 +1,17 @@
 @import"variables";
  $top3Multiplier: 1.2;
- $regularLeaderHeight: 75px;
+ $regularLeaderHeight: 65px;
  #LeaderboardList {
     //This is a magic number, but otherwise the cards would touch the right side of the view padding-right: 3%;
     padding-top: 1rem;
+    height: 600px;
     .leader {
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         height: $regularLeaderHeight;
-        width: 95%;
         padding: 0;
+        border: 1px solid $lightgrey;
+        margin: 10px 0;
         .position {
-            font-size: 45px;
+            font-size: 1.2rem;
             -webkit-justify-content: center;
             justify-content: center;
             -webkit-flex-direction: column;
@@ -19,56 +20,102 @@
             display: -moz-box;
             display: -webkit-flex;
             display: flex;
-            font-weight: 100;
+            font-weight: 300;
             color: $green;
-        }
-        .userImg {
-            display: -webkit-box;
-            display: -moz-box;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-justify-content: center;
-            justify-content: center;
-            -webkit-flex-direction: column;
-            flex-direction: column;
-            img {
-                width:80%;
+            border-right: 1px solid $lightgrey;
+            &.currentUser{
+                border:0;
             }
         }
-        .icon{
-          padding-left: 3px;
+        img {
+            width:40px;
+            height:40px;
+            border-radius: 0 3px 3px 0;
+            float: left;
+            margin-top: 11px;
+        }
+        .icon {
+            padding-left: 3px;
         }
         .userInfo {
             .userName {
-                font-size: $font-size-large;
+                font-size: .8rem;
                 color: $orange;
+                line-height: 1;
+                padding-bottom: 0;
+                padding-top: 9px;
             }
             .userDepartment {
-                font-size: $font-size-small;
-                color: $dark;
+                font-size: .6rem;
+                color: $mediumgrey;
+                line-height:1.2;
             }
         }
         .userScore {
-            div {
-                justify-content: center;
-            }
+            height: 100%;
+            margin: 0;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -webkit-flex;
+            display: flex;
             div:first-child {
-                font-size: $font-size-base;
+                font-size:1rem;
                 font-weight: $headings-font-weight;
                 color: $orange;
             }
-            div:nth-child(2) {
-                font-size: $font-size-small;
+            .points {
+                font-size: .6rem;
+            }
+            .number{
+                font-size:1rem;
             }
         }
     }
     .leader:nth-child(-n+3) {
-        //Set the first three leaders to have a slightly higher max height than the rest of //The leaders height: ($regularLeaderHeight * $top3Multiplier);
+        //Set the first three leaders to have a slightly higher max height than the rest of //The leaders 
+        height: ($regularLeaderHeight * $top3Multiplier);
+        .position{
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        img {
+            width:60px;
+            height:60px;
+            border-radius: 0 3px 3px 0;
+            float: left;
+            margin-top: 8px;
+        }
+        .userScore {
+            div:first-child {
+                font-size: $font-size-large;
+            }
+            .points {
+                font-size: .8rem;
+            }
+        }
+        .userInfo {
+            .userName {
+                font-size: 1rem;
+                color: $orange;
+                line-height: 1;
+                padding-bottom: 0;
+            }
+            .userDepartment {
+                font-size: $font-size-small;
+                color: $mediumgrey;
+                line-height: 1.6;
+            }
+        }
     }
 }
+
 .rankingTitle {
     color: $green;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 400;
     margin-top: 10px;
 }
@@ -83,7 +130,7 @@
     min-height: 100%;
 }
 .currentUser {
-    background-color: $blue;
+    background-color: $green;
     color: white!important;
 }
 .slider-pager {

@@ -7,14 +7,12 @@
       <span class="author">{{post.owner.firstName + ' ' + post.owner.lastName}}</span>
       <span class="activity-log-content">{{post.content}}</span>
     </div>
-
-    <br/>
     <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
     <!--<img src="img/icons/join-confirm-icon.svg" class="join-btn" data-ng-click="subscribeToGroup()" ng-if="!post.streamItemDisplay.heroImg"/>-->
     <join-button has-hero-img="post.streamItemDisplay.heroImg" post="post"
                  ng-if="!post.streamItemDisplay.heroImg"></join-button>
   </div>
   <div class="col" data-ng-click="deletePost(post)">
-    <div class="ion-close col"></div>
+    <div class="ion-close"></div>
   </div>
 </div>
