@@ -113,10 +113,20 @@
     padding-left: 95px;
     min-height: 100px;
 }
-.filter {
-    .left {
-        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0.2)));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
+.screen{
+    position: relative;
+}
+.screen:after {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    content:"";
+    background: -webkit-gradient(linear, left top, right top, 
+        color-stop(0%,rgba(255,255,255,1)), 
+        color-stop(20%,rgba(255,255,255,0)), 
+        color-stop(80%,rgba(255,255,255,0)), 
+        color-stop(100%,rgba(255,255,255,1)));
+    pointer-events: none;
+    /* so the text is still selectable */
 }
