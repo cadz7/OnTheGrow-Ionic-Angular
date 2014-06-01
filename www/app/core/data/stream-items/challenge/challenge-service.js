@@ -38,6 +38,10 @@ angular.module('sproutApp.data.challenge', [
           var deferred = $q.defer();
           deferred.resolve(mockChallengeDetailData);
           return deferred.promise;
+        },
+
+        getMockData: function(){
+          return mockChallengeDetailData;
         }
       };
     }

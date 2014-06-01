@@ -25,7 +25,7 @@ angular.module('sproutApp.data.event', [
         eventDateTime: new Date(),
         eventLocation: '1337 Front St',
         eventLocationUrl: 'https://www.google.ca/maps/place/1337+Front+St+W/@43.6407934,-79.4011051,17z/data=!3m1!4b1!4m2!3m1!1s0x882b35207a8d77db:0xe4110e4611d64d6b',
-        eventImageURL: 'app/stream/post/joinable/components/detail/sample-images/marathon.JPG',
+        eventImageURL: 'img/group/event-default.png',
         numEventAttendees: 192,
         eventAttendees: {},
         eventDescription: 'The flat and fast features of this event have consistently been the reason for so many ' +
@@ -40,6 +40,10 @@ angular.module('sproutApp.data.event', [
           var deferred = $q.defer();
           deferred.resolve(mockEventDetailData);
           return deferred.promise;
+        },
+
+        getMockData: function(){
+          return mockEventDetailData;
         }
       };
     }

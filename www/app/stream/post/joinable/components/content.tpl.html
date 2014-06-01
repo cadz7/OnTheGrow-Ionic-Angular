@@ -3,7 +3,7 @@
   <div class="join">
     <!--<img src="img/icons/join-confirm-icon.svg" class="join-btn-hero" data-ng-click="subscribeToGroup()" ng-if="post.streamItemDisplay.heroImg"/>-->
     <join-button has-hero-img="post.streamItemDisplay.heroImg" post="post" ng-if="post.streamItemDisplay.heroImg"></join-button>
-    <img ng-src="{{post.streamItemDisplay.heroImg}}" class="hero-image" data-ng-click="subscribeToGroup()"
+    <img ng-src="{{post.streamItemDisplay.heroImg}}" class="hero-image" ng-click="showDetailView()"
          ng-if="post.streamItemDisplay.heroImg"/>
   </div>
 </div>
