@@ -28,7 +28,7 @@ angular.module('sproutApp.data.leaderboards', [
 .factory('leaderboardsMockServer',['$q','util',function($q,util){
     var board1 = [
       {
-        "leaderboardNameDisplay": "Top 5 in Pronvice",
+        "leaderboardNameDisplay": "Top 5 in Province",
         "items": [
           {
             "rank": 1,
@@ -558,7 +558,7 @@ angular.module('sproutApp.data.leaderboards', [
         ]
       },
       {
-        "leaderboardNameDisplay": "Top 5 in Pronvice",
+        "leaderboardNameDisplay": "Top 5 in Province",
         "items": [
           {
             "rank": 2,
@@ -786,7 +786,7 @@ angular.module('sproutApp.data.leaderboards', [
         ]
       },
       {
-        "leaderboardNameDisplay": "Top 5 in Pronvice",
+        "leaderboardNameDisplay": "Top 5 in Province",
         "items": [
           {
             "rank": 5,
@@ -1014,7 +1014,7 @@ angular.module('sproutApp.data.leaderboards', [
         ]
       },
       {
-        "leaderboardNameDisplay": "Top 5 in Pronvice",
+        "leaderboardNameDisplay": "Top 5 in Province",
         "items": [
           {
             "rank": 1,
