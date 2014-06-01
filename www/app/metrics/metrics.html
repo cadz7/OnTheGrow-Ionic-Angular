@@ -26,7 +26,7 @@
         <hr>
         <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="applyFilter($index)">
 
-            <ion-slide class="list item metrics-slide" ng-repeat="filter in timePeriodFilters">
+            <ion-slide class="list item metrics-slide screen" ng-repeat="filter in timePeriodFilters">
                 <div class="row">
                     <div class="col col-30 filter left" style="text-align: left">
                         {{timePeriodFilters[$index - 1].displayName}}
