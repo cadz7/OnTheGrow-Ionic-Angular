@@ -48,13 +48,18 @@
           </div>
         </div>
 
+        <div class="row">
+          <ion-radio ng-model="selectedActivityUnit" ng-value="unit" ng-change="activityUnitSelected(unit)" ng-repeat="unit in currentActivityUnits">{{unit.unitName}}</ion-radio>
+        </div>
+
         <div class="row" >
           <div class="col">
             <label class="item item-input item-stacked-label">
               <span class="input-label">Quantity ({{currentActivity.unitName}})</span>
-              <input type="number" name="quantity" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1" readonly style="text-align: center" ng-click="showNumpad = !showNumpad"/>
-                <numpad ng-show="showNumpad" model="currentActivity.quantity" accept="alert()"></numpad>
-                <span class="input-label"  style="color:red" ng-show="activityForm.quantity.$error.required">Number Required!</span>
+              <!-- <input type="number" name="quantity" placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" required min="1" readonly style="text-align: center" ng-click="showNumpad = !showNumpad"/> -->
+                <!-- <numpad ng-show="showNumpad" model="currentActivity.quantity" accept="alert()"></numpad> -->
+              <input class="enableTap" name="quantity" type="number" min="1" ng-attr-placeholder="{{currentActivity.unitName}}" ng-model="currentActivity.quantity" inputmode="numeric" pattern="[0-9]*"/>
+              <span class="input-label"  style="color:red" ng-show="activityForm.quantity.$error.required">Number Required!</span>
             </label>
           </div>
         </div>
