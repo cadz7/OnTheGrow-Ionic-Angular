@@ -3,6 +3,9 @@
 angular.module('sproutApp.controllers')
 .controller('SignInCtrl', ['$scope', 'user', '$log', '$state', 'APP_CONFIG',
  function($scope, user, $log, $state, APP_CONFIG) {
+ 	if(user.isAuthenticated)
+		$state.transitionTo('main.stream');
+
 	if(APP_CONFIG.useMockData || APP_CONFIG.useSimonsCredentials){
 		$scope.userForm = {
 			email: 'simon@rangle.io',
