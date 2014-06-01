@@ -64,10 +64,10 @@ All app configuration should be done through www/client-config.js
 ## Plugins used
 ### To install 'cordova plugin add <plugin name or URL if provided>'
 
-cordova plugin add org.apache.cordova.device
-cordova plugin add org.apache.cordova.console
-cordova plugin add https://github.com/driftyco/ionic-plugins-keyboard.git
-cordova plugin add https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin.git
+    $ cordova plugin add org.apache.cordova.device
+    $ cordova plugin add org.apache.cordova.console
+    $ cordova plugin add https://github.com/driftyco/ionic-plugins-keyboard.git
+    $ cordova plugin add https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin.git
 
 cordova plugin add https://github.com/phonostar/PhoneGap-SoftKeyboard.git
 
