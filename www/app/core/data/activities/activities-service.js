@@ -1016,46 +1016,46 @@ angular.module('sproutApp.data.activities', [
                 //note: low-dash removes items from the source array when using .remove() so we re-init the arrays for each req
                 //lazy, but stuff to do
                 var now = new Date();
-                 var activityLogs = [{activityLogId:1, activityUnitId:101,"quantity":40,"points":2,"date":now.toUTCString()},
-                        {activityLogId:2,  activityUnitId:102,"quantity":60,"points":3,"date":now.toUTCString()},
-                        {activityLogId:3,  activityUnitId:103,"quantity":90,"points":4,"date":now.toUTCString()}];
+                 var activityLogs = [{activityLogId:1, activityUnitId:107,"quantity":40,"points":2,"date":now.toUTCString()},
+                        {activityLogId:2,  activityUnitId:106,"quantity":60,"points":3,"date":now.toUTCString()},
+                        {activityLogId:3,  activityUnitId:1529,"quantity":90,"points":4,"date":now.toUTCString()}];
                 var yesterday = new Date();
                 yesterday.setDate(now.getDate() -1 );
-                var yesterdayActivityLogs = [{activityLogId:4, activityUnitId:101,"quantity":40,"points":20,"date":yesterday.toUTCString()},
-                                    {activityLogId:5,  activityUnitId:102,"quantity":60,"points":30,"date":yesterday.toUTCString()},
-                                    {activityLogId:6,  activityUnitId:103,"quantity":90,"points":40,"date":yesterday.toUTCString()}];
+                var yesterdayActivityLogs = [{activityLogId:4, activityUnitId:257,"quantity":40,"points":20,"date":yesterday.toUTCString()},
+                                    {activityLogId:5,  activityUnitId:110,"quantity":60,"points":30,"date":yesterday.toUTCString()},
+                                    {activityLogId:6,  activityUnitId:107,"quantity":90,"points":40,"date":yesterday.toUTCString()}];
                 var lastWeek = new Date();
                 lastWeek.setDate(now.getDate() - 7 );
-                var lastWeekActivityLogs = [{activityLogId:7, activityUnitId:101,"quantity":40,"points":200,"date":lastWeek.toUTCString()},
-                                    {activityLogId:8,  activityUnitId:102,"quantity":60,"points":300,"date":lastWeek.toUTCString()},
-                                    {activityLogId:9,  activityUnitId:103,"quantity":90,"points":400,"date":lastWeek.toUTCString()}];
+                var lastWeekActivityLogs = [{activityLogId:7, activityUnitId:3241,"quantity":40,"points":200,"date":lastWeek.toUTCString()},
+                                    {activityLogId:8,  activityUnitId:741,"quantity":60,"points":300,"date":lastWeek.toUTCString()},
+                                    {activityLogId:9,  activityUnitId:1528,"quantity":90,"points":400,"date":lastWeek.toUTCString()}];
                 var lastMonth= new Date();
                 lastMonth.setDate(now.getDate() - 31);
-                var lastMonthActivityLogs = [{activityLogId:10, activityUnitId:101,"quantity":40,"points":2000,"date":lastMonth.toUTCString()},
-                                    {activityLogId:11,  activityUnitId:102,"quantity":60,"points":3000,"date":lastMonth.toUTCString()},
-                                    {activityLogId:12,  activityUnitId:103,"quantity":90,"points":4000,"date":lastMonth.toUTCString()}];
+                var lastMonthActivityLogs = [{activityLogId:10, activityUnitId:154,"quantity":40,"points":2000,"date":lastMonth.toUTCString()},
+                                    {activityLogId:11,  activityUnitId:1534,"quantity":60,"points":3000,"date":lastMonth.toUTCString()},
+                                    {activityLogId:12,  activityUnitId:104,"quantity":90,"points":4000,"date":lastMonth.toUTCString()}];
 
                 var laterDate= new Date();
                 laterDate.setDate(now.getDate() - 60);
-                var laterActLogs = [{activityLogId:13, activityUnitId:101,"quantity":401,"points":20000,"date":laterDate.toUTCString()},
-                                    {activityLogId:14,  activityUnitId:102,"quantity":601,"points":30000,"date":laterDate.toUTCString()},
-                                    {activityLogId:15,  activityUnitId:103,"quantity":901,"points":40000,"date":laterDate.toUTCString()}];
+                var laterActLogs = [{activityLogId:13, activityUnitId:1528,"quantity":401,"points":20000,"date":laterDate.toUTCString()},
+                                    {activityLogId:14,  activityUnitId:1528,"quantity":601,"points":30000,"date":laterDate.toUTCString()},
+                                    {activityLogId:15,  activityUnitId:1528,"quantity":901,"points":40000,"date":laterDate.toUTCString()}];
 
 
                 var PAGE_SIZE = 2; //small value to test pagination
                 var logs;
-                switch(query.timePeriodId){
-                    case 'today':
+                switch(''+query.timePeriodId){
+                    case '1':
                         logs = activityLogs;
                         
                     break;
-                    case 'yesterday':
+                    case '2':
                         logs = yesterdayActivityLogs;
                     break;
-                    case 'week':
+                    case '3':
                         logs = _.union(activityLogs, yesterdayActivityLogs);
                     break;
-                    case 'month':
+                    case '4':
                         logs = _.union(activityLogs, yesterdayActivityLogs,lastWeekActivityLogs,lastMonthActivityLogs);
                     break;
                     case 'year':
@@ -1065,7 +1065,6 @@ angular.module('sproutApp.data.activities', [
                         logs = activityLogs;
                     break;
                 }
-
                 var result = _.chain(logs)
                              .remove(function(log){
                                 if(!query || !query.idGreaterThan) return true;
