@@ -1065,7 +1065,6 @@ angular.module('sproutApp.data.activities', [
                         logs = activityLogs;
                     break;
                 }
-                console.log(query)
                 var result = _.chain(logs)
                              .remove(function(log){
                                 if(!query || !query.idGreaterThan) return true;
