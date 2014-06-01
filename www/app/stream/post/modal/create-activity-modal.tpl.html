@@ -17,8 +17,10 @@
 </div>
     <div class="activity-select">
       <div class="row">
+          <span class="breadcrumb" ng-click="backtrackBreadcrumb()"ng-hide="currentState == 0"><i class="icon ion-chevron-left"></i> back</span>
         <div class="col">
-          <h3 class="activity-title" ng-click="backtrackBreadcrumb()"><span class="icon ion-chevron-left" ng-hide="currentState == 0"></span> {{ title }}</h3>
+          <h3 class="activity-title"> {{ title }}</h3>
+          <hr>
         </div>
       </div>
 
@@ -69,6 +71,7 @@
       <div class="row">
         <div class="col">
           <h3 class="activity-title">Activity Queue</h3>
+          <hr>
         </div>
       </div>
       <div class="row" ng-show="!activtyQueue || activtyQueue.length === 0">
@@ -77,7 +80,7 @@
         </div>
       </div>
       <ion-list  show-delete="true" >
-        <ion-item ng-repeat="activity in activtyQueue" class="item-thumbnail-left activity-queue-item" ng-click="restoreActivity(activity)">
+        <ion-item ng-repeat="activity in activtyQueue" class="item-thumbnail-right activity-queue-item" ng-click="restoreActivity(activity)">
           You tracked {{activity.quantity}} {{activity.unitName}} of {{activity.activityName}}
           <ion-delete-button class="ion-minus-circled" ng-click="activtyQueue.splice($index, 1)">
         </ion-item>
