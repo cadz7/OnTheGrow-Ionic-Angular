@@ -22,7 +22,7 @@ angular.module('sproutApp.controllers')
         $scope.activityData = item.activities;
         selectedActitivities = $scope.activityData;
         $scope.nameKey = NAMEKEYS.activityName;
-        $scope.currentState++;
+        $scope.currentState = 1;
         $scope.activityListVisible = true;
         $scope.showActivityForm = false;
         $ionicScrollDelegate.scrollTop(false);
@@ -47,7 +47,7 @@ angular.module('sproutApp.controllers')
           quantity : item.quantity || 1,
           date:$scope.maxDate        
         };
-        $scope.currentState++;
+        $scope.currentState = 2;
 
         this.currentValue = item;
       }
@@ -57,6 +57,8 @@ angular.module('sproutApp.controllers')
       currentValue: null,
       selectFunction: function(item) {
         this.currentValue = item;
+
+        $scope.currentState = 3;
       }
     }
   ];
@@ -88,7 +90,7 @@ angular.module('sproutApp.controllers')
     switch ($scope.states[$scope.currentState].name) {
       case STATES.categorySelect:
         //change view to the activities view state
-        $scope.currentState++;
+        $scope.currentState = 2;
         $scope.title = 'Activities';
         $scope.nameKey = NAMEKEYS.activityName;
         selectedActitivities = _.flatten(_.pluck(activities.categories,'activities'), true);      
