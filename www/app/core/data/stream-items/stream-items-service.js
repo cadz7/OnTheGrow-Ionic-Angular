@@ -326,23 +326,23 @@ angular.module('sproutApp.data.stream-items', [
 
   var owners = [{
     userId: 42,
-    firstName: 'Arthur',
+    firstNameDisplay: 'Arthur',
     lastName: 'Dent',
   }, {
     userId: 43,
-    firstName: 'Zaphod',
+    firstNameDisplay: 'Zaphod',
     lastName: 'Beeblebrox',
   }, {
     userId: 44,
-    firstName: 'Ford',
+    firstNameDisplay: 'Ford',
     lastName: 'Prefect',
   }, {
     userId: 45,
-    firstName: 'Fenchurch',
+    firstNameDisplay: 'Fenchurch',
     lastName: 'Dent',
   }, {
     userId: 46,
-    firstName: 'Humma',
+    firstNameDisplay: 'Humma',
     lastName: 'Kavula',
   }];
 
@@ -415,7 +415,7 @@ angular.module('sproutApp.data.stream-items', [
       dateTimeCreated: new Date().toISOString(),
       commentText: commentText,
       commentDisplay: {
-        template: '{user.firstName} says: {text}', // _ default tags
+        template: '{user.firstNameDisplay} says: {text}', // _ default tags
         values: {
           text: commentText,
           user: _.cloneDeep(author)
@@ -433,7 +433,7 @@ angular.module('sproutApp.data.stream-items', [
     item.viewer.isOwnedByViewer = item.owner.userId === 42 ? 1 : 0;
     item.streamItemId = id;
     item.streamItemDisplay.values.user.id = item.owner.userId;
-    item.streamItemDisplay.values.user.name = item.owner.firstName + ' ' +
+    item.streamItemDisplay.values.user.name = item.owner.firstNameDisplay + ' ' +
         item.owner.lastName;
 
     var streamItemTypeSlug = streamItemTypeSlugs[id % 4];
@@ -542,7 +542,7 @@ angular.module('sproutApp.data.stream-items', [
         createdItem.viewer.isOwnedByViewer = true;
         createdItem.dateTimeCreated = new Date().toISOString();
         createdItem.streamItemDisplay = {
-          template: '{user.firstName} says: {text}',
+          template: '{user.firstNameDisplay} says: {text}',
           values: {
             user: _.clone(user.data),
             text: item.text

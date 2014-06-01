@@ -138,7 +138,7 @@ describe('streamItems service', function() {
           this.isAuthenticated = true;
           this.data = {
             userId: 42,
-            firstName: 'Arthur',
+            firstNameDisplay: 'Arthur',
             lastName: 'Dent'
           };
           deferred.resolve();
@@ -358,7 +358,7 @@ describe('streamItems service', function() {
           return streamItems.postItem({text: 'Mostly harmless.'})
         })
         .then(function(newItem) {
-          expect(newItem.owner.firstName).to.equal('Arthur');
+          expect(newItem.owner.firstNameDisplay).to.equal('Arthur');
           expect(streamItems.items.length).to.equal(11);
           expect(streamItems.items[0]).to.equal(newItem);
         });
