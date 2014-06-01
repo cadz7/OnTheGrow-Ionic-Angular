@@ -28,7 +28,6 @@ $mediumgrey:                   #aaa !default;
 $darkgrey:                        #444 !default;
 // Sprout brand Styles
 
-
 @mixin box-shadow($top, $left, $distance, $blur, $color) {
       -webkit-box-shadow:$top $left $distance $blur $color;
       -moz-box-shadow:$top $left $distance $blur $color;

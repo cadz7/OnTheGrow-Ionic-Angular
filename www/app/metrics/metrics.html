@@ -8,23 +8,22 @@
             <button class="button button-clear icon sprout-icon-notification"></button>
         </div>
     </ion-header-bar>
-    <ion-content class="has-header">
+    <ion-content class="metrics has-header">
 
         <!--User profile and main scoreboard-->
-        <div class="fixed">
-        <div class="metrics list">
-            <div class="item item-thumbnail-left item-icon-right border-none" href="#">
-                <img ng-src="{{user.avatarURL}}">
-                <span class="points">
-                    <span class="number">{{visibleSproutScore}}<br></span>
-                    points
-                </span>
-                <h2 class="user-name">{{user.firstNameDisplay + ' ' + user.lastNameDisplay}}</h2>
+        <div class="row user-profile">
+                <img ng-src="{{user.avatarUrl}}" class="avatar">
+            <div class="col col-50 user-name">
+                <h2>{{user.firstName + ' ' + user.lastName}}</h2>
                 <p>{{user.department + ' - ' + user.location}}</p>
+             </div>
+             <div class="col points">   
+                <p class="number">{{visibleSproutScore}}</p>
+                <p>points</p>
             </div>
         </div>
-    <!--Time Period slider-->
-     <hr>
+        <!--Time Period slider-->
+        <hr>
         <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="applyFilter($index)">
 
             <ion-slide class="list item metrics-slide" ng-repeat="filter in timePeriodFilters">
@@ -42,7 +41,6 @@
             </ion-slide>
         </ion-slide-box>
         <hr>
-</div>
         <!--Activity log-->
 
         <div class="list metrics activity-log">

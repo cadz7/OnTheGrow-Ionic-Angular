@@ -64,6 +64,9 @@ hr {
     background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
     background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
 }
+.bar .button.button-clear{
+  font-size: 1rem;
+}
 .bar{
   @include box-shadow (0px, 0px, 3px, 1px, rgba(50,50,50,0.15));
   z-index: 1000;

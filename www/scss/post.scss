@@ -13,7 +13,7 @@
     .post-info {
         img {
             border-radius: 0 0 3px 0;
-            margin-right: 8px;
+            margin-right: 10px;
             width: 60px;
             height: 60px;
             float:left;
@@ -22,7 +22,7 @@
             padding: 0;
         }
         .col {
-            padding: 10px 5px 5px 10px;
+            padding: 10px 5px 5px 5px;
         }
     }
     .sprout-icon-challenge, .sprout-icon-event, .sprout-icon-group {
@@ -140,6 +140,7 @@
         color:$lightgrey;
         font-size: .7rem;
         float:right;
+        padding-right: 5px;
     }
     .item.item-divider.tabs.tabs-secondary {
         color: $green;

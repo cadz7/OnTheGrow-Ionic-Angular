@@ -1,47 +1,79 @@
 .metrics-slide {
     border:0;
     margin-bottom:0;
+    padding:0 5px;
 }
 .metrics {
     p {
         font-size: .8rem;
         color:$mediumgrey;
+        margin-bottom: 5px;
     }
     &.list {
         margin-bottom: 1rem;
     }
-    .user-name {
-        color:$orange;
+    .user-profile {
+        margin: 1rem 0;
+        padding-left: 0;
+        height: 83px;
+        .avatar {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 0 3px 3px 0;
+            padding:0;
+            margin-right: 10px;
+            float: left;
+            position: relative;
+            left:0;
+        }
+        .user-name, h2 {
+            color:$orange;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 0;
+            text-align: left;
+        }
+        .points {
+            text-align: right;
+            font-size: .8rem;
+            font-weight: 400;
+            padding-right: 10px;
+            p{
+                color: $orange;
+            }
+            .number{
+                font-size: 1.2rem;
+                font-weight: 500;
+                margin-bottom: 0;
+            }
+        }
     }
     .card {
         margin: .5rem 0 .5rem 0;
         .date {
             color:$blue;
             margin-bottom: .5rem;
-            padding-left: 1rem;
+            padding-left: 10px;
             padding-top: .5rem;
-
         }
         .item {
             border-radius: 3px;
-            font-size: 1rem;
-            padding: 1rem;
-
+            font-size: .8rem;
+            padding: 5px 10px;
             .minutes {
-                font-size: 1rem;
                 font-weight: 500;
                 color: $mediumgrey;
             }
             .activity-name {
-                line-height: 1;
+                font-size:.8rem;
             }
             .points {
                 float:right;
                 font-weight: 400;
-                line-height: .5;
+                line-height: 1.2;
                 .number {
-                    font-size: 1.2rem;
                     font-weight: 500;
+                    font-size:1rem;
                 }
             }
         }
@@ -65,13 +97,8 @@
 }
 .points {
     color:$orange;
-    float:right;
     font-size:.8rem;
     text-align: center;
-}
-.number {
-    font-size: 1.4rem;
-    font-weight: 500;
 }
 .fixed {
     // position: fixed;
@@ -81,9 +108,6 @@
 .activity-log {
     // padding-top: 165px;
     padding: 0 10px;
-}
-.slider {
-    padding-left: 15px;
 }
 .item-thumbnail-left, .item-thumbnail-left .item-content {
     padding-left: 95px;

@@ -5,16 +5,11 @@
         <!-- Hamburger Button -->
 
         <left-nav-toggle-btn></left-nav-toggle-btn>
-<<<<<<< HEAD
         <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.displayName}}</h1>
         <h1 class="title" ng-show="editFilters" ng-click="toggleFiltersView()">Back <i class="icon ion-android-system-back"></i> 
         </h1>
         
         <span class="icon ion-chevron-down filter-chevron"></span>
-=======
-        <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.text}}</h1>
-        <h1 class="title" ng-show="editFilters" ng-click="toggleFiltersView()">Back</h1>
->>>>>>> Leaderboard styling
         <div class="buttons">
             <button class="button button-clear icon sprout-icon-notification"></button>
         </div>
@@ -24,13 +19,8 @@
     <ion-content id="LeaderboardContent" class="text-center padding has-header">
 
         <div id="leaderBoards" ng-hide="editFilters">
-<<<<<<< HEAD
             <div class="has-footer" id="ActivityDurationFilter" ng-click="toggleFiltersView()">
                 {{selectedCategory.displayName}} | {{activePeriod.displayName}}
-=======
-            <div id="ActivityDurationFilter" ng-click="toggleFiltersView()">
-                {{activeActivity.activityName || 'All Activities'}} | {{activePeriod.timePeriodNameDisplay || 'Challenge Duration'}}
->>>>>>> Leaderboard styling
                 <i class="icon ion-edit"></i>
             </div>
             <h3 class="rankingTitle">{{currentBoardTitle}}</h3>
