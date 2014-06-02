@@ -15,6 +15,8 @@ angular.module('sproutApp.controllers')
   $scope.currentActivityUnits = [];
   $scope.selectedActivityUnit = {};
 
+  $scope.previousState = 0;
+
   $scope.activityUnitSelected = function(newVal) {
     if (newVal && 'activityName' in $scope.currentActivity && $scope.currentActivity.activityName) {
       $scope.preferredUnits[$scope.currentActivity.activityName] = newVal;
@@ -109,21 +111,30 @@ angular.module('sproutApp.controllers')
     $scope.addActivityVisible = true;
   };
 
-  $scope.previousState = 0;
-
   //search for activities based on the user's text
   $scope.$watch('newPost.text', function(newVal, oldVal){
     console.log("$scope.currentState, $scope.previousState, oldVal", $scope.currentState, $scope.previousState, oldVal);
+    
     //user has cleared all search text -> take then back to the category select view
     if (!newVal) {
+
+      if (oldVal) {
+        // User might have hit the back button in the breadcrumb with search field containing remnants of search.
+        // In this case, just return here so we don't conduct a search
+        return;
+      }
+
+      // restore user to the state they were in before searching (either category or activity view)
       $scope.currentState = $scope.previousState;
 
       if ($scope.currentState === 0) {
+        // only reset if they were in category view prior to searching
         resetActivitySelect();
         return;
       }
     }
     else if (!oldVal) {
+      // User is just starting to search for something
       $scope.previousState = $scope.currentState;
     }
 
@@ -131,7 +142,7 @@ angular.module('sproutApp.controllers')
     switch ($scope.states[$scope.previousState].name) {
       case STATES.categorySelect:
         //change view to the activities view state
-        $scope.currentState = 2;
+        $scope.currentState = 1;
         $scope.title = 'Activities';
         $scope.nameKey = NAMEKEYS.activityName;
         selectedActitivities = _.flatten(_.pluck(activities.categories,'activities'), true);      
@@ -183,6 +194,8 @@ angular.module('sproutApp.controllers')
   $scope.backtrackBreadcrumb = function() {
     var currentState = $scope.states[$scope.currentState],
         rootIndex = $scope.currentState - 2;
+
+    $scope.newPost.text = '';
 
     if (rootIndex > -1) {
       var rootState = $scope.states[rootIndex];
