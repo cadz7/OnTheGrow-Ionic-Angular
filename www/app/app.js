@@ -97,6 +97,9 @@ angular.module('sproutApp', [
         if (!window.cordova.plugins.Keyboard) {
           $log.error('You are missing the keyboard plugin.');
         }
+        if (!window.SoftKeyboard) {
+          $log.error('SoftKeyboard plugin is missing!');
+        }
       }
     }
 
