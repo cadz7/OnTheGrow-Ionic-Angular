@@ -106,8 +106,19 @@ hr {
 .modal-backdrop {
   z-index:1000;
 }
-.modal .item.post {
-  margin-bottom: 3rem;
+.modal {
+    .post .post-info img {
+        border-radius: 0 3px 3px 0;
+    }
+    .padding {
+        padding:10px 0;
+    }
+    .item.post {
+        margin: 0 0 3rem 0;
+        border: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
 }
 .iconbase {
   margin: 0px auto;

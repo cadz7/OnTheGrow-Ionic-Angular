@@ -40,6 +40,10 @@
         font-weight: 400;
         max-width: 100%;
     }
+    .basic{
+        line-height: 1.4;
+        color: $mediumgrey;
+    }
     .title {
         font-size: 1.8rem;
         color:$blue;
@@ -162,10 +166,13 @@
     }
     .postInputArea {
         background: #eee;
-        padding:5px 3px 3px 3px;
+        &.row{
+            padding:0;
+        }
         input {
             border-radius: 3px;
             margin-right:5px;
+            font-family: $font-family-serif;
         }
         .button {
             font-size: 1rem;
@@ -174,7 +181,8 @@
             background-color: #fff;
             border-radius: 2px;
             border: 1px solid #ddd;
-            max-width: 19%;
+            width: 100%;
+            min-height: 34px;
         }
     }
     .likeArea {
@@ -196,6 +204,7 @@
         background-color:#FFF;
         border-color: $lightgrey;
         width: 100%;
+        padding: 0 10px;
         max-height: 48px;
         min-height: 22px;
         overflow: auto;
@@ -207,7 +216,7 @@
     .challenge-description {
         font-weight: 300;
         text-align: center;
-        margin: 5px 0;
+        margin: 8px 0;
         padding:0;
         font-family:'roboto', sans-serif;
     }
@@ -221,11 +230,13 @@
         margin-bottom: 1rem;
     }
    .header-location-icon{
+     font-size: 1rem;
      padding-right: 5px;
      color:$orange;
    }
    .event-location{
-     color: $darkgrey;
+     color: $orange;
+     line-height: 1.8;
    }
 }
 .comment {

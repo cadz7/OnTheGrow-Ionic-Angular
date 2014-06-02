@@ -1,7 +1,7 @@
 <h1 class="title">{{post.detail.challengeName}}</h1>
-<div class="">Ends: {{post.detail.challengeDeadline | date : 'MMM d'}}</div>
-<div class="" ng-if="isWrappedInModal">{{post.detail.challengeType}}</div>
-<div class="author">{{post.detail.numChallengeParticipants}} Challengers</div>
+<div class="author">Ends: {{post.detail.challengeDeadline | date : 'MMM d'}}</div>
+<div class="basic" ng-if="isWrappedInModal">{{post.detail.challengeType}}</div>
+<div class="basic">{{post.detail.numChallengeParticipants}} Challengers</div>
 
 
 <!--var mockChallengeDetailData = {-->
