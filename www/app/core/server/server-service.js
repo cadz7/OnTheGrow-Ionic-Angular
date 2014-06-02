@@ -30,7 +30,6 @@ angular.module('sproutApp.server', [
 
     //handler if http fails (non 200 level)
     function errorHandler (error, promise){
-      console.log(error)
       switch(error.status){
         case 401:
           options.headers['Authorization'] = null;

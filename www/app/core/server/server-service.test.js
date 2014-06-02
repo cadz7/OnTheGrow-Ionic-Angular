@@ -25,7 +25,14 @@ describe('server service', function() {
           })
         };
     });
-   
+    $provide.factory('$window', function () {
+
+        return {         
+          location : {
+            replace : function(url){return true;}
+          }        
+        };
+    });
   }));
 
   beforeEach(function(){

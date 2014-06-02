@@ -58,7 +58,15 @@ describe('user service', function() {
             mockData.user = null;
           })
         };
-      });   
+      });
+      $provide.factory('$window', function () {
+        return {         
+          location : {
+            replace : function(url){return true;}
+          }        
+        };
+      });
+
     });
     mockData = {};
     user = testUtils.getService('user');
