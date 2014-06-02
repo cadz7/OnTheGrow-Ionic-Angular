@@ -15,6 +15,9 @@ angular.module('sproutApp.controllers')
   $scope.currentActivityUnits = [];
   $scope.selectedActivityUnit = {};
 
+  $scope.previousState = 0;
+  $scope.categoryListData = [];
+
   $scope.activityUnitSelected = function(newVal) {
     if (newVal && 'activityName' in $scope.currentActivity && $scope.currentActivity.activityName) {
       $scope.preferredUnits[$scope.currentActivity.activityName] = newVal;
@@ -113,30 +116,49 @@ angular.module('sproutApp.controllers')
   $scope.$watch('newPost.text', function(newVal, oldVal){
     //user has cleared all search text -> take then back to the category select view
     if (!newVal) {
-      resetActivitySelect();
-      return;
+
+      // restore user to the state they were in before searching (either category or activity view)
+      $scope.currentState = $scope.previousState;
+
+      if ($scope.currentState === 0) {
+        // only reset if they were in category view prior to searching
+        resetActivitySelect();
+        return;
+      }
+    }
+    else if (!oldVal) {
+      // User is just starting to search for something
+      $scope.previousState = $scope.currentState;
+
+      $scope.searchCategoryListVisible = true;
     }
 
     //if the user has not selected an activity category, search all activities. else search the selected activity category
-    switch ($scope.states[$scope.currentState].name) {
+    switch ($scope.states[$scope.previousState].name) {
       case STATES.categorySelect:
         //change view to the activities view state
-        $scope.currentState = 2;
+        $scope.currentState = 1;
         $scope.title = 'Activities';
         $scope.nameKey = NAMEKEYS.activityName;
-        selectedActitivities = _.flatten(_.pluck(activities.categories,'activities'), true);      
+        selectedActitivities = _.flatten(_.pluck(activities.categories,'activities'), true);
+
+        $scope.activityData = _.filter(selectedActitivities,function(val){return val[$scope.nameKey].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
 
         //fall through -> only want to search on activities
       case STATES.activitySelect:
         //filter the activity list
+        
         $scope.activityData = _.filter(selectedActitivities,function(val){return val[$scope.nameKey].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
       break;
     }//switch    
+    
+    $scope.categoryListData = _.filter(activities.categories,function(val){return val[NAMEKEYS.activityCategoryDisplayName].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
+    
   });
 
   //reset the activity tracking view state
   function resetActivitySelect() {
-    $scope.currentState = 0;
+    $scope.previousState = $scope.currentState = 0;
     $ionicScrollDelegate.scrollTop();
     $scope.title = 'Activity Categories';
     $scope.activityData = activities.categories;
@@ -155,6 +177,7 @@ angular.module('sproutApp.controllers')
     });
 
     $scope.amEditing = false;
+    $scope.searchCategoryListVisible = false;
   }
   activities.whenReady()
   .then(function(){ resetActivitySelect(); /*initalize view*/});
@@ -167,11 +190,25 @@ angular.module('sproutApp.controllers')
     if (currentState) {
       currentState.selectFunction(item);
     }
+
+    $scope.searchCategoryListVisible = false;
+  };
+  
+  $scope.onCategorySelect = function(item) {
+    $scope.states[0].selectFunction(item);
+    $scope.previousState = 1;
+    $scope.searchCategoryListVisible = false;
+    $scope.newPost.text = '';
   };
 
   $scope.backtrackBreadcrumb = function() {
     var currentState = $scope.states[$scope.currentState],
         rootIndex = $scope.currentState - 2;
+
+    if ($scope.newPost.text.length > 0) {
+      $scope.currentState = $scope.previousState = 0;
+      rootIndex = -1;
+    }
 
     if (rootIndex > -1) {
       var rootState = $scope.states[rootIndex];
