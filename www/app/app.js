@@ -21,7 +21,9 @@ angular.module('sproutApp.services', [
   'sproutApp.config',
   'sproutApp.template',
   'sproutApp.data.stream-items',
-  'sproutApp.data.activities'
+  'sproutApp.data.activities',
+  'sproutApp.system',
+  'sproutApp.location-generator-service'
 ]);
 angular.module('sproutApp.directives', [
   'sproutApp.main.left-nav'
@@ -42,8 +44,8 @@ angular.module('sproutApp', [
   'sproutApp.network-information',
   'sproutApp.notification'
 ])
-.run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems','$state','$rootScope',
-  function($ionicPlatform, user, $log, networkInformation, streamItems,$state,$rootScope) {
+.run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems','$state','$rootScope', 'system',
+  function($ionicPlatform, user, $log, networkInformation, streamItems,$state,$rootScope, system) {
 
     window.onerror = function(error) {
       $log.error(error);
@@ -63,6 +65,7 @@ angular.module('sproutApp', [
       $log.info('====== BUILD INFO =======\r\n', buildInfo);
       $log.info('====== DEVICE INFO ====== \r\n', deviceDetails);
       $log.info('Welcome to Sprout App!');
+      system.initialize();
     }
 
     function verifyRequiredPluginsAreInstalled() {
