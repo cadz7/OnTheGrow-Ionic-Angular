@@ -1,7 +1,7 @@
 <h1 class="title">{{post.detail.eventName}}</h1>
-<a ng-if="isWrappedInModal" class="event-location" ng-href="{{post.detail.eventLocationUrl}}"><i class="icon ion-ios7-location header-location-icon"></i>{{post.detail.eventLocation}}</a>
-<div class="">{{post.detail.eventDateTime | date : 'MMM d, h:mma'}}</div>
-<div class="author">{{post.detail.numEventAttendees}} Attending</div>
+<a class="event-location" ng-href="{{post.detail.eventLocationUrl}}"><i class="icon ion-ios7-location header-location-icon"></i>{{post.detail.eventLocation}}</a>
+<div class="basic">{{post.detail.eventDateTime | date : 'MMM d, h:mma'}}</div>
+<div class="basic" ng-if="isWrappedInModal" >{{post.detail.numEventAttendees}} Attending</div>
 
 
 
