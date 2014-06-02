@@ -36,8 +36,7 @@
 
   <ion-content id="sproutPostsScroller"
     delegate-handle="streamScroller"
-    header-shrink scroll-event-interval="5"
-    ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]">
+    header-shrink scroll-event-interval="5">
 
     <ion-refresher on-refresh="onRefreshPullDown()"
       pulling-text="Pull to refresh..."
@@ -74,8 +73,7 @@
     </ion-infinite-scroll>
 
 	</ion-content>
-  <ion-content ng-show="showNoConnectionScreen"
-               ng-class="{true: 'no-header', false: 'has-header'}[createPostVisible]">
+  <ion-content ng-show="showNoConnectionScreen">
   <ng-include src="'app/stream/no-connection.tpl.html'"></ng-include>
   </ion-content>
 </ion-view>

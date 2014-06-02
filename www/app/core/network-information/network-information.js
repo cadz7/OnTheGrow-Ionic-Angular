@@ -3,13 +3,14 @@
 angular.module('sproutApp.network-information', [
 ])
 
-.factory('networkInformation', [
+.factory('networkInformation', ['$log', 'Notify',
 
-  function () {
+  function ($log, Notify) {
     'use strict';
 
     var service = {
-      simulate: {}
+      simulate: {},
+      isOnline: true
     };
 
     var listeners = {
@@ -17,26 +18,15 @@ angular.module('sproutApp.network-information', [
       offline: []
     };
 
-    function isOnline() {
-      console.log('connection', navigator.connection, Connection.NONE);
-      return navigator.connection.type !== Connection.NONE;
-    }
-
-    if (service.simulate) {
-      service.isOnline = true;
-    } else {
-      service.isOnline = isOnline();      
-    }
-
     service.simulate.setStatus = function(newValue) {
       var oldValue = service.isOnline;
       service.isOnline = newValue;
       if (newValue && !oldValue) {
-        console.log('Now simulating online.');
-        fire('online');
+        $log.log('Now simulating online.');
+        service.setOnline();
       } else if (oldValue && !newValue) {
-        console.log('Now simulating offline.');
-        fire('offline');
+        $log.log('Now simulating offline.');
+        service.setOffline();
       }
     }
 
@@ -46,7 +36,24 @@ angular.module('sproutApp.network-information', [
       } else {
         service.simulate.setStatus(true);
       }
-    }
+    };
+
+    service.setOnline = function() {
+      if (!service.isOnline) {
+        $log.log('Device is online.');
+        service.isOnline = true;
+        fire('online');
+      }
+    };
+
+    service.setOffline = function() {
+      if (service.isOnline) {
+        Notify.warn('Sprout has entered offline mode.  You can still track your activities in offline mode but most other features are disabled.', 'Network Connection Lost!');
+        $log.log('Device is offline.');
+        service.isOnline = false;
+        fire('offline');
+      }
+    };
 
     function fire(event) {
       listeners[event].forEach(function(listener) {
