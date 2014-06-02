@@ -113,16 +113,8 @@ angular.module('sproutApp.controllers')
 
   //search for activities based on the user's text
   $scope.$watch('newPost.text', function(newVal, oldVal){
-    console.log("$scope.currentState, $scope.previousState, oldVal", $scope.currentState, $scope.previousState, oldVal);
-    
     //user has cleared all search text -> take then back to the category select view
     if (!newVal) {
-
-      if (oldVal) {
-        // User might have hit the back button in the breadcrumb with search field containing remnants of search.
-        // In this case, just return here so we don't conduct a search
-        return;
-      }
 
       // restore user to the state they were in before searching (either category or activity view)
       $scope.currentState = $scope.previousState;
@@ -195,7 +187,10 @@ angular.module('sproutApp.controllers')
     var currentState = $scope.states[$scope.currentState],
         rootIndex = $scope.currentState - 2;
 
-    $scope.newPost.text = '';
+    if ($scope.newPost.text.length > 0) {
+      $scope.currentState = $scope.previousState = 0;
+      rootIndex = -1;
+    }
 
     if (rootIndex > -1) {
       var rootState = $scope.states[rootIndex];
