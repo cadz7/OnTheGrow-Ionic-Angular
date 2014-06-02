@@ -42,17 +42,16 @@
           <div class="col col-50">
             <label class="item item-input item-stacked-label">
               <span class="input-label">Date</span>
-              <input type="date" name="date" ng-model="currentActivity.date" max="{{maxDate}}" required placeholder="yyyy-MM-dd" style="padding-left: 0px"/>
+              <input type="date" name="date" ng-model="currentActivity.date" max="{{maxDate}}" required placeholder="yyyy-MM-dd"/>
               <span class="input-label"  style="color:red" ng-show="activityForm.date.$error.required">Date Required!</span>
             </label>
           </div>
         </div>
 
         <div class="row">
-          <ion-radio ng-model="selectedActivityUnit" ng-value="unit" ng-change="activityUnitSelected(unit)" ng-repeat="unit in currentActivityUnits">{{unit.unitName}}</ion-radio>
+          <div class="col">
+          <ion-checkbox ng-model="selectedActivityUnit" ng-value="unit" ng-change="activityUnitSelected(unit)" ng-repeat="unit in currentActivityUnits">{{unit.unitName}}</ion-checkbox>
         </div>
-
-        <div class="row" >
           <div class="col">
             <label class="item item-input item-stacked-label">
               <span class="input-label">Quantity ({{currentActivity.unitName}})</span>
@@ -67,8 +66,8 @@
         <div class="row">
           <div class="col" style="text-align: right">
             <span style="color:red">{{errorMessage}}</span>
-            <button class="button button-balanced" ng-click="addActivity()" ng-disabled="!activityForm.$valid || savingActivity">Add</button>
-            <button class="button button-assertive" ng-click="clearActivity()">Clear</button>
+            <button class="button button-full button-blue" ng-click="addActivity()" ng-disabled="!activityForm.$valid || savingActivity">Add</button>
+            <!-- <button class="button button-assertive" ng-click="clearActivity()">Clear</button> -->
           </div>
         </div>
       </form>
@@ -81,11 +80,11 @@
       </div>
       <div class="row" ng-show="!activtyQueue || activtyQueue.length === 0">
         <div class="col">
-          <span class="subdued">No Activites Selected<span>
+          <p class="subdued">No Activites Selected</p>
         </div>
       </div>
       <ion-list  show-delete="true" >
-        <ion-item ng-repeat="activity in activtyQueue" class="item-thumbnail-right activity-queue-item" ng-click="restoreActivity(activity)">
+        <ion-item ng-repeat="activity in activtyQueue" class="activity-queue-item" ng-click="restoreActivity(activity)">
           You tracked {{activity.quantity}} {{activity.unitName}} of {{activity.activityName}}
           <ion-delete-button class="ion-minus-circled" ng-click="activtyQueue.splice($index, 1)">
         </ion-item>

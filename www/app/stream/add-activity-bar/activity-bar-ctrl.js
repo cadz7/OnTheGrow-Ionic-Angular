@@ -56,7 +56,7 @@ angular.module('sproutApp.controllers')
         $scope.currentActivity = {
           activityName : item.activityName,
           activityCategoryId : item.activityCategoryId,
-          quantity : item.quantity || 1,
+          quantity : item.quantity,
           date:$scope.maxDate        
         };
         
