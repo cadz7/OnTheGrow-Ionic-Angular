@@ -7,6 +7,12 @@ angular.module('sproutApp.controllers')
   var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'}; //constants for view state
   var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'}; //constants for accessing display name of the activities
   var selectedActitivities = []; //unfiltered list of activites to display
+
+  var resetForm = function() {
+    if ($scope.activityFormPointer) {
+      $scope.activityFormPointer.activityForm.$setPristine(true);
+    }
+  }
   
   $scope.currentState = 0;
   $scope.amEditing = null;
@@ -25,6 +31,9 @@ angular.module('sproutApp.controllers')
 
       $scope.currentActivity.activityUnitId = newVal.unitId;
       $scope.currentActivity.unitName = newVal.unitName;
+
+      resetForm();
+      $scope.$broadcast('app.onDemandFocus.activityQuantity');
     }
   };
 
@@ -80,7 +89,7 @@ angular.module('sproutApp.controllers')
 
         $scope.currentState = 2;
 
-        //$scope.$broadcast('app.hardFocus.activityQuantity');
+        $scope.$broadcast('app.onDemandFocus.activityQuantity');
 
         this.currentValue = item;
       }
@@ -155,9 +164,16 @@ angular.module('sproutApp.controllers')
     $scope.categoryListData = _.filter(activities.categories,function(val){return val[NAMEKEYS.activityCategoryDisplayName].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
     
   });
-
+  
+  $scope.$on('app.formLocator.activityForm', function(evt, form) {
+    $scope.activityFormPointer = form.scope;
+    evt.stopPropagation();
+  });
+  
   //reset the activity tracking view state
   function resetActivitySelect() {
+    resetForm();
+
     $scope.previousState = $scope.currentState = 0;
     $ionicScrollDelegate.scrollTop();
     $scope.title = 'Activity Categories';
@@ -202,6 +218,12 @@ angular.module('sproutApp.controllers')
   };
 
   $scope.backtrackBreadcrumb = function() {
+    if ($scope.activityFormPointer) {
+      $scope.activityFormPointer.activityForm.$setPristine(true);
+    }
+
+    $scope.currentActivityUnits = [];
+    
     var currentState = $scope.states[$scope.currentState],
         rootIndex = $scope.currentState - 2;
 
@@ -217,6 +239,7 @@ angular.module('sproutApp.controllers')
     else {
       resetActivitySelect();
     }
+
   }
 
   //user cancels the track activty -> go back to the stream
@@ -268,6 +291,9 @@ angular.module('sproutApp.controllers')
       $scope.savingActivty = false;
       $scope.activtyQueue.length = 0;
       Notify.userSuccess("You logged activities!");
+
+      $scope.createActivityModal.hide();
+
     }, Notify.notifyTheCommonErrors(function(response){
       $scope.savingActivty = false;
       Notify.apiError('Failed to log activities.');

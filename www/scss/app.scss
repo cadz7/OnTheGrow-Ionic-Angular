@@ -275,3 +275,7 @@ button {
   -ms-user-select: auto;
   user-select: auto;
 }
+
+.action-sheet-group:first-child button {
+  color: $orange;
+}

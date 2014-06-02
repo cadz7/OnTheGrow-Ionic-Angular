@@ -330,3 +330,42 @@
   white-space: normal;
   max-width: 600px;
 }
+
+
+.activity-radio {
+  display: inline-block;
+  border: 0;
+
+  i.radio-icon {
+    left: 0;
+    right: auto;
+    padding: 0px 8px;
+  }
+
+  .item-content, input:checked~.item-content {
+    padding: 5px 15px 5px 35px;
+    background: $base-background-color;
+  }
+  
+  i.radio-icon {
+    visibility: visible;
+  }
+
+  input~i.radio-icon:before {
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    border: 0;
+    background: #fff;
+    content: '\f170';
+    color: #8cc841;
+    padding: 0;
+    transition: background-color 20ms ease-in-out;
+  }
+
+  input:checked~i.radio-icon:before {
+    border-width: 2px;
+    border-radius: 20px;
+    content: '\f120';
+  }
+}
