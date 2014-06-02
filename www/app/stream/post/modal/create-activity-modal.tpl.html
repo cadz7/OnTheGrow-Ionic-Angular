@@ -30,6 +30,12 @@
         </div>
       </div>
 
+      <div class="list" ng-show="searchCategoryListVisible">
+        <div class="col col-50 activity-item-container" ng-repeat="item in categoryListData">
+          <div class="activity-item" ng-click="onCategorySelect(item)">{{item['activityCategoryDisplayName']}}</div>
+        </div>
+      </div>
+
       <form name="activityForm" ng-show="showActivityForm" >
         <div class="row" >
           <div class="col col-50">
