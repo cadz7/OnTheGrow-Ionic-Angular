@@ -25,7 +25,14 @@ describe('server service', function() {
           })
         };
     });
-   
+    $provide.factory('$window', function () {
+
+        return {         
+          location : {
+            replace : function(url){return true;}
+          }        
+        };
+    });
   }));
 
   beforeEach(function(){
@@ -138,6 +145,14 @@ describe('server service', function() {
 
   });//LOGIN
   
+  describe('refreshAuthToken',function(){
+    it('should make a PUT request',function(done){
+      $httpBackend.expectPUT(apiRoot+'auth/refresh_token').respond(200,{token:'Something'});
+      server.refreshAuthToken().then(function(){done();},done);
+      $httpBackend.flush();      
+    });
+  });
+
   describe('getCacheKey', function(){
     it('should return a string', function(){
       expect(server.getCacheKey()).to.be.a.string;

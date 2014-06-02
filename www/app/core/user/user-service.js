@@ -26,7 +26,14 @@ angular.module('sproutApp.user', [
       if (_.isObject(user.data) && user.data.userId) {
         console.log('loaded user from cache')
         user.isAuthenticated = true;
-        authenticatedDeferred.resolve();
+        if(APP_CONFIG.useMockData){
+          authenticatedDeferred.resolve();
+        }else{
+          server.refreshAuthToken()
+                .then(function() { 
+                  authenticatedDeferred.resolve();
+                });
+        }
       }else{
         user.isAuthenticated = false;        
       }

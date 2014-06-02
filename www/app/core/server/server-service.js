@@ -11,8 +11,8 @@ angular.module('sproutApp.server', [
 // however, check connection status before making calls. It also reports
 // connection status to the higher level services.
 
-.factory('server', ['util', '$log','$http','$q','API_URL', 'networkInformation','cache',
-  function(util, $log, $http,$q,API_URL, networkInformation,cache) {
+.factory('server', ['util', '$log','$http','$q','API_URL', 'networkInformation','cache','userStorage','$window',
+  function(util, $log, $http,$q,API_URL, networkInformation,cache,userStorage,$window) {
     var service = {
        isReachable : true,
 
@@ -22,30 +22,26 @@ angular.module('sproutApp.server', [
     service.getCacheKey = function(){return 'Authorization';};
     
         
-    //common handler for successful calls to the server. resolves the promise with the response.data if successfull HTTP code, 
+    //common handler for successful calls (200 level) to the server. resolves the promise with the response.data if successfull HTTP code, 
     //otherwise it rejectes the promise
     function responseHandler(result,promise){
-      switch(result.status){
+      promise.resolve(result.data);
+    };
+
+    //handler if http fails (non 200 level)
+    function errorHandler (error, promise){
+      switch(error.status){
         case 401:
           options.headers['Authorization'] = null;
           cache.delete(service.getCacheKey());
+          $log.error('received response code: 401. loging user out now.')
+          userStorage.removeUser();
+          $window.location.replace($window.location.toString().split('#')[0]);
           break;
         case 404 :
           service.isReachable = false;
           break;
-        default:
-          service.isReachable = true;
-          break;
       }
-      if(result.status >= 200 && result.status <= 299)
-        promise.resolve(result.data);
-      else
-        promise.reject(result.data);
-    };
-
-    //handler if http fails
-    function errorHandler (error, promise){
-      service.isReachable = false;
       promise.reject(error.data ? error.data : error);
     };
 
@@ -87,6 +83,22 @@ angular.module('sproutApp.server', [
       
       return deferred.promise;       
     }
+
+    //ask the server to extend the life of the current auth token
+    service.refreshAuthToken = function(){
+      var deferred = $q.defer();
+      $http.put(API_URL+'auth/refresh_token')
+      .then(function(result){     
+        var token =  'sprout-token ' +result.data.token;
+        if(cache.get(service.getCacheKey())) cache.set(service.getCacheKey(),token)
+        options.headers['Authorization'] = token;        
+        responseHandler(result,deferred);       
+      },function(error){
+        errorHandler(error,deferred);
+      });
+      
+      return deferred.promise;      
+    };
 
     //preform a HTTP GET
     service.get = function(url, params) {
