@@ -4,7 +4,11 @@
     </div>
 
     <div class="postInputArea row">
-      <input type="text" ng-model="newComment" ng-enter="postComment(newComment)" placeholder="Add a comment..." class="add-comment col col-80">
+      <expand-input ng-model="post.newComment"
+                    max-length="8000"
+                    placeholder="Add a comment..."
+                    class="add-comment col col-80">
+      </expand-input>
       <button type="button" class="button button-small button-stable col col-20" ng-click="postComment(newComment)">Post</button>
   </div>
 </div>
