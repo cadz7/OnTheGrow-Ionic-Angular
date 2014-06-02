@@ -7,7 +7,7 @@ angular.module('sproutApp.system', [])
 
       service.initialize = function(){
         service.platform = ionic.Platform.platform();
-        service.isIOS = ionic.Platform.isAndroid();
+        service.isIOS = ionic.Platform.isIOS();
         service.isAndroid = ionic.Platform.isAndroid();
         $log.debug('system has been initialized.')
       };
