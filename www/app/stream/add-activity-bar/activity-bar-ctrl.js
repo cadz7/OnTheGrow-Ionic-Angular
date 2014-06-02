@@ -224,10 +224,11 @@ angular.module('sproutApp.controllers')
 
   //save the activity queue and go back to stream if successful, else display an error
   $scope.saveActivities = function() {
+    console.log('save called');
     $scope.savingActivty = true;
     activities.logActivities($scope.activtyQueue)
     .then(function(result){
-      streamItems.reload();
+      //streamItems.reload();
       $scope.savingActivty = false;
       $scope.activtyQueue.length = 0;
       Notify.userSuccess("You logged activities!");
@@ -235,6 +236,12 @@ angular.module('sproutApp.controllers')
       $scope.savingActivty = false;
       Notify.apiError('Failed to log activities.');
     }));
+    console.log('saving complete');
+    $scope.closeModalonSubmit(); 
+  };
+
+  $scope.closeModalonSubmit = function() {
+      $scope.createActivityModal.hide();    
   };
 
   $scope.restoreActivity = function(item) {
