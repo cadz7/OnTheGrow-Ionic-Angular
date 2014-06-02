@@ -222,6 +222,8 @@ angular.module('sproutApp.controllers')
       $scope.activityFormPointer.activityForm.$setPristine(true);
     }
 
+    $scope.currentActivityUnits = [];
+    
     var currentState = $scope.states[$scope.currentState],
         rootIndex = $scope.currentState - 2;
 
@@ -237,6 +239,7 @@ angular.module('sproutApp.controllers')
     else {
       resetActivitySelect();
     }
+
   }
 
   //user cancels the track activty -> go back to the stream
