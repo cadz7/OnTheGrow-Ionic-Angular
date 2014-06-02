@@ -7,6 +7,12 @@ angular.module('sproutApp.controllers')
   var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'}; //constants for view state
   var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'}; //constants for accessing display name of the activities
   var selectedActitivities = []; //unfiltered list of activites to display
+
+  var resetForm = function() {
+    if ($scope.activityFormPointer) {
+      $scope.activityFormPointer.activityForm.$setPristine(true);
+    }
+  }
   
   $scope.currentState = 0;
   $scope.amEditing = null;
@@ -25,6 +31,9 @@ angular.module('sproutApp.controllers')
 
       $scope.currentActivity.activityUnitId = newVal.unitId;
       $scope.currentActivity.unitName = newVal.unitName;
+
+      resetForm();
+      $scope.$broadcast('app.onDemandFocus.activityQuantity');
     }
   };
 
@@ -163,9 +172,8 @@ angular.module('sproutApp.controllers')
   
   //reset the activity tracking view state
   function resetActivitySelect() {
-    if ($scope.activityFormPointer) {
-      $scope.activityFormPointer.activityForm.$setPristine(true);
-    }
+    resetForm();
+
     $scope.previousState = $scope.currentState = 0;
     $ionicScrollDelegate.scrollTop();
     $scope.title = 'Activity Categories';
