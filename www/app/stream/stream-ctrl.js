@@ -4,8 +4,8 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService', 'networkInformation',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService, networkInformation) {
+    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService', 'networkInformation', 'streamUIService',
+    function($scope, streamItems, $ionicModal, headerRemote, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService, networkInformation, streamUIService) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
@@ -171,38 +171,12 @@ angular.module('sproutApp.controllers')
       };
 
       $scope.showFilterOptions = function() {
-        $ionicActionSheet.show({
-          titleText: 'Filter By Type:',
-          // buttons: filters,
-          buttons: [{
-            text: 'All Posts',
-            id: 2
-          }, {
-            text: 'Activity Only',
-            id: 3
-          }, {
-            text: 'My Department',
-            id: 4
-          }, {
-            text: 'My Location',
-            id: 5
-          }, {
-            text: 'All',
-            id: 0
-          }],
-          cancelText: 'Back',
-          cancel: function() {
-            return true;
-          },
-          buttonClicked: function(index) {
-            $log.debug('actionIndex=', index);
-            $scope.filterByType = this.buttons[index].text;
-            $scope.filterId = this.buttons[index].id;
-            // TODO: scroll to top.
-            $scope.refresh();
-            return true;
-          }
-        });
+        streamUIService.pickFilter()
+          .then(function(streamItemFilter){
+            $log.debug('user picked this filter', streamItemFilter);
+            //TODO: scroll to top.
+            //TODO: call refresh with new streamItemFilter.filterType
+          });
       };
       //
       // REFRESH STREAM ITEMS HERE
