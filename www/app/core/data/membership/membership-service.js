@@ -40,7 +40,7 @@ angular.module('sproutApp.data.membership', [
       };
 
       var errorHandler = function(post){
-        return util.q.makeRejectedPromise('error unable to find method for post type ' + post.streamItemTypeSlug);
+        return util.q.makeRejectedPromise('error unable to find method for post type ' + post.relationTypeSlug);
       }
 
       var postTypeToJoinFunc = {
@@ -52,8 +52,8 @@ angular.module('sproutApp.data.membership', [
       // TODO test
       service.join = function (post, groupId) {
 
-        if (postTypeToJoinFunc[post.streamItemTypeSlug]){
-          return postTypeToJoinFunc[post.streamItemTypeSlug](post.relatedToId, groupId);
+        if (postTypeToJoinFunc[post.relationTypeSlug]){
+          return postTypeToJoinFunc[post.relationTypeSlug](post.relatedToId, groupId);
         } else {
           return errorHandler(post);
         }

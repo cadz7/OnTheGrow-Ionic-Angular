@@ -13,11 +13,11 @@ angular.module('sproutApp.data.joinable-stream-item-service', [
 
 
       var _getDetail = function (post) {
-        if (post.streamItemTypeSlug === 'challenge') {
+        if (post.relationTypeSlug === 'challenge') {
           return challenge.getChallengeDetails(post.relatedToId);
-        } else if (post.streamItemTypeSlug === 'group') {
+        } else if (post.relationTypeSlug === 'group') {
           return group.getGroupDetails(post.relatedToId);
-        }  else if (post.streamItemTypeSlug === 'event') {
+        }  else if (post.relationTypeSlug === 'event') {
           return event.getEventDetails(post.relatedToId);
         } else {
           $log.debug('unable to find details for ', post);

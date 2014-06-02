@@ -21,12 +21,12 @@ angular.module('sproutApp.services')
       };
 
       function getResource(streamItem) {
-        var slug = streamItem.streamItemTypeSlug;
+        var slug = streamItem.relationTypeSlug;
         var resource = resourcesForPost[slug];
         if (resource) {
           return resource;
         } else {
-          //$log.error('Could not find resource for streamItemTypeSlug', slug);
+          //$log.error('Could not find resource for relationTypeSlug', slug);
           return resourcesForPost['generic'];
         }
       }
