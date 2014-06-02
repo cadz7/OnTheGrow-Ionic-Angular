@@ -3,13 +3,16 @@ angular.module('sproutApp.data.event', [
   'sproutApp.util'
 ])
 
-  .factory('event', ['$log', '$q', 'user', 'util', 'API_CONSTANTS', 'mockEventServer',
-    function ($log, $q, user, util, API_CONSTANTS, server) {
+  .factory('event', ['$log', '$q', 'user', 'util', 'API_CONSTANTS', 'mockEventServer', 'locationGenerator',
+    function ($log, $q, user, util, API_CONSTANTS, server, locationGenerator) {
       var service = {};
 
-
       service.getEventDetails = function (eventId) {
-        return server.get(API_CONSTANTS.eventsEndpoint + '/' + eventId);
+        return server.get(API_CONSTANTS.eventsEndpoint + '/' + eventId)
+          .then(function(eventDetails){
+            eventDetails.eventLocationUrl = locationGenerator.getLocationUrl(eventDetails.eventLocation);
+            return eventDetails;
+          }, $log.error);
       };
 
       return service;
@@ -23,8 +26,7 @@ angular.module('sproutApp.data.event', [
         eventId: 22,
         eventName: '5k Marathon',
         eventDateTime: new Date(),
-        eventLocation: '1337 Front St',
-        eventLocationUrl: 'https://www.google.ca/maps/place/1337+Front+St+W/@43.6407934,-79.4011051,17z/data=!3m1!4b1!4m2!3m1!1s0x882b35207a8d77db:0xe4110e4611d64d6b',
+        eventLocation: '1337 Front St W Toronto, ON ',
         eventImageURL: 'img/group/event-default.png',
         numEventAttendees: 192,
         eventAttendees: {},

@@ -67,6 +67,10 @@ angular.module('sproutApp.directives').directive(
             return scope.user && scope.user.id.toString() === scope.post.author_id.toString();
           };
 
+          scope.openLink = function(link){
+            window.open(link, '_system');
+          };
+
 /* hiding this for now - comment fix
           scope.showAllComments = function () {
             if (scope.numCommentsDisplayed === scope.post.comments.length) {
