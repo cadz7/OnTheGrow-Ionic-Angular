@@ -6,13 +6,11 @@
 
         <left-nav-toggle-btn></left-nav-toggle-btn>
         <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.displayName}}</h1>
-        <h1 class="title" ng-show="editFilters" ng-click="toggleFiltersView()">Back <i class="icon ion-android-system-back"></i> 
-        </h1>
+        <h1 class="title" ng-show="editFilters">FILTER EDIT</h1>
         
-        <span class="icon ion-chevron-down filter-chevron"></span>
-        <div class="buttons">
-            <button class="button button-clear icon sprout-icon-notification"></button>
-        </div>
+        <span class="icon ion-chevron-down filter-chevron" ng-if="editFilters"></span>
+        <button class="button button-clear button-calm" ng-show="editFilters" ng-click="toggleFiltersView()">DONE</button>
+        <button class="button button-clear icon sprout-icon-notification" ng-hide="editFilters"></button>
     </ion-header-bar>
 
 
@@ -26,7 +24,7 @@
             <h3 class="rankingTitle">{{currentBoardTitle}}</h3>
             <ion-slide-box id="LeaderboardList" on-slide-changed="switchBoard(index)">
                 <ion-slide ng-repeat="board in leaderBoards">
-                    <div leader="leaderData" ng-repeat="leaderData in board.items | orderBy:'rank'" class="list card leader row">
+                    <div leader="leaderData" ng-repeat="leaderData in board.items | orderBy:'rank'" class="list card leader row" ng-class="{topThree : ($index < 3)}">
                     </div>
                 </ion-slide>
             </ion-slide-box>
@@ -37,14 +35,28 @@
             <div class="list">
                 <div class="item" ng-click="toggleActivityList()">
                     {{ selectedCategory.displayName || 'Choose Activity' }}
-                </div>
-                <a href="" class="item" ng-click="selectActivityFilter(activity)" ng-show="activityView" ng-repeat="activity in (selectedCategory.subFilters.length > 0) ? selectedCategory.subFilters : activityFilters">{{activity.displayName}}</a>
-            </div>
+                  <i class="icon ion-ios7-arrow-down"></i>
 
-            <ion-slide-box id="PeriodSlider" show-pager="false" on-slide-changed="getPeriod(index)">
+                </div>
+                <label class="item item-input">
+                  <input type="text" ng-model="activitySearchText.displayName" placeholder="e.g. - Cardio, Housework, Veggies...">
+                  <i class="icon ion-ios7-search placeholder-icon"></i>
+                </label>
+                <a href="" class="item" ng-click="selectActivityFilter(activity)" ng-show="activityView || activitySearchText.displayName" ng-repeat="activity in (selectedCategory.subFilters.length > 0) ? selectedCategory.subFilters : activityFilters | filter:activitySearchText">{{activity.displayName}}</a>
+            </div>
+            <h3>Duration</h3>
+            <ion-slide-box id="PeriodSlider" delegate-handle="PeriodSlider" show-pager="false" on-slide-changed="getPeriod(index)">
                 <ion-slide class="list item" ng-repeat="period in periods">
-                    <div class="">
-                        <h1>{{period.displayName}}</h1>
+                    <div class="row">
+                        <div class="col col-30 filter left" style="text-align: left">
+                            {{periods[$index - 1].displayName}}
+                        </div>
+                        <div class="col col-40 filter selected" style="text-align: center">
+                            {{$index > 0 ? '' : ''}} {{period.displayName}} {{$index < timePeriodFilters.length ? '' : ''}}
+                         </div>
+                        <div class="col col-30 filter right" style="text-align: right">
+                            {{periods[$index + 1].displayName}}
+                        </div>
                     </div>
                 </ion-slide>
             </ion-slide-box>
