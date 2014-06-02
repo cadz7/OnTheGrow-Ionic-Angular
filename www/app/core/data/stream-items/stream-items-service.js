@@ -244,9 +244,9 @@ angular.module('sproutApp.data.stream-items', [
     service.postItem = function(item) {
 
       // Commenting out this until we have worked out the correct slug type for a generic post
-      // item.streamItemTypeSlug = 'post';
+      // item.relationTypeSlug = 'post';
 
-      item.streamItemTypeSlug = 'add_notification';
+      item.relationTypeSlug = 'add_notification';
       return server.post(API_CONSTANTS.streamItemsEndPoint, item).then(function(post) {
         decoratePostsWithFunctionality([post]);
         latestId = post.streamItemId;   // TODO: fix race condition here.
@@ -402,10 +402,10 @@ angular.module('sproutApp.data.stream-items', [
 
   // This is a stub: the streamItem from API will already have the correct type and template
   var streamItemTypeSlugs = [
-    {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}', title: 'someTitle', detail: {}},
-    {itemType: 'group', template: 'Group post by {user.name}', heroImg: 'img/group/group-default.png',title: 'Yoga Group', greyText: null, orangeText: '22 Members', detail: mockGroupServer.getMockData()},
-    {itemType: 'event', template: 'Event post by {user.name}', heroImg: 'img/group/event-default.png',title: '5k Marathon', greyText: 'May 9, 2014', orangeText: '200 Attending', detail: mockEventServer.getMockData()},
-    {itemType: 'challenge', template: 'Challenge post by {user.name}', heroImg: 'app/stream/post/joinable/components/detail/sample-images/biketowork.jpg',title: 'Bike to Work', greyText: 'Ends: May 1, 2014', orangeText: '66 Challengers', detail: mockChallengeServer.getMockData()}
+    {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}', detail: {}},
+    {itemType: 'group', template: 'Group post by {user.name}',title: 'Yoga Group', detail: mockGroupServer.getMockData()},
+    {itemType: 'event', template: 'Event post by {user.name}', detail: mockEventServer.getMockData()},
+    {itemType: 'challenge', template: 'Challenge post by {user.name}',  detail: mockChallengeServer.getMockData()}
   ];
 
   function makeComment(item, author, commentText) {
@@ -446,12 +446,10 @@ angular.module('sproutApp.data.stream-items', [
     var streamItemTypeSlug = streamItemTypeSlugs[id % 4];
 
     item.streamItemTypeSlug = streamItemTypeSlug.itemType;
-    item.streamItemDisplay.template = streamItemTypeSlug.template;
-    item.streamItemDisplay.heroImg = streamItemTypeSlug.heroImg;
-    item.streamItemDisplay.title = streamItemTypeSlug.title;
+    item.relationTypeSlug = streamItemTypeSlug.itemType;
 
-    item.streamItemDisplay.greyText = streamItemTypeSlug.greyText;
-    item.streamItemDisplay.orangeText = streamItemTypeSlug.orangeText;
+    item.streamItemDisplay.template = streamItemTypeSlug.template;
+    item.streamItemDisplay.title = streamItemTypeSlug.title;
 
     item.detail = streamItemTypeSlug.detail;
 
@@ -547,6 +545,7 @@ angular.module('sproutApp.data.stream-items', [
       } else {
         var createdItem = makeStreamItem(latestId++);
         createdItem.streamItemTypeSlug = item.streamItemTypeSlug;
+        createdItem.relationTypeSlug = item.relationTypeSlug;
         createdItem.owner = _.clone(user.data);
         createdItem.viewer.isOwnedByViewer = true;
         createdItem.dateTimeCreated = new Date().toISOString();

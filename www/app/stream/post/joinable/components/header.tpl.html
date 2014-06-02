@@ -6,7 +6,7 @@
         <i class="icon" ng-class="streamItemResourceService.getJoinableHeaderIcon(post)"></i>
 
         <div class="col col-75">
-          <div ng-switch="post.streamItemTypeSlug" ng-if="post.detail">
+          <div ng-switch="post.relationTypeSlug" ng-if="post.detail">
             <div ng-switch-when="group">
               <div ng-include="'app/stream/post/joinable/components/header-details/group-header.tpl.html'"></div>
             </div>

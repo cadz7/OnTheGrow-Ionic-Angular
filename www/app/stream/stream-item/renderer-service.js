@@ -75,11 +75,11 @@ angular.module('sproutApp.services')
         item.points = null;
         item.content = streamItemResourceService.getContent(item);
 
-        if (item.streamItemTypeSlug === 'challenge' || 1 ||
-          item.streamItemTypeSlug === 'event' ||
-          item.streamItemTypeSlug === 'group'){
+        if (item.relationTypeSlug === 'challenge' || 1 ||
+          item.relationTypeSlug === 'event' ||
+          item.relationTypeSlug === 'group'){
           res = generateJoinableTemplate(res, item);
-        } else if (item.streamItemTypeSlug === 'post'){
+        } else if (item.relationTypeSlug === 'post'){
           res = $templateCache.get('joinable-header'); // TODO
         } else {
           res = $templateCache.get('joinable-header'); // TODO
