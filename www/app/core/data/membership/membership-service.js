@@ -11,27 +11,26 @@ angular.module('sproutApp.data.membership', [
         $log.debug('joining ' + type + ' #' + id + ' with group #' + groupId);
       }
 
-      service.joinChallenge = function (id, groupId) {
-        logAction('challenge', id, groupId);
+      service.joinChallenge = function (relatedToId, groupId) {
+        logAction('challenge', relatedToId, groupId);
 
         // TODO confirm params with API (js)
         var params = {
-          id: id,
           groupId: groupId
         };
 
-        return server.post(API_CONSTANTS.challengesMembershipEndpoint, params);
+        return server.post(API_CONSTANTS.challengesMembershipEndpoint + '/' + relatedToId, params);
       };
 
 
-      service.joinEvent = function (id, groupId) {
-        logAction('event', id, groupId);
-        return server.post(API_CONSTANTS.eventsMembershipEndpoint, {id: id});
+      service.joinEvent = function (relatedToId, groupId) {
+        logAction('event', relatedToId, groupId);
+        return server.post(API_CONSTANTS.eventsMembershipEndpoint + '/' + relatedToId);
       };
 
-      service.joinGroup = function (id, groupId) {
-        logAction('group', id, groupId);
-        return server.post(API_CONSTANTS.groupsMembershipEndpoint, {id: id});
+      service.joinGroup = function (relatedToId, groupId) {
+        logAction('group', relatedToId, groupId);
+        return server.post(API_CONSTANTS.groupsMembershipEndpoint + '/' + relatedToId);
       };
 
       var errorHandler = function(post){
