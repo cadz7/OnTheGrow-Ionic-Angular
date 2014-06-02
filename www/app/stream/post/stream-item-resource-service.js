@@ -8,7 +8,6 @@ angular.module('sproutApp.services')
       var templatePath = 'app/stream/post/';
       var headerIconPath = 'img/icons/';
       var resourcesForPost = {
-        //sprout-icon-group
         event: {template: 'joinable/event.tpl.html', headerIcon: 'sprout-icon-event'},
         group: {template: 'joinable/group.tpl.html', headerIcon: 'sprout-icon-group'},
         challenge: {template: 'joinable/challenge.tpl.html', headerIcon: 'sprout-icon-challenge'},
