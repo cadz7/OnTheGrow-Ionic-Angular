@@ -109,16 +109,26 @@ angular.module('sproutApp.controllers')
     $scope.addActivityVisible = true;
   };
 
+  $scope.previousState = 0;
+
   //search for activities based on the user's text
   $scope.$watch('newPost.text', function(newVal, oldVal){
+    console.log("$scope.currentState, $scope.previousState, oldVal", $scope.currentState, $scope.previousState, oldVal);
     //user has cleared all search text -> take then back to the category select view
     if (!newVal) {
-      resetActivitySelect();
-      return;
+      $scope.currentState = $scope.previousState;
+
+      if ($scope.currentState === 0) {
+        resetActivitySelect();
+        return;
+      }
+    }
+    else if (!oldVal) {
+      $scope.previousState = $scope.currentState;
     }
 
     //if the user has not selected an activity category, search all activities. else search the selected activity category
-    switch ($scope.states[$scope.currentState].name) {
+    switch ($scope.states[$scope.previousState].name) {
       case STATES.categorySelect:
         //change view to the activities view state
         $scope.currentState = 2;
@@ -129,9 +139,10 @@ angular.module('sproutApp.controllers')
         //fall through -> only want to search on activities
       case STATES.activitySelect:
         //filter the activity list
-        $scope.activityData = _.filter(selectedActitivities,function(val){return val[$scope.nameKey].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
       break;
     }//switch    
+    
+    $scope.activityData = _.filter(selectedActitivities,function(val){return val[$scope.nameKey].toLowerCase().indexOf(newVal.toLowerCase()) >= 0;});
   });
 
   //reset the activity tracking view state
