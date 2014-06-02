@@ -8,6 +8,7 @@ angular.module('sproutApp')
 .directive('expandInput', ['$log', '$compile', function($log, $compile) {
   var shrunkInput = '<input type="text" maxlength="@maxLength" ng-model="ngModel"\
         placeholder="@placeholder" ng-enter="ngEnter()" class="@class"\
+        placeholder="@placeholder" ng-enter="ngEnter()" class="@class" show-keyboard="focus"\
         ng-focus="expandInput()" />';
   return {
     restrict: 'E',

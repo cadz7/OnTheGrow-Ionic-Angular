@@ -233,7 +233,13 @@ angular.module('sproutApp', [
           if (angular.isString(arg)) {
             msg += " " + arg;
           } else {
-            msg += ": "+JSON.stringify(arg);
+            try {
+              msg += ": "+JSON.stringify(arg);
+            } catch (ex) {
+              // intentionally swallow...
+              // TODO: figure out how to handle cyclic graphs.
+              msg += 'Could not serialize data structure because it contains references to itself.';
+            }
           }
         });
 
