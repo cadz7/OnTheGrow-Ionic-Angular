@@ -4,13 +4,13 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicActionSheet', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService', 'networkInformation',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicActionSheet, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService, networkInformation) {
+    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService', 'networkInformation', 'streamUIService',
+    function($scope, streamItems, $ionicModal, headerRemote, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService, networkInformation, streamUIService) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
     	$scope.filterByType = 'ALL';
-      $scope.filterId = null;
+      $scope.streamItemFilter = null;
 
       var closeCreatePostModal = function() {
         $scope.createStreamItemModal.hide();
@@ -57,7 +57,7 @@ angular.module('sproutApp.controllers')
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
           $log.debug('Running performInfiniteScroll');
-          streamItems.getEarlier($scope.filterId).then(function() {
+          streamItems.getEarlier($scope.streamItemFilter).then(function() {
             $scope.showNoConnectionScreen = false;
             $scope.$broadcast('scroll.infiniteScrollComplete');
           })
@@ -69,7 +69,7 @@ angular.module('sproutApp.controllers')
       }, 1000);
 
       $scope.refresh = function() {
-        streamItems.reload($scope.filterId).then(function() {
+        streamItems.reload($scope.streamItemFilter).then(function() {
           $scope.showNoConnectionScreen = false;
         }, function error(response) {
           ifNoStreamItemsShowNoConnectionScreen();
@@ -171,38 +171,13 @@ angular.module('sproutApp.controllers')
       };
 
       $scope.showFilterOptions = function() {
-        $ionicActionSheet.show({
-          titleText: 'Filter By Type:',
-          // buttons: filters,
-          buttons: [{
-            text: 'All Posts',
-            id: 2
-          }, {
-            text: 'Activity Only',
-            id: 3
-          }, {
-            text: 'My Department',
-            id: 4
-          }, {
-            text: 'My Location',
-            id: 5
-          }, {
-            text: 'All',
-            id: 0
-          }],
-          cancelText: 'Back',
-          cancel: function() {
-            return true;
-          },
-          buttonClicked: function(index) {
-            $log.debug('actionIndex=', index);
-            $scope.filterByType = this.buttons[index].text;
-            $scope.filterId = this.buttons[index].id;
-            // TODO: scroll to top.
+        streamUIService.pickFilter()
+          .then(function(streamItemFilter){
+            $log.debug('user picked filter', streamItemFilter);
+            $scope.streamItemFilter = streamItemFilter;
             $scope.refresh();
-            return true;
-          }
-        });
+            //TODO: scroll to top.
+          });
       };
       //
       // REFRESH STREAM ITEMS HERE
