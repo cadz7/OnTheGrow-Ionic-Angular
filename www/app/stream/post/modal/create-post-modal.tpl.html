@@ -8,15 +8,10 @@
   </ion-header-bar>
   <ion-content class="padding has-header">
     <div class="list create-post-input">
-      <label class="item item-input item-select">
+      <label class="item" ng-click="chooseSharingTargets()">
         <div class="input-label">
-          Share with:
+          Share with: {{shareWith.displayName}}
         </div>
-        <select>
-          <option selected="selected">Company</option>
-          <option>Group</option>
-          <option>Other</option>
-        </select>
       </label>
     </div>
       <ion-content class="list list-item">
