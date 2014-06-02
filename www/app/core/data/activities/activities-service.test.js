@@ -24,6 +24,9 @@ describe('activities service', function() {
           var deferred = Q.defer();
 
           switch(url){
+            case apiRoots.sugestedActivitiesEndpoint:
+              deferred.resolve([{"activityUnitId":104,"quantity":4}]);  
+            break;
             case apiRoots.activityCategoryEndpoint:
               deferred.resolve([{some:'thing'}]);              
             break;
@@ -73,7 +76,7 @@ describe('activities service', function() {
     expect(activities).to.not.be.undefined;
   });
 
-  it('activities service should get the right data', function (done) {
+  it('activities service should load a collection of activities', function (done) {
     return activities.whenReady()
       .then(function() {
         expect(activities.categories).to.be.defined;
@@ -82,7 +85,15 @@ describe('activities service', function() {
       },done);
   });  
 
-  it('should load a activity log',function(done){
+  it('should get suggested activities', function(done){
+    activities.getSugestedActivities()
+    .then(function(suggestedActivities){
+      expect(suggestedActivities).to.be.an.array;
+      done();
+    },done);
+  });
+
+  it('should load an activity log',function(done){
     return activities.whenReady()
       .then(function() {
         return activities.loadActivityLog(1,1);
