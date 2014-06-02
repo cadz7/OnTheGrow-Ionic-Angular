@@ -2,14 +2,14 @@
   <img ng-src="{{post.avatarURL}}" />
 
   <div class="post-info row">
-    <div class="col col-75">
+    <div class="col col-66">
       <span class="author">{{post.owner.firstNameDisplay + ' ' + post.owner.lastName}}</span>
       <br />
       <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
     </div>
-    <div class="col">
-      <div ng-show="post.points" class="points-container">
-        <span class="points">{{post.points}}</span>
+    <div class="col col-25">
+      <div ng-show="post.streamItemDisplay.values.points" class="points-container">
+        <span class="points">{{post.streamItemDisplay.values.points}}</span>
         <span class="pointsLabel">points</span>
       </div>
     </div>
