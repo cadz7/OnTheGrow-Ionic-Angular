@@ -4,8 +4,8 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService', 'networkInformation', 'streamUIService',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService, networkInformation, streamUIService) {
+    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService', 'networkInformation', 'streamUIService', '$ionicScrollDelegate',
+    function($scope, streamItems, $ionicModal, headerRemote, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService, networkInformation, streamUIService, $ionicScrollDelegate) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
@@ -71,6 +71,8 @@ angular.module('sproutApp.controllers')
       $scope.refresh = function() {
         streamItems.reload($scope.streamItemFilter).then(function() {
           $scope.showNoConnectionScreen = false;
+          $ionicScrollDelegate.scrollTop(false);
+
         }, function error(response) {
           ifNoStreamItemsShowNoConnectionScreen();
           Notify.apiError('Failed to fetch any stream items!');
