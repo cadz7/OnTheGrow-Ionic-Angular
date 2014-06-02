@@ -40,9 +40,13 @@ angular.module('sproutApp.config', [])
       challengesEndpoint : 'challenges',
 
       //EVENTS
-      eventsEndpoint : 'events'
+      eventsEndpoint : 'events',
 
-
+      //MEMBERSHIP
+      membershipEndpoint : 'memberships',
+      eventsMembershipEndpoint : 'memberships/events',
+      groupsMembershipEndpoint : 'memberships/groups',
+      challengesMembershipEndpoint : 'memberships/challenges'
 
     })
     .constant('APP_CONFIG', {

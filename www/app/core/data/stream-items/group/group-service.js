@@ -21,7 +21,7 @@ angular.module('sproutApp.data.group', [
 
       var mockGroupDetailData = {
         groupId: 242,
-        groupName: 'IT Group',
+        groupName: 'Yoga Nameste',
         groupImageURL: 'img/group/group-default.png',
         numGroupMembers: '20',
         groupMembers: {}
