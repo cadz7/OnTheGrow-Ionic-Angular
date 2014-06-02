@@ -44,8 +44,8 @@ angular.module('sproutApp', [
   'sproutApp.network-information',
   'sproutApp.notification'
 ])
-.run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems','$state','$rootScope', 'system',
-  function($ionicPlatform, user, $log, networkInformation, streamItems,$state,$rootScope, system) {
+.run(['$ionicPlatform', 'user', '$log', 'networkInformation', 'streamItems','$state','$rootScope', 'system', 'Notify',
+  function($ionicPlatform, user, $log, networkInformation, streamItems,$state,$rootScope, system, Notify) {
 
     window.onerror = function(error) {
       $log.error(error);
@@ -66,6 +66,16 @@ angular.module('sproutApp', [
       $log.info('====== DEVICE INFO ====== \r\n', deviceDetails);
       $log.info('Welcome to Sprout App!');
       system.initialize();
+    }
+
+    function updateOnlineStatus() {
+      $log.log('App resuming, checking connection status...');
+      if((navigator.connection.type).toUpperCase() != "NONE" &&
+          (navigator.connection.type).toUpperCase() != "UNKNOWN") {
+        networkInformation.setOnline();
+      } else {
+        networkInformation.setOffline();
+      }
     }
 
     function verifyRequiredPluginsAreInstalled() {
@@ -93,21 +103,30 @@ angular.module('sproutApp', [
       } else if (!window.cordova.plugins) {
         $log.error('cordova plugins namespace missing');
       } else {
-        $log.info('Plugins Installed: ', window.cordova.plugins);
         if (!window.cordova.plugins.calendar) {
-          $log.error('You are missing the calendar plugin.');
+          $log.error('MISSING PLUGIN: calendar');
         }
         if (!window.cordova.plugins.Keyboard) {
-          $log.error('You are missing the keyboard plugin.');
+          $log.error('MISSING PLUGIN: ionic-keyboard');
         }
         if (!window.SoftKeyboard) {
-          $log.error('SoftKeyboard plugin is missing!');
+          $log.error('MISSING PLUGIN: SoftKeyboard');
+        }
+        if (!window.navigator || !window.navigator.connection) {
+          $log.error('MISSING PLUGIN: network-information');
         }
       }
     }
 
     $ionicPlatform.ready(function() {
       logDeviceDetails();
+
+      document.addEventListener("online", networkInformation.setOnline, false);
+      document.addEventListener("offline", networkInformation.setOffline, false);
+      document.addEventListener("resume", updateOnlineStatus, false);
+
+      updateOnlineStatus();
+
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if(window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

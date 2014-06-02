@@ -25,7 +25,6 @@ angular.module('sproutApp')
       maxLength: '@maxLength'
     },
     link: function(scope, elem, attrs) {
-      $log.debug('expandInput.link()', attrs);
       scope.expandInput = function() {
         var html = '<textarea ng-model="ngModel" class="post-box" style="height:100%; width:100%; overflow:auto" ng-blur="shrinkInput()"></textarea>';
         var textarea = $compile(html)(scope);

@@ -28,6 +28,13 @@ angular.module('sproutApp.notification', ['toaster', 'sproutApp.config'])
       $log.debug('Notify: ', title, msg);
       toaster.pop('success', title, msg);
     },
+    warn: function(msg, title) {
+      if (!title) {
+        title = 'Warning!';
+      }
+      $log.warn('Notify: ', title, msg);
+      toaster.pop('warning', title, msg);
+    },
     errorMsg: APP_CONFIG.errorMsg,
     notifyTheCommonErrors: function(customHandler) {
       return function(response) {
