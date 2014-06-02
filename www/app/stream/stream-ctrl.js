@@ -10,7 +10,7 @@ angular.module('sproutApp.controllers')
 
     	$scope.header = headerRemote;
     	$scope.filterByType = 'ALL';
-      $scope.filterId = null;
+      $scope.streamItemFilter = null;
 
       var closeCreatePostModal = function() {
         $scope.createStreamItemModal.hide();
@@ -57,7 +57,7 @@ angular.module('sproutApp.controllers')
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
           $log.debug('Running performInfiniteScroll');
-          streamItems.getEarlier($scope.filterId).then(function() {
+          streamItems.getEarlier($scope.streamItemFilter).then(function() {
             $scope.showNoConnectionScreen = false;
             $scope.$broadcast('scroll.infiniteScrollComplete');
           })
@@ -69,7 +69,7 @@ angular.module('sproutApp.controllers')
       }, 1000);
 
       $scope.refresh = function() {
-        streamItems.reload($scope.filterId).then(function() {
+        streamItems.reload($scope.streamItemFilter).then(function() {
           $scope.showNoConnectionScreen = false;
         }, function error(response) {
           ifNoStreamItemsShowNoConnectionScreen();
@@ -173,9 +173,10 @@ angular.module('sproutApp.controllers')
       $scope.showFilterOptions = function() {
         streamUIService.pickFilter()
           .then(function(streamItemFilter){
-            $log.debug('user picked this filter', streamItemFilter);
+            $log.debug('user picked filter', streamItemFilter);
+            $scope.streamItemFilter = streamItemFilter;
+            $scope.refresh();
             //TODO: scroll to top.
-            //TODO: call refresh with new streamItemFilter.filterType
           });
       };
       //

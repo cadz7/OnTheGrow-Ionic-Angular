@@ -129,12 +129,12 @@ angular.module('sproutApp.data.stream-items', [
      * @return {promise}               A $q promise that resolves to the list
      *                                 of loaded items.
      */
-    service.reload = function (filterId) {
+    service.reload = function (streamItemFilter) {
       var params = {};
 
-      if (filterId){
+      if (streamItemFilter){
         params = {
-          filterId: filterId
+          filterId: streamItemFilter.filterId
         };
       }
 
@@ -160,11 +160,15 @@ angular.module('sproutApp.data.stream-items', [
      * @return {promise}               A $q promise that resolves to the list
      *                                 of added items.
      */
-    service.getEarlier = function (filterId) {
+    service.getEarlier = function (streamItemFilter) {
       var params = {
-        idLessThan: earliestId || null,  // if earliestId is 0 then don't actually send it.
-        filterId: filterId
+        idLessThan: earliestId || null  // if earliestId is 0 then don't actually send it.
       };
+
+      if (streamItemFilter){
+        params.filterId = streamItemFilter.filterId;
+      }
+
       return getStreamItems(params)
         .then(function (items) {
           pushItemsAtTheBottom(items);
