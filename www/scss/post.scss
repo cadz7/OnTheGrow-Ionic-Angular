@@ -166,23 +166,31 @@
     }
     .postInputArea {
         background: #eee;
-        &.row{
+        padding-right: 0px;
+        .col:first-child {
+            padding-right: 0;
+        }
+        &.row {
             padding:0;
         }
         input {
+            font-size: 1rem;
+            line-height: 1;
             border-radius: 3px;
-            margin-right:5px;
             font-family: $font-family-serif;
         }
         .button {
-            font-size: 1rem;
+            font-size: .8rem;
             line-height: 0;
             color: #aaa;
             background-color: #fff;
             border-radius: 2px;
             border: 1px solid #ddd;
             width: 100%;
+            padding:0;
             min-height: 34px;
+            text-transform: uppercase;
+            line-height: 1;
         }
     }
     .likeArea {
@@ -211,7 +219,6 @@
         font-size: 14px;
         line-height: 16px;
         display: inline-block;
-        vertical-align: middle;
     }
     .challenge-description {
         font-weight: 300;
@@ -229,15 +236,15 @@
         margin-top: 5px;
         margin-bottom: 1rem;
     }
-   .header-location-icon{
-     font-size: 1rem;
-     padding-right: 5px;
-     color:$orange;
-   }
-   .event-location{
-     color: $orange;
-     line-height: 1.8;
-   }
+    .header-location-icon {
+        font-size: 1rem;
+        padding-right: 5px;
+        color:$orange;
+    }
+    .event-location {
+        color: $orange;
+        line-height: 1.8;
+    }
 }
 .comment {
     background: #F9F9F9;
@@ -272,14 +279,10 @@
         line-height: 1.4;
         white-space: pre-wrap !important;
     }
-
 }
-
-.author-wrapper{
-  padding: 10px 5px 0px 10px;
+.author-wrapper {
+    padding: 10px 5px 0px 10px;
 }
-
-
 .post a.tab-item:after {
     background: #333;
     background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#333));
@@ -323,49 +326,9 @@
 .action-sheet-backdrop {
     z-index: 99999;
 }
-
-.activity-log-content{
-  word-wrap: break-word;
-  text-overflow: ellipsis;
-  white-space: normal;
-  max-width: 600px;
-}
-
-
-.activity-radio {
-  display: inline-block;
-  border: 0;
-
-  i.radio-icon {
-    left: 0;
-    right: auto;
-    padding: 0px 8px;
-  }
-
-  .item-content, input:checked~.item-content {
-    padding: 5px 15px 5px 35px;
-    background: $base-background-color;
-  }
-  
-  i.radio-icon {
-    visibility: visible;
-  }
-
-  input~i.radio-icon:before {
-    display: inline-block;
-    width: 100%;
-    height: auto;
-    border: 0;
-    background: #fff;
-    content: '\f170';
-    color: #8cc841;
-    padding: 0;
-    transition: background-color 20ms ease-in-out;
-  }
-
-  input:checked~i.radio-icon:before {
-    border-width: 2px;
-    border-radius: 20px;
-    content: '\f120';
-  }
+.activity-log-content {
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    white-space: normal;
+    max-width: 600px;
 }
