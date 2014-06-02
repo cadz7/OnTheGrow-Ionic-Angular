@@ -11,6 +11,20 @@ angular.module('sproutApp.controllers')
   $scope.currentState = 0;
   $scope.amEditing = null;
 
+  $scope.preferredUnits = {};
+  $scope.currentActivityUnits = [];
+  $scope.selectedActivityUnit = {};
+
+  $scope.activityUnitSelected = function(newVal) {
+    if (newVal && 'activityName' in $scope.currentActivity && $scope.currentActivity.activityName) {
+      $scope.preferredUnits[$scope.currentActivity.activityName] = newVal;
+      $scope.selectedActivityUnit = newVal;
+
+      $scope.currentActivity.activityUnitId = newVal.unitId;
+      $scope.currentActivity.unitName = newVal.unitName;
+    }
+  };
+
   // This is to aid in breadcrumb navigation
   // Might need forward/backward navigation if it gets more complex (currently only 2 levels deep)
   $scope.states = [
@@ -22,7 +36,7 @@ angular.module('sproutApp.controllers')
         $scope.activityData = item.activities;
         selectedActitivities = $scope.activityData;
         $scope.nameKey = NAMEKEYS.activityName;
-        $scope.currentState++;
+        $scope.currentState = 1;
         $scope.activityListVisible = true;
         $scope.showActivityForm = false;
         $ionicScrollDelegate.scrollTop(false);
@@ -42,12 +56,28 @@ angular.module('sproutApp.controllers')
         $scope.currentActivity = {
           activityName : item.activityName,
           activityCategoryId : item.activityCategoryId,
-          activityUnitId : item.activityUnits[0].unitId,
-          unitName : item.activityUnits[0].unitName,
-          quantity : item.quantity || 1,
+          quantity : item.quantity,
           date:$scope.maxDate        
         };
-        $scope.currentState++;
+        
+        $scope.currentActivityUnits = item.activityUnits;
+
+        if (!$scope.preferredUnits[item.activityName]) {
+          $scope.currentActivity.activityUnitId = item.activityUnits[0].unitId;
+          $scope.currentActivity.unitName = item.activityUnits[0].unitName;
+
+          $scope.preferredUnits[item.activityName] = $scope.selectedActivityUnit = item.activityUnits[0];
+        }
+        else {
+          $scope.currentActivity.activityUnitId = $scope.preferredUnits[item.activityName].unitId;
+          $scope.currentActivity.unitName = $scope.preferredUnits[item.activityName].unitName;
+
+          $scope.selectedActivityUnit = $scope.preferredUnits[item.activityName];
+        }
+
+        $scope.currentState = 2;
+
+        //$scope.$broadcast('app.hardFocus.activityQuantity');
 
         this.currentValue = item;
       }
@@ -57,6 +87,8 @@ angular.module('sproutApp.controllers')
       currentValue: null,
       selectFunction: function(item) {
         this.currentValue = item;
+
+        $scope.currentState = 3;
       }
     }
   ];
@@ -65,6 +97,7 @@ angular.module('sproutApp.controllers')
   $scope.errorMessage = '';
   $scope.activtyQueue = [];
   $scope.currentActivity = {};
+  $scope.currentActivityUnits = [];
 
   //set the maxium valid date (for input[date]) to today
   var now = new Date();
@@ -88,7 +121,7 @@ angular.module('sproutApp.controllers')
     switch ($scope.states[$scope.currentState].name) {
       case STATES.categorySelect:
         //change view to the activities view state
-        $scope.currentState++;
+        $scope.currentState = 2;
         $scope.title = 'Activities';
         $scope.nameKey = NAMEKEYS.activityName;
         selectedActitivities = _.flatten(_.pluck(activities.categories,'activities'), true);      
@@ -111,6 +144,7 @@ angular.module('sproutApp.controllers')
     $scope.activityListVisible = true;
     $scope.showActivityForm = false;
     $scope.errorMessage = '';
+    $scope.currentActivityUnits = [];
     $scope.newPost = {
       text: ''
     };

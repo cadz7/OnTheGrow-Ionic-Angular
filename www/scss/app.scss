@@ -42,6 +42,18 @@ $Sprout-font-path: "../fonts/Sprout/fonts" !default;
 body{
   color:$darkgrey;
 }
+hr {
+    margin:0;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+}
+.button{
+  border-radius: 3px;
+}
 .subdued{
   color:$mediumgrey;
 }
@@ -54,15 +66,6 @@ body{
 }
 .has-tabs{
   bottom:0;
-}
-hr {
-    margin:0;
-    border: 0;
-    height: 1px;
-    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-    background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-    background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-    background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
 }
 .bar .button.button-clear{
   font-size: 1rem;
@@ -120,6 +123,10 @@ button {
 }
 .button.button-positive{
    background-color: $green;
+ }
+ .button.button-blue{
+   background-color: $blue;
+   color:#fff;
  }
 .main > .tabs {
   background: $positive;
@@ -249,4 +256,11 @@ button {
 
 .border-none{
   border: none;
+}
+
+.enableTap {
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
 }

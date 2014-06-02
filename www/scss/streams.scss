@@ -33,19 +33,25 @@
     }
 }
 .create-post-input {
-    top: 22px;
+    top: 25px;
+    padding-bottom: 10px;
 }
 /* Modal for creating post */
  .create-post-modal, .create-activity-modal {
     ion-header-bar button.post {
+        font-size: 1rem;
         position: absolute;
         right: 10px;
-        padding: 10px;
+        padding: 0;
         margin: 0;
-        line-height: 12px;
+        line-height: 1;
         color: $mediumgrey;
         background-color: $base-background-color;
+        top: 5px;
+        right: 5px;
+        bottom: 5px;
     }
+
     ion-header-bar button.post.active {
         color: $blue;
         font-weight: 500;
@@ -92,35 +98,115 @@
     overflow: hidden;
     h3.activity-title {
         font-size: 14px;
+        text-align: center;
         color: $mediumgrey;
-        padding-bottom: 3px;
-        border-bottom: 1px solid $mediumgrey;
+        padding: 10px 0;
         margin-bottom: 0px;
     }
     .activity-select {
         height: 100%;
+        position: relative;
+        input{
+            line-height: 1;
+            background: 0;
+            padding: 5px;
+            border: 0;
+            border: 1px solid $lightgrey;
+            border-radius: 3px;  
+            padding: 7px;  
+        }
+        .input-label{
+            padding:0;
+            text-transform: uppercase;
+            font-size: .6rem;
+            font-weight: 500;
+            color:$mediumgrey;
+        }
+        .item-input{
+            padding: 0;
+            border: 0;
+        }
+        .item-checkbox{
+            font-size: .8rem;
+            padding-left: 30px;
+            border: 0;
+            padding-bottom: 5px;
+            padding-right: 10px;
+            padding-top: 5px;
+            margin-bottom: 10px;
+            display: inline-block;
+            margin: 26px 0 5px 0;
+        }
+        .checkbox-icon {
+            position: relative;
+            width: 25px;
+            height: 25px;
+            display: block;
+            border: 0;
+            background: 0 0;
+            cursor: pointer;
+            -webkit-appearance: none;
+            &:after{
+                top: 8px;
+                left: 24%;
+                display: table;
+                width: 14px;
+                height: 9px;
+            }
+        }
+        .checkbox {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                left: 0;
+                z-index: 3;
+                margin-top: -21px;
+                padding-left: 0;
+            }
+        .breadcrumb {
+            position: absolute;
+            top: 19px;
+            font-size: .8rem;
+            color: $blue;
+            .ion-chevron-left {
+                font-size: .6rem;
+            }
+        }
+        .list{
+            margin-bottom:0px;
+        }
         .activity-item-container {
             display: inline-block;
             &:nth-child(odd) {
-                padding-right : 3px;
+                padding-right : 5px;
             }
             &:nth-child(even) {
-                padding-left : 3px;
+                padding-left : 5px;
             }
             .activity-item {
+                font-size: .75rem;
+                font-weight: 500;
                 border: 1px solid $green;
                 background: $lightgreen;
-                padding: 3px;
+                padding: 5px;
                 color: $darkgreen;
                 border-radius: 3px;
                 text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
+        }
+        .subdued{
+            font-size: .8rem;
+            text-align: center;
         }
     }
     .activity-queue-item {
+        font-size: .8rem;
         min-height: 0px;
         .item-content {
-            padding-left: 0px;
+            padding: 15px;
             min-height: 0px;
         }
     }
@@ -171,7 +257,7 @@
         width: 100%;
         z-index: 99999;
         background: white;
-        height:20px;
+        height:20px;    
     }
     #sproutPostsScroller {
         top: 5px;
