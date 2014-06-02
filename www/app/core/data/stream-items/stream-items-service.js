@@ -422,7 +422,7 @@ angular.module('sproutApp.data.stream-items', [
       dateTimeCreated: new Date().toISOString(),
       commentText: commentText,
       commentDisplay: {
-        template: '{user.firstNameDisplay} says: {text}', // _ default tags
+        template: '{text}', // _ default tags
         values: {
           text: commentText,
           user: _.cloneDeep(author)
@@ -550,7 +550,7 @@ angular.module('sproutApp.data.stream-items', [
         createdItem.viewer.isOwnedByViewer = true;
         createdItem.dateTimeCreated = new Date().toISOString();
         createdItem.streamItemDisplay = {
-          template: '{user.firstNameDisplay} says: {text}',
+          template: '{text}',
           values: {
             user: _.clone(user.data),
             text: item.text
