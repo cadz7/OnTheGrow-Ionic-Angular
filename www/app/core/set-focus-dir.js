@@ -36,4 +36,29 @@ angular.module('sproutApp')
     }
   };
 }])
+
+.directive('onDemandFocus', ['$timeout', function($timeout) {
+  return {
+    restrict: 'A',
+    link: function(scope, elem, attrs) {
+      scope.$on('app.onDemandFocus.' + attrs['onDemandFocus'], function(evt, data) {
+        $timeout(function() {
+          elem[0].focus();
+        }, 0);
+      })
+    }
+  }
+}])
+
+.directive('formLocator', ['$timeout', function($timeout) {
+  return {
+    restrict: 'A',
+    link: function(scope, elem, attrs) {
+      scope.$emit('app.formLocator.' + attrs['formLocator'], {
+        scope: scope,
+        element: elem[0]
+      });
+    }
+  }
+}])
 ;
