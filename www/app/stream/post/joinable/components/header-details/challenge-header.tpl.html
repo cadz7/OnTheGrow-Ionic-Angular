@@ -1,8 +1,7 @@
 <h1 class="title" ng-click="showDetailView()">{{post.detail.challengeName}}</h1>
-<div class="author">Ends: {{post.detail.challengeDeadline | date : 'MMM d'}}</div>
-<div class="basic" ng-if="isWrappedInModal">{{post.detail.challengeType}}</div>
-<div class="basic">{{post.detail.numChallengeParticipants}} Challengers</div>
-
+<div class="highlight">Ends: {{post.detail.challengeDeadline | date : 'MMM d'}}
+<span class="basic"> - {{post.detail.numChallengeParticipants}} Challengers</span></div>
+<div class="basic uppercase" ng-if="isWrappedInModal">{{post.detail.challengeType}}</div>
 
 <!--var mockChallengeDetailData = {-->
 <!--challengeId: 666,-->

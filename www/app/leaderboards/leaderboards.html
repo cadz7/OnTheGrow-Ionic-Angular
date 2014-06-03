@@ -4,10 +4,10 @@
     <ion-header-bar align-title="center" class="bar">
         <!-- Hamburger Button -->
 
-        <left-nav-toggle-btn></left-nav-toggle-btn>
+        <left-nav-toggle-btn ng-hide="editFilters"></left-nav-toggle-btn>
+        <button class="button button-icon icon sprout-icon-close" ng-show="editFilters" ng-click="toggleFiltersView()"></button>
         <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.displayName}}</h1>
         <h1 class="title" ng-show="editFilters">FILTER EDIT</h1>
-        
         <span class="icon ion-chevron-down filter-chevron" ng-if="editFilters"></span>
         <button class="button button-clear button-calm" ng-show="editFilters" ng-click="toggleFiltersView()">DONE</button>
         <button class="button button-clear icon sprout-icon-notification" ng-hide="editFilters"></button>
@@ -35,12 +35,12 @@
             <div class="list">
                 <div class="item" ng-click="toggleActivityList()">
                     {{ selectedCategory.displayName || 'Choose Activity' }}
-                  <i class="icon ion-ios7-arrow-down"></i>
+                    <i class="icon ion-ios7-arrow-down"></i>
 
                 </div>
                 <label class="item item-input">
-                  <input type="text" ng-model="activitySearchText.displayName" placeholder="e.g. - Cardio, Housework, Veggies...">
-                  <i class="icon ion-ios7-search placeholder-icon"></i>
+                    <input type="text" ng-model="activitySearchText.displayName" placeholder="e.g. - Cardio, Housework, Veggies...">
+                    <i class="icon ion-ios7-search placeholder-icon"></i>
                 </label>
                 <a href="" class="item" ng-click="selectActivityFilter(activity)" ng-show="activityView || activitySearchText.displayName" ng-repeat="activity in (selectedCategory.subFilters.length > 0) ? selectedCategory.subFilters : activityFilters | filter:activitySearchText">{{activity.displayName}}</a>
             </div>
@@ -52,16 +52,16 @@
                             {{periods[$index - 1].displayName}}
                         </div>
                         <div class="col col-40 filter selected" style="text-align: center">
-                            {{$index > 0 ? '' : ''}} {{period.displayName}} {{$index < timePeriodFilters.length ? '' : ''}}
-                         </div>
-                        <div class="col col-30 filter right" style="text-align: right">
-                            {{periods[$index + 1].displayName}}
+                            {{$index > 0 ? '' : ''}} {{period.displayName}} {{$index
+                            < timePeriodFilters.length ? '' : ''}} </div>
+                                <div class="col col-30 filter right" style="text-align: right">
+                                    {{periods[$index + 1].displayName}}
+                                </div>
                         </div>
-                    </div>
                 </ion-slide>
             </ion-slide-box>
 
-        </div>
+            </div>
 
     </ion-content>
 
