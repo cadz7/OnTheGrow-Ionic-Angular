@@ -281,6 +281,12 @@ angular.module('sproutApp.data.stream-items', [
       });
     }
 
+    /**
+     * Out of scope - js.
+     *
+     * @param streamItem
+     * @returns {*}
+     */
     service.hidePost = function(streamItem){
       if (!user.isAuthenticated) {
         return util.q.makeRejectedPromise(new Error('Not authenticated.'));
@@ -441,7 +447,7 @@ angular.module('sproutApp.data.stream-items', [
     item.owner = _.cloneDeep(owners[id % 5]);
     item.avatarURL = avatarURLs[id % 5];
     item.viewer.isLikedByViewer = id % 2;
-    item.viewer.isOwnedByViewer = item.owner.userId === 42 ? 1 : 0;
+    item.viewer.isOwnedByViewer = item.owner.userId === user.data.userId ? 1 : 0;
     item.streamItemId = id;
     item.streamItemDisplay.values.user.id = item.owner.userId;
     item.streamItemDisplay.values.user.name = item.owner.firstNameDisplay + ' ' +
