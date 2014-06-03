@@ -96,6 +96,28 @@
         </ion-item>
       </ion-list>
 
+       <div class="row">
+        <div class="col">
+          <h3 class="activity-title">Suggested Activities (tap to add)</h3>
+          <hr>
+        </div>
+      </div>
+      <ion-list show-delete="true" >
+        <ion-item ng-repeat="activity in suggestedActivities" class="activity-queue-item" style="padding: 0;" ng-click="addSuggestedActivity(activity)">
+          <!-- <a class="button button-balanced icon ion-plus  button-icon" style="float: left"></a> -->
+          <div class="row">
+            <div class="col col-20">
+            <a class="button button-icon icon ion-plus balanced" ></a>
+          </div>
+          <div class="col " style="padding-top: 15px">
+            Track {{activity.quantity}} {{activity.activityUnitDisplayName}} of {{activity.activityDisplayName}}
+          </div>
+         </div>
+        </div>
+        </div>
+        </ion-item>
+      </ion-list>
+
     </div>
   </ion-content>
 </div>

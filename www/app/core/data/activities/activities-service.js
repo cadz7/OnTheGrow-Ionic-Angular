@@ -1019,7 +1019,7 @@ angular.module('sproutApp.data.activities', [
                               {"activityUnitId":105,"quantity":20},
                               {"activityUnitId":107,"quantity":60},
                               {"activityUnitId":108,"quantity":20}
-                            ];
+                              ];
                              
 
     return {
