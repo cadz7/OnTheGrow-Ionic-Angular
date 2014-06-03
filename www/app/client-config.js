@@ -10,6 +10,9 @@ angular.module('sproutApp.config', [])
       initialCommentCountShown: 3,
       initialPostCharCount: 70
     })
+    .constant('METRICS_CONSTANTS',{
+      defaultMaxItemCount : 10  //default number of activity logs to get in a single req
+    })
     .constant('API_CONSTANTS', {
       streamitemTypeId: 9,
       //AUTHENTICATION note: login is preformed by server.login inorder to keep track of the auth token

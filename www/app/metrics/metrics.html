@@ -59,6 +59,6 @@
             </div>
         </div>
 
-        <ion-infinite-scroll on-infinite="performInfiniteScroll()" icon="ion-loading-c" distance="1%"></ion-infinite-scroll>
+        <ion-infinite-scroll ng-if="loadMoreActivities" on-infinite="performInfiniteScroll()" icon="ion-loading-c" distance="1%"></ion-infinite-scroll>
     </ion-content>
 </ion-view>

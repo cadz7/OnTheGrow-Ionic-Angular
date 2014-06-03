@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sproutApp.controllers')
-  .controller('MetricsCtrl', ['$scope', 'headerRemote', 'activities', '$log','user','filters', 'scores','$q',
-   function ($scope, headerRemote, activities, $log, user, filters, scores, $q) {
+  .controller('MetricsCtrl', ['$scope', 'headerRemote', 'activities', '$log','user','filters', 'scores','$q','METRICS_CONSTANTS',
+   function ($scope, headerRemote, activities, $log, user, filters, scores, $q,METRICS_CONSTANTS) {
     var MILI_SECONDS_IN_DAY = 86400000;
 
     $scope.header = headerRemote;
@@ -13,6 +13,8 @@ angular.module('sproutApp.controllers')
     $scope.visibleSproutScore = 0; //total user sprout score for the current timespan (ie. log period)
     var allActivities = []; //holds a flattened array of all the activities
     var logPeriodFilter = {};
+
+    $scope.loadMoreActivities = true;
     filters.whenReady().then(function(){
       $scope.timePeriodFilters = filters.timePeriodFilters;
       return activities.whenReady();
@@ -84,10 +86,10 @@ angular.module('sproutApp.controllers')
     $scope.applyFilter = function(filterIndex) {
       if(logPeriodFilter === filters.timePeriodFilters[filterIndex])
        return; //dont reaply the current filter
-
+      $scope.loadMoreActivities = true;
       $scope.filterIndex = filterIndex;
       logPeriodFilter = filters.timePeriodFilters[filterIndex];
-      $q.all([activities.loadActivityLog(logPeriodFilter.filterId,0), 
+      $q.all([activities.loadActivityLog(logPeriodFilter.filterId, 0, METRICS_CONSTANTS.defaultMaxItemCount), 
                scores.getScoresForUser(logPeriodFilter.filterId)])
       .then(function(results) {
           $scope.groupedActivities = attachDisplayNames(results[0]);
@@ -96,16 +98,22 @@ angular.module('sproutApp.controllers')
         .then(null,$log.error);
     };
 
+
     //load more logs for the given activity log
     $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
           if (typeof $scope.groupedActivities === 'undefined' || $scope.groupedActivities.length == 0 ) return;
 
           activities.loadActivityLog(logPeriodFilter.filterId,
-                                      _.last($scope.groupedActivities).activityLogId)
+                                      _.last($scope.groupedActivities).activityLogId,
+                                      METRICS_CONSTANTS.defaultMaxItemCount)
           .then(function(activityLogs){
             if(activityLogs.length<1){
+              $scope.loadMoreActivities = false;
+
               return;
+            }else if(activityLogs.length < METRICS_CONSTANTS.defaultMaxItemCount){
+              $scope.loadMoreActivities = false;              
             }
 
             $scope.groupedActivities = _.union($scope.groupedActivities,attachDisplayNames(activities.activityLog));            
