@@ -202,6 +202,10 @@ angular.module('sproutApp.controllers')
         }
       };
 
+      $scope.cancelSharePost = function(target) {
+        hideModal($scope.shareStreamItemModal);
+      };
+
       $scope.createPost = function() {
         if (!networkInformation.isOnline) {
           Notify.userError('You cannot post in offline mode.');
