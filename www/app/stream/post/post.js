@@ -51,7 +51,10 @@ angular.module('sproutApp.directives').directive(
         link: function (scope, elem, attrs) {
           scope.STREAM_CONSTANTS = STREAM_CONSTANTS; // make accessible to view
           scope.streamItemResourceService = streamItemResourceService;
-
+          scope.streamItemModalService = streamItemModalService;
+          scope.showEarlierComments = function(){
+            return scope.isWrappedInModal && scope.post.comments.length > (-1 * streamItemModalService.commentLimit);
+          };
           scope.numCommentsDisplayed = scope.isWrappedInModal ? scope.post.comments.length : STREAM_CONSTANTS.initialCommentCountShown;
 
           scope.commentsExist = !!(scope.post.comments && scope.post.comments.length);
@@ -178,6 +181,7 @@ angular.module('sproutApp.directives').directive(
           function openPostInModal(type) {
             if (scope.modalContainer) {
               streamItemModalService.loadStreamItemDetails(scope.post, type);
+              streamItemModalService.resetCommentLimit();
               scope.modalContainer.show();
             } else {
               $log.debug('Trying to open a full post without given a modal container')
