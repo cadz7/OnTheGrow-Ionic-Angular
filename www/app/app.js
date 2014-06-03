@@ -86,7 +86,7 @@ angular.module('sproutApp', [
       } else if (!window.cordova.plugins) {
         $log.error('cordova plugins namespace missing');
       } else {
-        if (!window.cordova.plugins.calendar) {
+        if (!window.plugins.calendar) {
           $log.error('MISSING PLUGIN: calendar');
         }
         if (!window.cordova.plugins.Keyboard) {

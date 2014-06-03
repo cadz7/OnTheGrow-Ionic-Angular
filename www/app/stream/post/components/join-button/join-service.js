@@ -3,8 +3,8 @@
  * from some stream-item/post.
  */
 angular.module('sproutApp.services')
-  .factory('joinService', ['$log', '$ionicPopup', 'membership', '$ionicBackdrop', 'util',
-    function ($log, $ionicPopup, membership, $ionicBackdrop, util) {
+  .factory('joinService', ['$log', '$ionicPopup', 'membership', '$ionicBackdrop', 'util', '$rootScope',
+    function ($log, $ionicPopup, membership, $ionicBackdrop, util, $rootScope) {
       'use strict';
 
       var onTapGroup = function (groupId) {
@@ -37,24 +37,45 @@ angular.module('sproutApp.services')
        *
        * @param post
        */
+
+      var newScope = $rootScope.$new();
+      newScope.isChecked = true;
       service.join = function (post) {
 
-        if (post.viewer.eligibleGroups) {
+        if (!post.viewer.eligibleGroups) {
 
           return $ionicPopup.show({
+            template: '<div style="background: yellow"><ion-checkbox ng-model="isChecked">Add to calendar</ion-checkbox></div>',
             title: 'Who do you want to represent?',
-            buttons: loadButtons(post)
+            buttons: loadButtons(post),
+            scope: newScope
           })
             .then(function (groupId) {
               if (groupId) {
                 $log.debug('Picked group #' + groupId);
-                return membership.join(post, groupId);
+                return membership.join(post, groupId, {saveToCalendar: newScope.isChecked});
               } else {
                 return util.q.makeResolvedPromise('userCanceled'); //not an error
               }
             });
         } else {
-          return membership.join(post);
+          var buttons = [
+            {text: 'Cancel', type: 'button-default'},
+            {text: 'Yes', type: 'button-positive', onTap: function() { return 1; }},
+            {text: 'No', type: 'button-positive', onTap: function() { return 2; }}
+          ];
+          return $ionicPopup.show({
+            title: 'Add to calendar?',
+            buttons: buttons
+          })
+          .then(function (doSave) {
+            if (doSave === 1 || doSave === 2) {
+              $log.debug('Save to calendar choice:', doSave);
+              return membership.join(post, null, {saveToCalendar: doSave});
+            } else {
+              return util.q.makeResolvedPromise('userCanceled'); //not an error
+            }
+          });
         }
       };
 

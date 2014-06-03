@@ -12,6 +12,24 @@ angular.module('sproutApp.calendar', [])
   };
 
   service.addEvent = function(startDate, endDate, title, location, notes) {
+    if (!angular.isObject(startDate)) {
+      startDate =  new Date(startDate);
+      startDate += new Date( startDate.getTime() + ( startDate.getTimezoneOffset() * 60000 ) );;
+    }
+
+    if (!angular.isObject(endDate)) {
+      endDate =  new Date(endDate);
+      endDate += new Date( endDate.getTime() + ( endDate.getTimezoneOffset() * 60000 ) );;
+    }
+
+    $log.log('Event added: ', startDate, endDate, title, location, notes);
+    if (window.plugins && window.plugins.calendar) {
+      window.plugins.calendar.createEvent(title, location, notes, startDate, endDate, function(arg) {
+        $log.log('Successfully added event to device calendar.', arg);
+      }, function error(arg) {
+        $log.error('Failed to add event to device calendar', arg);
+      });
+    }
     return $q.when('sher');
   };
 

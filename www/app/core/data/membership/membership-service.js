@@ -24,10 +24,12 @@ angular.module('sproutApp.data.membership', [
       };
 
 
-      service.joinEvent = function (relatedToId, groupId, post) {
+      service.joinEvent = function (relatedToId, groupId, post, options) {
         logAction('event', relatedToId, groupId);
         return server.post(API_CONSTANTS.eventsMembershipEndpoint + '/' + relatedToId).then(function() {
-          calendar.addEvent(post.date)
+          if (options.saveToCalendar) {
+            calendar.addEvent(post.detail.eventDateTime, post.detail.eventDateTime, post.detail.eventName, post.detail.eventLocation, post.detail.eventDescription);
+          }
         });
       };
 
@@ -46,9 +48,9 @@ angular.module('sproutApp.data.membership', [
         'event' : service.joinEvent
       };
 
-      service.join = function (post, groupId) {
+      service.join = function (post, groupId, options) {
         if (postTypeToJoinFunc[post.relationTypeSlug]){
-          return postTypeToJoinFunc[post.relationTypeSlug](post.relatedToId, groupId, post);
+          return postTypeToJoinFunc[post.relationTypeSlug](post.relatedToId, groupId, post, options);
         } else {
           return errorHandler(post);
         }
