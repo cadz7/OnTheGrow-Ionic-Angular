@@ -74,10 +74,21 @@ angular.module('sproutApp.controllers')
         hideModal($scope.streamItemModal);
       };
 
-      function ifNoStreamItemsShowNoConnectionScreen() {
+      function ifNoStreamItemsShowReloadScreen() {
+        if (!$scope.stream.items || !$scope.stream.items.length) {
+          $log.debug('No Stream Items Were Found.');
+          $scope.status = 'NO_STREAM_ITEMS_FOUND';
+        } else {
+          $scope.status = 'OK';
+        }
+      }
+
+      function showNoConnectionScreen() {
         if (!$scope.stream.items || !$scope.stream.items.length) {
           $log.debug('No Connection Screen Shown');
-          $scope.showNoConnectionScreen = true;
+          $scope.status = 'NO_CONNECTION';
+        } else {
+          $scope.status = "OK";
         }
       }
 
@@ -86,10 +97,11 @@ angular.module('sproutApp.controllers')
           $log.debug('Running performInfiniteScroll');
           streamItems.getEarlier($scope.streamItemFilter).then(function() {
             $scope.showNoConnectionScreen = false;
+            ifNoStreamItemsShowReloadScreen();
             $scope.$broadcast('scroll.infiniteScrollComplete');
           })
           .then(null, function error() {
-            ifNoStreamItemsShowNoConnectionScreen();
+            showNoConnectionScreen();
             $scope.$broadcast('scroll.infiniteScrollComplete');
           });
         });
@@ -99,9 +111,9 @@ angular.module('sproutApp.controllers')
         streamItems.reload($scope.streamItemFilter).then(function() {
           $scope.showNoConnectionScreen = false;
           $ionicScrollDelegate.scrollTop(false);
-
+          ifNoStreamItemsShowReloadScreen();
         }, function error(response) {
-          ifNoStreamItemsShowNoConnectionScreen();
+          showNoConnectionScreen();
           Notify.apiError('Failed to fetch any stream items!');
           $log.error(response);
         });

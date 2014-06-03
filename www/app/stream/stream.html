@@ -73,7 +73,10 @@
     </ion-infinite-scroll>
 
 	</ion-content>
-  <ion-content ng-show="showNoConnectionScreen">
+  <ion-content ng-show="status=='NO_CONNECTION'">
   <ng-include src="'app/stream/no-connection.tpl.html'"></ng-include>
+  </ion-content>
+  <ion-content ng-show="status=='NO_STREAM_ITEMS_FOUND'">
+    <ng-include src="'app/stream/no-streams.tpl.html'"></ng-include>
   </ion-content>
 </ion-view>
