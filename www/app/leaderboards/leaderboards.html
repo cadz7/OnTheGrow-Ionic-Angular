@@ -3,13 +3,17 @@
     <!-- ion-header-bar -->
     <ion-header-bar align-title="center" class="bar">
         <!-- Hamburger Button -->
+
+
         <left-nav-toggle-btn ng-hide="editFilters"></left-nav-toggle-btn>
                 <button class="button button-icon icon sprout-icon-close" ng-show="editFilters" ng-click="toggleFiltersView()"></button>
         <h1 class="title" ng-show="!editFilters" ng-click="toggleLeaderBoardFilters()">{{selectedLeaderBoardFilter.displayName}}</h1>
         <h1 class="title" ng-show="editFilters">FILTER EDIT</h1>
-        <span class="icon ion-chevron-down filter-chevron" ng-if="editFilters"></span>
-        <button class="button button-clear button-calm" ng-show="editFilters" ng-click="toggleFiltersView()">DONE</button>
+        <span class="icon ion-chevron-down filter-chevron"  ng-class="{'ion-chevron-down':!showLeaderBoardFilters,'ion-chevron-up':showLeaderBoardFilters }"></span>
+      <div class="buttons">
+        <button class="button button-clear icon button-calm" ng-show="editFilters" ng-click="toggleFiltersView()">DONE</button>
         <button class="button button-clear icon sprout-icon-notification" ng-hide="editFilters"></button>
+      </div>
     </ion-header-bar>
 
 
