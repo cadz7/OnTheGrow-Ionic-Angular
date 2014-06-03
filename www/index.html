@@ -4,10 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height">
     <title></title>
-
+    <link href="lib/bower-components/AngularJS-Toaster/toaster.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,500' rel='stylesheet' type='text/css'>
-    <link href="lib/bower-components/AngularJS-Toaster/toaster.css" rel="stylesheet" />
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -19,7 +18,7 @@
 
     <!-- The Base App View -->
     <ion-nav-view></ion-nav-view>
-    <toaster-container></toaster-container>
+    <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
 
     <!-- 3rd party scripts -->
     <script src="lib/bower-components/AngularJS-Toaster/toaster.js"></script>

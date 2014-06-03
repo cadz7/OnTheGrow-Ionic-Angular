@@ -282,3 +282,25 @@ button {
 .action-sheet-group:first-child button {
   color: $orange;
 }
+
+/**** TOAST notification style overrides ****/
+.toast-top-full-width {
+  top: 5px;
+  right: 0;
+  width: 100%;
+}
+.toast-success {
+  background-color: $green;
+}
+.toast-error {
+  background-color: $orange;
+}
+#toast-container > div.ng-enter,
+#toast-container > div.ng-leave
+{ 
+    -webkit-transition: 100ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 1000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 1000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 1000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+} 
