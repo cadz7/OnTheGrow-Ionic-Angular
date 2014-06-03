@@ -78,7 +78,9 @@ angular.module('sproutApp', [
 
     function updateOnlineStatus() {
       $log.log('App resuming, checking connection status...');
-      if((navigator.connection.type).toUpperCase() != "NONE" &&
+      if (!navigator.connection) {
+        networkInformation.setOnline();
+      } else if ((navigator.connection.type).toUpperCase() != "NONE" &&
           (navigator.connection.type).toUpperCase() != "UNKNOWN") {
         networkInformation.setOnline();
       } else {

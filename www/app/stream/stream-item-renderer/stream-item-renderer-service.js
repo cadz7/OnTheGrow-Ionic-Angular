@@ -1,92 +1,134 @@
 angular.module('sproutApp.stream-item-renderer', [
+  'sproutApp.config'
 ])
-  .factory('streamItemRenderer', ['$q', '$log', '$timeout', '$http', '$templateCache', '$interpolate', 'streamItemResourceService', 'streamItemModalService',
-    function ($q, $log, $timeout, $http, $templateCache, $interpolate, streamItemResourceService, streamItemModalService) {
+  .factory('streamItemRenderer', ['$q', '$log', '$timeout', '$http', '$interpolate', 'streamItemResourceService', 'streamItemModalService', 'STREAM_CONSTANTS', 'template',
+    function ($q, $log, $timeout, $http, $interpolate, streamItemResourceService, streamItemModalService, STREAM_CONSTANTS, template) {
       var service = {};
-
-      var deferred = $q.defer();
-
-      service.whenReady = function(){
-        return deferred.promise;
+      var templates = {};
+      var templateUrls = {
+        joinable: 'app/stream/stream-item-templates/joinable.html'
       };
 
-      function _loadTemplates(){
+      var deferredReady = $q.defer();
 
-        var templateUrls = [
-          'app/stream/stream-item/stream-item-templates/joinable/joinable-header.tpl.html',
-          'app/stream/stream-item/stream-item-templates/joinable/joinable-content.tpl.html',
-          'app/stream/post/joinable/components/detail/challenge-content.html',
-          'app/stream/stream-item/stream-item-templates/joinable/joinable-activity-log.tpl.html',
-          'app/stream/stream-item/stream-item-templates/common/comments.tpl.html',
-          'app/stream/stream-item/stream-item-templates/common/like-comment.tpl.html'
-        ];
+      service.whenReady = function(){
+        return deferredReady.promise;
+      };
 
-        var templatePromises = _.map(templateUrls, function(templateUrl) {
-          return $http.get(templateUrl)
-            .then(function(response) {
-              templateName = templateUrl.split('/').pop().split('.')[0];
-              console.log(templateName);
-              $templateCache.put(templateName, response.data);
-            });
-        });
+      window.handleStreamClick = function(id, action) {
+        alert(action + ': ' + id);
+      };
 
+      function loadTemplate(key) {
+        var url = templateUrls[key];
+        return $http.get(url)
+          .then(function(response) {
+            templates[key] = Handlebars.compile(response.data);
+            //$interpolate(response.data);
+            // console.log(key);
+          });
+      }
+
+      function init() {
+        var templateKeys = _.keys(templateUrls);
+        var templatePromises = _.map(templateKeys, loadTemplate);
         return $q.all(templatePromises)
+          .then(function() {
+            deferredReady.resolve();
+          })
           .then(null, $log.error);
       };
 
-      _loadTemplates();
+      function getHeroImage (item) {
+        if (!item.detail) {
+          return;
+        } else {
+          return item.detail.eventImageURL || item.detail.challengeImageURL || item.detail.groupImageURL;
+        }
+      }
 
+      function isContentOverflowing(item) {
+        return item.content.length > STREAM_CONSTANTS.initialPostCharCount;
+      }
 
-      // TODO add a param that indicates content (comment view or detail view)
-      function generateJoinableTemplate(res, item) {
+      function makeJoinable (item, isWrappedInModal) {
+        var heroImage = getHeroImage(item);
 
-        var templates = [
-          // 'joinable-activity-log',
-          'joinable-header',
-          'joinable-content'
-        ];
+        var comments = _.map(item.comments, function(comment) {
+          return {
+            comment: comment,
+            displayName: comment.owner.firstNameDisplay,
+            dateTimeCreated: comment.dateTimeCreated, // | date : 'MMM d, y h:mm:ss'}},
+            parsedContent: template.fill(comment.commentDisplay.template, comment.commentDisplay.values)
+          };
+        });
 
-        // if (streamItemModalService.getViewType() === streamItemModalService.COMMENTS_VIEW || 1) {
-        //   templates.push('like-comment');
-        //   if (item.comments) {
-        //     templates.push('comments');
-        //   }
-        // }
+        itemType = {
+          isGroup: item.streamItemTypeSlug==='group',
+          isChallenge: item.streamItemTypeSlug==='challenge',
+          isEvent: item.streamItemTypeSlug==='event'
+        };
 
-        return _.map(templates, function(templateName) {
-          return $templateCache.get(templateName);
-        }).join('');
+        function makeHandlers() {
+          var handlerKeys = [
+            'close',
+            'toggleMembership',
+            'like',
+            'showDetails',
+            'showEditMenu',
+            'postComment',
+            'openEventUrl', // openLink(post.detail.eventLocationUrl)
+            'openGroupUrl',
+            'openChallengeUrl'
+          ];
+          var handlers = {};
+
+          handlerKeys.forEach(function(key) {
+            handlers[key] = 'handleStreamClick(\'' + item.streamItemId +'\', \'' + key +'\')';
+          });
+
+          return handlers;
+        }
+
+        return templates.joinable({
+          item: item,
+          itemType: itemType,
+          headerIcon: streamItemResourceService.getJoinableHeaderIcon(item),
+          displayName: item.owner.firstNameDisplay + ' ' + item.owner.lastNameDisplay,
+          timeCreated: '1 am on June 3, 2014', //{{post.dateTimeCreated | date : 'MMM d, h:mma'}}
+          details: '',
+          heroImage: heroImage,
+          hasHeroImage: !!heroImage,
+          joinButtonClass1: heroImage? ' join-btn-hero' : ' join-btn',
+          joinButtonClass2: (item.viewer.isMember === 1) ? ' sprout-icon-joined' : ' sprout-icon-join',
+          likeButtonClass: item.viewer.isLikedByViewer? '' : 'inactive',
+          comments: comments.slice(0, 2), // | trimToLatest:numCommentsDisplayed:isWrappedInModal"
+          contentIsOverflowing: isContentOverflowing(item) && !isWrappedInModal,
+          handlers: makeHandlers(),
+          eventDateTime: '6 am on July 18, 2014',
+          challengeDeadline: '9 pm on August 8, 2014'
+        });
       }
 
       function renderSync (item) {
-        var res = "";
-        item.headerIcon = streamItemResourceService.getJoinableHeaderIcon(item);
-        item.points = null;
-        item.content = streamItemResourceService.getContent(item);
-
-        if (item.streamItemTypeSlug === 'challenge' || 1 ||
-          item.streamItemTypeSlug === 'event' ||
-          item.streamItemTypeSlug === 'group'){
-          res = generateJoinableTemplate(res, item);
-        } else if (item.streamItemTypeSlug === 'post'){
-          res = $templateCache.get('joinable-header'); // TODO
-        } else {
-          res = $templateCache.get('joinable-header'); // TODO
-        }
-
-        return $interpolate(res)(item);
+        return makeJoinable(item);
       };
 
       service.render = function (item, delay) {
-        return $timeout(function() {
-          var html;
-          // console.time(item.streamItemId);
-          html = renderSync(item);
-          // console.timeEnd(item.streamItemId);
-          // console.log('html', html);
-          return html;
-        }, delay);
+        return service.whenReady()
+          .then(function() {
+            return $timeout(function() {
+              var html;
+              // console.time(item.streamItemId);
+              html = renderSync(item);
+              // console.timeEnd(item.streamItemId);
+              // console.log('html', html);
+              return html;
+            }, delay);
+          });
       }
+
+      init();
 
       return service;
     }])

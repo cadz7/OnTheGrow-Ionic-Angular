@@ -1,0 +1,105 @@
+<div class="item post" id="stream_item_{{item.streamItemId}}">
+  <div class="post-info row">
+    <div class="col-90">
+      <img src="{{item.avatarURL}}" class="activity-log-avatar"/>
+      <!--TODO replace {user.name} with class author and add as link, right now it's hardcoded below -->
+      <div class="author-wrapper">
+        <span class="author">{{displayName}}</span>
+        <span class="activity-log-content">{{item.content}}</span>
+      </div>
+      <span class="date">{{timeCreated}}</span>
+      {{#unless heroImage}}
+        <i class="icon" class="{{joinButtonClass1}} {{joinButtonClass2}}"></i>
+      {{/unless}}
+    </div>
+    <div class="col">
+      <div onclick="{{handlers.close}}" class="ion-close"></div>
+    </div>
+  </div>
+  <div class="special-avatar" style="height: 100px">
+      <div class="post-info row">
+          <i class="icon {{ headerIcon }}"></i>
+          <div class="col col-75">
+            {{#if itemType.isGroup}}
+              <h1 class="title" onclick="{{handlers.showDetails}}">{{item.detail.groupName}}</h1>
+              <div class="author">{{item.detail.numGroupMembers}} Members</div>
+            {{/if}}
+            {{#if itemType.isChallenge}}
+              <h1 class="title" onclick="{{handlers.showDetails}}">{{item.detail.challengeName}}</h1>
+              <div class="author">Ends: {{challengeDeadline}}</div>
+              {{#if isWrappedInModal}}
+                <div class="basic" ng-if="isWrappedInModal">{{item.detail.challengeType}}</div>
+              {{/if}}
+              <div class="basic">{{item.detail.numChallengeParticipants}} Challengers</div>
+            {{/if}}
+            {{#if itemType.isEvent}}
+              <h1 class="title" onclick="{{handlers.showDetails}}">{{item.detail.eventName}}</h1>
+              <div class="event-location" onclick="{{handlers.openEventUrl}}"><i class="icon ion-ios7-location header-location-icon"></i>{{item.detail.eventLocation}}</div>
+              <div class="basic">{{eventDateTime}}</div>
+              <div class="basic" ng-if="isWrappedInModal" >{{post.detail.numEventAttendees}} Attending</div>
+            {{/if}}
+          </div>
+      </div>
+  </div>
+    {{#unless heroImage}}
+      <hr>
+    {{/unless}}
+  <div class="hero">
+    <div class="join">
+      {{#if heroImage}}
+        <i class="icon" class="{{joinButtonClass1}} {{joinButtonClass2}}"
+          onclick="{{handlers.toggleMembership}}"></i>
+        <img src="/{{ heroImage }}" class="hero-image">
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="item item-divider tabs tabs-secondary tabs-icon-left">
+    <a class="tab-item" onclick="{{handlers.like}}">
+      <span class="count">{{item.likeCount}}</span><i class="icon ion-thumbsup" 
+      class="{{likeButtonClass}}"></i>
+    </a>
+    <div class="vertical-divider"></div>
+    <a class="tab-item" onclick="{{handlers.showDetails}}">
+      <span class="count">{{item.comments.length}}</span><i class="icon ion-chatbox"></i>
+    </a>
+  </div>
+
+  <div class="list">
+    {{#each comments}}
+      <div class="item hide-after comment">
+        <img class="comment-avatar" src="{{this.comment.avatarURL}}"/>
+        {{#if this.isEditable}}
+          <span class="icon ion-edit editIcon" onclick="{{handlers.showEditMenu}}"></span>
+        {{/if}}
+        <div>
+          <span class="author">{{this.displayName}}</span>
+          -
+          <span class="date">{{this.dateTimeCreated}}</span>
+        </div>
+        <div class="content">{{this.parsedContent}}</div>
+        <div style="text-align:center; margin-top:-10px;padding:0">
+          {{#if contentIsOverflowing}}
+            <a class="showMore" onclick="{{handlers.showDetails}}"
+              >...show full post</a>
+          {{/if}}
+        </div>
+      </div>
+      <div class="postInputArea row">
+        <div class="col col-80">
+          <input type="text" maxlength="24" placeholder="your comment here"
+            class="add-comment"/>
+        <!--expand-input ng-model="post.newComment"
+                      max-length="8000"
+                      placeholder="Add a comment..."
+                      >
+        </expand-input-->
+        </div>
+        <div class="col col-20">
+          <button type="button" class="button button-small button-stable"
+            onclick="{{handlers.postComment}}">Post</button>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>

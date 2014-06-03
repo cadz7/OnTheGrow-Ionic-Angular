@@ -1,0 +1,1 @@
+Those are the new templates for pre-rendering.
