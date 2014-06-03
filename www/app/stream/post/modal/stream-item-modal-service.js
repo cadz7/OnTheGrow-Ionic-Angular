@@ -3,11 +3,15 @@
  *
  */
 angular.module('sproutApp.services')
-  .factory('streamItemModalService', ['$log', 'joinableStreamItemService',
-    function ($log, joinableStreamItemService) {
+  .factory('streamItemModalService', ['$log', 'joinableStreamItemService', 'STREAM_CONSTANTS', '$ionicScrollDelegate',
+    function ($log, joinableStreamItemService, STREAM_CONSTANTS, $ionicScrollDelegate) {
       'use strict';
 
-      var service = {modal: null};
+
+      var service = {modal: null,
+        commentLimit: -STREAM_CONSTANTS.initialCommentCountShown
+      };
+
 
       service.DETAILED_VIEW = 'DETAIL';
       service.COMMENTS_VIEW = 'COMMENTS';
@@ -15,6 +19,14 @@ angular.module('sproutApp.services')
 
       var _streamItem = null;
       var _viewType = null;
+
+      service.increaseCommentLimit = function(){
+        service.commentLimit-= STREAM_CONSTANTS.initialCommentCountShown;
+      };
+      service.resetCommentLimit = function() {
+        service.commentLimit = -STREAM_CONSTANTS.initialCommentCountShown;
+        $ionicScrollDelegate.$getByHandle('streamItemModal').scrollTop(false);
+      };
 
       /**
        *
