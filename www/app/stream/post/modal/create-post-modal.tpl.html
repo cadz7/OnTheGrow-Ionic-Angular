@@ -7,20 +7,12 @@
     <button type="button" class="button button-clear post" ng-class="{'active':newPost.text.length>0}" ng-click="submitPost(newPost)">POST</button>
   </ion-header-bar>
   <ion-content class="padding has-header">
-    <div class="list create-post-input">
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Share with:
-        </div>
-        <select>
-          <option selected="selected">Company</option>
-          <option>Group</option>
-          <option>Other</option>
-        </select>
-      </label>
+    <div class="row create-post-input" ng-click="chooseSharingTargets()">
+      <h3 class="share-target">Share with: <span ng-bind="shareWith.displayName"></span><span class="icon ion-chevron-down" ng-show="!shareWith"></span></h3>
+      <hr/>
     </div>
-      <ion-content class="list list-item">
-          <textarea tabindex="0" id="post-to-stream-text" ng-model="newPost.text" class="post-box" placeholder="Share an update..." set-focus="showKeyboard" ng-click="showKeyboard=true"></textarea>
-      </ion-content>
+    <ion-content class="list list-item">
+      <textarea tabindex="0" id="post-to-stream-text" ng-model="newPost.text" class="post-box" placeholder="Share an update..." set-focus="showKeyboard" ng-click="showKeyboard=true"></textarea>
+    </ion-content>
   </ion-content>
 </div>

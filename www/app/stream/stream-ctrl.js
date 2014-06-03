@@ -4,17 +4,44 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService', 'networkInformation', 'streamUIService', '$ionicScrollDelegate',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService, networkInformation, streamUIService, $ionicScrollDelegate) {
+    '$scope',
+    'streamItems',
+    '$ionicModal',
+    'headerRemote',
+    '$ionicPopup',
+    '$log',
+    'streamItemModalService',
+    'Notify',
+    'joinableStreamItemService',
+    'networkInformation',
+    'streamUIService',
+    '$ionicScrollDelegate',
+    'sharingService',
+    function(
+      $scope,
+      streamItems,
+      $ionicModal,
+      headerRemote,
+      $ionicPopup,
+      $log,
+      streamItemModalService,
+      Notify,
+      joinableStreamItemService,
+      networkInformation,
+      streamUIService,
+      $ionicScrollDelegate,
+      sharingService
+    ) {
+
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
     	$scope.filterByType = 'ALL';
       $scope.streamItemFilter = null;
 
-      var closeCreatePostModal = function() {
-        $scope.createStreamItemModal.hide();
-      };
+      var hideModal = function(modalScope) {
+            modalScope.hide();
+          };
 
       $scope.cancelCreatePost = function(post) {
         if (post.text.length > 0) {
@@ -26,25 +53,25 @@ angular.module('sproutApp.controllers')
          confirmPopup.then(function(res) {
            if(res) {
               post.text = '';
-              closeCreatePostModal();
+              hideModal($scope.createStreamItemModal);
            }
          });
         }
         else {
-          closeCreatePostModal();
+          hideModal($scope.createStreamItemModal);
         }
       };
 
       $scope.closeCreateActivityModal = function() {
-        $scope.createActivityModal.hide();
+        hideModal($scope.createActivityModal);
       };
 
     	$scope.closeModal = function() {
-    		$scope.editStreamItemModal.hide();
+    		hideModal($scope.editStreamItemModal);
     	};
 
       $scope.closeFullPost = function() {
-        $scope.streamItemModal.hide();
+        hideModal($scope.streamItemModal);
       };
 
       function ifNoStreamItemsShowNoConnectionScreen() {
@@ -82,11 +109,23 @@ angular.module('sproutApp.controllers')
       //$scope.refresh();
       // Create child scopes to hold streaItem data (passed in when modal is opened)
       var createStreamItemModalScope = $scope.$new(),
+          shareStreamItemModalScope = $scope.$new(),
           createActivityModalScope = $scope.$new(),
           editStreamItemModalScope = $scope.$new(),
           streamItemModalScope = $scope.$new();
 
       createStreamItemModalScope.showKeyboard = true;
+
+      shareStreamItemModalScope.sharingTargets = sharingService.sharingTargets;
+
+      shareStreamItemModalScope.shareTargetSelected = function(target) {
+        shareStreamItemModalScope.selectedTarget = target;
+      };
+      shareStreamItemModalScope.selectedTarget = null;
+
+      $scope.chooseSharingTargets = function() {
+        $scope.shareStreamItemModal.show();
+      }
 
       // Modal for create-post
       $ionicModal.fromTemplateUrl('app/stream/post/modal/create-post-modal.tpl.html', {
@@ -95,6 +134,15 @@ angular.module('sproutApp.controllers')
         focusFirstInput: true
       }).then(function(modal) {
         $scope.createStreamItemModal = modal;
+      });
+
+      // Modal for share-post
+      $ionicModal.fromTemplateUrl('app/stream/post/modal/share-post-modal.tpl.html', {
+        scope: shareStreamItemModalScope,
+        animation: 'slide-in-up',
+        focusFirstInput: true
+      }).then(function(modal) {
+        $scope.shareStreamItemModal = modal;
       });
 
       // Modal for create-activity
@@ -133,6 +181,7 @@ angular.module('sproutApp.controllers')
       // Clean up modals when scope is destroyed
       $scope.$on('$destroy', function() {
         $scope.createStreamItemModal.remove();
+        $scope.shareStreamItemModal.remove();
         $scope.createActivityModal.remove();
         $scope.editStreamItemModal.remove();
         $scope.streamItemModal.remove();
@@ -144,11 +193,16 @@ angular.module('sproutApp.controllers')
 
       $scope.submitPost = function(post) {
         if (post.text.length > 0) {
+          
+          if ($scope.shareWith) {
+            post.shareWithFilterId = $scope.shareWith.filterId;
+          }
+
           streamItems.postItem(post)
           .then(function() {
             Notify.userSuccess('Your post has been sent!');
             $scope.newPost.text = '';
-            closeCreatePostModal();
+            hideModal($scope.createStreamItemModal);
           }, Notify.notifyTheCommonErrors(function(response) {
             Notify.apiError(Notify.errorMsg.POST_FAILED_TO_SEND);
             throw response;
@@ -156,6 +210,17 @@ angular.module('sproutApp.controllers')
         )
           .then(null, $log.error);
         }
+      };
+
+      $scope.sharePost = function(target) {
+        if (target) {
+          $scope.shareWith = target;
+          hideModal($scope.shareStreamItemModal);
+        }
+      };
+
+      $scope.cancelSharePost = function(target) {
+        hideModal($scope.shareStreamItemModal);
       };
 
       $scope.createPost = function() {
@@ -185,11 +250,15 @@ angular.module('sproutApp.controllers')
       // REFRESH STREAM ITEMS HERE
       //
       $scope.onRefreshPullDown = function() {
-      
-        // Call this when done
-        $scope.$broadcast('scroll.refreshComplete');        
+        streamItems.getUpdate().then(function(data) {
+          $scope.updatePresent = data && data.length;
+          $scope.$broadcast('scroll.refreshComplete');        
+        });
       };
 
+      $scope.$evalAsync(function() {
+        $scope.onRefreshPullDown();
+      });
     }
   ]
 );

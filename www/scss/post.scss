@@ -343,7 +343,7 @@
 }
 
 
-.activity-radio {
+.styled-radio {
   display: inline-block;
   border: 0;
 
@@ -367,9 +367,9 @@
     width: 100%;
     height: auto;
     border: 0;
-    background: #fff;
+    background: $base-background-color;
     content: '\f170';
-    color: #8cc841;
+    color: $green;
     padding: 0;
     transition: background-color 20ms ease-in-out;
   }
@@ -379,4 +379,8 @@
     border-radius: 20px;
     content: '\f120';
   }
+}
+
+.share-post-radio {
+  display: block;
 }

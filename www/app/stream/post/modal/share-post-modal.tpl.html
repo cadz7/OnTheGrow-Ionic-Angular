@@ -1,0 +1,17 @@
+<div class="modal share-post-modal">
+  <ion-header-bar>
+    <button class="button button-icon icon sprout-icon-close" ng-click="cancelSharePost()"></button>
+    <h1 class="title">SHARE WITH ...</h1>
+    <button type="button" class="button button-clear post" ng-class="{'active':!!selectedTarget}" ng-click="sharePost(selectedTarget)">DONE</button>
+  </ion-header-bar>
+  <ion-content class="padding has-header">
+    <div class="row">
+      <h3 class="share-target">Share with: <span data-ng-bind="selectedTarget.displayName"></span><span class="icon ion-chevron-down" ng-show="!selectedTarget"></span></h3>
+    </div>
+    <div class="list">
+      <ion-radio class="styled-radio share-post-radio" ng-model="selectedTarget" ng-value="target" ng-change="shareTargetSelected(target)" ng-repeat="target in sharingTargets">
+        {{ target.displayName }}
+      </ion-radio>
+    </div>
+  </ion-content>
+</div>
