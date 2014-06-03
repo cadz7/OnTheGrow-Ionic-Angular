@@ -35,8 +35,13 @@ angular.module('sproutApp.filters', [
   'sproutApp.comment.trimToLatest'
 ]);
 
+angular.module('sproutApp.ionic.extend', [
+  'sproutApp.ionic.extend.ion-action-sheet-from-top'
+]);
+
 angular.module('sproutApp', [
   'ionic',
+  'sproutApp.ionic.extend',
   'sproutApp.config',
   'sproutApp.controllers',
   'sproutApp.controllers.main',

@@ -78,6 +78,11 @@
   resize: none;
 }
 
+.create-post-modal .post-box {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .search-box {
   height: 1rem;
   margin: 0 0 1rem 0;
@@ -265,12 +270,22 @@
 
 .share-post-modal, .create-post-input {
   h3.share-target {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding-left: 5px;
     font-size: 100%;
     color: $mediumgrey;
-    padding-left: 5px;
 
     span {
       color: $green;
+    }
+    .icon {
+      position: absolute;
+      top: 50%;
+      margin-top: -8px;
+      line-height: 16px;
+      right: 5px;
     }
   }
 }

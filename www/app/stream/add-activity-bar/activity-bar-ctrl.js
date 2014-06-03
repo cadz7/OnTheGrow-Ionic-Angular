@@ -34,7 +34,7 @@ angular.module('sproutApp.controllers')
       $scope.currentActivity.unitName = newVal.unitName;
 
       resetForm();
-      $scope.$broadcast('app.onDemandFocus.activityQuantity');
+      //$scope.$broadcast('app.onDemandFocus.activityQuantity');
     }
   };
 
@@ -95,7 +95,7 @@ angular.module('sproutApp.controllers')
 
         $scope.currentState = 2;
 
-        $scope.$broadcast('app.onDemandFocus.activityQuantity');
+        //$scope.$broadcast('app.onDemandFocus.activityQuantity');
 
         this.currentValue = item;
       }
@@ -319,7 +319,6 @@ angular.module('sproutApp.controllers')
 
   //save the activity queue and go back to stream if successful, else display an error
   $scope.saveActivities = function() {
-    console.log('save called');
     $scope.savingActivty = true;
     activities.logActivities($scope.activtyQueue)
     .then(function(result){
@@ -334,7 +333,6 @@ angular.module('sproutApp.controllers')
       $scope.savingActivty = false;
       Notify.apiError('Failed to log activities.');
     }));
-    console.log('saving complete');
     $scope.closeModalonSubmit(); 
   };
 
