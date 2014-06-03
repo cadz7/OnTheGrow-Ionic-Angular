@@ -3,8 +3,8 @@ angular.module('sproutApp.services.modal-generator', []).factory('modalGenerator
       defaultOpts = {
         template: '',
         focusFirstInput: false,
-        scope: null;
-        animation: 'slide-in-up',
+        scope: null,
+        animation: 'slide-in-up'
       };
 
   return {
