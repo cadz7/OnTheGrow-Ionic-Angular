@@ -7,7 +7,7 @@ angular.module('sproutApp.controllers')
     function ($scope, headerRemote, $ionicActionSheet, $ionicSlideBoxDelegate,
               leaderboards, filters, activities, user) {
       $scope.header = headerRemote;
-
+      $scope.showLeaderBoardFilters = false;
       var leaderboardParams = {};
       var activityCategoryFilters =[];
       $scope.activitySearchText = {};
@@ -17,18 +17,16 @@ angular.module('sproutApp.controllers')
       .then(function(){
         $scope.periods = filters.timePeriodFilters;
         $scope.activityFilters = filters.activityFilters;
-        angular.forEach(filters.activityFilters,function(cat){
-          cat.text = cat.displayName;
-          activityCategoryFilters.push(cat);
-        });
+        $scope.leaderBoardFilters = filters.leaderBoardFilters;
      
         $scope.rankingOptions = leaderboards.rankingOptions;
         $scope.selectedCategory = filters.activityFilters[0];
         $scope.activePeriod = filters.defaultTimePeriod;
-        
+        $scope.selectedLeaderBoardFilter = filters.leaderBoardFilters[0];
+
         leaderboardParams = {
           periodId: $scope.activePeriod.filterId,
-          userFilterId: user.data.userId,
+          userFilterId: $scope.selectedLeaderBoardFilter.filterId,
           activityFilterId: filters.activityFilters[0].filterId
         };
 
@@ -38,7 +36,7 @@ angular.module('sproutApp.controllers')
 
       //Checks to see if there is an argument given - if not, it sets to default
       var getLeaderboards = function(){
-          leaderboards.getBoards(leaderboardParams)
+        leaderboards.getBoards(leaderboardParams)
           .then(function(response){
             $scope.leaderBoards = null;
             $scope.leaderBoards = response;
@@ -81,34 +79,28 @@ angular.module('sproutApp.controllers')
         $scope.activitySearchText.displayName = '';
       };
 
+      $scope.toggleLeaderBoardFilters = function(){
+        $scope.showLeaderBoardFilters = !$scope.showLeaderBoardFilters;
+      };
+
       //select an activity filter , and then reload the leaderboard
       $scope.selectActivityFilter = function(activityObj){
         $scope.selectedCategory = activityObj;
         leaderboardParams.activityFilterId = activityObj.filterId;
         $scope.toggleActivityList();
+      };     
+
+      //apply the selected leaderboard type filter
+      $scope.selectLeaderBoardFilter = function(filter){
+        leaderboardParams.userFilterId = filter.filterId;
+        $scope.toggleLeaderBoardFilters();
+        $scope.leaderBoardFilters = filters.leaderBoardFilters;
+        $scope.selectedLeaderBoardFilter = filter;
+        getLeaderboards();
       };
 
-      //show the list of activity category filters within a $ionicActionSheet
-      $scope.showLeaderboardFilter = function () {
-
-        $ionicActionSheet.show({
-          titleText: 'Filter By Type:',
-          // buttons: filters,
-          buttons: activityCategoryFilters,
-
-          cancelText: 'Back',
-          cancel: function () {
-            return true;
-          },
-          buttonClicked: function (index) {
-            console.log($scope.leaderBoards.length, $ionicSlideBoxDelegate.slidesCount())
-            $scope.selectedCategory = this.buttons[index];
-            //$ionicSlideBoxDelegate.slide(index)
-            leaderboardParams.activityFilterId = this.buttons[index].activityCategoryId;
-            getLeaderboards(leaderboardParams);
-            return true;
-          }
-        });
-      };
+      $scope.showSubLeadboardFilters = function(filter){
+        $scope.leaderBoardFilters = filter.subFilters;
+      }
 
     }]);

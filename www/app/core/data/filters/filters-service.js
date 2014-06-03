@@ -11,7 +11,7 @@ angular.module('sproutApp.data.filters', [
   function ($q, user, util, server, API_CONSTANTS, $log) {
     var service = {
       streamItemFilters : [],
-      userFilters : [],
+      leaderBoardFilters : [],
       activityFilters :[],
       timePeriodFilters:[],
       shareWithFilters : [],
@@ -48,7 +48,7 @@ angular.module('sproutApp.data.filters', [
                         service.streamItemFilters.push(filter);
                       break;
                       case 'leaderboard':
-                        service.userFilters.push(filter);          
+                        service.leaderBoardFilters.push(filter);          
                       break;
                       case 'time_periods':
                         //set default time period filter to 'this month'. API currently does not do this for us, so here is a hack
@@ -137,15 +137,23 @@ angular.module('sproutApp.data.filters', [
                   },
                   {
                       "filterId": 10,
-                      "displayName": "Department",
+
+                      "displayName": "Groups",
                       "filterType": "leaderboard",
-                      "subFilters": []
-                  },
-                  {
-                      "filterId": 11,
-                      "displayName": "You",
-                      "filterType": "leaderboard",
-                      "subFilters": []
+                      "subFilters": [
+                                      {
+                                        "filterId": 11,
+                                        "displayName": "Runners",
+                                        "filterType": "leaderboard",
+                                        "subFilters": []
+                                      },
+                                      {
+                                        "filterId": 12,
+                                        "displayName": "Walkers",
+                                        "filterType": "leaderboard",
+                                        "subFilters": []
+                                      }
+                                    ]
                   },
                   {
                       "filterId": 8,
