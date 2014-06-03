@@ -213,7 +213,6 @@ angular.module('sproutApp.controllers')
       };
 
       $scope.sharePost = function(target) {
-        console.log("target", target);
         if (target) {
           $scope.shareWith = target;
           hideModal($scope.shareStreamItemModal);
