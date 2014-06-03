@@ -26,7 +26,8 @@ angular.module('sproutApp.services', [
   'sproutApp.location-generator-service'
 ]);
 angular.module('sproutApp.directives', [
-  'sproutApp.main.left-nav'
+  'sproutApp.main.left-nav',
+  'sproutApp.stream-directive'
 ]);
 angular.module('sproutApp.filters', [
   'sproutApp.comment.trimToLatest'
