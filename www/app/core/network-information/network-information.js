@@ -1,6 +1,7 @@
 /* globals Connection */
 
 angular.module('sproutApp.network-information', [
+
 ])
 
 .factory('networkInformation', ['$log', 'Notify',
@@ -19,16 +20,14 @@ angular.module('sproutApp.network-information', [
     };
 
     service.simulate.setStatus = function(newValue) {
-      var oldValue = service.isOnline;
-      service.isOnline = newValue;
-      if (newValue && !oldValue) {
+      if (newValue) {
         $log.log('Now simulating online.');
         service.setOnline();
-      } else if (oldValue && !newValue) {
+      } else if (!newValue) {
         $log.log('Now simulating offline.');
         service.setOffline();
       }
-    }
+    };
 
     service.simulate.toggleStatus = function() {
       if (service.isOnline) {

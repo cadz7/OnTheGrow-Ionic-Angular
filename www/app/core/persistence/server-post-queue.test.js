@@ -24,6 +24,7 @@ describe('sync service', function() {
     $provide.factory('user', function () {
       return mockData.user;
     });
+    $provide.factory('Notify', function() { return {warn:function() {}}});
   }));
 
   // Reset mock data;

@@ -14,6 +14,7 @@ describe('activities service', function() {
     $provide.factory('$q', function() {
       return Q;
     });
+    $provide.factory('Notify', function() { return {warn:function() {}}});
     $provide.factory('user', function() {
       return mockData.user;
     });
