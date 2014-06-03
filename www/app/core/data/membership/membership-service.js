@@ -1,10 +1,11 @@
 angular.module('sproutApp.data.membership', [
   'sproutApp.user',
-  'sproutApp.util'
+  'sproutApp.util',
+  'sproutApp.calendar'
 ])
 
-  .factory('membership', ['$log', '$q', 'user', 'util', 'mockMembershipServer', 'API_CONSTANTS',
-    function ($log, $q, user, util, server, API_CONSTANTS) {
+  .factory('membership', ['$log', '$q', 'user', 'util', 'mockMembershipServer', 'API_CONSTANTS', 'calendar',
+    function ($log, $q, user, util, server, API_CONSTANTS, calendar) {
       var service = {};
 
       function logAction(type, id, groupId) {
@@ -23,9 +24,11 @@ angular.module('sproutApp.data.membership', [
       };
 
 
-      service.joinEvent = function (relatedToId, groupId) {
+      service.joinEvent = function (relatedToId, groupId, post) {
         logAction('event', relatedToId, groupId);
-        return server.post(API_CONSTANTS.eventsMembershipEndpoint + '/' + relatedToId);
+        return server.post(API_CONSTANTS.eventsMembershipEndpoint + '/' + relatedToId).then(function() {
+          calendar.addEvent(post.date)
+        });
       };
 
       service.joinGroup = function (relatedToId, groupId) {
@@ -45,7 +48,7 @@ angular.module('sproutApp.data.membership', [
 
       service.join = function (post, groupId) {
         if (postTypeToJoinFunc[post.relationTypeSlug]){
-          return postTypeToJoinFunc[post.relationTypeSlug](post.relatedToId, groupId);
+          return postTypeToJoinFunc[post.relationTypeSlug](post.relatedToId, groupId, post);
         } else {
           return errorHandler(post);
         }

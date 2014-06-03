@@ -4,7 +4,7 @@
 
 
 
-angular.module('sproutApp.notification')
+angular.module('sproutApp.calendar', [])
 
 .service('calendar', ['$log', '$q', function($log, $q) {
   var service = {
