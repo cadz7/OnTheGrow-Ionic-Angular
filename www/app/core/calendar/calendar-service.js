@@ -4,9 +4,11 @@
 
 
 
-angular.module('sproutApp.calendar', [])
+angular.module('sproutApp.calendar', [
+  'sproutApp.system'
+])
 
-.service('calendar', ['$log', '$q', function($log, $q) {
+.service('calendar', ['$log', '$q', 'system', 'Notify', function($log, $q, system, Notify) {
   var service = {
 
   };
@@ -24,10 +26,17 @@ angular.module('sproutApp.calendar', [])
 
     $log.log('Event added: ', startDate, endDate, title, location, notes);
     if (window.plugins && window.plugins.calendar) {
-      window.plugins.calendar.createEvent(title, location, notes, startDate, endDate, function(arg) {
+      var createEventMethodName = 'createEvent';
+      if (system.isAndroid) {
+        createEventMethodName = 'createEventInteractively';
+      }
+
+      window.plugins.calendar[createEventMethodName](title, location, notes, startDate, endDate, function(arg) {
         $log.log('Successfully added event to device calendar.', arg);
+        Notify.userSuccess('The event was added to your calendar.');
       }, function error(arg) {
         $log.error('Failed to add event to device calendar', arg);
+        Notify.userError('Failed to add the event to your calendar');
       });
     }
     return $q.when('sher');

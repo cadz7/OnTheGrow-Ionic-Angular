@@ -42,7 +42,7 @@ angular.module('sproutApp.services')
       newScope.isChecked = true;
       service.join = function (post) {
 
-        if (!post.viewer.eligibleGroups) {
+        if (post.viewer.eligibleGroups) {
 
           return $ionicPopup.show({
             template: '<div style="background: yellow"><ion-checkbox ng-model="isChecked">Add to calendar</ion-checkbox></div>',
