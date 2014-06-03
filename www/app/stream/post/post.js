@@ -143,9 +143,13 @@ angular.module('sproutApp.directives').directive(
           };
 
           scope.deletePost = function (item) {
+            if (!item.viewer.isOwnedByViewer){
+              $log.error('Unable to delete post because user does not own this post');
+              return;
+            }
             $ionicActionSheet.show({
               buttons: [
-                { text: 'Hide this post' },
+                { text: 'Delete' }
 //                { text: '<strong>Hide all by this user</strong>' },
               ],
               cancelText: 'Cancel',
@@ -153,8 +157,8 @@ angular.module('sproutApp.directives').directive(
               buttonClicked: function (index) {
                 switch (index) {
                   case 0: // hide current post
-
-                    streamItems.hidePost(item).then(function () {
+                    // TODO make sure we're calling the correct method
+                    streamItems.deletePost(item).then(function () {
                         streamItemModalService.hideModal();
                       }, function (response) {
                         Notify.apiError('Failed to delete post!', response.message);

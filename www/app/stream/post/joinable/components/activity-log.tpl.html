@@ -12,7 +12,7 @@
     <join-button has-hero-img="post.streamItemDisplay.heroImg" post="post"
                  ng-if="!post.streamItemDisplay.heroImg"></join-button>
   </div>
-  <div class="col" data-ng-click="deletePost(post)">
+  <div class="col" data-ng-click="deletePost(post)" ng-if="post.viewer.isOwnedByViewer">
     <div class="ion-close"></div>
   </div>
 </div>
