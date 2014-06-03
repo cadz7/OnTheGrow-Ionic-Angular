@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('sproutApp.controllers')
-.controller('SignInCtrl', ['$scope', 'user', '$log', '$state', 'APP_CONFIG',
- function($scope, user, $log, $state, APP_CONFIG) {
+.controller('SignInCtrl', ['$scope', 'user', '$log', '$state', 'APP_CONFIG','userSettings',
+ function($scope, user, $log, $state, APP_CONFIG,userSettings) {
+ 	$scope.isAlreadyAthenticated = user.isAuthenticated; //note: dont show the login form for even a second if the user is already authenitcated
+
  	if(user.isAuthenticated)
 		$state.transitionTo('main.stream');
 
@@ -10,13 +12,13 @@ angular.module('sproutApp.controllers')
 		$scope.userForm = {
 			email: 'simon@rangle.io',
 			password: 'testtest',
-			rememberMe: true
+			rememberMe: userSettings.data.rememberMe
 		};
 	}else{
 		$scope.userForm = {
 			email: '',
 			password: '',
-			rememberMe: true
+			rememberMe: userSettings.data.rememberMe
 		};
 	}
 
