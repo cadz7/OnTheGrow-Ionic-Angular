@@ -4,8 +4,35 @@ angular.module('sproutApp.controllers')
 .controller(
   'StreamCtrl',
   [
-    '$scope', 'streamItems', '$ionicModal', 'headerRemote', '$ionicPopup', '$log', 'streamItemModalService', 'Notify', 'joinableStreamItemService', 'networkInformation', 'streamUIService', '$ionicScrollDelegate',
-    function($scope, streamItems, $ionicModal, headerRemote, $ionicPopup, $log, streamItemModalService, Notify, joinableStreamItemService, networkInformation, streamUIService, $ionicScrollDelegate) {
+    '$scope',
+    'streamItems',
+    '$ionicModal',
+    'headerRemote',
+    '$ionicPopup',
+    '$log',
+    'streamItemModalService',
+    'Notify',
+    'joinableStreamItemService',
+    'networkInformation',
+    'streamUIService',
+    '$ionicScrollDelegate',
+    'sharingService',
+    function(
+      $scope,
+      streamItems,
+      $ionicModal,
+      headerRemote,
+      $ionicPopup,
+      $log,
+      streamItemModalService,
+      Notify,
+      joinableStreamItemService,
+      networkInformation,
+      streamUIService,
+      $ionicScrollDelegate,
+      sharingService
+    ) {
+
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
@@ -89,20 +116,7 @@ angular.module('sproutApp.controllers')
 
       createStreamItemModalScope.showKeyboard = true;
 
-      shareStreamItemModalScope.sharingTargets = [
-        {
-          displayName: 'Everyone'
-        },
-        {
-          displayName: 'My Department'
-        },
-        {
-          displayName: 'My Location'
-        },
-        {
-          displayName: 'My Region'
-        }
-      ];
+      shareStreamItemModalScope.sharingTargets = sharingService.sharingTargets;
 
       shareStreamItemModalScope.shareTargetSelected = function(target) {
         shareStreamItemModalScope.selectedTarget = target;
@@ -179,7 +193,11 @@ angular.module('sproutApp.controllers')
 
       $scope.submitPost = function(post) {
         if (post.text.length > 0) {
-          // handle shareWith
+          
+          if ($scope.shareWith) {
+            post.shareWithFilterId = $scope.shareWith.filterId;
+          }
+
           streamItems.postItem(post)
           .then(function() {
             Notify.userSuccess('Your post has been sent!');
