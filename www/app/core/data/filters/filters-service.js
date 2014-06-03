@@ -136,6 +136,18 @@ angular.module('sproutApp.data.filters', [
                       "subFilters": []
                   },
                   {
+                      "filterId": 10,
+                      "displayName": "Department",
+                      "filterType": "leaderboard",
+                      "subFilters": []
+                  },
+                  {
+                      "filterId": 11,
+                      "displayName": "You",
+                      "filterType": "leaderboard",
+                      "subFilters": []
+                  },
+                  {
                       "filterId": 8,
                       "displayName": "All Activities",
                       "filterType": "activities",

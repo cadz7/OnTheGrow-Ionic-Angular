@@ -7,6 +7,7 @@ angular.module('sproutApp.controllers')
   var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'}; //constants for view state
   var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'}; //constants for accessing display name of the activities
   var selectedActitivities = []; //unfiltered list of activites to display
+  var  allActivities = [];
 
   var resetForm = function() {
     if ($scope.activityFormPointer) {
@@ -73,8 +74,13 @@ angular.module('sproutApp.controllers')
         };
         
         $scope.currentActivityUnits = item.activityUnits;
+        if(item.selectedUnit){
+          $scope.currentActivity.activityUnitId = item.selectedUnit.unitId;
+          $scope.currentActivity.unitName = item.selectedUnit.unitName;
 
-        if (!$scope.preferredUnits[item.activityName]) {
+          $scope.selectedActivityUnit = item.selectedUnit;
+        }
+        else if (!$scope.preferredUnits[item.activityName]) {
           $scope.currentActivity.activityUnitId = item.activityUnits[0].unitId;
           $scope.currentActivity.unitName = item.activityUnits[0].unitName;
 
@@ -173,6 +179,25 @@ angular.module('sproutApp.controllers')
   //reset the activity tracking view state
   function resetActivitySelect() {
     resetForm();
+    activities.getSugestedActivities()
+    .then(function(suggestedActivities){
+
+      $scope.suggestedActivities = _.map(suggestedActivities, function(suggestedActivity) {
+        var activity = _.find(allActivities,function(act){
+          return _.any(act.activityUnits,{unitId:suggestedActivity.activityUnitId});
+        });
+        suggestedActivity.activityDisplayName = activity ? activity.activityName : 'Unknown Activity';
+        if(typeof activity !== 'undefined' && activity){
+          var unit =  _.find(activity.activityUnits,{unitId:suggestedActivity.activityUnitId});
+          suggestedActivity.activityUnitDisplayName = unit ? unit.unitName :'Unknown Unit';
+        }else{
+          suggestedActivity.activityUnitDisplayName = 'Unknown Unit';
+        }
+        return suggestedActivity;
+      }); 
+
+
+    })
 
     $scope.previousState = $scope.currentState = 0;
     $ionicScrollDelegate.scrollTop();
@@ -196,7 +221,10 @@ angular.module('sproutApp.controllers')
     $scope.searchCategoryListVisible = false;
   }
   activities.whenReady()
-  .then(function(){ resetActivitySelect(); /*initalize view*/});
+  .then(function(){ 
+      allActivities = _.flatten(_.pluck(activities.categories,'activities'), true);
+      resetActivitySelect(); /*initalize view*/
+  });
   
 
   //change the state of the view when the user selects an activity category or activity
@@ -234,13 +262,18 @@ angular.module('sproutApp.controllers')
 
     if (rootIndex > -1) {
       var rootState = $scope.states[rootIndex];
-      rootState.selectFunction(rootState.currentValue);
+      if(rootState.currentValue)
+        rootState.selectFunction(rootState.currentValue);
+      else{ 
+        //for when the the user picks a suguested activity first and clicks back
+        resetActivitySelect();
+      }
+
     }
     else {
       resetActivitySelect();
     }
-
-  }
+  };
 
   //user cancels the track activty -> go back to the stream
   $scope.cancel = function() {
@@ -311,4 +344,14 @@ angular.module('sproutApp.controllers')
     $scope.amEditing = item;
     $scope.states[1].selectFunction(item);
   }
+
+  //load a suggested activity into the track activity form
+  $scope.addSuggestedActivity = function(item){
+   
+   var activity = _.find(allActivities,{activityName:item.activityDisplayName});
+   activity.quantity = item.quantity;
+   activity.selectedUnit = _.find(activity.activityUnits,{unitId:item.activityUnitId});
+   $scope.states[1].selectFunction(activity);
+  };
+
 }]);

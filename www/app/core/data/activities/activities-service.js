@@ -16,8 +16,18 @@ angular.module('sproutApp.data.activities', [
       categories : [], // an array of currently loaded items
       activityLog : []
     };   
+
+    /*
+    * Loads a collection of suggested activities+quanity to log
+    *
+    *
+    * @returns {promise}                    a promise containing an array of suggested activities
+    */
+    service.getSugestedActivities = function(){
+        return server.get(API.sugestedActivitiesEndpoint);
+    };
     
-        /*
+    /*
     * Loads a collection of logged activities for the current user
     *
     * @param {int,required} timePeriodId   Provides the time period  Id for which the activity log should be generated //NOTE: GET FILTERS returns the id as a string -> ????
@@ -1002,13 +1012,23 @@ angular.module('sproutApp.data.activities', [
             }
         ];
   
-    //SR NOTE: activityDisplayName is not defined in the API currently, but should be.
-   
+    var sugestedActivities = [
+                              {"activityUnitId":104,"quantity":4},
+                              {"activityUnitId":106,"quantity":50},
+                              {"activityUnitId":533,"quantity":90},
+                              {"activityUnitId":105,"quantity":20},
+                              {"activityUnitId":107,"quantity":60},
+                              {"activityUnitId":108,"quantity":20}
+                              ];
+                             
 
     return {
         get : function(url,query) {
           var deferred = $q.defer();
           switch(url){
+            case API_CONSTANTS.sugestedActivitiesEndpoint:
+              deferred.resolve(sugestedActivities);
+            break;
             case API_CONSTANTS.activityCategoryEndpoint:
               deferred.resolve(activityCategories);
             break;
