@@ -43,7 +43,7 @@ describe('filters service', function() {
 
   it('should define all the requried filterTypes', function(){
     expect(filters).to.have.property('streamItemFilters');
-    expect(filters).to.have.property('userFilters');
+    expect(filters).to.have.property('leaderBoardFilters');
     expect(filters).to.have.property('activityFilters');
     expect(filters).to.have.property('timePeriodFilters');
     expect(filters).to.have.property('shareWithFilters');
@@ -55,7 +55,7 @@ describe('filters service', function() {
   it('should handle all of the filterTypes expected from the server', function(done){
     return filters.whenReady().then(function(){
       expect(filters.streamItemFilters.length).to.be.above(0);
-      expect(filters.userFilters.length).to.be.above(0);
+      expect(filters.leaderBoardFilters.length).to.be.above(0);
       expect(filters.activityFilters.length).to.be.above(0);
       expect(filters.timePeriodFilters.length).to.be.above(0);
       expect(filters.shareWithFilters.length).to.be.above(0);

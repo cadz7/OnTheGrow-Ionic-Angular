@@ -4,19 +4,31 @@
     <ion-header-bar align-title="center" class="bar">
         <!-- Hamburger Button -->
 
+
         <left-nav-toggle-btn ng-hide="editFilters"></left-nav-toggle-btn>
-        <button class="button button-icon icon sprout-icon-close" ng-show="editFilters" ng-click="toggleFiltersView()"></button>
-        <h1 class="title" ng-show="!editFilters" ng-click="showLeaderboardFilter()">{{selectedCategory.displayName}}</h1>
+                <button class="button button-icon icon sprout-icon-close" ng-show="editFilters" ng-click="toggleFiltersView()"></button>
+        <h1 class="title" ng-show="!editFilters" ng-click="toggleLeaderBoardFilters()">{{selectedLeaderBoardFilter.displayName}}</h1>
         <h1 class="title" ng-show="editFilters">FILTER EDIT</h1>
-        <span class="icon ion-chevron-down filter-chevron" ng-if="editFilters"></span>
-        <button class="button button-clear button-calm" ng-show="editFilters" ng-click="toggleFiltersView()">DONE</button>
+        <span class="icon ion-chevron-down filter-chevron"  ng-class="{'ion-chevron-down':!showLeaderBoardFilters,'ion-chevron-up':showLeaderBoardFilters }"></span>
+      <div class="buttons">
+        <button class="button button-clear icon button-calm" ng-show="editFilters" ng-click="toggleFiltersView()">DONE</button>
         <button class="button button-clear icon sprout-icon-notification" ng-hide="editFilters"></button>
+      </div>
     </ion-header-bar>
 
 
     <ion-content id="LeaderboardContent" class="text-center padding has-header">
 
         <div id="leaderBoards" ng-hide="editFilters">
+            <div ng-show="showLeaderBoardFilters">
+                <div class="leadboardFilterRow row" ng-repeat="filter in leaderBoardFilters" 
+                ng-class="{selected : (filter.filterId == selectedLeaderBoardFilter.filterId)}">
+                   <h5 class="col" ng-click="selectLeaderBoardFilter(filter)" ng-class="{'col-90': !filter.subFilters}"> {{filter.displayName}} </h5>
+                   <i ng-if="filter.filterId == selectedLeaderBoardFilter.filterId" class="icon ion-checkmark-circled balanced col-10"></i> 
+                  <i ng-if="filter.subFilters" class="icon ion-chevron-right col-10 " style="float: right" ng-click="showSubLeadboardFilters(filter)"></i> 
+
+                </div>
+            </div>
             <div class="has-footer" id="ActivityDurationFilter" ng-click="toggleFiltersView()">
                 {{selectedCategory.displayName}} | {{activePeriod.displayName}}
                 <i class="icon ion-edit"></i>
