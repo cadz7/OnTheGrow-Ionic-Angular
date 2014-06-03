@@ -3,6 +3,9 @@
 angular.module('sproutApp.controllers')
 .controller('SignInCtrl', ['$scope', 'user', '$log', '$state', 'APP_CONFIG','userSettings',
  function($scope, user, $log, $state, APP_CONFIG,userSettings) {
+
+ 	$scope.isAlreadyAthenticated = user.isAuthenticated; //note: dont show the login form for even a second if the user is already authenitcated
+
  	if(user.isAuthenticated)
 		$state.transitionTo('main.stream');
 
