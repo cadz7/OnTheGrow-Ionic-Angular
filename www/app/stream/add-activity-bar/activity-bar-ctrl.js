@@ -1,8 +1,8 @@
 
 
 angular.module('sproutApp.controllers')
-.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', '$ionicPopup', 'networkInformation', 'Notify',
-  function($scope, activities,streamItems,$ionicScrollDelegate, $ionicPopup, networkInformation, Notify) {
+.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', 'uiConfirmation', 'networkInformation', 'Notify',
+  function($scope, activities,streamItems,$ionicScrollDelegate, uiConfirmation, networkInformation, Notify) {
 
   var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'}; //constants for view state
   var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'}; //constants for accessing display name of the activities
@@ -278,19 +278,21 @@ angular.module('sproutApp.controllers')
   //user cancels the track activty -> go back to the stream
   $scope.cancel = function() {
     if ($scope.activtyQueue.length > 0) {
-      // A confirm dialog
-     var confirmPopup = $ionicPopup.confirm({
-       title: 'Cancel activity',
-       template: 'Are you sure you want to discard your activity updates?'
-     });
-     confirmPopup.then(function(res) {
-       if(res) {
-          $scope.createActivityModal.hide();
-          resetActivitySelect();
-          $scope.activtyQueue = [];
-          $scope.addActivityVisible = false;
-       }
-     });
+      uiConfirmation.prompt({
+        destructiveText: 'Discard',
+        cancelText: 'Cancel'
+      }).then( function(res) {
+        switch (res.type) {
+          case 'DESTRUCTIVE':
+            $scope.createActivityModal.hide();
+            resetActivitySelect();
+            $scope.activtyQueue = [];
+            $scope.addActivityVisible = false;
+            break;
+          case 'CANCELLED':
+            break;
+        }
+      });
     }
     else {
       $scope.createActivityModal.hide();

@@ -24,7 +24,8 @@ angular.module('sproutApp.services', [
   'sproutApp.data.activities',
   'sproutApp.system',
   'sproutApp.location-generator-service',
-  'sproutApp.data.sharing-service'
+  'sproutApp.data.sharing-service',
+  'sproutApp.services.ui-confirmation'
 ]);
 angular.module('sproutApp.directives', [
   'sproutApp.main.left-nav',

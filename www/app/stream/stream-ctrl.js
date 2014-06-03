@@ -8,7 +8,7 @@ angular.module('sproutApp.controllers')
     'streamItems',
     '$ionicModal',
     'headerRemote',
-    '$ionicPopup',
+    'uiConfirmation',
     '$log',
     'streamItemModalService',
     'Notify',
@@ -22,7 +22,7 @@ angular.module('sproutApp.controllers')
       streamItems,
       $ionicModal,
       headerRemote,
-      $ionicPopup,
+      uiConfirmation,
       $log,
       streamItemModalService,
       Notify,
@@ -46,16 +46,19 @@ angular.module('sproutApp.controllers')
       $scope.cancelCreatePost = function(post) {
         if (post.text.length > 0) {
           // A confirm dialog
-         var confirmPopup = $ionicPopup.confirm({
-           title: 'Cancel post',
-           template: 'Are you sure you want to discard this post?'
-         });
-         confirmPopup.then(function(res) {
-           if(res) {
-              post.text = '';
-              hideModal($scope.createStreamItemModal);
-           }
-         });
+          uiConfirmation.prompt({
+            destructiveText: 'Discard',
+            cancelText: 'Cancel'
+          }).then( function(res) {
+            switch (res.type) {
+              case 'DESTRUCTIVE':
+                post.text = '';
+                closeCreatePostModal();
+                break;
+              case 'CANCELLED':
+                break;
+            }
+          });
         }
         else {
           hideModal($scope.createStreamItemModal);
