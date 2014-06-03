@@ -126,8 +126,9 @@ angular.module('sproutApp', [
       document.addEventListener("online", networkInformation.setOnline, false);
       document.addEventListener("offline", networkInformation.setOffline, false);
       document.addEventListener("resume", updateOnlineStatus, false);
-
-      updateOnlineStatus();
+      
+      if(window.cordova)
+        updateOnlineStatus();
 
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
