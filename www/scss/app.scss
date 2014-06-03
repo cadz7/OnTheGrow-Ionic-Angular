@@ -288,6 +288,21 @@ button {
   color: $orange;
 }
 
+/**** ionic action-sheet style overrides ****/
+.action-sheet-wrapper-top {
+  @include translate3d(0, -100%, 0);
+  @include transition(all ease-in-out 300ms);
+  position: absolute;
+  top: 0;
+  bottom: auto;
+  width: 100%;
+}
+
+.action-sheet-wrapper-top.action-sheet-up {
+  @include translate3d(0, 0, 0);
+}
+
+
 /**** TOAST notification style overrides ****/
 .toast-top-full-width {
   top: 5px;

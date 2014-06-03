@@ -8,7 +8,7 @@ angular.module('sproutApp.controllers')
     'streamItems',
     '$ionicModal',
     'headerRemote',
-    '$ionicPopup',
+    'uiConfirmation',
     '$log',
     'streamItemModalService',
     'Notify',
@@ -22,7 +22,7 @@ angular.module('sproutApp.controllers')
       streamItems,
       $ionicModal,
       headerRemote,
-      $ionicPopup,
+      uiConfirmation,
       $log,
       streamItemModalService,
       Notify,
@@ -32,7 +32,6 @@ angular.module('sproutApp.controllers')
       $ionicScrollDelegate,
       sharingService
     ) {
-
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
@@ -46,16 +45,20 @@ angular.module('sproutApp.controllers')
       $scope.cancelCreatePost = function(post) {
         if (post.text.length > 0) {
           // A confirm dialog
-         var confirmPopup = $ionicPopup.confirm({
-           title: 'Cancel post',
-           template: 'Are you sure you want to discard this post?'
-         });
-         confirmPopup.then(function(res) {
-           if(res) {
-              post.text = '';
-              hideModal($scope.createStreamItemModal);
-           }
-         });
+          uiConfirmation.prompt({
+            titleText: 'Are you sure you want discard the post?',
+            destructiveText: 'Discard',
+            cancelText: 'Cancel'
+          }).then( function(res) {
+            switch (res.type) {
+              case 'DESTRUCTIVE':
+                post.text = '';
+                hideModal($scope.createStreamItemModal);
+                break;
+              case 'CANCELLED':
+                break;
+            }
+          });
         }
         else {
           hideModal($scope.createStreamItemModal);
@@ -121,22 +124,34 @@ angular.module('sproutApp.controllers')
       //$scope.refresh();
       // Create child scopes to hold streaItem data (passed in when modal is opened)
       var createStreamItemModalScope = $scope.$new(),
-          shareStreamItemModalScope = $scope.$new(),
           createActivityModalScope = $scope.$new(),
           editStreamItemModalScope = $scope.$new(),
           streamItemModalScope = $scope.$new();
 
       createStreamItemModalScope.showKeyboard = true;
 
-      shareStreamItemModalScope.sharingTargets = sharingService.sharingTargets;
+      sharingService.fetchSharingTargets().then( function() {
+        $scope.shareWith = sharingService.sharingTargets[0];
+      });
 
-      shareStreamItemModalScope.shareTargetSelected = function(target) {
-        shareStreamItemModalScope.selectedTarget = target;
+      // This flag toggles the sharing menu
+      $scope.userSelectingSharingTargets = false;
+
+      // This is called when you want to toggle the sharing menu
+      $scope.selectSharingTargets = function() {
+        if ($scope.userSelectingSharingTargets) {
+          $scope.userSelectingSharingTargets = false;
+        }
+        else {
+          $scope.sharingTargets = sharingService.sharingTargets;
+          $scope.userSelectingSharingTargets = true;
+        }
       };
-      shareStreamItemModalScope.selectedTarget = null;
 
-      $scope.chooseSharingTargets = function() {
-        $scope.shareStreamItemModal.show();
+      // This is called when you select some group to share with from the list
+      $scope.shareTargetSelected = function(target) {
+        $scope.userSelectingSharingTargets = false;
+        $scope.shareWith = target;
       }
 
       // Modal for create-post
@@ -148,14 +163,6 @@ angular.module('sproutApp.controllers')
         $scope.createStreamItemModal = modal;
       });
 
-      // Modal for share-post
-      $ionicModal.fromTemplateUrl('app/stream/post/modal/share-post-modal.tpl.html', {
-        scope: shareStreamItemModalScope,
-        animation: 'slide-in-up',
-        focusFirstInput: true
-      }).then(function(modal) {
-        $scope.shareStreamItemModal = modal;
-      });
 
       // Modal for create-activity
       $ionicModal.fromTemplateUrl('app/stream/post/modal/create-activity-modal.tpl.html', {
@@ -193,7 +200,6 @@ angular.module('sproutApp.controllers')
       // Clean up modals when scope is destroyed
       $scope.$on('$destroy', function() {
         $scope.createStreamItemModal.remove();
-        $scope.shareStreamItemModal.remove();
         $scope.createActivityModal.remove();
         $scope.editStreamItemModal.remove();
         $scope.streamItemModal.remove();
@@ -222,17 +228,6 @@ angular.module('sproutApp.controllers')
         )
           .then(null, $log.error);
         }
-      };
-
-      $scope.sharePost = function(target) {
-        if (target) {
-          $scope.shareWith = target;
-          hideModal($scope.shareStreamItemModal);
-        }
-      };
-
-      $scope.cancelSharePost = function(target) {
-        hideModal($scope.shareStreamItemModal);
       };
 
       $scope.createPost = function() {

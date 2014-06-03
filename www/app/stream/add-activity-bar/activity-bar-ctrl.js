@@ -1,8 +1,8 @@
 
 
 angular.module('sproutApp.controllers')
-.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', '$ionicPopup', 'networkInformation', 'Notify',
-  function($scope, activities,streamItems,$ionicScrollDelegate, $ionicPopup, networkInformation, Notify) {
+.controller('ActivityBarCtrl', ['$scope', 'activities','streamItems','$ionicScrollDelegate', 'uiConfirmation', 'networkInformation', 'Notify',
+  function($scope, activities,streamItems,$ionicScrollDelegate, uiConfirmation, networkInformation, Notify) {
 
   var STATES = {categorySelect:'categorySelect',activitySelect:'activitySelect',activityForm:'activityForm'}; //constants for view state
   var NAMEKEYS = {activityCategoryDisplayName:'activityCategoryDisplayName',activityName:'activityName'}; //constants for accessing display name of the activities
@@ -34,7 +34,7 @@ angular.module('sproutApp.controllers')
       $scope.currentActivity.unitName = newVal.unitName;
 
       resetForm();
-      $scope.$broadcast('app.onDemandFocus.activityQuantity');
+      //$scope.$broadcast('app.onDemandFocus.activityQuantity');
     }
   };
 
@@ -95,7 +95,7 @@ angular.module('sproutApp.controllers')
 
         $scope.currentState = 2;
 
-        $scope.$broadcast('app.onDemandFocus.activityQuantity');
+        //$scope.$broadcast('app.onDemandFocus.activityQuantity');
 
         this.currentValue = item;
       }
@@ -278,19 +278,22 @@ angular.module('sproutApp.controllers')
   //user cancels the track activty -> go back to the stream
   $scope.cancel = function() {
     if ($scope.activtyQueue.length > 0) {
-      // A confirm dialog
-     var confirmPopup = $ionicPopup.confirm({
-       title: 'Cancel activity',
-       template: 'Are you sure you want to discard your activity updates?'
-     });
-     confirmPopup.then(function(res) {
-       if(res) {
-          $scope.createActivityModal.hide();
-          resetActivitySelect();
-          $scope.activtyQueue = [];
-          $scope.addActivityVisible = false;
-       }
-     });
+      uiConfirmation.prompt({
+        titleText: 'Are you sure you want discard tracked activities?',
+        destructiveText: 'Discard',
+        cancelText: 'Cancel'
+      }).then( function(res) {
+        switch (res.type) {
+          case 'DESTRUCTIVE':
+            $scope.createActivityModal.hide();
+            resetActivitySelect();
+            $scope.activtyQueue = [];
+            $scope.addActivityVisible = false;
+            break;
+          case 'CANCELLED':
+            break;
+        }
+      });
     }
     else {
       $scope.createActivityModal.hide();
@@ -317,7 +320,6 @@ angular.module('sproutApp.controllers')
 
   //save the activity queue and go back to stream if successful, else display an error
   $scope.saveActivities = function() {
-    console.log('save called');
     $scope.savingActivty = true;
     activities.logActivities($scope.activtyQueue)
     .then(function(result){
@@ -332,7 +334,6 @@ angular.module('sproutApp.controllers')
       $scope.savingActivty = false;
       Notify.apiError('Failed to log activities.');
     }));
-    console.log('saving complete');
     $scope.closeModalonSubmit(); 
   };
 

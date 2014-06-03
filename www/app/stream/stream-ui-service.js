@@ -3,8 +3,8 @@
  * from some stream-item/post.
  */
 angular.module('sproutApp.services')
-  .factory('streamUIService', ['$log', '$ionicActionSheet', 'filters', '$q',
-    function ($log, $ionicActionSheet, filters, $q) {
+  .factory('streamUIService', ['$log', '$ionicActionSheetFromTop', 'filters', '$q',
+    function ($log, $ionicActionSheetFromTop, filters, $q) {
       'use strict';
 
       var service = {};
@@ -31,7 +31,7 @@ angular.module('sproutApp.services')
 
         filters.whenReady()
           .then(function () {
-            $ionicActionSheet.show({
+            $ionicActionSheetFromTop.show({
               titleText: 'Filter By Type:',
               buttons: _loadStreamFilterButtons(),
               cancelText: 'Back',

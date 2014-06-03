@@ -24,7 +24,8 @@ angular.module('sproutApp.services', [
   'sproutApp.data.activities',
   'sproutApp.system',
   'sproutApp.location-generator-service',
-  'sproutApp.data.sharing-service'
+  'sproutApp.data.sharing-service',
+  'sproutApp.services.ui-confirmation'
 ]);
 angular.module('sproutApp.directives', [
   'sproutApp.main.left-nav',
@@ -34,8 +35,13 @@ angular.module('sproutApp.filters', [
   'sproutApp.comment.trimToLatest'
 ]);
 
+angular.module('sproutApp.ionic.extend', [
+  'sproutApp.ionic.extend.ion-action-sheet-from-top'
+]);
+
 angular.module('sproutApp', [
   'ionic',
+  'sproutApp.ionic.extend',
   'sproutApp.config',
   'sproutApp.controllers',
   'sproutApp.controllers.main',
