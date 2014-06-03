@@ -40,9 +40,10 @@
         font-weight: 400;
         max-width: 100%;
     }
-    .basic{
+    .basic {
         line-height: 1.4;
         color: $mediumgrey;
+        font-weight: 300;
     }
     .title {
         font-size: 1.8rem;
@@ -68,6 +69,33 @@
         font-size: 0.6rem;
         color: $mediumgrey;
         line-height: 1;
+    }
+    .challenge-description {
+        font-weight: 300;
+        text-align: center;
+        margin: 8px 0;
+        padding:0;
+        font-family:'roboto', sans-serif;
+    }
+    .event-location {
+        color: $mediumgrey;
+        line-height: 1.4;
+        font-weight: 400;
+        text-decoration: underline;
+    }
+    .text-bold {
+        font-weight: 400;
+        font-family:'roboto', sans-serif;
+    }
+    .challenge-instructions {
+        font-family:'garogier', serif;
+        margin-top: 5px;
+        margin-bottom: 1rem;
+    }
+    .header-location-icon {
+        font-size: 1rem;
+        padding-right: 5px;
+        color:$orange;
     }
     .points-container {
         font-family:'roboto', sans-serif;
@@ -170,6 +198,18 @@
     .list {
         padding-bottom: 0;
     }
+    .add-comment {
+        background-color:#FFF;
+        border-color: $lightgrey;
+        width: 100%;
+        padding: 0 10px;
+        max-height: 48px;
+        min-height: 22px;
+        overflow: auto;
+        font-size: 14px;
+        line-height: 16px;
+        display: inline-block;
+    }
     .postInputArea {
         background: #eee;
         padding-right: 0px;
@@ -216,43 +256,6 @@
             color: white;
         }
     }
-    .add-comment {
-        background-color:#FFF;
-        border-color: $lightgrey;
-        width: 100%;
-        padding: 0 10px;
-        max-height: 48px;
-        min-height: 22px;
-        overflow: auto;
-        font-size: 14px;
-        line-height: 16px;
-        display: inline-block;
-    }
-    .challenge-description {
-        font-weight: 300;
-        text-align: center;
-        margin: 8px 0;
-        padding:0;
-        font-family:'roboto', sans-serif;
-    }
-    .text-bold {
-        font-weight: 400;
-        font-family:'roboto', sans-serif;
-    }
-    .challenge-instructions {
-        font-family:'garogier', serif;
-        margin-top: 5px;
-        margin-bottom: 1rem;
-    }
-   .header-location-icon{
-     font-size: 1rem;
-     padding-right: 5px;
-     color:$orange;
-   }
-   .event-location{
-     color: $darkgrey;
-     line-height: 1.8;
-   }
 }
 .comment {
     background: #F9F9F9;
@@ -334,53 +337,41 @@
 .action-sheet-backdrop {
     z-index: 99999;
 }
-
-.activity-log-content{
-  word-wrap: break-word;
-  text-overflow: ellipsis;
-  white-space: normal;
-  max-width: 600px;
+.activity-log-content {
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    white-space: normal;
+    max-width: 600px;
 }
-
-
-.styled-radio {
-  display: inline-block;
-  border: 0;
-
-  i.radio-icon {
-    left: 0;
-    right: auto;
-    padding: 0px 8px;
-  }
-
-  .item-content, input:checked~.item-content {
-    padding: 5px 15px 5px 35px;
-    background: $base-background-color;
-  }
-  
-  i.radio-icon {
-    visibility: visible;
-  }
-
-  input~i.radio-icon:before {
+.activity-radio {
     display: inline-block;
-    width: 100%;
-    height: auto;
     border: 0;
-    background: $base-background-color;
-    content: '\f170';
-    color: $green;
-    padding: 0;
-    transition: background-color 20ms ease-in-out;
-  }
-
-  input:checked~i.radio-icon:before {
-    border-width: 2px;
-    border-radius: 20px;
-    content: '\f120';
-  }
-}
-
-.share-post-radio {
-  display: block;
+    i.radio-icon {
+        left: 0;
+        right: auto;
+        padding: 0px 8px;
+    }
+    .item-content, input:checked~.item-content {
+        padding: 5px 15px 5px 35px;
+        background: $base-background-color;
+    }
+    i.radio-icon {
+        visibility: visible;
+    }
+    input~i.radio-icon:before {
+        display: inline-block;
+        width: 100%;
+        height: auto;
+        border: 0;
+        background: #fff;
+        content:'\f170';
+        color: #8cc841;
+        padding: 0;
+        transition: background-color 20ms ease-in-out;
+    }
+    input:checked~i.radio-icon:before {
+        border-width: 2px;
+        border-radius: 20px;
+        content:'\f120';
+    }
 }

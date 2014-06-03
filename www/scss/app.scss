@@ -54,6 +54,11 @@ hr {
 .button{
   border-radius: 3px;
 }
+ion-header-bar button.post.active {
+    color: $blue;
+    font-weight: 500;
+    opacity: 1;
+}
 .subdued{
   color:$mediumgrey;
 }
@@ -298,9 +303,6 @@ button {
 #toast-container > div.ng-enter,
 #toast-container > div.ng-leave
 { 
-    -webkit-transition: 100ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -moz-transition: 1000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -ms-transition: 1000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -o-transition: 1000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -webkit-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
     transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
 } 

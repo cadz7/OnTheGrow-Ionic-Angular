@@ -3,7 +3,7 @@
 
   <div class="post-info row">
     <div class="col col-66">
-      <span class="author">{{post.owner.firstNameDisplay + ' ' + post.owner.lastName}}</span>
+      <span class="author">{{post.owner.firstNameDisplay + ' ' + post.owner.lastName}} </span><span class="activity-log-content"> {{post.content}}</span>
       <br />
       <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
     </div>

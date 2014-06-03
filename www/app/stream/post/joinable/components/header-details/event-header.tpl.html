@@ -1,7 +1,6 @@
 <h1 class="title" ng-click="showDetailView()">{{post.detail.eventName}}</h1>
-<div class="event-location" ng-click="openLink(post.detail.eventLocationUrl)"><i class="icon ion-ios7-location header-location-icon"></i>{{post.detail.eventLocation}}</div>
-<div class="basic">{{post.detail.eventDateTime | date : 'MMM d, h:mma'}}</div>
-<div class="basic" ng-if="isWrappedInModal" >{{post.detail.numEventAttendees}} Attending</div>
+<div class="highlight">{{post.detail.eventDateTime | date : 'MMM d, h:mma'}}
+<span class="basic"> - {{post.detail.numEventAttendees}} Attending</span></div><div class="event-location" ng-click="openLink(post.detail.eventLocationUrl)" ng-if="isWrappedInModal"><i class="icon ion-ios7-location header-location-icon"></i>{{post.detail.eventLocation}}</div>
 
 
 
