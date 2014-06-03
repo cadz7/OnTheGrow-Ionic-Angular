@@ -46,6 +46,7 @@ angular.module('sproutApp.controllers')
         if (post.text.length > 0) {
           // A confirm dialog
           uiConfirmation.prompt({
+            titleText: 'Are you sure you want discard the post?',
             destructiveText: 'Discard',
             cancelText: 'Cancel'
           }).then( function(res) {
@@ -129,7 +130,10 @@ angular.module('sproutApp.controllers')
 
       createStreamItemModalScope.showKeyboard = true;
 
-      $scope.shareWith = null;
+      sharingService.fetchSharingTargets().then( function() {
+        $scope.shareWith = sharingService.sharingTargets[0];
+      });
+
       // This flag toggles the sharing menu
       $scope.userSelectingSharingTargets = false;
 

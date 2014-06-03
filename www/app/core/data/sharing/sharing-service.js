@@ -9,7 +9,7 @@ angular.module('sproutApp.data.sharing-service', [
       var service = {data : {}},
           cachedData;
 
-      /*cachedData = [
+      service.sharingTargets = cachedData = [
         {
           displayName: 'Everyone',
           filterId: 1
@@ -26,9 +26,9 @@ angular.module('sproutApp.data.sharing-service', [
           displayName: 'My Region',
           filterId: 4
         }
-      ];*/
+      ];
 
-      filters.whenReady()
+      /*filters.whenReady()
       .then(function () {
         service.sharingTargets = cachedData = _.reduce(
           filters.streamItemFilters,
@@ -43,7 +43,7 @@ angular.module('sproutApp.data.sharing-service', [
           []
         );
 
-      });
+      });*/
 
       service.fetchSharingTargets = function() {
         // TODO: Actually fetch from API

@@ -279,6 +279,7 @@ angular.module('sproutApp.controllers')
   $scope.cancel = function() {
     if ($scope.activtyQueue.length > 0) {
       uiConfirmation.prompt({
+        titleText: 'Are you sure you want discard tracked activities?',
         destructiveText: 'Discard',
         cancelText: 'Cancel'
       }).then( function(res) {
