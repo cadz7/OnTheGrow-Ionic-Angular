@@ -50,11 +50,12 @@ angular.module('sproutApp.data.activities', [
     *
     * @param {int,required} timePeriodId   Provides the time period  Id for which the activity log should be generated //NOTE: GET FILTERS returns the id as a string -> ????
     * @param {int} idGreaterThan            An optional parameter to specify the last Id of the activity log for the user shown and get the next items (needed in case customer selected to see log for the year and there were thousands of items)
+    * @param {int} maxCount                 An optional parameter specifying the maximum number of of logged activites to return
     *
     * @returns {promise}                    a promise containing an array of all activities by the user for the requested timeperiod
     */
-    service.loadActivityLog = function(timePeriodId, idGreaterThan) {
-      return server.get(API.activityLogEndpoint,{timePeriodId:timePeriodId,idGreaterThan:idGreaterThan})
+    service.loadActivityLog = function(timePeriodId, idGreaterThan, maxCount) {
+      return server.get(API.activityLogEndpoint,{timePeriodId:timePeriodId,idGreaterThan:idGreaterThan,maxCount:maxCount})
         .then(function(activityLog) {
           cache.set('activity_log', activityLog);
           service.activityLog = activityLog;
@@ -144,8 +145,8 @@ angular.module('sproutApp.data.activities', [
     return service;
   }
 ])//ACTIVITIES SERVICE
-.factory('mockActivitiesServer',['$q', 'util', 'API_CONSTANTS',
- function($q,utils,API_CONSTANTS){
+.factory('mockActivitiesServer',['$q', 'util', 'API_CONSTANTS','METRICS_CONSTANTS',
+ function($q,utils,API_CONSTANTS,METRICS_CONSTANTS){
     'use strict';
     var service = {
       categories: [] // an array of currently loaded items
@@ -1062,7 +1063,7 @@ angular.module('sproutApp.data.activities', [
                                     {activityLogId:15,  activityUnitId:1528,"quantity":901,"points":40000,"date":laterDate.toUTCString()}];
 
 
-                var PAGE_SIZE = 2; //small value to test pagination
+                var PAGE_SIZE = METRICS_CONSTANTS.defaultMaxItemCount; //small value to test pagination
                 var logs;
                 switch(''+query.timePeriodId){
                     case '1':
