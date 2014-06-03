@@ -14,6 +14,7 @@ describe('networkInformation service', function() {
     $provide.factory('$q', function() {
       return Q;
     });
+    $provide.factory('Notify', function() { return {warn:function() {}}});
   }));
 
   // Reset mock data;

@@ -25,6 +25,7 @@ describe('server service', function() {
           })
         };
     });
+    $provide.factory('Notify', function() { return {warn:function() {}}});
     $provide.factory('$window', function () {
 
         return {         
