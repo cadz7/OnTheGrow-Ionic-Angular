@@ -39,7 +39,6 @@ angular.module('sproutApp.controllers')
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
-    	$scope.filterByType = 'ALL';
       $scope.selectedStreamItemFilter = null;
       $scope.showStreamItemFilters = false;
 
