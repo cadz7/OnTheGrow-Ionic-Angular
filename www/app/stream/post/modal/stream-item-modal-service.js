@@ -27,6 +27,16 @@ angular.module('sproutApp.services')
         service.commentLimit = -STREAM_CONSTANTS.initialCommentCountShown;
         $ionicScrollDelegate.$getByHandle('streamItemModal').scrollTop(false);
       };
+      service.getNumCommentsRemainingMsg = function(){
+        var res = '';
+        var remaining = _streamItem.comments.length - Math.abs(service.commentLimit);
+        if (remaining == 1){
+          res = '1 more comment';
+        } else if (remaining > 1){
+          res = remaining + ' more comments';
+        }
+        return res;
+      };
 
       /**
        *
