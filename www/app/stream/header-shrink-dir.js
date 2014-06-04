@@ -14,7 +14,9 @@ angular.module('sproutApp.directives')
           var header = $document[0].body.querySelector('#stream-header');
           var headerHeight = 0;
           for(var i = 0; i < header.children.length; i++) {
-            headerHeight += header.children[i].offsetHeight;
+            if (!~header.children[i].className.indexOf('new-items-notification') && !~header.children[i].className.indexOf('stream-item-filter')) {
+              headerHeight += header.children[i].offsetHeight;
+            }
           }
           
           if(ionic.Platform.platform() === 'ios') {

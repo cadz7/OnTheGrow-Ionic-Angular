@@ -34,25 +34,25 @@
       }
   }
 
-  .new-items-notification {
-    position: absolute;
-    z-index: 1001;
-    top: 45px;
-    left: 0;
-    display: block;
-    width: 100%;
-    text-align: center;
-    color: $blue;
-    padding: 0;
+}
+.new-items-notification {
+  position: absolute;
+  z-index: 1001;
+  top: 45px;
+  left: 0;
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: $blue;
+  padding: 0;
 
-    div {
-      display: inline-block;
-      padding: 2px 5px;
-      border-width: 0 1px 1px 1px;
-      border-style: solid;
-      border-color: $lightgrey;
-      background-color: $base-background-color;
-    }
+  div {
+    display: inline-block;
+    padding: 2px 5px;
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    border-color: $lightgrey;
+    background-color: $base-background-color;
   }
 }
 .create-post-input {
