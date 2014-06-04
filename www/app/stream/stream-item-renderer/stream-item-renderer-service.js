@@ -9,26 +9,30 @@ angular.module('sproutApp.stream-item-renderer', [
         joinable: 'app/stream/stream-item-templates/joinable.html'
       };
 
+      // A deferred to keep track of whether we've loaded all the templates.
       var deferredReady = $q.defer();
 
+      /**
+       * Returns a promise that resolves when the service is ready to be used.
+       *
+       * @return {promise}              A $q promise that resolves when the
+       *                                service is ready to be used.
+       */
       service.whenReady = function(){
         return deferredReady.promise;
       };
 
-      window.handleStreamClick = function(id, action) {
-        alert(action + ': ' + id);
-      };
 
+      // Loads and compiles a template.
       function loadTemplate(key) {
         var url = templateUrls[key];
         return $http.get(url)
           .then(function(response) {
             templates[key] = Handlebars.compile(response.data);
-            //$interpolate(response.data);
-            // console.log(key);
           });
       }
 
+      // Initializes the service.
       function init() {
         var templateKeys = _.keys(templateUrls);
         var templatePromises = _.map(templateKeys, loadTemplate);
@@ -39,6 +43,7 @@ angular.module('sproutApp.stream-item-renderer', [
           .then(null, $log.error);
       };
 
+      // Gets hero image.
       function getHeroImage (item) {
         if (!item.detail) {
           return;
@@ -47,19 +52,66 @@ angular.module('sproutApp.stream-item-renderer', [
         }
       }
 
+      // Checks if the content is overflowing.
       function isContentOverflowing(item) {
         return item.content.length > STREAM_CONSTANTS.initialPostCharCount;
       }
 
+      // Makes a string representation of a handler function call. This is
+      // going to be a _STRING_ that we'll paste into the template. This
+      // function does not specify any arguments because we'll be pulling
+      // them in via "arguments."
+      function makeHandlerString() {
+        var functionName = 'window.handleSproutStreamScrollerClick';
+        var singleQuote = '\''; // Keeps JSHint happy.
+        var doubleQuote = '"';
+        var quotedArguments = _.map(arguments, function(arg) {
+          console.log(arg);
+          arg = '' + arg;
+          if (arg.search(singleQuote) >= 0 || arg.search(doubleQuote) >= 0) {
+            throw new Error('Do not use quotes in handler string arguments');
+          }
+          return singleQuote + arg + singleQuote;
+        });
+        var stringFunction = functionName + '(' + quotedArguments.join(', ') + ')';
+        console.log(stringFunction);
+        return stringFunction;
+      }
+
+      function formatTime(isoDateTime) {
+        return moment(isoDateTime).format('MMM D YYYY, h:mm:ss a');
+      }
+
+      // Generates HTML for a joinable item.
       function makeJoinable (item, isWrappedInModal) {
         var heroImage = getHeroImage(item);
+        var handlerKeys = [
+          'close',
+          'toggleMembership',
+          'like',
+          'showDetails',
+          'showEditMenu',
+          'postComment',
+          'openEventUrl', // openLink(post.detail.eventLocationUrl)
+          'openGroupUrl',
+          'openChallengeUrl'
+        ];
+        var handlers = {};
+        var commentHandlerKeys = ['postComment'];
 
         var comments = _.map(item.comments, function(comment) {
+
+          var commentHandlers = {};
+
+          commentHandlerKeys.forEach(function(key) {
+            commentHandlers[key] = makeHandlerString(key, item.streamItemId, comment.comentId);
+          });
           return {
             comment: comment,
             displayName: comment.owner.firstNameDisplay,
-            dateTimeCreated: comment.dateTimeCreated, // | date : 'MMM d, y h:mm:ss'}},
-            parsedContent: template.fill(comment.commentDisplay.template, comment.commentDisplay.values)
+            dateTimeCreated: formatTime(comment.dateTimeCreated),
+            parsedContent: template.fill(comment.commentDisplay.template, comment.commentDisplay.values),
+            commentHandlers: commentHandlers
           };
         });
 
@@ -69,33 +121,16 @@ angular.module('sproutApp.stream-item-renderer', [
           isEvent: item.streamItemTypeSlug==='event'
         };
 
-        function makeHandlers() {
-          var handlerKeys = [
-            'close',
-            'toggleMembership',
-            'like',
-            'showDetails',
-            'showEditMenu',
-            'postComment',
-            'openEventUrl', // openLink(post.detail.eventLocationUrl)
-            'openGroupUrl',
-            'openChallengeUrl'
-          ];
-          var handlers = {};
-
-          handlerKeys.forEach(function(key) {
-            handlers[key] = 'handleStreamClick(\'' + item.streamItemId +'\', \'' + key +'\')';
-          });
-
-          return handlers;
-        }
+        handlerKeys.forEach(function(key) {
+          handlers[key] = makeHandlerString(key, item.streamItemId);
+        });
 
         return templates.joinable({
           item: item,
           itemType: itemType,
           headerIcon: streamItemResourceService.getJoinableHeaderIcon(item),
           displayName: item.owner.firstNameDisplay + ' ' + item.owner.lastNameDisplay,
-          timeCreated: '1 am on June 3, 2014', //{{post.dateTimeCreated | date : 'MMM d, h:mma'}}
+          timeCreated: formatTime(item.dateTimeCreated),
           details: '',
           heroImage: heroImage,
           hasHeroImage: !!heroImage,
@@ -104,9 +139,9 @@ angular.module('sproutApp.stream-item-renderer', [
           likeButtonClass: item.viewer.isLikedByViewer? '' : 'inactive',
           comments: comments.slice(0, 2), // | trimToLatest:numCommentsDisplayed:isWrappedInModal"
           contentIsOverflowing: isContentOverflowing(item) && !isWrappedInModal,
-          handlers: makeHandlers(),
-          eventDateTime: '6 am on July 18, 2014',
-          challengeDeadline: '9 pm on August 8, 2014'
+          handlers: handlers,
+          eventDateTime: formatTime(item.detail.eventDateTime),
+          challengeDeadline: formatTime(item.detail.challengeDeadline)
         });
       }
 
