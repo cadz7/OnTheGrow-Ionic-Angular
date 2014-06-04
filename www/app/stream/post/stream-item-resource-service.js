@@ -45,6 +45,16 @@ angular.module('sproutApp.services')
         return isTruncated && (fullContent.length > STREAM_CONSTANTS.initialPostCharCount) ? truncatedContent : fullContent;
       };
 
+      service.getTruncatedUserText = function(streamItem, isTruncated){
+        if (!streamItem.userText){
+          return undefined;
+        }
+        var fullContent = streamItem.userText;
+        var tempContent = fullContent.substr(0, STREAM_CONSTANTS.initialPostCharCount);
+        var truncatedContent = (fullContent.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
+        return isTruncated && (fullContent.length > STREAM_CONSTANTS.initialPostCharCount) ? truncatedContent : fullContent;
+      };
+
 
 
       return service;
