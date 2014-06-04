@@ -76,18 +76,6 @@ angular.module('sproutApp', [
       system.initialize();
     }
 
-    function updateOnlineStatus() {
-      $log.log('App resuming, checking connection status...');
-      if (!navigator.connection) {
-        networkInformation.setOnline();
-      } else if ((navigator.connection.type).toUpperCase() != "NONE" &&
-          (navigator.connection.type).toUpperCase() != "UNKNOWN") {
-        networkInformation.setOnline();
-      } else {
-        networkInformation.setOffline();
-      }
-    }
-
     function verifyRequiredPluginsAreInstalled() {
       if (!window.cordova) {
         $log.error('cordova namespace missing.');
@@ -111,14 +99,7 @@ angular.module('sproutApp', [
 
     $ionicPlatform.ready(function() {
       logDeviceDetails();
-
-      document.addEventListener("online", networkInformation.setOnline, false);
-      document.addEventListener("offline", networkInformation.setOffline, false);
-      document.addEventListener("resume", updateOnlineStatus, false);
-      
-      if(window.cordova)
-        updateOnlineStatus();
-
+      networkInformation.initialize();
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if(window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
