@@ -4,15 +4,32 @@ angular.module('sproutApp.network-information', [
 
 ])
 
-.factory('networkInformation', ['$log', 'Notify',
-
-  function ($log, Notify) {
+.factory('networkInformation', ['$log', 'Notify', '$ionicPlatform',
+  function ($log, Notify, $ionicPlatform) {
     'use strict';
-
     var service = {
       simulate: {},
       isOnline: true
     };
+
+
+    function updateOnlineStatus() {
+      if(!window.cordova) return;
+
+      $log.log('App resuming, checking connection status...');
+      if (!navigator.connection) {
+        service.setOnline();
+      } else if (navigator.connection.type.toUpperCase() != "NONE" &&
+          navigator.connection.type.toUpperCase() != "UNKNOWN") {
+        service.setOnline();
+      } else {
+        service.setOffline();
+      }
+    }
+
+    $ionicPlatform.ready(function() {
+      updateOnlineStatus();
+    });
 
     var listeners = {
       online: [],
@@ -68,6 +85,10 @@ angular.module('sproutApp.network-information', [
       listeners.offline.push(listener);
     };
 
+    document.addEventListener("online", service.setOnline, false);
+    document.addEventListener("offline", service.setOffline, false);
+    document.addEventListener("resume", updateOnlineStatus, false);
+    
     return service;
   }
 ]);
