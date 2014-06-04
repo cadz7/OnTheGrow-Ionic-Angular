@@ -8,6 +8,8 @@ angular.module('sproutApp.controllers')
               leaderboards, filters, activities, user, uiConfirmation) {
       $scope.header = headerRemote;
       $scope.showLeaderBoardFilters = false;
+      $scope.filtersChanged = false;
+
       var leaderboardParams = {};
       var activityCategoryFilters =[];
       $scope.activitySearchText = {};
@@ -63,11 +65,13 @@ angular.module('sproutApp.controllers')
         if (!$scope.editFilters) {
           //showing 'edit filters'
           $scope.editFilters = !$scope.editFilters;
+          $scope.filtersChanged = false;
+
           var index = _.findIndex(filters.timePeriodFilters,$scope.activePeriod);
           $ionicSlideBoxDelegate.$getByHandle('PeriodSlider').slide(index);
         } else {
           //hiding 'edit filters'
-          if (true) {
+          if ($scope.filtersChanged) {
             uiConfirmation.prompt({
               titleText: 'Are you sure you want discard the filter customization?',
               buttons: [{text: 'Discard'}],
@@ -104,6 +108,10 @@ angular.module('sproutApp.controllers')
 
       //select an activity filter , and then reload the leaderboard
       $scope.selectActivityFilter = function(activityObj){
+        if ($scope.editFilters) {
+          $scope.filtersChanged = true;
+        }
+
         $scope.selectedCategory = activityObj;
         leaderboardParams.activityFilterId = activityObj.filterId;
         $scope.toggleActivityList();
@@ -111,6 +119,10 @@ angular.module('sproutApp.controllers')
 
       //apply the selected leaderboard type filter
       $scope.selectLeaderBoardFilter = function(filter){
+        if ($scope.editFilters) {
+          $scope.filtersChanged = true;
+        }
+
         leaderboardParams.userFilterId = filter.filterId;
         $scope.toggleLeaderBoardFilters();
         $scope.leaderBoardFilters = filters.leaderBoardFilters;
