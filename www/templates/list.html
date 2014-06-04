@@ -1,0 +1,55 @@
+<ion-view title="Item Details ">
+
+  <ion-content class="has-header" scroll="false" data-tap-disabled="true">
+
+  	<!-- List of items -->
+
+
+       <div id="map" class="card"></div>
+
+<div class="card">
+
+    <ion-item
+        ng-class="{ done : item.done }">
+        Title: {{list.title}}
+    </ion-item>
+    <ion-item
+    ng-class="{ done : item.done }">
+        Price: {{list.pay}}
+    </ion-item>
+    <ion-item
+    ng-class="{ done : item.done }">
+        Quantity: {{list.quantity}}
+    </ion-item>
+      <ion-item
+    ng-class="{ done : item.done }">
+        Description: {{list.description}}
+    </ion-item>
+        <ion-item
+    ng-class="{ done : item.done }">
+        Name: {{list.name}}
+    </ion-item>
+        <ion-item
+    ng-class="{ done : item.done }">
+        Phone: {{list.phone}}
+    </ion-item>
+            <ion-item
+    ng-class="{ done : item.done }">
+        email: {{list.email}}
+    </ion-item>
+            <ion-item
+    ng-class="{ done : item.done }">
+        Address: {{list.address}}
+    </ion-item>
+</div>
+
+      <div class="padding">
+        <button class="button button-block button-calm" ng-click="apply()">
+          Pay with PayPal
+        </button>
+      </div>
+
+
+
+  </ion-content>
+</ion-view>

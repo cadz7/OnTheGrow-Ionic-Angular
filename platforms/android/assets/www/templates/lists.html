@@ -1,0 +1,43 @@
+<ion-view title="Item Lists" animation="none">
+
+
+	<!-- ****************************
+    Content
+  **************************** -->
+  <ion-content class="has-header">
+
+    <div class="bar bar-header item-input-inset">
+      <!-- search box -->
+      <label class="item-input-wrapper">
+        <i class="icon ion-ios7-search placeholder-icon"></i>
+        <input type="search" ng-model="query">
+      </label>
+      <button class="button button-clear" ng-click="clear()">
+        Cancel
+      </button>
+    </div>
+
+  	<!-- ionic list directive -->
+ <center><img src="img/legend.png" style="width: 80%; padding:20px 0;"></center>
+<h4><span style='float:left;padding-right: 14%; padding-left: 8%;'>#</span> Produce <span style='float:right; padding-right: 25%;'>Distance</span></h4>
+
+      <ion-list>
+        <ion-item ng-repeat="list in posts | filter: query" href="#/app/lists/{{list.id}}" >
+
+          <div style='float:left;margin-right: 15%;'>{{list.quantity}}</div>
+          <div style='text-transform:capitalize;'>{{list.title}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;400m</div>
+        </ion-item>
+      </ion-list>
+
+
+    <div class="tabs">
+  <a id='find' class="tab-item" href="#/app/lists">
+    Find
+  </a>
+  <a id='sell' class="tab-item" href="#/app/listings" ng-click='changeTabColor()'>
+    Sell
+  </a>
+
+</div>
+  </ion-content>
+</ion-view>

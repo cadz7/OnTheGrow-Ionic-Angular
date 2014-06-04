@@ -1,0 +1,137 @@
+#map {
+  height: 200px;
+}
+
+img {max-width:100%}
+
+.title {
+  background-color: #4da75c !important;
+}
+
+.scroll {
+  height: 100%;
+  background: #fbfcf5;
+}
+
+
+.bar-balanced {
+  background-color: #4da75c !important;
+}
+
+.tab-item {
+  margin: auto !important;
+  padding: 0!important;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 1.3em;
+  display: block;
+  background: #4da75c;
+  color: #fff;  
+  max-width: 100%;
+}
+
+/*.arrows {
+  background:url("../img/fresh_arrow.png") no-repeat right;
+  height: 100px;
+}*/
+
+.item-content {
+  background:url("../img/fresh_arrow.png") no-repeat right center !important;
+  padding: 20px !important ;
+/*  max-width: 100% !important;*/
+    font-family: 'Montserrat', sans-serif !important;
+font-size: 1.3em;
+}
+
+.tab-content {
+  max-width: 100% !important;
+}
+
+.tabs {
+  background: #4da75c;
+}
+
+h1, h2, h3, h4 { 
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+h4 {
+  text-transform: uppercase;
+  font-size: 1em;
+}
+
+.button {
+  background-color:#6ed387 !important;
+  color: #fff !important;
+}
+
+.padding {
+  padding: 0;
+}
+
+/*landing*/
+#position_landing {
+  padding: 10%;
+  padding-top: 30%;
+}
+
+.landing_button {
+  background-color: #6ed387 !important;
+  text-align: left;
+  padding: 10px;
+  font-size: 1.5em;
+     font-family: 'Montserrat', sans-serif !important;
+
+  /*background: #6ed387 url('img/search.png') no-repeat left center; */
+}
+
+.landing_button1 {
+  background-color: #3b834d !important;
+  text-align: left;
+  padding: 10px;
+  font-size: 1.5em;
+     font-family: 'Montserrat', sans-serif !important;
+
+  /*background: #6ed387 url('img/search.png') no-repeat left center; */
+}
+      .controls {
+        margin-top: 16px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #pac-input {
+        background-color: #fff;
+        padding: 0 11px 0 13px;
+        width: 400px;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        text-overflow: ellipsis;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+        margin-left: -1px;
+        padding-left: 14px;  /* Regular padding-left + 1. */
+        width: 401px;
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }
+
+.scroll-content {
+  overflow: scroll;
+}
+
+#special_button {
+margin-top: 10px;
+margin-bottom: 80px;
+}
+

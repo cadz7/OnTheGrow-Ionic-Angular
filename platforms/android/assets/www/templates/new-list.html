@@ -1,0 +1,85 @@
+<ion-view title="Post a new job">
+
+  <!-- ****************************
+    Content
+  **************************** -->
+  <ion-content class="has-header">
+    	<!-- List Title -->
+		  <label class="item item-input">
+		    <span class="input-label">Post Title</span>
+		    <input type="text" ng-model="newList.title">
+		  </label>
+		  <!-- List items -->
+			<label class="item item-input" ng-repeat="item in newList.items">
+		    <input type="text" ng-model="item.title" placeholder="Add Job Title">
+		  </label>
+		  <!-- Add an item -->
+		  <!--<div class="item item-input-inset">
+		    <label class="item-input-wrapper">
+		      <input type="text" ng-model="newItem.title" placeholder="Add Description">
+		    </label>
+		    <button class="button button-clear button-small" ng-click="addItem()">
+		      add
+		    </button>
+		  </div>
+		  <div class="item item-input-inset">
+		    <label class="item-input-wrapper">
+		      <input type="number" ng-model="newItem.pay" placeholder="Add Pay">
+		    </label>
+		    <button class="button button-clear button-small" ng-click="addItem()">
+		      add
+		    </button>
+		  </div>-->
+			  <label class="item item-input">
+			    <span class="input-label">Food type</span>
+			    <input type="text" ng-model="newItem.type" placeholder="Enter food type">
+			  </label>
+			  <label class="item item-input">
+			    <span class="input-label">quantity</span>
+			    <input type="number" ng-model="newItem.quantity" placeholder="0">
+			  </label>
+			  <label class="item item-input">
+			    <span class="input-label">Price</span>
+			    <input type="number" ng-model="newItem.price" placeholder="0$">
+			  </label>
+			  <label class="item item-input">
+			    <span class="input-label">Harvest Date</span>
+			    <input type="date" ng-model="newItem.date" placeholder="">
+			  </label>
+			  <label class="item item-input">
+			    <span class="input-label">Description</span>
+			    <input type="text" ng-model="newItem.description" placeholder="Enter description">
+			  </label>
+			  <label class="item item-input">
+				  <span class="input-label">Name</span>
+				  <input type="text" ng-model="newItem.name" placeholder="">
+				</label>
+			  <label class="item item-input">
+				  <span class="input-label">E-Mail</span>
+				  <input type="text" ng-model="newItem.email" placeholder="">
+				</label>
+			  <label class="item item-input">
+				  <span class="input-label">Phone number</span>
+				  <input type="text" ng-model="newItem.phone" placeholder="">
+				</label>
+			  <label class="item item-input">
+				  <span class="input-label">Address</span>
+				  <input type="text" ng-model="newItem.address" placeholder="">
+				</label>
+				<div class="item item-input item-select">
+			    <div class="input-label" ng-model="newItem.paymentType">
+			      Payment type
+			    </div>
+			    <select>
+			      <option>Cash</option>
+			      <option selected>Paypal</option>
+			    </select>
+			  </div>
+		  <!-- Save -->
+		  <div class="padding">
+		  	<button class="button button-block button-balanced" ng-click="save()">
+  				Save
+				</button>
+  </ion-content>
+
+</ion-view>

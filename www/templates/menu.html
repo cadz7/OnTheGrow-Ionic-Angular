@@ -1,0 +1,76 @@
+<ion-side-menus>
+  
+  <!-- ****************************
+    The main content container 
+  **************************** -->
+  <ion-pane ion-side-menu-content>
+  
+    <!-- Navigation Bar -->
+    <ion-nav-bar class="bar-balanced nav-title-slide-ios7">
+  
+      <!-- Menu Toggle -->
+     <!--  <ion-nav-buttons side="left">
+        <button 
+          menu-toggle="left" 
+          class="button button-icon icon ion-navicon"></button>
+      </ion-nav-buttons> -->
+       <ion-nav-buttons side="right">
+        <a 
+          class="button" href="#/app/lists/new">Add Listings
+        </a>
+      </ion-nav-buttons>     
+                                
+    </ion-nav-bar>
+  
+    <!-- The main content -->
+    <ion-nav-view 
+      name="menuContent" 
+      animation="slide-left-right"></ion-nav-view>
+  
+  </ion-pane>
+
+  <!-- ****************************
+    Side Menu 
+  **************************** -->
+  <ion-side-menu side="left" ng-controller="MenuCtrl">
+    <!-- The Header -->
+    <div class="bar bar-header item-input-inset">
+      <!-- search box -->
+      <label class="item-input-wrapper">
+        <i class="icon ion-ios7-search placeholder-icon"></i>
+        <input type="search" ng-model="query" ng-change="search()">
+      </label>
+      <button class="button button-clear" ng-click="clear()">
+        Cancel
+      </button>
+    </div>
+    <!-- The Content -->
+    <ion-content class="has-header">
+      <!-- search results -->
+      <ion-list ng-show="results.length > 0">
+        <ion-item ng-repeat="item in results">
+          {{item.title}}
+        </ion-item>
+      </ion-list>
+      <!-- navigation -->
+      <ion-list  ng-hide="results.length > 0">
+        <!-- List of Lists -->
+        <ion-item class="item-icon-left" nav-clear menu-close href="#/app/lists">
+          <i class="icon ion-ios7-albums"></i>
+          Browse
+        </ion-item>
+        <!-- Create a new list -->
+        <ion-item class="item-icon-left" nav-clear menu-close href="#/app/lists/new">
+          <i class="icon ion-ios7-plus"></i>
+          Add A List
+        </ion-item>
+        <!-- Settings page -->
+        <ion-item class="item-icon-left" nav-clear menu-close href="#/app/settings">
+          <i class="icon ion-ios7-gear"></i>
+          Settings
+        </ion-item>
+      </ion-list>
+
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

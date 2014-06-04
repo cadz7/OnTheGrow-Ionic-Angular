@@ -1,0 +1,8 @@
+{
+  "name": "swipeToDo",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "underscore": "~1.6.0"
+  }
+}
