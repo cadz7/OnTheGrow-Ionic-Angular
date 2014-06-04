@@ -4,7 +4,7 @@ angular.module('sproutApp.network-information', [
 
 ])
 
-.factory('networkInformation', ['$log', 'Notify', '$ionicPlatform',
+.factory('networkInformation', ['$log', 'Notify',
   function ($log, Notify, $ionicPlatform) {
     'use strict';
     var service = {
@@ -26,10 +26,6 @@ angular.module('sproutApp.network-information', [
         service.setOffline();
       }
     }
-
-    $ionicPlatform.ready(function() {
-      updateOnlineStatus();
-    });
 
     var listeners = {
       online: [],
@@ -85,9 +81,15 @@ angular.module('sproutApp.network-information', [
       listeners.offline.push(listener);
     };
 
-    document.addEventListener("online", service.setOnline, false);
-    document.addEventListener("offline", service.setOffline, false);
-    document.addEventListener("resume", updateOnlineStatus, false);
+    service.initialize = function() {
+      if (document) {
+        document.addEventListener("online", service.setOnline, false);
+        document.addEventListener("offline", service.setOffline, false);
+        document.addEventListener("resume", updateOnlineStatus, false);
+      }
+      updateOnlineStatus();
+    };
+
     
     return service;
   }
