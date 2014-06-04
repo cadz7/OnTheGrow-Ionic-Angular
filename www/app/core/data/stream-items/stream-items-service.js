@@ -70,7 +70,7 @@ angular.module('sproutApp.data.stream-items', [
         };
 
         item.content = streamItemResourceService.getContent(item, false);
-        item.truncatedContent = streamItemResourceService.getContent(item, true);
+        item.userTextTruncated = streamItemResourceService.getTruncatedUserText(item, true);
 
         if (item.detail){
           item.streamItemDisplay.heroImg = item.detail.eventImageURL || item.detail.challengeImageURL || item.detail.groupImageURL;
@@ -250,7 +250,7 @@ angular.module('sproutApp.data.stream-items', [
       // Commenting out this until we have worked out the correct slug type for a generic post
       // item.relationTypeSlug = 'post';
 
-      item.relationTypeSlug = 'add_notification';
+      item.relationTypeSlug = 'user_post';
       return server.post(API_CONSTANTS.streamItemsEndPoint, item).then(function(post) {
         decoratePostsWithFunctionality([post]);
         latestId = post.streamItemId;   // TODO: fix race condition here.
@@ -560,13 +560,15 @@ angular.module('sproutApp.data.stream-items', [
         createdItem.viewer.isOwnedByViewer = true;
         createdItem.dateTimeCreated = new Date().toISOString();
         createdItem.streamItemDisplay = {
-          template: '{text}',
+          template: '',
           values: {
             user: _.clone(user.data),
             text: item.text
           }
         };
         createdItem.likeCount = 0;
+        createdItem.userText = item.text;
+
 
         items.unshift(createdItem);
         //cache.set('mockStreamItems', items);

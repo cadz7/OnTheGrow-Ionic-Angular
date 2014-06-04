@@ -1,5 +1,5 @@
 <div ng-include="'app/stream/post/regular/components/header.tpl.html'"></div>
-<!--CONTENT for Activity Tracking does not exist in the app for v1.0
-<div ng-include="'app/stream/post/regular/components/content.tpl.html'"></div>-->
+<!--CONTENT for Activity Tracking does not exist in the app for v1.0-->
+<div ng-include="'app/stream/post/regular/components/content.tpl.html'" ng-if="post.userText"></div>
 <div ng-include="'app/stream/post/components/like-comment.tpl.html'"></div>
 <div ng-include="'app/stream/post/components/comments.tpl.html'"></div>
