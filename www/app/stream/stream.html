@@ -19,6 +19,7 @@
       </div>
 
     </ion-header-bar>
+
     <div class="row stream-item-filter" ng-show="showStreamItemFilters">
       <div class="leadboardFilterRow row" ng-repeat="filter in streamItemFilters" ng-class="{selected : (filter.filterId == selectedStreamItemFilter.filterId)}">
          <h5 class="col" ng-click="selectStreamItemFilter(filter)" ng-class="{'col-90': !filter.subFilters}"> {{filter.displayName}} </h5>
@@ -28,15 +29,22 @@
       </div>
     </div>
     <div class="row create-post">
-          <div class="col">
-            <span class="icon ion-ios7-compose-outline"></span>
-            <a ng-click="createPost()" href="javascript:void(0)">Post To Stream</a>
-          </div>
-          <div class="vertical-divider"></div>
-          <div class="col">
-            <span class="icon ion-ios7-stopwatch-outline"></span>
-            <a ng-click="createActivity()" href="javascript:void(0)">Track Activities</a>
+      <div class="col">
+        <span class="icon ion-ios7-compose-outline"></span>
+        <a ng-click="createPost()" href="javascript:void(0)">Post To Stream</a>
+      </div>
+      <div class="vertical-divider"></div>
+      <div class="col">
+        <span class="icon ion-ios7-stopwatch-outline"></span>
+        <a ng-click="createActivity()" href="javascript:void(0)">Track Activities</a>
+      </div>
+
+      <div class="row new-items-notification" ng-show="updatePresent" ng-click="applyNewItems(true)">
+        <div>
+          <span class="icon ion-chevron-up"></span><br />
+          {{updatePresent}} new items
         </div>
+      </div>
     </div>
 
   </div>

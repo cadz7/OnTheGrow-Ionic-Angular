@@ -42,6 +42,8 @@ angular.module('sproutApp.controllers')
       $scope.selectedStreamItemFilter = null;
       $scope.showStreamItemFilters = false;
 
+      $scope.updatePresent = null;
+
       filters.whenReady()
       .then(function() {
         $scope.streamItemFilters = filters.streamItemFilters;
@@ -283,19 +285,31 @@ angular.module('sproutApp.controllers')
           });
       };*/
 
+      $scope.applyNewItems = function() {
+        streamItems.applyUpdate();
+        $ionicScrollDelegate.scrollTop();
+        $scope.updatePresent = false;
+      }
       //
       // REFRESH STREAM ITEMS HERE
       //
       $scope.onRefreshPullDown = function() {
         streamItems.getUpdate().then(function(data) {
           $scope.updatePresent = data && data.length;
+
           $scope.$broadcast('scroll.refreshComplete');        
         });
       };
 
-      $scope.$evalAsync(function() {
+      networkInformation.onOnline(function() {
+        streamItems.getUpdate().then(function(data) {
+          $scope.updatePresent = data && data.length;
+        });
+      })
+
+      /*$scope.$evalAsync(function() {
         $scope.onRefreshPullDown();
-      });
+      });*/
     }
   ]
 );

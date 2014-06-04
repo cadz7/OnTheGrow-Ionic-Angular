@@ -118,7 +118,7 @@ angular.module('sproutApp.data.stream-items', [
     function pushItemsAtTheTop(items) {
       Array.prototype.unshift.apply(service.items, items);
       earliestId = _.min(service.items, 'streamItemId').streamItemId;
-      latestId = _.max(service.items, 'streamItemId').id;
+      latestId = _.max(service.items, 'streamItemId').streamItemId;
     }
 
     /**
