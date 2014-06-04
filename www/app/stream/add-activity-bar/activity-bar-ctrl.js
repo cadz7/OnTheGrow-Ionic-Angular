@@ -113,7 +113,7 @@ angular.module('sproutApp.controllers')
   
   //initilze empty scope variables
   $scope.errorMessage = '';
-  $scope.activtyQueue = [];
+  $scope.activityQueue = [];
   $scope.currentActivity = {};
   $scope.currentActivityUnits = [];
 
@@ -178,26 +178,7 @@ angular.module('sproutApp.controllers')
   
   //reset the activity tracking view state
   function resetActivitySelect() {
-    resetForm();
-    activities.getSugestedActivities()
-    .then(function(suggestedActivities){
-
-      $scope.suggestedActivities = _.map(suggestedActivities, function(suggestedActivity) {
-        var activity = _.find(allActivities,function(act){
-          return _.any(act.activityUnits,{unitId:suggestedActivity.activityUnitId});
-        });
-        suggestedActivity.activityDisplayName = activity ? activity.activityName : 'Unknown Activity';
-        if(typeof activity !== 'undefined' && activity){
-          var unit =  _.find(activity.activityUnits,{unitId:suggestedActivity.activityUnitId});
-          suggestedActivity.activityUnitDisplayName = unit ? unit.unitName :'Unknown Unit';
-        }else{
-          suggestedActivity.activityUnitDisplayName = 'Unknown Unit';
-        }
-        return suggestedActivity;
-      }); 
-
-
-    })
+    resetForm();  
 
     $scope.previousState = $scope.currentState = 0;
     $ionicScrollDelegate.scrollTop();
@@ -220,11 +201,33 @@ angular.module('sproutApp.controllers')
     $scope.amEditing = false;
     $scope.searchCategoryListVisible = false;
   }
+  
+  //loads in the suggested activities for the user
+  function loadSuggestedActivities(){
+    activities.getSugestedActivities()
+      .then(function(suggestedActivities){
+        $scope.suggestedActivities = _.map(suggestedActivities, function(suggestedActivity) {
+          var activity = _.find(allActivities,function(act){
+            return _.any(act.activityUnits,{unitId:suggestedActivity.activityUnitId});
+          });
+          suggestedActivity.activityDisplayName = activity ? activity.activityName : 'Unknown Activity';
+          if(typeof activity !== 'undefined' && activity){
+            var unit =  _.find(activity.activityUnits,{unitId:suggestedActivity.activityUnitId});
+            suggestedActivity.activityUnitDisplayName = unit ? unit.unitName :'Unknown Unit';
+          }else{
+            suggestedActivity.activityUnitDisplayName = 'Unknown Unit';
+          }
+          return suggestedActivity;
+      });
+    }) 
+  }//loadSuggestedActivities
+
   activities.whenReady()
   .then(function(){ 
       allActivities = _.flatten(_.pluck(activities.categories,'activities'), true);
       resetActivitySelect(); /*initalize view*/
-  });
+      loadSuggestedActivities();
+    });
   
 
   //change the state of the view when the user selects an activity category or activity
@@ -277,7 +280,7 @@ angular.module('sproutApp.controllers')
 
   //user cancels the track activty -> go back to the stream
   $scope.cancel = function() {
-    if ($scope.activtyQueue.length > 0) {
+    if ($scope.activityQueue.length > 0) {
       uiConfirmation.prompt({
         titleText: 'Are you sure you want discard tracked activities?',
         buttons: [{text: 'Discard'}],
@@ -288,7 +291,7 @@ angular.module('sproutApp.controllers')
             // There is only one button - discard
             $scope.createActivityModal.hide();
             resetActivitySelect();
-            $scope.activtyQueue = [];
+            $scope.activityQueue = [];
             $scope.addActivityVisible = false;
             break;
           case 'CANCELLED':
@@ -299,7 +302,7 @@ angular.module('sproutApp.controllers')
     else {
       $scope.createActivityModal.hide();
     }
-    
+    resetActivitySelect();    
   };
 
   //clear the activty form to add to the queue and go back to category select
@@ -310,11 +313,11 @@ angular.module('sproutApp.controllers')
   //add activity record to the queuse and go back to category select
   $scope.addActivity = function(){
     if ($scope.amEditing) {
-      var oldIndex = _.indexOf($scope.activtyQueue, $scope.amEditing);
-      $scope.activtyQueue.splice(oldIndex, 1, $scope.currentActivity);
+      var oldIndex = _.indexOf($scope.activityQueue, $scope.amEditing);
+      $scope.activityQueue.splice(oldIndex, 1, $scope.currentActivity);
     }
     else {
-      $scope.activtyQueue.push($scope.currentActivity);
+      $scope.activityQueue.push($scope.currentActivity);
     }
     resetActivitySelect();    
   };
@@ -322,11 +325,11 @@ angular.module('sproutApp.controllers')
   //save the activity queue and go back to stream if successful, else display an error
   $scope.saveActivities = function() {
     $scope.savingActivty = true;
-    activities.logActivities($scope.activtyQueue)
+    activities.logActivities($scope.activityQueue)
     .then(function(result){
       //streamItems.reload();
       $scope.savingActivty = false;
-      $scope.activtyQueue.length = 0;
+      $scope.activityQueue.length = 0;
       Notify.userSuccess("You logged activities!");
 
       $scope.createActivityModal.hide();
@@ -335,6 +338,7 @@ angular.module('sproutApp.controllers')
       $scope.savingActivty = false;
       Notify.apiError('Failed to log activities.');
     }));
+    loadSuggestedActivities();
     $scope.closeModalonSubmit(); 
   };
 
@@ -347,13 +351,28 @@ angular.module('sproutApp.controllers')
     $scope.states[1].selectFunction(item);
   }
 
-  //load a suggested activity into the track activity form
+  //transforms a suggested activity to a loggable activity
+  //will also remove the suggested activity from list of suggested activities
+  function moveActivityFromSuggestedToLoggable(item){
+    var activity = _.find(allActivities,{activityName:item.activityDisplayName});
+    activity.quantity = item.quantity;
+
+    activity.selectedUnit = _.find(activity.activityUnits,{unitId:item.activityUnitId});
+    activity.unitName = activity.selectedUnit.unitName;
+    activity.date = $scope.maxDate;
+    var indexOf = _.indexOf($scope.suggestedActivities,item);
+    $scope.suggestedActivities.splice(indexOf,1);
+    return activity;
+  }
+
+  //load a suggested activity into the activity queue
   $scope.addSuggestedActivity = function(item){
-   
-   var activity = _.find(allActivities,{activityName:item.activityDisplayName});
-   activity.quantity = item.quantity;
-   activity.selectedUnit = _.find(activity.activityUnits,{unitId:item.activityUnitId});
-   $scope.states[1].selectFunction(activity);
+   $scope.activityQueue.push(moveActivityFromSuggestedToLoggable(item));
+  };
+
+  //load a suggested activity into the add activity form
+  $scope.editSuggestedActivity = function(item){
+    $scope.states[1].selectFunction(moveActivityFromSuggestedToLoggable(item));
   };
 
 }]);

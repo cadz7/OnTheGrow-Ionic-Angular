@@ -4,12 +4,12 @@
   <ion-header-bar>
     <button class="button button-icon icon sprout-icon-close" ng-click="cancel()"></button>
     <h1 class="title">TRACK ACTIVITIES</h1>
-    <button class="button button-clear post active" ng-show="activtyQueue && activtyQueue.length > 0" ng-click="saveActivities()" ng-disabled="savingActivities">SUBMIT</button>
+    <button class="button button-clear post active" ng-show="activityQueue && activityQueue.length > 0" ng-click="saveActivities()" ng-disabled="savingActivities">SUBMIT</button>
     <div ng-show="errorMessage.length > 0" style="color:red">{{errorMessage}}</div>
   </ion-header-bar>
   <ion-content class="padding has-header add-activity-post">
 
-<div class="list create-post-input">
+<div class="list create-post-input" ng-hide="showActivityForm">
   <label class="item item-input">
     <input type="text" ng-model="newPost.text" placeholder="e.g. - Cardio, Housework, Veggies...">
     <i class="icon ion-ios7-search placeholder-icon"></i>
@@ -77,47 +77,36 @@
           </div>
         </div>
       </form>
-
-      <div class="row">
-        <div class="col">
-          <h3 class="activity-title">Activity Queue</h3>
-          <hr>
-        </div>
-      </div>
-      <div class="row" ng-show="!activtyQueue || activtyQueue.length === 0">
-        <div class="col">
-          <p class="subdued">No Activites Selected</p>
-        </div>
-      </div>
-      <ion-list  show-delete="true" >
-        <ion-item ng-repeat="activity in activtyQueue" class="activity-queue-item" ng-click="restoreActivity(activity)">
-          You tracked {{activity.quantity}} {{activity.unitName}} of {{activity.activityName}}
-          <ion-delete-button class="ion-minus-circled" ng-click="activtyQueue.splice($index, 1)">
-        </ion-item>
-      </ion-list>
-
-       <div class="row">
-        <div class="col">
-          <h3 class="activity-title">Suggested Activities (tap to add)</h3>
-          <hr>
-        </div>
-      </div>
-      <ion-list show-delete="true" >
-        <ion-item ng-repeat="activity in suggestedActivities" class="activity-queue-item" style="padding: 0;" ng-click="addSuggestedActivity(activity)">
-          <!-- <a class="button button-balanced icon ion-plus  button-icon" style="float: left"></a> -->
-          <div class="row">
-            <div class="col col-20">
-            <a class="button button-icon icon ion-plus balanced" ></a>
+      <div ng-hide="showActivityForm">
+        <div class="row" ng-show="activityQueue.length > 0">
+          <div class="col">
+            <h3 class="activity-title">You Tracked</h3>
+            <hr>
           </div>
-          <div class="col " style="padding-top: 15px">
-            Track {{activity.quantity}} {{activity.activityUnitDisplayName}} of {{activity.activityDisplayName}}
+        </div>
+        <ion-list  show-delete="true" >
+          <ion-item ng-repeat="activity in activityQueue | orderBy:'-date'" class="activity-queue-item" ng-click="restoreActivity(activity)">
+            {{activity.date}}  {{activity.activityName}} {{activity.quantity}} {{activity.unitName}} 
+            <ion-delete-button class="ion-minus-circled" ng-click="activityQueue.splice($index, 1)">
+          </ion-item>
+        </ion-list>
+         <div class="row">
+          <div class="col">
+            <h3 class="activity-title">Suggested Activities (tap to add)</h3>
+            <hr>
           </div>
-         </div>
         </div>
-        </div>
-        </ion-item>
-      </ion-list>
-
+        <div ng-repeat="activity in suggestedActivities" class="activity-queue-item" style="padding: 0;">
+          <div class="row" >
+            <div class="col col-20" ng-click="addSuggestedActivity(activity);">
+              <a class="button button-icon icon ion-plus balanced" ></a>
+            </div>
+            <div class="col " style="padding-top: 15px" ng-click="editSuggestedActivity(activity)">
+              {{activity.activityDisplayName}} {{activity.quantity}} {{activity.activityUnitDisplayName}}
+            </div>
+          </div>
+        </div>         
+      </div><!-- !showActivityForm -->
     </div>
   </ion-content>
 </div>
