@@ -3,9 +3,9 @@
 angular.module('sproutApp.controllers')
   .controller('LeaderboardsCtrl',
   ['$scope', 'headerRemote', '$ionicActionSheet', '$ionicSlideBoxDelegate',
-    'leaderboards', 'filters', 'activities', 'user',
+    'leaderboards', 'filters', 'activities', 'user', 'uiConfirmation',
     function ($scope, headerRemote, $ionicActionSheet, $ionicSlideBoxDelegate,
-              leaderboards, filters, activities, user) {
+              leaderboards, filters, activities, user, uiConfirmation) {
       $scope.header = headerRemote;
       $scope.showLeaderBoardFilters = false;
       var leaderboardParams = {};
@@ -60,14 +60,33 @@ angular.module('sproutApp.controllers')
 
       //hide/show the edit filters view
       $scope.toggleFiltersView = function(){
-        $scope.editFilters = !$scope.editFilters;
-        if ($scope.editFilters) {
+        if (!$scope.editFilters) {
           //showing 'edit filters'
+          $scope.editFilters = !$scope.editFilters;
           var index = _.findIndex(filters.timePeriodFilters,$scope.activePeriod);
           $ionicSlideBoxDelegate.$getByHandle('PeriodSlider').slide(index);
         } else {
           //hiding 'edit filters'
-          getLeaderboards(leaderboardParams);
+          if (true) {
+            uiConfirmation.prompt({
+              titleText: 'Are you sure you want discard the filter customization?',
+              buttons: [{text: 'Discard'}],
+              cancelText: 'Cancel'
+            }).then( function(res) {
+              switch (res.type) {
+                case 'BUTTON':
+                  // There is only one button - discard
+                  $scope.editFilters = !$scope.editFilters;
+                  getLeaderboards(leaderboardParams);
+                  break;
+                case 'CANCELLED':
+                  break;
+              }
+            });
+          }
+          else {
+            $scope.editFilters = !$scope.editFilters;
+          }
         }
         //resolves issue with 0 width slide box until window resize
         $ionicSlideBoxDelegate.update();

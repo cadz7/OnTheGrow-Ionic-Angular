@@ -284,12 +284,24 @@ button {
   user-select: auto;
 }
 
-.action-sheet-group:first-child button {
-  color: $orange;
-}
+.action-sheet-group {
+  margin-bottom: 0;
 
-.action-sheet-group:last-child button {
-  color: $blue;
+  &:first-child {
+    border-radius: 5px 5px 0px 0px;
+
+    button {
+      color: $orange;
+    }
+  }
+
+  &:last-child {
+    border-radius: 0px 0px 5px 5px;
+    
+    button {
+      color: $blue;
+    }
+  }
 }
 
 /**** ionic action-sheet style overrides ****/
