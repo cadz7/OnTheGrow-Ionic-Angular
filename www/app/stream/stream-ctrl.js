@@ -17,6 +17,8 @@ angular.module('sproutApp.controllers')
     'streamUIService',
     '$ionicScrollDelegate',
     'sharingService',
+    'filters',
+    '$timeout',
     function(
       $scope,
       streamItems,
@@ -30,13 +32,21 @@ angular.module('sproutApp.controllers')
       networkInformation,
       streamUIService,
       $ionicScrollDelegate,
-      sharingService
+      sharingService,
+      filters,
+      $timeout
     ) {
     	$scope.stream = streamItems;
 
     	$scope.header = headerRemote;
-    	$scope.filterByType = 'ALL';
-      $scope.streamItemFilter = null;
+      $scope.selectedStreamItemFilter = null;
+      $scope.showStreamItemFilters = false;
+
+      filters.whenReady()
+      .then(function() {
+        $scope.streamItemFilters = filters.streamItemFilters;
+        $scope.selectedStreamItemFilter = filters.streamItemFilters[0];
+      });
 
       var hideModal = function(modalScope) {
             modalScope.hide();
@@ -47,11 +57,12 @@ angular.module('sproutApp.controllers')
           // A confirm dialog
           uiConfirmation.prompt({
             titleText: 'Are you sure you want discard the post?',
-            destructiveText: 'Discard',
+            buttons: [{text: 'Discard'}],
             cancelText: 'Cancel'
           }).then( function(res) {
             switch (res.type) {
-              case 'DESTRUCTIVE':
+              case 'BUTTON':
+                // there is only one button - discard
                 post.text = '';
                 hideModal($scope.createStreamItemModal);
                 break;
@@ -98,7 +109,7 @@ angular.module('sproutApp.controllers')
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
           $log.debug('Running performInfiniteScroll');
-          streamItems.getEarlier($scope.streamItemFilter).then(function() {
+          streamItems.getEarlier($scope.selectedStreamItemFilter).then(function() {
             $scope.showNoConnectionScreen = false;
             ifNoStreamItemsShowReloadScreen();
             $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -111,7 +122,7 @@ angular.module('sproutApp.controllers')
       }, 1000);
 
       $scope.refresh = function() {
-        streamItems.reload($scope.streamItemFilter).then(function() {
+        streamItems.reload($scope.selectedStreamItemFilter).then(function() {
           $scope.showNoConnectionScreen = false;
           $ionicScrollDelegate.scrollTop(false);
           ifNoStreamItemsShowReloadScreen();
@@ -244,15 +255,34 @@ angular.module('sproutApp.controllers')
         $scope.createActivityModal.show();
       };
 
-      $scope.showFilterOptions = function() {
+      $scope.toggleStreamItemFilters = function(){
+        $scope.showStreamItemFilters = !$scope.showStreamItemFilters;
+      };
+
+      //apply the selected streamItem type filter
+      $scope.selectStreamItemFilter = function(filter){
+        $scope.toggleStreamItemFilters();
+        $scope.streamItemFilters = filters.streamItemFilters;
+        $scope.selectedStreamItemFilter = filter;
+        $timeout( function() {
+          $scope.refresh();
+        }, 16);
+      };
+
+      $scope.showSubStreamItemFilters = function(filter){
+        $scope.streamItemFilters = filter.subFilters;
+      }
+
+      /*$scope.showFilterOptions = function() {
         streamUIService.pickFilter()
-          .then(function(streamItemFilter){
-            $log.debug('user picked filter', streamItemFilter);
-            $scope.streamItemFilter = streamItemFilter;
+          .then(function(selectedStreamItemFilter){
+            $log.debug('user picked filter', selectedStreamItemFilter);
+            $scope.selectedStreamItemFilter = selectedStreamItemFilter;
             $scope.refresh();
             //TODO: scroll to top.
           });
-      };
+      };*/
+
       //
       // REFRESH STREAM ITEMS HERE
       //

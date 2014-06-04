@@ -5,10 +5,11 @@
   <div id="stream-header">
     <ion-header-bar align-title="center" class="bar">
       <left-nav-toggle-btn></left-nav-toggle-btn>
-      <h1 class="title" ng-click="showFilterOptions()">
-        {{filterByType}}
+      <h1 class="title" ng-click="toggleStreamItemFilters()">
+        {{selectedStreamItemFilter.displayName}}
       </h1>
-      <span class="icon ion-chevron-down filter-chevron"></span>
+      <span class="icon ion-chevron-down filter-chevron"  ng-class="{'ion-chevron-down':!showStreamItemFilters,'ion-chevron-up':showStreamItemFilters }"></span>
+      <!-- <span class="icon ion-chevron-down filter-chevron"></span> -->
       <!-- only show if user is logged in -->
       <!-- ng-show="AuthSvc.isLoggedIn()" -->
       <!-- Settings Button -->
@@ -18,7 +19,14 @@
       </div>
 
     </ion-header-bar>
-
+    <div class="row stream-item-filter" ng-show="showStreamItemFilters">
+      <div class="leadboardFilterRow row" ng-repeat="filter in streamItemFilters" ng-class="{selected : (filter.filterId == selectedStreamItemFilter.filterId)}">
+         <h5 class="col" ng-click="selectStreamItemFilter(filter)" ng-class="{'col-90': !filter.subFilters}"> {{filter.displayName}} </h5>
+         <i ng-if="filter.filterId == selectedStreamItemFilter.filterId" class="icon ion-checkmark-circled balanced col-10"></i> 
+        <i ng-if="filter.subFilters" class="icon ion-chevron-right col-10 " style="float: right" ng-click="showSubStreamItemFilters(filter)"></i> 
+      
+      </div>
+    </div>
     <div class="row create-post">
           <div class="col">
             <span class="icon ion-ios7-compose-outline"></span>
@@ -33,11 +41,11 @@
 
   </div>
 
-
+  
   <ion-content id="sproutPostsScroller"
     delegate-handle="streamScroller"
     header-shrink scroll-event-interval="5">
-
+    
     <ion-refresher on-refresh="onRefreshPullDown()"
       pulling-text="Pull to refresh..."
       refreshing-text="Refreshing!"

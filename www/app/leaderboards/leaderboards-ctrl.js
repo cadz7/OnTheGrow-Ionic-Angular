@@ -3,11 +3,13 @@
 angular.module('sproutApp.controllers')
   .controller('LeaderboardsCtrl',
   ['$scope', 'headerRemote', '$ionicActionSheet', '$ionicSlideBoxDelegate',
-    'leaderboards', 'filters', 'activities', 'user',
+    'leaderboards', 'filters', 'activities', 'user', 'uiConfirmation',
     function ($scope, headerRemote, $ionicActionSheet, $ionicSlideBoxDelegate,
-              leaderboards, filters, activities, user) {
+              leaderboards, filters, activities, user, uiConfirmation) {
       $scope.header = headerRemote;
       $scope.showLeaderBoardFilters = false;
+      $scope.filtersChanged = false;
+
       var leaderboardParams = {};
       var activityCategoryFilters =[];
       $scope.activitySearchText = {};
@@ -60,14 +62,35 @@ angular.module('sproutApp.controllers')
 
       //hide/show the edit filters view
       $scope.toggleFiltersView = function(){
-        $scope.editFilters = !$scope.editFilters;
-        if ($scope.editFilters) {
+        if (!$scope.editFilters) {
           //showing 'edit filters'
+          $scope.editFilters = !$scope.editFilters;
+          $scope.filtersChanged = false;
+
           var index = _.findIndex(filters.timePeriodFilters,$scope.activePeriod);
           $ionicSlideBoxDelegate.$getByHandle('PeriodSlider').slide(index);
         } else {
           //hiding 'edit filters'
-          getLeaderboards(leaderboardParams);
+          if ($scope.filtersChanged) {
+            uiConfirmation.prompt({
+              titleText: 'Are you sure you want discard the filter customization?',
+              buttons: [{text: 'Discard'}],
+              cancelText: 'Cancel'
+            }).then( function(res) {
+              switch (res.type) {
+                case 'BUTTON':
+                  // There is only one button - discard
+                  $scope.editFilters = !$scope.editFilters;
+                  getLeaderboards(leaderboardParams);
+                  break;
+                case 'CANCELLED':
+                  break;
+              }
+            });
+          }
+          else {
+            $scope.editFilters = !$scope.editFilters;
+          }
         }
         //resolves issue with 0 width slide box until window resize
         $ionicSlideBoxDelegate.update();
@@ -85,6 +108,10 @@ angular.module('sproutApp.controllers')
 
       //select an activity filter , and then reload the leaderboard
       $scope.selectActivityFilter = function(activityObj){
+        if ($scope.editFilters) {
+          $scope.filtersChanged = true;
+        }
+
         $scope.selectedCategory = activityObj;
         leaderboardParams.activityFilterId = activityObj.filterId;
         $scope.toggleActivityList();
@@ -92,6 +119,10 @@ angular.module('sproutApp.controllers')
 
       //apply the selected leaderboard type filter
       $scope.selectLeaderBoardFilter = function(filter){
+        if ($scope.editFilters) {
+          $scope.filtersChanged = true;
+        }
+
         leaderboardParams.userFilterId = filter.filterId;
         $scope.toggleLeaderBoardFilters();
         $scope.leaderBoardFilters = filters.leaderBoardFilters;
