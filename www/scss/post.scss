@@ -25,6 +25,11 @@
             padding: 10px 5px 5px 5px;
         }
     }
+    .delete-icon {
+        position: absolute;
+        top: 3px;
+        right:0px;
+        }
     .sprout-icon-challenge, .sprout-icon-event, .sprout-icon-group {
         font-size: 4rem;
         color: $green;
@@ -103,7 +108,7 @@
         text-align: center;
         color: $orange;
         .points {
-            font-size: 1.4em;
+            font-size: 1.6em;
             font-weight: 500;
             display: block;
             text-align: center;
@@ -124,15 +129,14 @@
         padding-left: 65px;
     }
     .item-avatar > img:first-child {
-        position: absolute;
-        top: 0;
         left: 0;
+        top:10px;
         min-width: 60px;
         min-height:60px;
         border: 1px solid $lightgrey;
         border-left: 0;
         border-top: 0;
-        border-radius: 0 0 3px 0;
+        border-radius: 0 5px 5px 0;
     }
     .hero {
         position: relative;
@@ -196,7 +200,21 @@
         letter-spacing: 1px;
     }
     .list {
-        padding-bottom: 0;
+        padding:0;
+        .item {
+            background-color: #fff;
+            color: #444;
+            position: relative;
+            z-index: 2;
+            display: block;
+            margin: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            border:0;
+            border-top: 1px solid #ddd;
+            border-bottom: 0px;
+            line-height: 1;
+        }
     }
     .add-comment {
         background-color:#FFF;
@@ -282,12 +300,11 @@
         border-left:0;
     }
     .content {
-        padding:5px 5px 10px 50px;
+        padding:2px 5px 10px 50px;
         color: $darkgrey;
         font-family:'garogier', serif;
         font-weight: 400;
         font-size: 0.9rem;
-        line-height: 1.4;
         white-space: pre-wrap !important;
     }
 }
@@ -372,6 +389,7 @@
     color: $green;
     padding: 0;
     transition: background-color 20ms ease-in-out;
+    font-size: 24px;
   }
 
   input:checked~i.radio-icon:before {
