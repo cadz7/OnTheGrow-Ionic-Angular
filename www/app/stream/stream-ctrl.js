@@ -58,11 +58,12 @@ angular.module('sproutApp.controllers')
           // A confirm dialog
           uiConfirmation.prompt({
             titleText: 'Are you sure you want discard the post?',
-            destructiveText: 'Discard',
+            buttons: [{text: 'Discard'}],
             cancelText: 'Cancel'
           }).then( function(res) {
             switch (res.type) {
-              case 'DESTRUCTIVE':
+              case 'BUTTON':
+                // there is only one button - discard
                 post.text = '';
                 hideModal($scope.createStreamItemModal);
                 break;

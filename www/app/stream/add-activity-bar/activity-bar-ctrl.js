@@ -280,11 +280,12 @@ angular.module('sproutApp.controllers')
     if ($scope.activtyQueue.length > 0) {
       uiConfirmation.prompt({
         titleText: 'Are you sure you want discard tracked activities?',
-        destructiveText: 'Discard',
+        buttons: [{text: 'Discard'}],
         cancelText: 'Cancel'
       }).then( function(res) {
         switch (res.type) {
-          case 'DESTRUCTIVE':
+          case 'BUTTON':
+            // There is only one button - discard
             $scope.createActivityModal.hide();
             resetActivitySelect();
             $scope.activtyQueue = [];

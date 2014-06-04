@@ -288,6 +288,10 @@ button {
   color: $orange;
 }
 
+.action-sheet-group:last-child button {
+  color: $blue;
+}
+
 /**** ionic action-sheet style overrides ****/
 .action-sheet-wrapper-top {
   @include translate3d(0, -100%, 0);
