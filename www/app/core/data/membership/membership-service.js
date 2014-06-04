@@ -19,8 +19,12 @@ angular.module('sproutApp.data.membership', [
         var params = {
           groupId: groupId
         };
+        var option = '';
+        if (groupId){
+          option += '/' + groupId;
+        }
 
-        return server.post(API_CONSTANTS.challengesMembershipEndpoint + '/' + relatedToId, params);
+        return server.post(API_CONSTANTS.challengesMembershipEndpoint + '/' + relatedToId + option, params);
       };
 
 
@@ -33,8 +37,8 @@ angular.module('sproutApp.data.membership', [
         });
       };
 
-      service.joinGroup = function (relatedToId, groupId) {
-        logAction('group', relatedToId, groupId);
+      service.joinGroup = function (relatedToId) {
+        logAction('group', relatedToId);
         return server.post(API_CONSTANTS.groupsMembershipEndpoint + '/' + relatedToId);
       };
 

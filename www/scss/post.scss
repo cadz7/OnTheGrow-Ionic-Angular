@@ -388,3 +388,14 @@
 .share-post-radio {
   display: block;
 }
+
+.challenge-options{
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .item-radio{
+    width:231px;
+  }
+}
+

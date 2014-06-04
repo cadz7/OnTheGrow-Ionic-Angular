@@ -7,23 +7,6 @@ angular.module('sproutApp.services')
     function ($log, $ionicPopup, membership, $ionicBackdrop, util, $rootScope) {
       'use strict';
 
-      var onTapGroup = function (groupId) {
-        return function (e) {
-          return groupId; // return value for popup's promise
-        }
-      };
-
-
-      function loadButtons(post) {
-        var buttons = [
-          {text: 'Cancel', type: 'button-default'}
-        ];
-        _.forEach(post.viewer.eligibleGroups, function (group) {
-          buttons.push({text: group.name, onTap: onTapGroup(group.id), type: 'button-positive'});
-        });
-        return buttons;
-      }
-
       var service = {};
 
       service.getJoinIconImage = function (post) {
@@ -33,49 +16,56 @@ angular.module('sproutApp.services')
       };
 
       /**
-       * If the post has groups associated with it, we show a popup that allow the user to pick a group.
+       * If the post has groups associated with it and is a challenge, we show a popup that allow the user to pick a group.
+       * If post is event, then show option to save to calendar.
        *
        * @param post
        */
 
-      var newScope = $rootScope.$new();
-      newScope.isChecked = true;
+      var popupScope = $rootScope.$new();
+
+
       service.join = function (post) {
 
-        if (post.viewer.eligibleGroups) {
+        if (post.viewer.eligibleGroups && post.relationTypeSlug === 'challenge') {
 
-          return $ionicPopup.show({
-            template: '<div style="background: yellow"><ion-checkbox ng-model="isChecked">Add to calendar</ion-checkbox></div>',
+          popupScope.post = post;
+          popupScope.data = {selectedChallengeOption: null};
+
+          return $ionicPopup.confirm({
+            templateUrl: 'app/stream/post/components/join-button/challenge-options.html',
             title: 'Who do you want to represent?',
-            buttons: loadButtons(post),
-            scope: newScope
+            scope: popupScope
           })
-            .then(function (groupId) {
-              if (groupId) {
-                $log.debug('Picked group #' + groupId);
-                return membership.join(post, groupId, {saveToCalendar: newScope.isChecked});
+            .then(function (res) {
+              if (res) {
+                $log.debug('Picked group #' + popupScope.data.selectedChallengeOption.id);
+                return membership.join(post, popupScope.data.selectedChallengeOption.id);
               } else {
                 return util.q.makeResolvedPromise('userCanceled'); //not an error
               }
             });
-        } else {
+        } else if (post.relationTypeSlug === 'event') {
+
           var buttons = [
             {text: 'Cancel', type: 'button-default'},
-            {text: 'Yes', type: 'button-positive', onTap: function() { return 1; }},
-            {text: 'No', type: 'button-positive', onTap: function() { return 2; }}
+            {text: 'Yes', type: 'button-positive', onTap: function() { return true; }},
+            {text: 'No', type: 'button-positive', onTap: function() { return false; }}
           ];
           return $ionicPopup.show({
             title: 'Add to calendar?',
             buttons: buttons
           })
-          .then(function (doSave) {
-            if (doSave === 1 || doSave === 2) {
-              $log.debug('Save to calendar choice:', doSave);
-              return membership.join(post, null, {saveToCalendar: doSave});
-            } else {
-              return util.q.makeResolvedPromise('userCanceled'); //not an error
-            }
-          });
+            .then(function (doSave) {
+              if (doSave === true || doSave === false) {
+                $log.debug('Save to calendar choice:', doSave);
+                return membership.join(post, null, {saveToCalendar: doSave});
+              } else {
+                return util.q.makeResolvedPromise('userCanceled'); //not an error
+              }
+            });
+        } else {
+          return membership.join(post);
         }
       };
 
