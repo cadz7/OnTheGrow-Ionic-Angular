@@ -92,6 +92,9 @@ angular.module('sproutApp.controllers')
       $q.all([activities.loadActivityLog(logPeriodFilter.filterId, 0, METRICS_CONSTANTS.defaultMaxItemCount), 
                scores.getScoresForUser(logPeriodFilter.filterId)])
       .then(function(results) {
+          if(results[0].length < METRICS_CONSTANTS.defaultMaxItemCount) 
+              $scope.loadMoreActivities = false;
+            
           $scope.groupedActivities = attachDisplayNames(results[0]);
           $scope.visibleSproutScore = results[1][0].score;
         })
