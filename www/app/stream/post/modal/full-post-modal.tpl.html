@@ -5,7 +5,7 @@
     <button class="button button-icon icon sprout-icon-close" ng-click="closeFullPost()"></button>
     <h1 class="title"></h1>
   </ion-header-bar>
-  <ion-content class="padding has-header"  delegate-handle="streamItemModal">
+  <ion-content class="has-header"  delegate-handle="streamItemModal">
     <div class="item post">
       <post post="streamItemModalService.getStreamItem()" ng-if="streamItemModalService.getStreamItem()"
             is-wrapped-in-modal="true"

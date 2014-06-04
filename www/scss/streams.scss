@@ -25,6 +25,7 @@
       text-decoration: none;
       color: $blue;
       vertical-align: middle;
+      line-height: 1;
     }
     .icon {
       font-size: 1.2rem;
@@ -201,6 +202,20 @@
     .list{
       margin-bottom:0px;
     }
+    .item{
+        padding:0;
+    }
+    .icon{
+        font-size: 2rem;
+    }
+    .col{
+        line-height: 2rem;
+    }
+.col-20{
+        text-align: center;
+        height: 2rem;
+    }
+}
     .activity-item-container {
       display: inline-block;
       &:nth-child(odd) {
@@ -236,7 +251,6 @@
       min-height: 0px;
     }
   }
-}
 .numpad-container {
   bottom: 0px;
   width: 100%;
