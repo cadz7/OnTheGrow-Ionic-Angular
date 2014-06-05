@@ -45,4 +45,14 @@ describe('cache service', function() {
     expect(cache.get('items')).to.include('hello');
     expect(cache.get('items')).to.include('worlds');
   });
+
+  it('should store 1mb of data successfully', function() {
+    var Mb = 1048576;
+    var length = Mb;
+
+    cache.set('key', new Array(Mb +1).join('n'));
+    var val = cache.get('key');
+    expect(val.length).to.be.equal(length);
+    expect(val[34738]).to.be.equal('n');
+  });
 });

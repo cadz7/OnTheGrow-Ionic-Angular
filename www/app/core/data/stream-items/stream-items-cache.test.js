@@ -6,7 +6,7 @@
 'use strict';
 var expect = chai.expect;
 describe('streamItems service', function() {
-  var streamItemsCache;
+  var streamItemsCache, $timeout, $q, $rootScope;
 
   // Load the module
   beforeEach(module('sproutApp.data.stream-items-cache'));
@@ -19,7 +19,7 @@ describe('streamItems service', function() {
     );
   }
 
-  beforeEach(inject(function(_cache_) {
+  beforeEach(inject(function(_cache_, _$timeout_, _$q_, _$rootScope_) {
     // These mock stream items are going to be pulled in by the streamItemsCache service when it initializes
     // and it should then delete ones that are older than 15 days.
     var thirtyDaysAgo = addDays(new Date(), -30);
@@ -27,6 +27,9 @@ describe('streamItems service', function() {
     var filterId = 1;
     _cache_.set('filter'+filterId, mockStreamItems);
     _cache_.push('filters', filterId);
+    $timeout = _$timeout_;
+    $q = _$q_;
+    $rootScope = _$rootScope_;
   }));
 
   beforeEach(inject(function(_streamItemsCache_) {
@@ -58,7 +61,7 @@ describe('streamItems service', function() {
       streamItems.push(
           {
             streamItemId: startId,
-            content: 'test ' + count,
+            content: 'test ' + count + 'hello I like to walk in the park and enjoy things that smell good because I like greenery and tall trees and sunshine and air and water and I like wood and rocks and gardens and snow and I like dirt and pebbles and gemstones too, I like crystals and leaves and diamonds and gold and I love it all because it is all so wonderful!',
             dateTimeCreated: addDays(startDate, count)
           });
       count++;
@@ -73,11 +76,18 @@ describe('streamItems service', function() {
 
     var mockStreamItems2 = [ {streamItemId: 7, content: 'test content'}, {streamItemId: 8, content: 'test content'}, {streamItemId: 9, content: 'test content'} ];
 
-    streamItemsCache.update(filterId, mockStreamItems);
-    streamItemsCache.update(filterId, mockStreamItems2);
-    var items = streamItemsCache.getItems(filterId, 10, 6);
-    expect(items.length).to.equal(6);
-    verifyOrderOfIds(items);
+    streamItemsCache.update(filterId, mockStreamItems)
+        .then(function() {
+          return streamItemsCache.update(filterId, mockStreamItems2);
+        })
+        .then(function(r) {
+          var items = streamItemsCache.getItems(filterId, 10, 6);
+          expect(items.length).to.equal(6);
+          verifyOrderOfIds(items);
+          return $q.when(true);
+        });
+
+    $timeout.flush();
   });
 
   it('when the stream cache initializes it should delete stream items older than 15 days', function () {
@@ -101,23 +111,36 @@ describe('streamItems service', function() {
 
     // delete 3 stream items...  20 .. 22
     streamItemsReturnedFromAPI.splice(4, 3);
-    streamItemsCache.update(filterId, streamItemsReturnedFromAPI, 16);
+    streamItemsCache.update(filterId, streamItemsReturnedFromAPI, 16)
+        .then(function() {
+          var items = streamItemsCache.getItems(filterId, 31, 10);
+          expect(items.length).to.equal(10); // ensure 3 were removed.
+          var ids = _.map(items, function(item) { return item.streamItemId; });
+          expect(ids).to.deep.equal([30,29,28,27,26,25,24,23,19,18]);
+        })
+        .then(function() {
+          // delete 3 stream items...  19 to 21 should now be deleted.
+          streamItemsReturnedFromAPI.splice(4, 2);
+          return streamItemsCache.update(filterId, streamItemsReturnedFromAPI, null);
+        })
+        .then(function() {
+          var items = streamItemsCache.getItems(filterId, 31, 9);
+          expect(items.length).to.equal(9);
+          var ids = _.map(items, function(item) { return item.streamItemId; });
+          expect(ids).to.deep.equal([30,29,28,27,26,25,19,18,17]);
+        });
+    $timeout.flush();
+  });
 
-
-    var items = streamItemsCache.getItems(filterId, 31, 10);
-    expect(items.length).to.equal(10); // ensure 3 were removed.
-    var ids = _.map(items, function(item) { return item.streamItemId; });
-    expect(ids).to.deep.equal([30,29,28,27,26,25,24,23,19,18]);
-
-
-    // delete 3 stream items...  19 to 21 should now be deleted.
-    streamItemsReturnedFromAPI.splice(4, 2);
-    streamItemsCache.update(filterId, streamItemsReturnedFromAPI, null);
-
-    var items = streamItemsCache.getItems(filterId, 31, 9);
-    expect(items.length).to.equal(9);
-    var ids = _.map(items, function(item) { return item.streamItemId; });
-    expect(ids).to.deep.equal([30,29,28,27,26,25,19,18,17]);
+  it('can store a thousand stream items no problem.', function() {
+    var streamItems = createMockStreamItems(0, 3000);
+    expect(streamItems.length).to.be.equal(3001);
+    streamItemsCache.update(0, streamItems, null)
+        .then(function() {
+          var items = streamItemsCache.getItems(0, 0, 3000);
+          expect(items.length).to.be.equal(3000);
+        });
+    $timeout.flush();
   });
 });
 

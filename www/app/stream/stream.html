@@ -90,6 +90,7 @@
       distance="1%">
     </ion-infinite-scroll>
 
+    <div ng-show="showOfflineMsg" style="text-align: center">Please reconnect to the internet to view older streams...</div>
 	</ion-content>
   <ion-content ng-show="status=='NO_CONNECTION'">
   <ng-include src="'app/stream/no-connection.tpl.html'"></ng-include>

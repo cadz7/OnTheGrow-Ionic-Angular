@@ -238,7 +238,9 @@ angular.module('sproutApp', [
           }
         });
 
-        $log.messages.unshift(msg);
+        if ($log.messages[0] !== msg) {
+          $log.messages.unshift(msg);
+        }
         if ($log.messages.count > APP_CONFIG.maxLogSize + 50) {
           $log.messages = $log.messages.slice(0, APP_CONFIG.maxLogSize-50);
         }
