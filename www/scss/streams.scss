@@ -13,7 +13,7 @@
   padding: 0;
   background: #fff;
   border-bottom: 1px solid $lightgrey;
-  border-top: 1px solid $lightgrey;
+  border-top: 0;
   font-family:'roboto', sans-serif;
   text-align: center;
   form {
@@ -55,10 +55,6 @@
     border-color: $lightgrey;
     background-color: $base-background-color;
   }
-}
-.create-post-input {
-  top: 25px;
-  padding-bottom: 10px;
 }
 /* Modal for creating post */
  .create-post-modal, .share-post-modal, .create-activity-modal {
@@ -130,6 +126,14 @@
     padding: 10px 0;
     margin-bottom: 0px;
   }
+  .create-post-input{
+    position: relative;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    background: $lightblue;
+  }
   .activity-select {
     height: 100%;
     position: relative;
@@ -140,7 +144,7 @@
       border: 0;
       border: 1px solid $lightgrey;
       border-radius: 3px;  
-      padding: 7px;  
+      line-height: 2;
     }
     .input-label{
       padding:0;
@@ -193,43 +197,67 @@
     .breadcrumb {
       position: absolute;
       top: 19px;
+      left:10px;
       font-size: .8rem;
       color: $blue;
+      &:after { //increases tap area for small buttons
+            content:'';
+            position:absolute;
+            top:-20px;
+            bottom:-20px;
+            left:-20px;
+            right:-20px;
+        }
       .ion-chevron-left {
         font-size: .6rem;
       }
     }
+    .card{
+        margin: 10px 0;
+    }
     .list{
       margin-bottom:0px;
+      margin-top: 4px;
     }
     .item{
-        padding:0;
-    }
-    .icon{
-        font-size: 2rem;
+        padding:0 5px;
+        font-size: .8rem;
+        color:$mediumgrey;
     }
     .col{
         line-height: 2rem;
     }
-.col-20{
-        text-align: center;
+            .icon {
+            font-size: 2rem;
+            &.ion-ios7-plus {
+                color:$blue;
+            }
+            &.ion-ios7-minus {
+                color:$orange;
+            }
+            &.ion-checkmark{
+                font-size: 1rem;
+            }
+        }
+    .col-20 {
+        text-align: right;
         height: 2rem;
     }
 }
     .activity-item-container {
       display: inline-block;
       &:nth-child(odd) {
-        padding-right : 5px;
+        padding-left: 10px;
       }
       &:nth-child(even) {
-        padding-left : 5px;
+        padding-right : 10px;
       }
       .activity-item {
         font-size: .75rem;
         font-weight: 500;
         border: 1px solid $green;
         background: $lightgreen;
-        padding: 5px;
+        padding: 0 5px;
         color: $darkgreen;
         border-radius: 3px;
         text-align: center;
@@ -314,25 +342,27 @@
   }
 
 .share-post-modal, .create-post-input {
-  h3.share-target {
-    position: relative;
-    display: block;
-    width: 100%;
-    padding-left: 5px;
-    font-size: 100%;
-    color: $mediumgrey;
-
-    span {
-      color: $green;
+    .item-input {
+        padding:0 0 0 10px;
     }
-    .icon {
-      position: absolute;
-      top: 50%;
-      margin-top: -8px;
-      line-height: 16px;
-      right: 5px;
+    h3.share-target {
+        position: relative;
+        display: block;
+        width: 100%;
+        padding-left: 5px;
+        font-size: 100%;
+        color: $mediumgrey;
+        span {
+            color: $green;
+        }
+        .icon {
+            position: absolute;
+            top: 50%;
+            margin-top: -8px;
+            line-height: 16px;
+            right: 5px;
+        }
     }
-  }
 }
 
 .share-post-modal {
