@@ -20,6 +20,14 @@ angular.module('sproutApp.services')
       var _streamItem = null;
       var _viewType = null;
 
+      var _showAllComments = false;
+      service.getShowAllComments = function(){
+        return _showAllComments;
+      }
+      service.setShowAllComments = function(value){
+        _showAllComments = value;
+      }
+
       service.increaseCommentLimit = function(){
         service.commentLimit-= STREAM_CONSTANTS.initialCommentCountShown;
       };

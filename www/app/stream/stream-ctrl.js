@@ -87,8 +87,27 @@ angular.module('sproutApp.controllers')
     	};
 
       $scope.closeFullPost = function() {
+        streamItemModalService.setShowAllComments(false);
         hideModal($scope.streamItemModal);
       };
+
+      $scope.postComment = function (commentText) {
+        var currentPost = streamItemModalService.getStreamItem();
+        currentPost.postComment(commentText).then(function (comment) {
+          $log.debug('Comment posted: ', comment);
+          $scope.post = {
+            newComment: ''
+          };
+        },
+          function (err) {
+            if (err==='offline') {
+              Notify.apiError('You cannot post comments in offline mode...', 'Failed to post a comment!');
+            } else {
+              Notify.apiError('There was an error communicating with the server.', 'Failed to post a comment!');
+              $log.error(err);
+            }
+          }
+        )};
 
       function ifNoStreamItemsShowReloadScreen() {
         if (!$scope.stream.items || !$scope.stream.items.length) {
@@ -135,6 +154,9 @@ angular.module('sproutApp.controllers')
         });
       };
       //$scope.refresh();
+      $scope.post = {
+        newComment : ''
+      };
       // Create child scopes to hold streaItem data (passed in when modal is opened)
       var createStreamItemModalScope = $scope.$new(),
           createActivityModalScope = $scope.$new(),
@@ -224,7 +246,7 @@ angular.module('sproutApp.controllers')
 
       $scope.submitPost = function(post) {
         if (post.text.length > 0) {
-          
+
           if ($scope.shareWith) {
             post.shareWithFilterId = $scope.shareWith.filterId;
           }
@@ -297,7 +319,7 @@ angular.module('sproutApp.controllers')
         streamItems.getUpdate().then(function(data) {
           $scope.updatePresent = data && data.length;
 
-          $scope.$broadcast('scroll.refreshComplete');        
+          $scope.$broadcast('scroll.refreshComplete');
         });
       };
 

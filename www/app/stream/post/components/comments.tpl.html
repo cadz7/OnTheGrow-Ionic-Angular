@@ -1,11 +1,11 @@
 <div class="list">
 
-  <a href="javascript:void(0)" class="showMore more-comments" ng-click="streamItemModalService.increaseCommentLimit()" ng-if="showEarlierComments()">{{streamItemModalService.getNumCommentsRemainingMsg()}}</a>
+  <a href="javascript:void(0)" class="showMore more-comments" ng-click="streamItemModalService.increaseCommentLimit();" ng-if="showEarlierComments()">{{streamItemModalService.getNumCommentsRemainingMsg()}}</a>
 
   <div class="item hide-after comment" data-ng-repeat="comment in post.comments | trimToLatest:numCommentsDisplayed:isWrappedInModal | orderBy: 'dateTimeCreated' | limitTo : streamItemModalService.commentLimit">
     <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
   </div>
-  <div class="postInputArea row">
+  <div class="postInputArea row" ng-hide="streamItemModalService.getShowAllComments()">
     <expand-input ng-model="post.newComment"
                   max-length="8000"
                   placeholder="Add a comment..."

@@ -20,4 +20,18 @@
     <div style="height:35px"></div>
 
   </ion-content>
+  <ion-footer-bar>
+    <div class="postInputArea row">
+      <expand-input ng-model="post.newComment"
+                    max-length="8000"
+                    placeholder="Add a comment..."
+                    class="col col-80"
+                    input-class="add-comment">
+      </expand-input>
+      <div class="col col-20">
+          <button type="button" class="button button-small button-stable" ng-click="postComment(post.newComment)">Post</button>
+      </div>
+    </div>
+  </ion-footer-bar>
+
 </div>
