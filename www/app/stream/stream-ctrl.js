@@ -87,7 +87,6 @@ angular.module('sproutApp.controllers')
     	};
 
       $scope.closeFullPost = function() {
-        streamItemModalService.setShowAllComments(false);
         hideModal($scope.streamItemModal);
       };
 

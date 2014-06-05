@@ -46,7 +46,8 @@ angular.module('sproutApp.directives').directive(
           detail: '=',
           modalContainer: '=',
           viewType: '=',
-          isWrappedInModal: '='
+          isWrappedInModal: '=',
+          showCommentBox: '='
         },
         link: function (scope, elem, attrs) {
           scope.STREAM_CONSTANTS = STREAM_CONSTANTS; // make accessible to view

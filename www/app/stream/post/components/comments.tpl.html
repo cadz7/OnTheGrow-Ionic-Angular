@@ -5,7 +5,7 @@
   <div class="item hide-after comment" data-ng-repeat="comment in post.comments | trimToLatest:numCommentsDisplayed:isWrappedInModal | orderBy: 'dateTimeCreated' | limitTo : streamItemModalService.commentLimit">
     <sprout-comment comment="comment" user="user" delete-post="deleteComment(c)"></sprout-comment>
   </div>
-  <div class="postInputArea row" ng-hide="streamItemModalService.getShowAllComments()">
+  <div class="postInputArea row" ng-show="showCommentBox">
     <expand-input ng-model="post.newComment"
                   max-length="8000"
                   placeholder="Add a comment..."
