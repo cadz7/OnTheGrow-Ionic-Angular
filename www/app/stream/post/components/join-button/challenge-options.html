@@ -1,3 +1,8 @@
 <div class="challenge-options">
-  <ion-radio ng-repeat="group in post.viewer.eligibleGroups" ng-model="data.selectedChallengeOption" ng-value="group">{{group.name}}</ion-radio>
+  <ion-radio ng-repeat="group in post.viewer.eligibleGroups" ng-model="data.selectedChallengeOption" ng-value="group">
+    {{group.name}}
+  </ion-radio>
 </div>
+<button class="button col button-positive challenge-button-join" ng-disabled="!data.selectedChallengeOption.id"
+        ng-click="joinChallenge()"
+        style="margin-top: 10px;margin-bottom: -10px;">Join</button>
