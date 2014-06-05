@@ -84,9 +84,6 @@ angular.module('sproutApp.data.stream-items-cache', [
      * @return none
      */
     update: function(filterId, items, startId) {
-
-
-
       filterId = filterId.toString();
 
       var deferred = $q.defer();
