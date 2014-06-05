@@ -52,6 +52,11 @@ angular.module('sproutApp.stream-item-renderer', [
         }
       }
 
+      function prefetchImage(imageUrl) {
+        var element = document.createElement('img');
+        element.setAttribute('src', imageUrl);
+      }
+
       // Checks if the content is overflowing.
       function isContentOverflowing(item) {
         return item.content.length > STREAM_CONSTANTS.initialPostCharCount;
@@ -66,7 +71,6 @@ angular.module('sproutApp.stream-item-renderer', [
         var singleQuote = '\''; // Keeps JSHint happy.
         var doubleQuote = '"';
         var quotedArguments = _.map(arguments, function(arg) {
-          console.log(arg);
           arg = '' + arg;
           if (arg.search(singleQuote) >= 0 || arg.search(doubleQuote) >= 0) {
             throw new Error('Do not use quotes in handler string arguments');
@@ -74,7 +78,6 @@ angular.module('sproutApp.stream-item-renderer', [
           return singleQuote + arg + singleQuote;
         });
         var stringFunction = functionName + '(' + quotedArguments.join(', ') + ')';
-        console.log(stringFunction);
         return stringFunction;
       }
 
@@ -101,6 +104,11 @@ angular.module('sproutApp.stream-item-renderer', [
         ];
         var handlers = {};
         var commentHandlerKeys = ['postComment'];
+
+        if (heroImage) {
+          prefetchImage(heroImage);
+          prefetchImage(item.avatarURL);
+        }
 
         var comments = _.map(item.comments, function(comment) {
 
