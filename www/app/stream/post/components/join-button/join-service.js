@@ -3,8 +3,8 @@
  * from some stream-item/post.
  */
 angular.module('sproutApp.services')
-  .factory('joinService', ['$log', '$ionicPopup', 'membership', '$ionicBackdrop', 'util', '$rootScope',
-    function ($log, $ionicPopup, membership, $ionicBackdrop, util, $rootScope) {
+  .factory('joinService', ['$log', '$ionicPopup', 'membership', '$ionicBackdrop', 'util', '$rootScope', '$q',
+    function ($log, $ionicPopup, membership, $ionicBackdrop, util, $rootScope, $q) {
       'use strict';
 
       var service = {};
@@ -25,32 +25,43 @@ angular.module('sproutApp.services')
       var popupScope = $rootScope.$new();
 
 
+
       service.join = function (post) {
+
+        var deferred = $q.defer();
 
         if (post.viewer.eligibleGroups && post.relationTypeSlug === 'challenge') {
 
           popupScope.post = post;
           popupScope.data = {selectedChallengeOption: null};
+          popupScope.joinChallenge = function(){
+            $log.debug('Picked group #' + popupScope.data.selectedChallengeOption.id);
+            popup.close();
+            membership.join(post, popupScope.data.selectedChallengeOption.id)
+              .then(function(){
+                deferred.resolve();
+              }, $log.error);
+          };
 
-          return $ionicPopup.confirm({
+          var popup = $ionicPopup.show({
             templateUrl: 'app/stream/post/components/join-button/challenge-options.html',
             title: 'Who do you want to represent?',
-            scope: popupScope
-          })
-            .then(function (res) {
-              if (res) {
-                $log.debug('Picked group #' + popupScope.data.selectedChallengeOption.id);
-                return membership.join(post, popupScope.data.selectedChallengeOption.id);
-              } else {
-                return util.q.makeResolvedPromise('userCanceled'); //not an error
-              }
-            });
+            scope: popupScope,
+            buttons: [{text: 'Cancel', type: 'button-default'}]
+          });
+
+          popup.then(function (res) {
+              deferred.resolve('userCanceled');
+            }, $log.error);
+
+          return deferred.promise;
+
         } else if (post.relationTypeSlug === 'event') {
 
           var buttons = [
-            {text: 'Cancel', type: 'button-default'},
-            {text: 'Yes', type: 'button-positive', onTap: function() { return true; }},
-            {text: 'No', type: 'button-positive', onTap: function() { return false; }}
+            {text: 'Cancel', type: 'button button-full'},
+            {text: 'No', type: 'button-default button-full', onTap: function() { return false; }},
+            {text: 'Yes', type: 'button-positive button-full', onTap: function() { return true; }}
           ];
           return $ionicPopup.show({
             title: 'Add to calendar?',
