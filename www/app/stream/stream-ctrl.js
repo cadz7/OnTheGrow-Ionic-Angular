@@ -19,6 +19,7 @@ angular.module('sproutApp.controllers')
     'sharingService',
     'filters',
     '$timeout',
+    'APP_CONFIG',
     function(
       $scope,
       streamItems,
@@ -34,10 +35,11 @@ angular.module('sproutApp.controllers')
       $ionicScrollDelegate,
       sharingService,
       filters,
-      $timeout
+      $timeout,
+      APP_CONFIG
     ) {
     	$scope.stream = streamItems;
-
+      $scope.APP_CONFIG = APP_CONFIG;
     	$scope.header = headerRemote;
       $scope.selectedStreamItemFilter = null;
       $scope.showStreamItemFilters = false;
@@ -126,6 +128,10 @@ angular.module('sproutApp.controllers')
         }
       }
 
+      function offlineAndOutOfStreamItems(showMsg) {
+        $scope.showOfflineMsg = showMsg;
+      }
+
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
           $log.debug('Running performInfiniteScroll');
@@ -133,9 +139,13 @@ angular.module('sproutApp.controllers')
             $scope.showNoConnectionScreen = false;
             ifNoStreamItemsShowReloadScreen();
             $scope.$broadcast('scroll.infiniteScrollComplete');
+            offlineAndOutOfStreamItems(false);
           })
-          .then(null, function error() {
+          .then(null, function error(err) {
             showNoConnectionScreen();
+            if (err == 'offline') {
+              offlineAndOutOfStreamItems(true);
+            }
             $scope.$broadcast('scroll.infiniteScrollComplete');
           });
         });

@@ -62,7 +62,14 @@ angular.module('sproutApp.config', [])
         POST_FAILED_TO_SEND: 'Your post could not be saved due to an error communicating with the sprout server.',
         UNAUTHORIZED: 'You do not have permission to perform this action.'
       },
+      useFastStreams: false,
       debug: true,  // enables the developer menu.
-      maxLogSize: 120 // when this size is reached, 50 msgs are deleted.  don't make this less than 75.
+      maxLogSize: 120, // when this size is reached, 50 msgs are deleted.  don't make this less than 75.
+      streamCache: {
+        maxStreamItems: 800,  // this is the maximum amount of stream items that the MOST frequently accessed filter would contain.
+        minStreamItems: 200,  // this is the maximum amount of stream items that the LEAST Frequently accessed filters would contain.
+        quotaBufferSize: 40,  // this is the amount of stream items that would need to get added to the bin before it would cause another quotaMaxSizeExceeded situation and trim the excess steam items.
+        lessFrequentlyAccessedFilterQuotaReducer: 100 // each filter that is accessed less frequently then others would hold this amount less than the filter that is accessed more frequently than it.
+      }
     });
 ;

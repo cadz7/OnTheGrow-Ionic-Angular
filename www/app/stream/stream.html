@@ -73,20 +73,24 @@
           <post post="post" show-comment-box="true" modal-container="streamItemModal" is-wrapped-in-modal="false" view-type="'COMMENTS'"></post>
       </div>
 
+    <stream ng-if="APP_CONFIG.useFastStreams"></stream>
+
 
     <!--
       This makes scrolling slow.
       Handle API updates manually and consider
       tying into ionic.DomUtil.requestAnimationFrame(callback)
       instead i.e, make update calls inside the requestAnimationFrame
-      function. Probably don't need to do this though.
-    -->
+      function. Probably don't need to do this though.-->
+
     <ion-infinite-scroll
       on-infinite="performInfiniteScroll()"
+      ng-if="!APP_CONFIG.useFastStreams"
       icon="ion-loading-c"
       distance="1%">
     </ion-infinite-scroll>
 
+    <div ng-show="showOfflineMsg" style="text-align: center">Please reconnect to the internet to view older streams...</div>
 	</ion-content>
   <ion-content ng-show="status=='NO_CONNECTION'">
   <ng-include src="'app/stream/no-connection.tpl.html'"></ng-include>
