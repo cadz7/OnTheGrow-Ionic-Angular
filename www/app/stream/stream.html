@@ -23,9 +23,9 @@
     <div class="row stream-item-filter" ng-show="showStreamItemFilters">
       <div class="leadboardFilterRow row" ng-repeat="filter in streamItemFilters" ng-class="{selected : (filter.filterId == selectedStreamItemFilter.filterId)}">
          <h5 class="col" ng-click="selectStreamItemFilter(filter)" ng-class="{'col-90': !filter.subFilters}"> {{filter.displayName}} </h5>
-         <i ng-if="filter.filterId == selectedStreamItemFilter.filterId" class="icon ion-checkmark-circled balanced col-10"></i> 
-        <i ng-if="filter.subFilters" class="icon ion-chevron-right col-10 " style="float: right" ng-click="showSubStreamItemFilters(filter)"></i> 
-      
+         <i ng-if="filter.filterId == selectedStreamItemFilter.filterId" class="icon ion-checkmark-circled balanced col-10"></i>
+        <i ng-if="filter.subFilters" class="icon ion-chevron-right col-10 " style="float: right" ng-click="showSubStreamItemFilters(filter)"></i>
+
       </div>
     </div>
     <div class="row create-post">
@@ -48,19 +48,19 @@
 
   </div>
 
-  
+
   <ion-content id="sproutPostsScroller"
     delegate-handle="streamScroller"
     header-shrink scroll-event-interval="5">
-    
+
     <ion-refresher on-refresh="onRefreshPullDown()"
       pulling-text="Pull to refresh..."
       refreshing-text="Refreshing!"
       refreshing-icon="ion-loading-c">
-                
+
     </ion-refresher>
 
-    
+
 
     <!-- activity-select ng-show=addActivityVisible -->
 
@@ -69,8 +69,8 @@
       on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
      -->
 
-      <div class="item post" ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog" ng-if="!APP_CONFIG.useFastStreams">
-          <post post="post" modal-container="streamItemModal" is-wrapped-in-modal="false" view-type="'COMMENTS'"></post>
+      <div class="item post" ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog">
+          <post post="post" show-comment-box="true" modal-container="streamItemModal" is-wrapped-in-modal="false" view-type="'COMMENTS'"></post>
       </div>
 
     <stream ng-if="APP_CONFIG.useFastStreams"></stream>
