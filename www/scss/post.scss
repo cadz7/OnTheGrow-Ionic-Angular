@@ -27,9 +27,18 @@
     }
     .delete-icon {
         position: absolute;
-        top: 3px;
-        right:0px;
+        top: -5px;
+        right: -8px;
+        margin: 10px;
+        &:after { //increases tap area for small buttons
+            content:'';
+            position:absolute;
+            top:-30px;
+            bottom:-30px;
+            left:-30px;
+            right:-20px;
         }
+    }
     .sprout-icon-challenge, .sprout-icon-event, .sprout-icon-group {
         font-size: 4rem;
         color: $green;
@@ -162,7 +171,7 @@
         border-radius: 50%;
         &.sprout-icon-join {
             border: 1px solid #fff;
-            color: $darkorange;
+            color: $blue;
         }
         &.sprout-icon-joined {
             border: 1px solid #fff;
@@ -371,7 +380,7 @@
   }
 
   .item-content, input:checked~.item-content {
-    padding: 5px 15px 5px 35px;
+    padding: 5px 10px 5px 30px;
     background: $base-background-color;
   }
 

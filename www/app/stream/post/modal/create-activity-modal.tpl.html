@@ -7,9 +7,9 @@
     <button class="button button-clear post active" ng-show="activityQueue && activityQueue.length > 0" ng-click="saveActivities()" ng-disabled="savingActivities">SUBMIT</button>
     <div ng-show="errorMessage.length > 0" style="color:red">{{errorMessage}}</div>
   </ion-header-bar>
-  <ion-content class="padding has-header add-activity-post">
+  <ion-content class="has-header add-activity-post">
 
-<div class="list create-post-input" ng-hide="showActivityForm">
+<div class="create-post-input" ng-hide="showActivityForm">
   <label class="item item-input">
     <input type="text" ng-model="newPost.text" placeholder="e.g. - Cardio, Housework, Veggies...">
     <i class="icon ion-ios7-search placeholder-icon"></i>
@@ -73,36 +73,39 @@
           <div class="col" style="text-align: right">
             <span style="color:red">{{errorMessage}}</span>
             <button class="button button-full button-blue" ng-click="addActivity()" ng-disabled="!activityForm.$valid || savingActivity">Add</button>
-            <!-- <button class="button button-assertive" ng-click="clearActivity()">Clear</button> -->
           </div>
         </div>
       </form>
-      <div ng-hide="showActivityForm">
+      <div ng-hide="showActivityForm" class="padding">
         <div class="row" ng-show="activityQueue.length > 0">
           <div class="col">
             <h3 class="activity-title">You Tracked</h3>
             <hr>
           </div>
         </div>
-        <ion-list  show-delete="true" >
-          <ion-item ng-repeat="activity in activityQueue | orderBy:'-date'" class="activity-queue-item" ng-click="restoreActivity(activity)">
-            {{activity.date}}  {{activity.activityName}} {{activity.quantity}} {{activity.unitName}} 
-            <ion-delete-button class="ion-minus-circled" ng-click="activityQueue.splice($index, 1)">
-          </ion-item>
-        </ion-list>
+          <div ng-repeat="activity in activityQueue | orderBy:'-date'" class="activity-queue-item card" ng-click="restoreActivity(activity)">
+            <div class="row item" >
+              <div class="col col-80" >
+              {{activity.date | date:'MMM d, y'}} - {{activity.activityName}} {{activity.quantity}} {{activity.unitName}} 
+              </div>
+              <div class="col col-20" ng-click="activityQueue.splice($index, 1)">
+                <a class="icon ion-ios7-minus"></a>
+            </div>  
+          </div>
+        </div>
          <div class="row">
           <div class="col">
             <h3 class="activity-title">Suggested Activities (tap to add)</h3>
             <hr>
           </div>
         </div>
-        <div ng-repeat="activity in suggestedActivities" class="activity-queue-item" style="padding: 0;">
-          <div class="row" >
-            <div class="col col-20" ng-click="addSuggestedActivity(activity);">
-              <a class="button button-icon icon ion-plus balanced" ></a>
+        <div ng-repeat="activity in suggestedActivities" class="activity-queue-item card">
+          <div class="row item" >
+            <div class="col col-80" ng-click="editSuggestedActivity(activity)">
+                {{activity.activityDisplayName}} {{activity.quantity}} {{activity.activityUnitDisplayName}}
             </div>
-            <div class="col " style="padding-top: 15px" ng-click="editSuggestedActivity(activity)">
-              {{activity.activityDisplayName}} {{activity.quantity}} {{activity.activityUnitDisplayName}}
+            <div class="col col-20" ng-click="addSuggestedActivity(activity);">
+                <a class="icon ion-ios7-plus"></a>
             </div>
           </div>
         </div>         
