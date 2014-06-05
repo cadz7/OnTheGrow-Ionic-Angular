@@ -192,7 +192,7 @@ angular.module('sproutApp.directives').directive(
           scope.showFullPost = function (theComment) {
             openPostInModal(streamItemModalService.COMMENTS_VIEW);
             scope.comment = theComment;
-            streamItemModalService.setShowAllComments(true);
+
           };
 
           /**
