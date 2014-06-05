@@ -18,14 +18,11 @@
             height: 60px;
             float:left;
         }
-        &.row {
-            padding: 0;
-        }
         .col-33 {
-            padding: 10px 15px 5px 5px;
+            padding: 5px 15px 5px 5px;
         }
         .col-67{
-            padding: 10px 0px 5px 5px;
+            padding: 5px 0px 5px 5px;
         }
     }
     .delete-icon {
@@ -138,7 +135,7 @@
         top: -4px;
     }
     .item-avatar {
-        padding-left: 65px;
+        padding-left: 60px;
     }
     .item-avatar > img:first-child {
         left: 0;
