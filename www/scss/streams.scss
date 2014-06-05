@@ -123,7 +123,7 @@
     font-size: 14px;
     text-align: center;
     color: $mediumgrey;
-    padding: 10px 0;
+    padding: 0 0 10px 0;
     margin-bottom: 0px;
   }
   .create-post-input{
@@ -137,6 +137,7 @@
   .activity-select {
     height: 100%;
     position: relative;
+    margin-top: 10px;
     input{
       line-height: 1;
       background: 0;
@@ -196,7 +197,7 @@
       }
     .breadcrumb {
       position: absolute;
-      top: 19px;
+      top: 8px;
       left:10px;
       font-size: .8rem;
       color: $blue;
