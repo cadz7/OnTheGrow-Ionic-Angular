@@ -108,6 +108,10 @@ angular.module('sproutApp.controllers')
         }
       }
 
+      function offlineAndOutOfStreamItems(showMsg) {
+        $scope.showOfflineMsg = showMsg;
+      }
+
       $scope.performInfiniteScroll = _.throttle(function() {
         $scope.$evalAsync(function() {
           $log.debug('Running performInfiniteScroll');
@@ -115,9 +119,13 @@ angular.module('sproutApp.controllers')
             $scope.showNoConnectionScreen = false;
             ifNoStreamItemsShowReloadScreen();
             $scope.$broadcast('scroll.infiniteScrollComplete');
+            offlineAndOutOfStreamItems(false);
           })
-          .then(null, function error() {
+          .then(null, function error(err) {
             showNoConnectionScreen();
+            if (err == 'offline') {
+              offlineAndOutOfStreamItems(true);
+            }
             $scope.$broadcast('scroll.infiniteScrollComplete');
           });
         });

@@ -99,7 +99,7 @@ angular.module('sproutApp.data.stream-items', [
 
             var streamItems = streamItemsCache.getItems(filterId, params.idLessThan, params.maxCount);
             if (!streamItems || !streamItems.length)
-              throw new Error('No stream items...');
+              throw 'offline';
 
             decoratePostsWithFunctionality(streamItems);
             return streamItems;
@@ -148,6 +148,10 @@ angular.module('sproutApp.data.stream-items', [
           service.items.splice(0, service.items.length);
           pushItemsAtTheBottom(items);
           return items;
+        }, function error(err) {
+            // still delete the times
+            service.items.splice(0, service.items.length);
+            throw err;
         });
     };
 

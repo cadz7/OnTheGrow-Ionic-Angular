@@ -64,17 +64,11 @@ angular.module('sproutApp.config', [])
       },
       debug: true,  // enables the developer menu.
       maxLogSize: 120, // when this size is reached, 50 msgs are deleted.  don't make this less than 75.
-//      streamCache: {
-//        maxStreamItems: 800,
-//        minStreamItems: 200,
-//        quotaBufferSize: 40,  // this is the amount of stream items that would need to get added to the bin before it would cause another quotaMaxSizeExceeded situation and trim the excess steam items.
-//        lessFrequentlyAccessedFilterQuotaReducer: 100 // each filter that is accessed less frequently then others would hold this amount less than the filter that is accessed more frequently than it.
-//      }
       streamCache: {
-        maxStreamItems: 25,
-        minStreamItems: 12,
-        quotaBufferSize: 4,  // this is the amount of stream items that would need to get added to the bin before it would cause another quotaMaxSizeExceeded situation and trim the excess steam items.
-        lessFrequentlyAccessedFilterQuotaReducer: 2 // each filter that is accessed less frequently then others would hold this amount less than the filter that is accessed more frequently than it.
+        maxStreamItems: 800,  // this is the maximum amount of stream items that the MOST frequently accessed filter would contain.
+        minStreamItems: 200,  // this is the maximum amount of stream items that the LEAST Frequently accessed filters would contain.
+        quotaBufferSize: 40,  // this is the amount of stream items that would need to get added to the bin before it would cause another quotaMaxSizeExceeded situation and trim the excess steam items.
+        lessFrequentlyAccessedFilterQuotaReducer: 100 // each filter that is accessed less frequently then others would hold this amount less than the filter that is accessed more frequently than it.
       }
     });
 ;

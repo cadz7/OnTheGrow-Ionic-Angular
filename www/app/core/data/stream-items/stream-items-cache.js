@@ -63,8 +63,11 @@ angular.module('sproutApp.data.stream-items-cache', [
           totalCachedStreamItems += streamItemsBinnedByFilter[filter].length;
           cache.set('filter'+filter, streamItemsBinnedByFilter[filter]);
         });
+        $log.debug('Initialization complete.  Number of bins loaded:', filters.length, 'total cached stream items:', totalCachedStreamItems);
+      } else {
+        $log.debug('Initialization complete.  Number of bins loaded:', 0, 'total cached stream items:', 0);
       }
-      $log.debug('Initialization complete.  Number of bins loaded:', filters.length, 'total cached stream items:', totalCachedStreamItems);
+
     },
     clear: function() {
       var filters = cache.get('filters');
