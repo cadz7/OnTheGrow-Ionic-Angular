@@ -19,6 +19,7 @@ angular.module('sproutApp.controllers')
     'sharingService',
     'filters',
     '$timeout',
+    'APP_CONFIG',
     function(
       $scope,
       streamItems,
@@ -34,10 +35,11 @@ angular.module('sproutApp.controllers')
       $ionicScrollDelegate,
       sharingService,
       filters,
-      $timeout
+      $timeout,
+      APP_CONFIG
     ) {
     	$scope.stream = streamItems;
-
+      $scope.APP_CONFIG = APP_CONFIG;
     	$scope.header = headerRemote;
       $scope.selectedStreamItemFilter = null;
       $scope.showStreamItemFilters = false;

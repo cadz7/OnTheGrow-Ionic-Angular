@@ -69,9 +69,11 @@
       on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
      -->
 
-      <div class="item post" ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog">
+      <div class="item post" ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog" ng-if="!APP_CONFIG.useFastStreams">
           <post post="post" modal-container="streamItemModal" is-wrapped-in-modal="false" view-type="'COMMENTS'"></post>
       </div>
+
+    <stream ng-if="APP_CONFIG.useFastStreams"></stream>
 
 
     <!--
@@ -79,10 +81,11 @@
       Handle API updates manually and consider
       tying into ionic.DomUtil.requestAnimationFrame(callback)
       instead i.e, make update calls inside the requestAnimationFrame
-      function. Probably don't need to do this though.
-    -->
+      function. Probably don't need to do this though.-->
+
     <ion-infinite-scroll
       on-infinite="performInfiniteScroll()"
+      ng-if="!APP_CONFIG.useFastStreams"
       icon="ion-loading-c"
       distance="1%">
     </ion-infinite-scroll>
