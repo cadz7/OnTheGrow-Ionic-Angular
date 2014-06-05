@@ -21,8 +21,11 @@
         &.row {
             padding: 0;
         }
-        .col {
-            padding: 10px 5px 5px 5px;
+        .col-33 {
+            padding: 10px 15px 5px 5px;
+        }
+        .col-67{
+            padding: 10px 0px 5px 5px;
         }
     }
     .delete-icon {
@@ -117,14 +120,14 @@
         text-align: center;
         color: $orange;
         .points {
-            font-size: 1.6em;
-            font-weight: 500;
+            font-size: 1.2rem;
+            font-weight: 400;
             display: block;
             text-align: center;
         }
         .pointsLabel {
-            font-size: 0.8rem;
-            font-weight: 400;
+            font-size: 1rem;
+            font-weight: 300;
             text-align: center;
         }
     }

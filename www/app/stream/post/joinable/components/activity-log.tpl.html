@@ -7,7 +7,7 @@
     <!--TODO replace {user.name} with class author and add as link, right now it's hardcoded below -->
       <span class="author">{{post.owner.firstNameDisplay + ' ' + post.owner.lastName}}</span>
       <span class="activity-log-content">{{post.content}}</span>
-    <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
+    <div class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</div>
     <!--<img src="img/icons/join-confirm-icon.svg" class="join-btn" data-ng-click="subscribeToGroup()" ng-if="!post.streamItemDisplay.heroImg"/>-->
     <join-button has-hero-img="post.streamItemDisplay.heroImg" post="post"
                  ng-if="!post.streamItemDisplay.heroImg"></join-button>
