@@ -78,8 +78,11 @@ angular.module('sproutApp.stream-item-renderer', [
         return stringFunction;
       }
 
-      function formatTime(isoDateTime) {
-        return moment(isoDateTime).format('MMM D YYYY, h:mm:ss a');
+      function formatDateTime(isoDateTime) {
+        return moment(isoDateTime).format('MMM D, h:mm:ss a');
+      }
+      function formatDate(isoDateTime) {
+        return moment(isoDateTime).format('MMM D');
       }
 
       // Generates HTML for a joinable item.
@@ -109,28 +112,33 @@ angular.module('sproutApp.stream-item-renderer', [
           return {
             comment: comment,
             displayName: comment.owner.firstNameDisplay,
-            dateTimeCreated: formatTime(comment.dateTimeCreated),
+            dateTimeCreated: formatDateTime(comment.dateTimeCreated),
             parsedContent: template.fill(comment.commentDisplay.template, comment.commentDisplay.values),
             commentHandlers: commentHandlers
           };
         });
 
         itemType = {
+          isGeneric: item.streamItemTypeSlug!=='group' && item.streamItemTypeSlug!=='challenge' && item.streamItemTypeSlug!=='event',
           isGroup: item.streamItemTypeSlug==='group',
           isChallenge: item.streamItemTypeSlug==='challenge',
           isEvent: item.streamItemTypeSlug==='event'
         };
 
+
+
         handlerKeys.forEach(function(key) {
           handlers[key] = makeHandlerString(key, item.streamItemId);
         });
 
+        //debugger;
         return templates.joinable({
           item: item,
           itemType: itemType,
           headerIcon: streamItemResourceService.getJoinableHeaderIcon(item),
-          displayName: item.owner.firstNameDisplay + ' ' + item.owner.lastNameDisplay,
-          timeCreated: formatTime(item.dateTimeCreated),
+
+          displayName: item.owner.firstNameDisplay + ' ' + item.owner.lastName,
+          timeCreated: formatDateTime(item.dateTimeCreated),
           details: '',
           heroImage: heroImage,
           hasHeroImage: !!heroImage,
@@ -140,8 +148,8 @@ angular.module('sproutApp.stream-item-renderer', [
           comments: comments.slice(0, 2), // | trimToLatest:numCommentsDisplayed:isWrappedInModal"
           contentIsOverflowing: isContentOverflowing(item) && !isWrappedInModal,
           handlers: handlers,
-          eventDateTime: formatTime(item.detail.eventDateTime),
-          challengeDeadline: formatTime(item.detail.challengeDeadline)
+          eventDateTime: formatDateTime(item.detail.eventDateTime),
+          challengeDeadline: formatDate(item.detail.challengeDeadline)
         });
       }
 
