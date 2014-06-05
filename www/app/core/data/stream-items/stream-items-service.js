@@ -392,7 +392,7 @@ angular.module('sproutApp.data.stream-items', [
         activity: 'cycling',
         qty: '5',
         units: 'km',
-        points: '48',
+        points: '48000',
         user: {
           'id': '1971',
           'name': 'Will Melbourne'
