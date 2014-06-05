@@ -12,17 +12,17 @@ angular.module('sproutApp.data.stream-items-cache', [
   function trimBinToQuota(filter, filterIdx) {
     var deferred = $q.defer();
       $timeout(function() {
-        $log.debug('Calculating quota... filterIdx, filter-reducer, maxStreamItems', filterIdx, (filterIdx * APP_CONFIG.streamCache.lessFrequentlyAccessedFilterQuotaReducer), APP_CONFIG.streamCache.maxStreamItems);
+        $log.debug('Calculating quota for: filterIdx, filter-reducer, maxStreamItems', filterIdx, (filterIdx * APP_CONFIG.streamCache.lessFrequentlyAccessedFilterQuotaReducer), APP_CONFIG.streamCache.maxStreamItems);
         var maxQuotaForFilter = APP_CONFIG.streamCache.maxStreamItems - (filterIdx * APP_CONFIG.streamCache.lessFrequentlyAccessedFilterQuotaReducer);
         if (maxQuotaForFilter <= 0) {
           maxQuotaForFilter = APP_CONFIG.streamCache.minStreamItems;
         }
         if (streamItemsBinnedByFilter[filter].length > APP_CONFIG.streamCache.maxStreamItems) {
-          $log.debug('Detected a bin that exceeds its quota: ', maxQuotaForFilter, filter, streamItemsBinnedByFilter[filter].length);
+          $log.debug('Detected a bin that exceeds its quota: ', maxQuotaForFilter, streamItemsBinnedByFilter[filter].length);
           var amountToRemove = streamItemsBinnedByFilter[filter].length - maxQuotaForFilter + APP_CONFIG.streamCache.quotaBufferSize;
           streamItemsBinnedByFilter[filter].splice(0, amountToRemove);
           $log.debug('Removing ', amountToRemove, ' stream items from bin: ', filter);
-          $log.debug('After quota resize: ', streamItemsBinnedByFilter[filter]);
+          $log.debug('Bin size after resize: ', streamItemsBinnedByFilter[filter].length);
           cache.set('filter' + filter, streamItemsBinnedByFilter[filter]);
         }
         deferred.resolve();
@@ -45,20 +45,26 @@ angular.module('sproutApp.data.stream-items-cache', [
 
   var service = {
     initialize: function() {
+      $log.debug('Initializing stream cache...');
+      var totalCachedStreamItems = 0;
       var filters = cache.get('filters');
       if (filters) {
         filters.forEach(function(filter) {
           streamItemsBinnedByFilter[filter] = cache.get('filter'+filter);
           var fifteenDaysAgo = addDays(new Date(), -15);
-
+          var streamItemCountBeforeFilteringByAge = streamItemsBinnedByFilter[filter].length;
           streamItemsBinnedByFilter[filter] = _.filter(streamItemsBinnedByFilter[filter], function(streamItem) {
             // if the stream item is newer than 15 days, allow it to pass through the filter.
             return new Date(streamItem.dateTimeCreated) > fifteenDaysAgo;
           });
-
+          if (streamItemCountBeforeFilteringByAge != streamItemsBinnedByFilter[filter].length) {
+            $log.debug('Removed', streamItemCountBeforeFilteringByAge-streamItemsBinnedByFilter[filter].length, 'items of', streamItemCountBeforeFilteringByAge, 'because they were older than 15 days.');
+          }
+          totalCachedStreamItems += streamItemsBinnedByFilter[filter].length;
           cache.set('filter'+filter, streamItemsBinnedByFilter[filter]);
         });
       }
+      $log.debug('Initialization complete.  Number of bins loaded:', filters.length, 'total cached stream items:', totalCachedStreamItems);
     },
     clear: function() {
       var filters = cache.get('filters');
@@ -78,18 +84,23 @@ angular.module('sproutApp.data.stream-items-cache', [
      * @return none
      */
     update: function(filterId, items, startId) {
-      var waitUntilAllBinsHaveBeenTrimmedToMeetSizeQuotas = ensureStreamItemBinsDontExceedQuota();
+
+
+
+      filterId = filterId.toString();
 
       var deferred = $q.defer();
       // update cache asynchronously because this update might be called on stream items
       // that are waiting to be rendered.
       $timeout(function() {
         try {
-          // As per requirements, we don't need to support deleting posts
+          $log.debug('updating stream item cache.');
           if(!streamItemsBinnedByFilter[filterId] || !streamItemsBinnedByFilter[filterId].length) {
             streamItemsBinnedByFilter[filterId] = [];
-            $log.debug('Adding Filter: ', filterId);
-            cache.push('filters', filterId);
+            $log.debug('Adding new bin for filter: ', filterId);
+            var filters = cache.get('filters');
+            if (!_.contains(filters, filterId))
+              cache.push('filters', filterId);
           }
           var newestId, oldestId;  // newest/oldest in the context of this update
           if (startId) {
@@ -118,11 +129,13 @@ angular.module('sproutApp.data.stream-items-cache', [
           cache.set('filter'+filterId, streamItemsBinnedByFilter[filterId]);
 
           deferred.resolve(streamItemsBinnedByFilter[filterId]);
+          $log.debug('updating stream item cache completed successfully.');
         } catch (err) {
           deferred.reject(err);
         }
       });
 
+      var waitUntilAllBinsHaveBeenTrimmedToMeetSizeQuotas = ensureStreamItemBinsDontExceedQuota();
       // the update() promise won't resolve until all of the bins have been trimmed to meet their size quotas
       // and the current filter bin that is being updated is complete.
       return $q.all([deferred.promise, waitUntilAllBinsHaveBeenTrimmedToMeetSizeQuotas]);
