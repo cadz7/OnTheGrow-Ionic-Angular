@@ -249,9 +249,14 @@ button {
     color: #fff;
     text-decoration: none;
   }
-  .input-label {
+  .input-label, .login-field {
     font-size: 0.9rem;
     font-weight:500;
+  }
+  .login-field{
+    min-width:70px;
+    width:70px;
+    max-width:70px;
   }
   .item-toggle{
     background:none;
