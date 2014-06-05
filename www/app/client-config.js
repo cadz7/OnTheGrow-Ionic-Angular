@@ -63,6 +63,18 @@ angular.module('sproutApp.config', [])
         UNAUTHORIZED: 'You do not have permission to perform this action.'
       },
       debug: true,  // enables the developer menu.
-      maxLogSize: 120 // when this size is reached, 50 msgs are deleted.  don't make this less than 75.
+      maxLogSize: 120, // when this size is reached, 50 msgs are deleted.  don't make this less than 75.
+//      streamCache: {
+//        maxStreamItems: 800,
+//        minStreamItems: 200,
+//        quotaBufferSize: 40,  // this is the amount of stream items that would need to get added to the bin before it would cause another quotaMaxSizeExceeded situation and trim the excess steam items.
+//        lessFrequentlyAccessedFilterQuotaReducer: 100 // each filter that is accessed less frequently then others would hold this amount less than the filter that is accessed more frequently than it.
+//      }
+      streamCache: {
+        maxStreamItems: 25,
+        minStreamItems: 12,
+        quotaBufferSize: 4,  // this is the amount of stream items that would need to get added to the bin before it would cause another quotaMaxSizeExceeded situation and trim the excess steam items.
+        lessFrequentlyAccessedFilterQuotaReducer: 2 // each filter that is accessed less frequently then others would hold this amount less than the filter that is accessed more frequently than it.
+      }
     });
 ;

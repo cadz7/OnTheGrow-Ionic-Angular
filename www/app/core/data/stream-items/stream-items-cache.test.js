@@ -58,7 +58,7 @@ describe('streamItems service', function() {
       streamItems.push(
           {
             streamItemId: startId,
-            content: 'test ' + count,
+            content: 'test ' + count + 'hello I like to walk in the park and enjoy things that smell good because I like greenery and tall trees and sunshine and air and water and I like wood and rocks and gardens and snow and I like dirt and pebbles and gemstones too, I like crystals and leaves and diamonds and gold and I love it all because it is all so wonderful!',
             dateTimeCreated: addDays(startDate, count)
           });
       count++;
@@ -118,6 +118,15 @@ describe('streamItems service', function() {
     expect(items.length).to.equal(9);
     var ids = _.map(items, function(item) { return item.streamItemId; });
     expect(ids).to.deep.equal([30,29,28,27,26,25,19,18,17]);
+  });
+
+  it('can store a thousand stream items no problem.', function() {
+    var streamItems = createMockStreamItems(0, 3000);
+    expect(streamItems.length).to.be.equal(3001);
+    streamItemsCache.update(0, streamItems, null);
+
+    var items = streamItemsCache.getItems(0, 0, 3000);
+    expect(items.length).to.be.equal(3000);
   });
 });
 
