@@ -21,7 +21,8 @@
     <div style="height:35px"></div>
 
   </ion-content>
-  <ion-footer-bar>
+  <ion-footer-bar style="padding: 0px 0px 0px 0px; border: 0px;">
+  <div class="post" style="width:100%; border: 0px; margin: 0">
     <div class="postInputArea row">
       <expand-input ng-model="post.newComment"
                     max-length="8000"
@@ -33,6 +34,7 @@
           <button type="button" class="button button-small button-stable" ng-click="postComment(post.newComment)">Post</button>
       </div>
     </div>
+  </div>
   </ion-footer-bar>
 
 </div>
