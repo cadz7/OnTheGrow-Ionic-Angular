@@ -84,14 +84,14 @@
             <hr>
           </div>
         </div>
-          <div ng-repeat="activity in activityQueue | orderBy:'date'" class="activity-queue-item card" ng-click="restoreActivity(activity)">
+          <div ng-repeat="activity in activityQueue track by $index | orderBy:'date'" class="activity-queue-item card" ng-click="restoreActivity(activity)">
             <div class="row item" >
               <div class="col col-80" >
-              {{activity.date | date:'MMM d, y'}} - {{activity.activityName}} {{activity.quantity}} {{activity.unitName}} 
+              {{activity.date | date:'MMM d, y'}} - {{activity.activityName}} {{activity.quantity}} {{activity.unitName}}
               </div>
               <div class="col col-20" ng-click="activityQueue.splice($index, 1)">
                 <a class="icon ion-ios7-minus"></a>
-            </div>  
+            </div>
           </div>
         </div>
         <div class="row" ng-hide="suggestedActivities.length == 0">
@@ -100,7 +100,7 @@
             <hr>
           </div>
         </div>
-        <div ng-repeat="activity in suggestedActivities" class="activity-queue-item card">
+        <div ng-repeat="activity in suggestedActivities track by $index" class="activity-queue-item card">
           <div class="row item" >
             <div class="col col-80" ng-click="editSuggestedActivity(activity)">
                 {{activity.activityDisplayName}} {{activity.quantity}} {{activity.activityUnitDisplayName}}
@@ -110,7 +110,7 @@
             </div>
           </div>
         </div>
-        </div>         
+        </div>
       </div><!-- !showActivityForm -->
     </div>
   </ion-content>
