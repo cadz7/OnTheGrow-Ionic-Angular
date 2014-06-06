@@ -11,6 +11,18 @@ angular.module('sproutApp.stream-item-scroller', [
     var service = {};
     var queue = [];
     var interval;
+    var counter = 0;
+    var onEndCallback;
+
+    /**
+     * Registers the callback to be called when we reach the end of the queue.
+     *
+     * @param  {Function} callback     The callback function to register.
+     * @return {undefined}             Nothing is returned.
+     */
+    service.onEnd = function(callback) {
+      onEndCallback = callback;
+    };
 
     /**
      * Starts the queue.
@@ -22,11 +34,14 @@ angular.module('sproutApp.stream-item-scroller', [
       params = params || {};
       var maxLength = params.maxLength || 100;
       interval = setInterval(function() {
-
-        $log.debug('in queue:', queue.length, maxLength);
-
         if (queue.length < maxLength) {
           $log.debug('Getting more');
+          counter ++;
+          if (counter > 10) {
+            clearInterval(interval);
+            onEndCallback();
+            return;
+          }
           streamItems.getEarlier()
             .then(function(items) {
               Array.prototype.push.apply(queue, items);
@@ -53,28 +68,56 @@ angular.module('sproutApp.stream-item-scroller', [
 ])
 
 // Puts together the scroller functionality.
-.factory('streamItemScroller', ['streamItems', 'streamItemViewportDetector', 'streamItemPaginator', 'streamItemQueue', '$log',
-  function(streamItems, streamItemViewportDetector, streamItemPaginator, streamItemQueue, $log) {
+.factory('streamItemScroller', ['streamItems', 'streamItemViewportDetector', 'streamItemBatcher', 'streamItemQueue', '$log',
+  function(streamItems, streamItemViewportDetector, streamItemBatcher, streamItemQueue, $log) {
     var service = {};
+
+    var topPadding = document.createElement('div');
+    var subcontainer = document.createElement('div');
+    var bottomPadding = document.createElement('div');
+
+    /**
+     * Initializes the scroller service.
+     *
+     * @param  {Element} containerElement    A DOM element to be used as the
+     *                                       container.
+     * @return {undefined}                   Nothing is returned.
+     */
     service.init = function(containerElement) {
-      streamItemViewportDetector.setContainerElement(containerElement);
-      streamItemPaginator.setContainerElement(containerElement);
+      topPadding.setAttribute('style', 'text-align:center; height: 200px');
+      topPadding.innerHTML = 'Checking for updates.';
+      containerElement.appendChild(topPadding);
+      containerElement.appendChild(subcontainer);
+      bottomPadding.setAttribute('style', 'text-align:center');
+      bottomPadding.innerHTML = '<img src="app/stream/spiffygif_30x30.gif">';
+      containerElement.appendChild(bottomPadding);
+
+      streamItemViewportDetector.setContainerElement(subcontainer);
+      streamItemBatcher.setContainerElement(subcontainer);
 
       streamItemViewportDetector.onVisible(function(childElement) {
-        streamItemPaginator.fleshOutBatch(childElement);
+        streamItemBatcher.fleshOutBatch(childElement);
       });
 
       streamItemViewportDetector.onHidden(function(childElement) {
-        streamItemPaginator.stubifyBatch(childElement);
+        streamItemBatcher.stubifyBatch(childElement);
       });
-
     };
 
+    /**
+     * Starts the scroller.
+     *
+     * @return {undefined}          Nothing is returned.
+     */
     service.run = function() {
 
       streamItemQueue.start({
-        delay: 1000,
+        delay: 4000,
         maxLength: 50
+      });
+
+      streamItemQueue.onEnd(function() {
+        bottomPadding.innerHTML = '<center>The End</center>';
       });
     
       setInterval(function updateBatchVisibility() {
@@ -83,8 +126,10 @@ angular.module('sproutApp.stream-item-scroller', [
 
       setInterval(function loadItemsFromQueue() {
         var items;
-        if (streamItemPaginator.isRunningLow()) {
-          streamItemPaginator.addBatch(streamItemQueue.shift(20));
+        if (streamItemBatcher.isEmpty()) {
+          streamItemBatcher.addBatch(streamItemQueue.shift(1));
+        } else if (streamItemBatcher.isRunningLow()) {
+          streamItemBatcher.addBatch(streamItemQueue.shift(20));
         }
       });
     };

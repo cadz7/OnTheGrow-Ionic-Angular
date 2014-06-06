@@ -48,50 +48,39 @@
 
   </div>
 
+  <div ng-if="APP_CONFIG.useFastStreams">
+    <ion-content
+      overflow-scroll="true"
+      scroll-event-interval="5">
+    <stream></stream>
+  </div>
 
-  <ion-content id="sproutPostsScroller"
-    delegate-handle="streamScroller"
-    header-shrink scroll-event-interval="5">
+  <div ng-if="!APP_CONFIG.useFastStreams">
+    <ion-content id="sproutPostsScroller"
+      delegate-handle="streamScroller"
+      header-shrink
+      scroll-event-interval="5">
+        <ion-refresher on-refresh="onRefreshPullDown()"
+          pulling-text="Pull to refresh..."
+          refreshing-text="Refreshing!"
+          refreshing-icon="ion-loading-c"
+          >
+        </ion-refresher>
+        <div class="item post" ng-repeat="post in stream.items track by post.streamItemId"
+          data-modal="modal" data-dialog="dialog">
+            <post post="post" show-comment-box="true" modal-container="streamItemModal"
+             is-wrapped-in-modal="false" view-type="'COMMENTS'"></post>
+        </div>
+        <ion-infinite-scroll
+          on-infinite="performInfiniteScroll()"
+          icon="ion-loading-c"
+          distance="1%">
+        </ion-infinite-scroll>
+    </ion-content>
+  </div>
 
-    <ion-refresher on-refresh="onRefreshPullDown()"
-      pulling-text="Pull to refresh..."
-      refreshing-text="Refreshing!"
-      refreshing-icon="ion-loading-c">
+  <div ng-show="showOfflineMsg" style="text-align: center">Please reconnect to the internet to view older streams...</div>
 
-    </ion-refresher>
-
-
-
-    <!-- activity-select ng-show=addActivityVisible -->
-
-    <!--
-      This input box should be a fixed element that sits
-      on top of the ion-content. Use a directive similar to: http://codepen.io/ionic/pen/hIzFp?editors=001 to show/hide this. Or just fire a CSS transition to animate in/out based on the scrolling direction
-     -->
-
-      <div class="item post" ng-repeat="post in stream.items track by post.streamItemId" data-modal="modal" data-dialog="dialog">
-          <post post="post" show-comment-box="true" modal-container="streamItemModal" is-wrapped-in-modal="false" view-type="'COMMENTS'"></post>
-      </div>
-
-    <stream ng-if="APP_CONFIG.useFastStreams"></stream>
-
-
-    <!--
-      This makes scrolling slow.
-      Handle API updates manually and consider
-      tying into ionic.DomUtil.requestAnimationFrame(callback)
-      instead i.e, make update calls inside the requestAnimationFrame
-      function. Probably don't need to do this though.-->
-
-    <ion-infinite-scroll
-      on-infinite="performInfiniteScroll()"
-      ng-if="!APP_CONFIG.useFastStreams"
-      icon="ion-loading-c"
-      distance="1%">
-    </ion-infinite-scroll>
-
-    <div ng-show="showOfflineMsg" style="text-align: center">Please reconnect to the internet to view older streams...</div>
-	</ion-content>
   <ion-content ng-show="status=='NO_CONNECTION'">
   <ng-include src="'app/stream/no-connection.tpl.html'"></ng-include>
   </ion-content>

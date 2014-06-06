@@ -3,15 +3,38 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
   'sproutApp.stream-item-renderer' 
 ])
 
-// Paginates stream items into batches.
-.factory('streamItemPaginator', ['streamItems', 'streamItemRenderer', '$q', '$log',
+// Breaks up stream items into batches and does the work of putting those
+// batches into DOM and taking the off DOM.
+.factory('streamItemBatcher', ['streamItems', 'streamItemRenderer', '$q', '$log',
   function(streamItems, streamItemRenderer, $q, $log) {
+    'use strict';
     var service = {};
-
     var batchCounter = 0;
     var batchRecords = {};
     var containerElement;
     var numberHiddenBelow = 0;
+    var batchRecordsArray = [];
+
+    // Flashes the stubbed items.
+    function shimmer() {
+      batchRecordsArray.forEach(function(batch) {
+        if (batch.stubified && batch.stub) {
+          batch.stub.className = 'item post streamItemStubShimmerB';
+          setTimeout(function() {
+            if (batch.stubified && batch.stub) {
+              batch.stub.className = 'item post streamItemStubShimmerA';
+            }
+          }, 300);
+        }
+      });
+    }
+
+    setInterval(shimmer, 1500);
+
+    // A replacement for requestAnimationFrame if its not defined.
+    window.requestAnimationFrame = window.requestAnimationFrame || function(callback) {
+      setTimeout(callback, 10);
+    };
 
     // Returns a promise that resolves when all items in the batch have been
     // rendered.
@@ -19,12 +42,12 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
       return $q.all(_.map(items, streamItemRenderer.render));
     }
 
-    // Make a placeholder for each item.
-    function makeItemPlaceholderHTML(item) {
-      var body = item.streamItemId;
-      return '<div style="height:250px">' + body + '</div>'; //...'; //<div style="height:690px; border: 1px solid blue;">...</div>';
-    }
-
+    /**
+     * Sets the element that will serve as the container for batch divs.
+     *
+     * @param {element} newContainerElement    A DOM element to be used as the
+     *                                         container.
+     */
     service.setContainerElement = function(newContainerElement) {
       containerElement = newContainerElement;
     };
@@ -42,18 +65,22 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
 
       var batchRecord = {};
       var batchId = 'stream_item_batch_' + batchCounter;
-      var placeholders = _.map(items, makeItemPlaceholderHTML);
       var batchDiv = batchRecord.element = document.createElement('div');
 
       batchCounter++;
       numberHiddenBelow++;
 
+      batchRecordsArray.push(batchRecord);
+
       batchDiv.setAttribute('id', batchId);
-      batchDiv.setAttribute('style', 'border: 3px solid blue; margin-bottom: 20px');
+      // batchDiv.setAttribute('style', 'border: 3px solid blue; margin-bottom: 20px');
       window.requestAnimationFrame(function() {
         containerElement.appendChild(batchDiv);
         window.requestAnimationFrame(function() {
-          batchDiv.innerHTML = placeholders.join('');
+          batchRecord.stub = document.createElement('div');
+          batchRecord.stub.setAttribute('style', 'height:600px;');
+          batchRecord.stub.className = 'item post';
+          batchDiv.appendChild(batchRecord.stub);
         });
       });
 
@@ -80,16 +107,14 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
     service.stubifyBatch = function (batchElement) {
       var batchRecord = getBatchRecord(batchElement);
       var batchId = batchElement.getAttribute('id');
-      if (batchRecord.stubified) {
-        console.log('already stubified', batchId);
-        return;
-      }
-      console.time('stubifyBatch');
       batchRecord.stubified = true;
+      console.time('stubifyBatch');
       console.log('stubifying:', batchId);
       batchElement.style.display = 'block';
-      batchElement.setAttribute('style','height:' + batchElement.offsetHeight + 'px;border: 3px solid red; background-color: orange; margin-bottom: 20px'); 
-      batchElement.innerHTML = '<div>Stub for batch #' + batchId + '</div>';
+      batchElement.setAttribute('style','height:' + batchElement.offsetHeight + 'px');
+      //;border: 3px solid red; background-color: orange; margin-bottom: 20px'); 
+      batchElement.innerHTML = '';
+      batchElement.appendChild(batchRecord.stub);
       console.timeEnd('stubifyBatch');
     };
 
@@ -102,22 +127,34 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
     service.fleshOutBatch = function(batchElement) {
       var batchRecord = getBatchRecord(batchElement);
       numberHiddenBelow--;
+      batchRecord.stubified = false;
+      batchRecord.element.className = 'streamItemStubBlank';
       batchRecord.whenReady.then(function() {
-        if (!batchRecord.stubified) {
+        // if (!batchRecord.stubified) {
           // window.requestAnimationFrame(function() {
-          batchElement.innerHTML = batchRecord.html;
-        }
+        batchElement.innerHTML = batchRecord.html;
+        batchRecord.element.className = 'streamItemStubReveal';
+        // }
       });
     };
 
     /**
      * Lets us know if ther service is running on pre-loaded batches.
      *
-     * @return {Boolean} [description]
+     * @return {Boolean}              True if we need more items.
      */
     service.isRunningLow = function() {
       return numberHiddenBelow < 3;
     };
+
+    /**
+     * Lets us know if the service currently has no loaded items.
+     *
+     * @return {Boolean}               True if the service is empty.
+     */
+    service.isEmpty = function() {
+      return batchCounter === 0;
+    }
 
     return service;
   }

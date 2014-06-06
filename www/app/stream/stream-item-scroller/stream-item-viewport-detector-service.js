@@ -2,8 +2,9 @@ angular.module('sproutApp.stream-item-scroller.viewport-detector', [
 ])
 
 // Keeps track of whether stream item batches are visible. 
-.factory('streamItemViewportDetector', ['$window', '$ionicScrollDelegate',
-  function($window, $ionicScrollDelegate) {
+.factory('streamItemViewportDetector', ['$window',
+  function($window) {
+    'use strict';
     var service = {};
 
     var parent; // the parent of batch elements
@@ -12,33 +13,36 @@ angular.module('sproutApp.stream-item-scroller.viewport-detector', [
     var currentFirst = -1; // Index of the first visible child.
     var currentLast = -1; // Index of the last visible child.
 
-    // Calculates top position of the element. We'll only be using this for
-    // the parent.
-    function getTop(element) {
-      var top = element.offsetTop;
-      while(element.offsetParent) {
-        element = element.offsetParent;
-        top += element.offsetTop;
-      }      
-      return top;
+    // Returns scroll position of the scroller.
+    function getScrollPosition() {
+      return parent.offsetParent.scrollTop;
     }
 
-    // Get the top of the window.
-    function getWindowTop() {
-      return $window.pageYOffset + $ionicScrollDelegate.getScrollPosition().top;
-    }
-
-    // Sets the handler for hiding elements.
+    /**
+     * Sets the handler for hiding elements.
+     *
+     * @param  {Function} callback     The handler for hiding an element.
+     * @return {undefined}             Nothing is returned.
+     */
     service.onHidden = function(callback) {
       onHidden = callback;
     };
 
-    // Sets the handler for revealing an element.
+    /**
+     * Sets the handler for revealing an element.
+     *
+     * @param  {Function} callback     The handler for revealing an element.
+     * @return {undefined}             Nothing is returned.
+     */
     service.onVisible = function(callback) {
       onVisible = callback;
     };
 
-    // Sets the parent element.
+    /**
+     * Sets the container element.
+     *
+     * @param {[type]} newParent [description]
+     */
     service.setContainerElement = function(newParent) {
       parent = newParent;
     };
@@ -52,7 +56,6 @@ angular.module('sproutApp.stream-item-scroller.viewport-detector', [
         execute: function() {
           setTimeout(function() {
             elements.forEach(function(element) {
-              console.log('Hiding element', element.getAttribute('id'));
               onHidden(element);
             });
           }, 50);
@@ -61,42 +64,65 @@ angular.module('sproutApp.stream-item-scroller.viewport-detector', [
       return queue;
     }
 
-    // Goes through all the items and checks which ones need to be hidden or
-    // revealed.
+    var previousVisibilityById = {};
+
+    /**
+     * Goes through all the items and checks which ones need to be hidden or
+     * revealed.
+     *
+     * @return {undefined}             Nothing is returned.
+     */
     service.update = function() {
-      var parentTop = getTop(parent);
-      var windowTop = getWindowTop();
-      var windowBottom = windowTop + 2000; //::todo
+
+      if (!parent.offsetParent) {
+        return; // The parent is no longer in view.
+      }
+
+      var topBuffer = 1000;
+      var bottomBuffer = 2000;
+      var scrollPosition = getScrollPosition();
+      var windowTop = scrollPosition - topBuffer;
+      var windowBottom = scrollPosition + bottomBuffer;
 
       var children = Array.prototype.slice.call(parent.children);
       var numChildren = children.length;
 
       var hideQueue = makeHideQueue(); // A queue for hiding elements.
 
+      var child;
+      var childTop;
+      var childBottom;
+
+      var wasInView;
+      var isInView;
+      var childId;
+
       // For simplicity, let's loop through all the elements.
       for (var i=0; i<numChildren; i++) {
-        var child = children[i];
-        var childTop = parentTop + child.offsetTop;
-        var childBottom = childTop + child.offsetHeight;
-        // console.log(childBottom, windowTop, i, currentFirst);
+        child = children[i];
+        childId = child.getAttribute('id');
+        childTop = child.offsetTop;
+        childBottom = childTop + child.offsetHeight;
 
-        // Should this element be hidden?
-        if ((i > currentFirst) && (childBottom < windowTop)) {
-          currentFirst = i;
-          console.log('Pushing a child to hidden.', child.getAttribute('id'));
-          // We've identified an element that can be hidden, but we don't need
-          // to do that right away - we'll just schedule it.
+        // Determine if element item is in viewPort.
+        isInView = childBottom > windowTop && childTop < windowBottom;
+        wasInView = previousVisibilityById[childId] || false;
+
+        // console.log(childTop, childBottom, windowTop, windowBottom, isInView);
+
+        // Did the item's status change?
+        if (wasInView && !isInView) {
+          // console.log('Pushing a child to hidden:', childId);
           hideQueue.push(child);
-        } 
-
-        // Should this element be loaded?
-        if ((i > currentLast) && childTop < windowBottom) {
-          currentLast = i;
-          console.log('Revealing child:', child.getAttribute('id'));
+          previousVisibilityById[childId] = isInView;
+        } else if (isInView && !wasInView) {
+          // console.log('Revealing a child:', childId);
           onVisible(child);
+          previousVisibilityById[childId] = isInView;
           break;
         }
       }
+
       hideQueue.execute();
     };
 
