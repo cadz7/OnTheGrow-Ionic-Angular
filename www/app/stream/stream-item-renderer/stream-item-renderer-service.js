@@ -116,7 +116,7 @@ angular.module('sproutApp.stream-item-renderer', [
           var commentHandlers = {};
 
           commentHandlerKeys.forEach(function(key) {
-            commentHandlers[key] = makeHandlerString(key, item.streamItemId, comment.comentId);
+            commentHandlers[key] = makeHandlerString(key, item.streamItemId, comment.commentId);
           });
           return {
             comment: comment,
@@ -138,7 +138,7 @@ angular.module('sproutApp.stream-item-renderer', [
 
 
         handlerKeys.forEach(function(key) {
-          handlers[key] = makeHandlerString(key, item.streamItemId);
+          handlers[key] = makeHandlerString(key, item.streamItemId, 'text_stream_item_' + item.streamItemId);
         });
 
         //debugger;

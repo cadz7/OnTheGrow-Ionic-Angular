@@ -387,6 +387,24 @@ angular.module('sproutApp.controllers')
         openModal();
       };
 
+      streamHandlers.postComment = function(streamItem, streamItemInputId){
+        var commentTxt = document.getElementById(streamItemInputId).value;
+        streamItem.postComment(commentTxt)
+          .then(function (comment) {
+            $log.debug('Comment posted: ', comment);
+            document.getElementById(streamItemInputId).value = '';
+          },
+          function (err) {
+            if (err==='offline') {
+              Notify.apiError('You cannot post comments in offline mode...', 'Failed to post a comment!');
+            } else {
+              Notify.apiError('There was an error communicating with the server.', 'Failed to post a comment!');
+              $log.error(err);
+            }
+          }
+        )
+      };
+
       streamHandlers.like = function(streamItem){
         streamItem[streamItem.viewer.isLikedByViewer ? "unlikePost" : "likePost"]().then(
           function () {
@@ -405,10 +423,10 @@ angular.module('sproutApp.controllers')
       };
 
 
-      window.handleSproutStreamScrollerClick = function(action, streamItemId) {
+      window.handleSproutStreamScrollerClick = function(action, streamItemId, streamItemInputId) {
         $log.debug('handleSproutStreamScrollerClick action: ', action, 'stream item #' + streamItemId);
         var streamItem = streamItems.getStreamItemById(streamItemId)[0];
-        streamHandlers[action](streamItem);
+        streamHandlers[action](streamItem, streamItemInputId);
       };
     }
   ]
