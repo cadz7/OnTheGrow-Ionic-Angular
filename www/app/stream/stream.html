@@ -49,9 +49,8 @@
   </div>
 
   <div ng-if="APP_CONFIG.useFastStreams">
-    <ion-content id="sproutPostsScroller"
-      delegate-handle="streamScroller"
-      ng-if="APP_CONFIG.useFastStreams"
+    <ion-content
+      overflow-scroll="true"
       scroll-event-interval="5">
     <stream></stream>
   </div>

@@ -18,10 +18,10 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
     // Flashes the stubbed items.
     function shimmer() {
       batchRecordsArray.forEach(function(batch) {
-        if (batch.stubified) {
+        if (batch.stubified && batch.stub) {
           batch.stub.className = 'item post streamItemStubShimmerB';
           setTimeout(function() {
-            if (batch.stubified) {
+            if (batch.stubified && batch.stub) {
               batch.stub.className = 'item post streamItemStubShimmerA';
             }
           }, 300);
@@ -63,7 +63,7 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
         return;
       }
 
-      var batchRecord = {stubified: true};
+      var batchRecord = {};
       var batchId = 'stream_item_batch_' + batchCounter;
       var batchDiv = batchRecord.element = document.createElement('div');
 
