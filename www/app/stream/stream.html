@@ -1,19 +1,16 @@
 <!-- ion-nav-bar goes here -->
 <ion-view title="Streams">
-
+    <!-- ion-header-bar -->
 
   <div id="stream-header">
     <ion-header-bar align-title="center" class="bar">
+        <!-- Hamburger Button -->
+
       <left-nav-toggle-btn></left-nav-toggle-btn>
       <h1 class="title" ng-click="toggleStreamItemFilters()">
         {{selectedStreamItemFilter.displayName}}
       </h1>
       <span class="icon ion-chevron-down filter-chevron"  ng-class="{'ion-chevron-down':!showStreamItemFilters,'ion-chevron-up':showStreamItemFilters }"></span>
-      <!-- <span class="icon ion-chevron-down filter-chevron"></span> -->
-      <!-- only show if user is logged in -->
-      <!-- ng-show="AuthSvc.isLoggedIn()" -->
-      <!-- Settings Button -->
-
       <div class="buttons">
         <button class="button button-clear icon sprout-icon-notification" ng-click="show()"></button>
       </div>
@@ -23,13 +20,12 @@
     <div class="bar bar-loading bar-assertive" ng-if="isSyncing">
       Loading...
     </div>
-
+<!-- Filter dropdown -->
     <div class="row stream-item-filter" ng-show="showStreamItemFilters">
       <div class="leadboardFilterRow row" ng-repeat="filter in streamItemFilters" ng-class="{selected : (filter.filterId == selectedStreamItemFilter.filterId)}">
-         <h5 class="col" ng-click="selectStreamItemFilter(filter)" ng-class="{'col-90': !filter.subFilters}"> {{filter.displayName}} </h5>
-         <i ng-if="filter.filterId == selectedStreamItemFilter.filterId" class="icon ion-checkmark-circled balanced col-10"></i>
-        <i ng-if="filter.subFilters" class="icon ion-chevron-right col-10 " style="float: right" ng-click="showSubStreamItemFilters(filter)"></i>
-
+         <h5 class="col" ng-click="selectStreamItemFilter(filter)" ng-class="{!filter.subFilters}"> {{filter.displayName}} </h5>
+         <i ng-if="filter.filterId == selectedStreamItemFilter.filterId" class="icon ion-checkmark-circled balanced"></i>
+        <i ng-if="filter.subFilters" class="icon ion-chevron-right" ng-click="showSubStreamItemFilters(filter)"></i>
       </div>
     </div>
     <div class="row create-post">

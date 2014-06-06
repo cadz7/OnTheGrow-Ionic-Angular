@@ -112,6 +112,9 @@ ion-header-bar button.post.active {
     font-family: 'roboto', helvetica, arial, sans-serif;
     font-weight: 100;
     text-transform: uppercase;
+    left: 45px;
+    right: 45px;
+    z-index: 100;
   }
   .filter-chevron{
     font-size:0.5rem;
@@ -128,6 +131,38 @@ ion-header-bar button.post.active {
     margin-top: 4px
   }
 }
+.leadboardFilterRow{
+    border-left: 5px solid #fff;
+    border-bottom: 1px solid $lightgrey;
+    border-left: 1px solid $lightgrey;
+    border-right: 1px solid $lightgrey;
+    height: 44px;
+    line-height: 22px;
+    &:active{
+      background-color: $lightgrey;
+    }
+    &:last-child{
+      @include box-shadow (0px, 2px, 2px, 1px, rgba(50,50,50,0.1));
+    }
+    &.row+.row{
+      padding-top: 5px;
+      padding-left: 10px;
+    }
+    h5{
+        margin-bottom: 0px;
+        margin-top: 0px;
+        text-align: left;
+        line-height: 22px;
+    }
+    i{
+        font-size: 1.5rem;
+    }    
+}
+.leadboardFilterRow.selected{
+        border-left: 5px solid $green;
+        color: black;
+        padding-left: 5px;
+    }
 
 .modal-backdrop {
   z-index:1000;
