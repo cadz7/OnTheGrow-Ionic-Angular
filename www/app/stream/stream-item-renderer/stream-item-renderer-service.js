@@ -131,7 +131,8 @@ angular.module('sproutApp.stream-item-renderer', [
           isGeneric: item.streamItemTypeSlug!=='group' && item.streamItemTypeSlug!=='challenge' && item.streamItemTypeSlug!=='event',
           isGroup: item.streamItemTypeSlug==='group',
           isChallenge: item.streamItemTypeSlug==='challenge',
-          isEvent: item.streamItemTypeSlug==='event'
+          isEvent: item.streamItemTypeSlug==='event',
+          isJoinable: item.streamItemTypeSlug==='group' || item.streamItemTypeSlug==='challenge' || item.streamItemTypeSlug==='event'
         };
 
 
@@ -154,6 +155,7 @@ angular.module('sproutApp.stream-item-renderer', [
           details: '',
           heroImage: heroImage,
           hasHeroImage: !!heroImage,
+          hasNotHeroImage: !heroImage,
           joinButtonClass1: heroImage? ' join-btn-hero' : ' join-btn',
           joinButtonClass2: (item.viewer.isMember === 1) ? ' sprout-icon-joined' : ' sprout-icon-join',
           likeButtonClass: item.viewer.isLikedByViewer? '' : 'inactive',

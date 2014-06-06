@@ -68,15 +68,20 @@
         {{/if}}
 
       </div>
+
+    {{#if itemType.isJoinable}}
+    {{#if hasNotHeroImage}}
+      <div class="col">
+          <i class="icon icon {{joinButtonClass1}} {{joinButtonClass2}}" onclick="{{handlers.toggleMembership}}"></i>
+      </div>
+      {{/if}}
+      {{/if}}
   </div>
 
-  {{#unless heroImage}}
-    <hr>
-  {{/unless}}
 
   <div class="hero">
     <div class="join">
-      {{#if heroImage}}
+      {{#if hasHeroImage}}
         <i class="icon icon {{joinButtonClass1}} {{joinButtonClass2}}"
           onclick="{{handlers.toggleMembership}}"></i>
         <img src="{{ heroImage }}" class="hero-image" onclick="{{handlers.showDetails}}">
