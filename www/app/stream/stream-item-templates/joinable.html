@@ -1,6 +1,7 @@
 <div class="item post" id="stream_item_{{item.streamItemId}}">
 
   <!--USER AVATAR w/ AUTOMATED TEXT-->
+  {{#if isCommentsView}}
   <div class="post-info row">
     <div class="col">
       <img src="{{item.avatarURL}}" class="activity-log-avatar"/>
@@ -28,6 +29,7 @@
       <div onclick="{{handlers.close}}" class="delete-icon ion-close"></div>
     {{/if}}
   </div>
+  {{/if}}
 
   <!--HEADER-->
   <div class="post-info row">
@@ -82,13 +84,14 @@
     </div>
   </div>
 
+  {{#if isCommentsView}}
   <div class="item item-divider tabs tabs-secondary tabs-icon-left">
     <a class="tab-item" onclick="{{handlers.like}}">
       <span class="count">{{item.likeCount}}</span><i class="icon ion-thumbsup" 
       class="{{likeButtonClass}}"></i>
     </a>
     <div class="vertical-divider"></div>
-    <a class="tab-item" onclick="{{handlers.showDetails}}">
+    <a class="tab-item" onclick="{{handlers.showComments}}">
       <span class="count">{{item.comments.length}}</span><i class="icon ion-chatbox"></i>
     </a>
   </div>
@@ -124,7 +127,7 @@
           onclick="{{handlers.postComment}}">Post</button>
       </div>
     </div>
-
   </div>
+  {{/if}}
 
 </div>

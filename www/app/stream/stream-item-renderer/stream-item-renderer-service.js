@@ -96,6 +96,7 @@ angular.module('sproutApp.stream-item-renderer', [
           'toggleMembership',
           'like',
           'showDetails',
+          'showComments',
           'showEditMenu',
           'postComment',
           'openEventUrl', // openLink(post.detail.eventLocationUrl)
@@ -141,6 +142,9 @@ angular.module('sproutApp.stream-item-renderer', [
 
         //debugger;
         return templates.joinable({
+          isWrappedInModal: streamItemModalService.isModalActive(),
+          isCommentsView: streamItemModalService.isCommentsView() || !streamItemModalService.isModalActive(),
+          isDetailsView: streamItemModalService.isDetailsView() && streamItemModalService.isModalActive,
           item: item,
           itemType: itemType,
           headerIcon: streamItemResourceService.getJoinableHeaderIcon(item),

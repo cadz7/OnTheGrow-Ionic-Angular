@@ -359,22 +359,34 @@ angular.module('sproutApp.controllers')
 
       ///////////// STREAM HANDLERS /////////////
       var streamHandlers = {};
-      $scope.streamConfig = {};
 
       $scope.closeStreamItemModal = function(){
         $scope.streamItemModal2.remove();
+        streamItemModalService.cleanUp();
       };
 
-      streamHandlers.showDetails = function(streamItemId){
-        $scope.streamConfig.streamItemId = streamItemId;
-        $ionicModal.fromTemplateUrl('app/stream/stream-item-modal-wrapper.html', {
-          animation: 'slide-in-up',
-          scope: $scope
-        }).then(function(modal) {
-          $scope.streamItemModal2 = modal;
-          $scope.streamItemModal2.show();
-        });
+      function openModal(streamItemId){
+        if (!$scope.streamItemModal2 || !$scope.streamItemModal2.isShown()){
+          $ionicModal.fromTemplateUrl('app/stream/stream-item-modal-wrapper.html', {
+            animation: 'slide-in-up',
+            scope: $scope
+          }).then(function(modal) {
+            $scope.streamItemModal2 = modal;
+            $scope.streamItemModal2.show();
+          });
+        }
+      }
 
+      streamHandlers.showDetails = function(streamItemId){
+        var streamItem = streamItems.getStreamItemById(streamItemId)[0];
+        streamItemModalService.loadStreamItemDetails(streamItem, streamItemModalService.DETAILED_VIEW);
+        openModal(streamItemId);
+      };
+
+      streamHandlers.showComments = function(streamItemId){
+        var streamItem = streamItems.getStreamItemById(streamItemId)[0];
+        streamItemModalService.loadStreamItemDetails(streamItem, streamItemModalService.COMMENTS_VIEW);
+        openModal(streamItemId);
       };
 
 

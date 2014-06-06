@@ -1,5 +1,9 @@
 /**
  * Mainly holds a copy of a stream item for the modal that displays the stream item.
+ * Keeps track of state of the modal.
+ *
+ * The modal can be showing a 'detail view' of the stream item or a 'comments view' of the stream item.
+ * It also knows if the modal is active or not.
  *
  */
 angular.module('sproutApp.services')
@@ -19,6 +23,7 @@ angular.module('sproutApp.services')
 
       var _streamItem = null;
       var _viewType = null;
+      var _modalActive = null;
 
       service.increaseCommentLimit = function(){
         service.commentLimit-= STREAM_CONSTANTS.initialCommentCountShown;
@@ -51,7 +56,12 @@ angular.module('sproutApp.services')
       service.loadStreamItemDetails = function(streamItem, viewType){
         _streamItem = streamItem;
         _viewType = viewType;
+        _modalActive = true;
         joinableStreamItemService.getDetail(streamItem);
+      };
+
+      service.cleanUp = function(){
+        _modalActive = false;
       };
 
       service.getStreamItem = function(){
@@ -66,6 +76,18 @@ angular.module('sproutApp.services')
         if (service.modal){
           service.modal.hide();
         }
+      };
+
+      service.isModalActive = function(){
+        return _modalActive;
+      };
+
+      service.isCommentsView = function(){
+        return _viewType === service.COMMENTS_VIEW;
+      };
+
+      service.isDetailsView = function(){
+        return _viewType === service.DETAILED_VIEW;
       };
 
       return service;
