@@ -130,4 +130,23 @@
   </div>
   {{/if}}
 
+
+  {{#if isDetailsView}}
+    {{#if itemType.isGroup}}
+
+    {{/if}}
+
+    {{#if itemType.isChallenge}}
+      <p class="challenge-description">{{item.detail.challengeDescription}}</p>
+      <hr/>
+      <p class="challenge-instructions"><span class="text-bold">Challenge instructions:</span> {{item.detail.challengeInstruction}}</p>
+    {{/if}}
+
+    {{#if itemType.isEvent}}
+      <p><span class="text-bold">Event description: </span>{{item.detail.eventDescription}}</p>
+    {{/if}}
+  {{/if}}
+
+
+
 </div>

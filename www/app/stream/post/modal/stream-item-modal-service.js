@@ -57,6 +57,8 @@ angular.module('sproutApp.services')
         _streamItem = streamItem;
         _viewType = viewType;
         _modalActive = true;
+
+        // TODO js may be deprecated in v2 of streams since details are in stream items
         joinableStreamItemService.getDetail(streamItem);
       };
 
@@ -72,6 +74,7 @@ angular.module('sproutApp.services')
         return _viewType;
       };
 
+      // TODO deprecated in v2 JS
       service.hideModal = function(){
         if (service.modal){
           service.modal.hide();

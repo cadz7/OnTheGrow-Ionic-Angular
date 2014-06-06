@@ -365,7 +365,7 @@ angular.module('sproutApp.controllers')
         streamItemModalService.cleanUp();
       };
 
-      function openModal(streamItemId){
+      function openModal(){
         if (!$scope.streamItemModal2 || !$scope.streamItemModal2.isShown()){
           $ionicModal.fromTemplateUrl('app/stream/stream-item-modal-wrapper.html', {
             animation: 'slide-in-up',
@@ -377,22 +377,38 @@ angular.module('sproutApp.controllers')
         }
       }
 
-      streamHandlers.showDetails = function(streamItemId){
-        var streamItem = streamItems.getStreamItemById(streamItemId)[0];
+      streamHandlers.showDetails = function(streamItem){
         streamItemModalService.loadStreamItemDetails(streamItem, streamItemModalService.DETAILED_VIEW);
-        openModal(streamItemId);
+        openModal();
       };
 
-      streamHandlers.showComments = function(streamItemId){
-        var streamItem = streamItems.getStreamItemById(streamItemId)[0];
+      streamHandlers.showComments = function(streamItem){
         streamItemModalService.loadStreamItemDetails(streamItem, streamItemModalService.COMMENTS_VIEW);
-        openModal(streamItemId);
+        openModal();
+      };
+
+      streamHandlers.like = function(streamItem){
+        streamItem[streamItem.viewer.isLikedByViewer ? "unlikePost" : "likePost"]().then(
+          function () {
+            $log.debug("success toggling like");
+            // TODO YT refresh streamItem on the dom to show that it is liked
+          },
+          function (err) {
+            if (err==='offline') {
+              Notify.apiError('You cannot like items in offline mode...');
+            } else {
+              Notify.apiError('Failed to like post!  Check that you have an internet connection.');
+              $log.error(err);
+            }
+          }
+        )
       };
 
 
       window.handleSproutStreamScrollerClick = function(action, streamItemId) {
         $log.debug('handleSproutStreamScrollerClick action: ', action, 'stream item #' + streamItemId);
-        streamHandlers[action](streamItemId);
+        var streamItem = streamItems.getStreamItemById(streamItemId)[0];
+        streamHandlers[action](streamItem);
       };
     }
   ]
