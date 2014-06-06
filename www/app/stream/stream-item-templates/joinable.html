@@ -77,9 +77,9 @@
   <div class="hero">
     <div class="join">
       {{#if heroImage}}
-        <i class="icon" class="{{joinButtonClass1}} {{joinButtonClass2}}"
+        <i class="icon icon {{joinButtonClass1}} {{joinButtonClass2}}"
           onclick="{{handlers.toggleMembership}}"></i>
-        <img src="{{ heroImage }}" class="hero-image">
+        <img src="{{ heroImage }}" class="hero-image" onclick="{{handlers.showDetails}}">
       {{/if}}
     </div>
   </div>
