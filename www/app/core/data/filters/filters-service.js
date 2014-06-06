@@ -137,18 +137,23 @@ angular.module('sproutApp.data.filters', [
                   },
                   {
                       "filterId": 10,
-
                       "displayName": "Groups",
                       "filterType": "leaderboard",
                       "subFilters": [
                                       {
                                         "filterId": 11,
-                                        "displayName": "Runners",
+                                        "displayName": "All",
                                         "filterType": "leaderboard",
                                         "subFilters": []
                                       },
                                       {
                                         "filterId": 12,
+                                        "displayName": "Runners",
+                                        "filterType": "leaderboard",
+                                        "subFilters": []
+                                      },
+                                      {
+                                        "filterId": 13,
                                         "displayName": "Walkers",
                                         "filterType": "leaderboard",
                                         "subFilters": []
