@@ -39,7 +39,6 @@ angular.module('sproutApp.controllers')
       APP_CONFIG
     ) {
     	$scope.stream = streamItems;
-      $scope.APP_CONFIG = APP_CONFIG;
     	$scope.header = headerRemote;
       $scope.selectedStreamItemFilter = null;
       $scope.showStreamItemFilters = false;
@@ -91,24 +90,6 @@ angular.module('sproutApp.controllers')
       $scope.closeFullPost = function() {
         hideModal($scope.streamItemModal);
       };
-
-      $scope.postComment = function (commentText) {
-        var currentPost = streamItemModalService.getStreamItem();
-        currentPost.postComment(commentText).then(function (comment) {
-          $log.debug('Comment posted: ', comment);
-          $scope.post = {
-            newComment: ''
-          };
-        },
-          function (err) {
-            if (err==='offline') {
-              Notify.apiError('You cannot post comments in offline mode...', 'Failed to post a comment!');
-            } else {
-              Notify.apiError('There was an error communicating with the server.', 'Failed to post a comment!');
-              $log.error(err);
-            }
-          }
-        )};
 
       function ifNoStreamItemsShowReloadScreen() {
         if (!$scope.stream.items || !$scope.stream.items.length) {
@@ -341,6 +322,15 @@ angular.module('sproutApp.controllers')
       /*$scope.$evalAsync(function() {
         $scope.onRefreshPullDown();
       });*/
+
+      $scope.show = function() {
+        $ionicLoading.show({
+          template: 'Loading...'
+        });
+      };
+      $scope.hide = function(){
+        $ionicLoading.hide();
+      };
     }
   ]
 );
