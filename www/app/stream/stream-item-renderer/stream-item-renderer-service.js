@@ -96,6 +96,7 @@ angular.module('sproutApp.stream-item-renderer', [
           'toggleMembership',
           'like',
           'showDetails',
+          'showComments',
           'showEditMenu',
           'postComment',
           'openEventUrl', // openLink(post.detail.eventLocationUrl)
@@ -115,7 +116,7 @@ angular.module('sproutApp.stream-item-renderer', [
           var commentHandlers = {};
 
           commentHandlerKeys.forEach(function(key) {
-            commentHandlers[key] = makeHandlerString(key, item.streamItemId, comment.comentId);
+            commentHandlers[key] = makeHandlerString(key, item.streamItemId, comment.commentId);
           });
           return {
             comment: comment,
@@ -130,17 +131,21 @@ angular.module('sproutApp.stream-item-renderer', [
           isGeneric: item.streamItemTypeSlug!=='group' && item.streamItemTypeSlug!=='challenge' && item.streamItemTypeSlug!=='event',
           isGroup: item.streamItemTypeSlug==='group',
           isChallenge: item.streamItemTypeSlug==='challenge',
-          isEvent: item.streamItemTypeSlug==='event'
+          isEvent: item.streamItemTypeSlug==='event',
+          isJoinable: item.streamItemTypeSlug==='group' || item.streamItemTypeSlug==='challenge' || item.streamItemTypeSlug==='event'
         };
 
 
 
         handlerKeys.forEach(function(key) {
-          handlers[key] = makeHandlerString(key, item.streamItemId);
+          handlers[key] = makeHandlerString(key, item.streamItemId, 'text_stream_item_' + item.streamItemId);
         });
 
         //debugger;
         return templates.joinable({
+          isWrappedInModal: streamItemModalService.isModalActive(),
+          isCommentsView: streamItemModalService.isCommentsView() || !streamItemModalService.isModalActive(),
+          isDetailsView: streamItemModalService.isDetailsView() && streamItemModalService.isModalActive,
           item: item,
           itemType: itemType,
           headerIcon: streamItemResourceService.getJoinableHeaderIcon(item),
@@ -150,6 +155,7 @@ angular.module('sproutApp.stream-item-renderer', [
           details: '',
           heroImage: heroImage,
           hasHeroImage: !!heroImage,
+          hasNotHeroImage: !heroImage,
           joinButtonClass1: heroImage? ' join-btn-hero' : ' join-btn',
           joinButtonClass2: (item.viewer.isMember === 1) ? ' sprout-icon-joined' : ' sprout-icon-join',
           likeButtonClass: item.viewer.isLikedByViewer? '' : 'inactive',

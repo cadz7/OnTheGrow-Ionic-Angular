@@ -20,6 +20,7 @@ angular.module('sproutApp.controllers')
     'filters',
     '$timeout',
     'APP_CONFIG',
+    'joinService',
     function(
       $scope,
       streamItems,
@@ -36,7 +37,8 @@ angular.module('sproutApp.controllers')
       sharingService,
       filters,
       $timeout,
-      APP_CONFIG
+      APP_CONFIG,
+      joinService
     ) {
     	$scope.APP_CONFIG = APP_CONFIG;
     	$scope.stream = streamItems;
@@ -359,28 +361,100 @@ angular.module('sproutApp.controllers')
 
       ///////////// STREAM HANDLERS /////////////
       var streamHandlers = {};
-      $scope.streamConfig = {};
 
       $scope.closeStreamItemModal = function(){
         $scope.streamItemModal2.remove();
+        streamItemModalService.cleanUp();
       };
 
-      streamHandlers.showDetails = function(streamItemId){
-        $scope.streamConfig.streamItemId = streamItemId;
-        $ionicModal.fromTemplateUrl('app/stream/stream-item-modal-wrapper.html', {
-          animation: 'slide-in-up',
-          scope: $scope
-        }).then(function(modal) {
-          $scope.streamItemModal2 = modal;
-          $scope.streamItemModal2.show();
-        });
+      function openModal(){
+        if (!$scope.streamItemModal2 || !$scope.streamItemModal2.isShown()){
+          $ionicModal.fromTemplateUrl('app/stream/stream-item-modal-wrapper.html', {
+            animation: 'slide-in-up',
+            scope: $scope
+          }).then(function(modal) {
+            $scope.streamItemModal2 = modal;
+            $scope.streamItemModal2.show();
+          });
+        }
+      }
 
+      streamHandlers.showDetails = function(streamItem){
+        streamItemModalService.loadStreamItemDetails(streamItem, streamItemModalService.DETAILED_VIEW);
+        openModal();
+      };
+
+      streamHandlers.showComments = function(streamItem){
+        streamItemModalService.loadStreamItemDetails(streamItem, streamItemModalService.COMMENTS_VIEW);
+        openModal();
+      };
+
+      streamHandlers.toggleMembership = function(streamItem){
+        if (streamItem.viewer.isMember) {
+          // don't do anything now, but perhaps leave group
+          $log.debug('Unable to do anything for join button');
+        } else {
+          // subscribe user
+          $log.debug('User is going to join some joinable-thing');
+          joinService.join(streamItem)
+            .then(function (res) {
+              // Refresh the post
+              if (res && res === 'userCanceled'){
+                $log.info('Canceled join group');
+              } else {
+                // TODO YT refresh streamItem on the dom to show that it has been joined
+              }
+            }, function (err) {
+              Notify.apiError('Unable to join group', err)
+            })
+            .then(function (updatedStreamItem) {
+            }, function (err) {
+              Notify.apiError('Unable to refresh post', err)
+            });
+        }
+      };
+
+      streamHandlers.postComment = function(streamItem, streamItemInputId){
+        var commentTxt = document.getElementById(streamItemInputId).value;
+        streamItem.postComment(commentTxt)
+          .then(function (comment) {
+            $log.debug('Comment posted: ', comment);
+            document.getElementById(streamItemInputId).value = '';
+            // TODO YT refresh streamItem on the dom to show that a new comment has been posted
+          },
+          function (err) {
+            if (err==='offline') {
+              Notify.apiError('You cannot post comments in offline mode...', 'Failed to post a comment!');
+            } else {
+              Notify.apiError('There was an error communicating with the server.', 'Failed to post a comment!');
+              $log.error(err);
+            }
+          }
+        )
+      };
+
+      streamHandlers.like = function(streamItem){
+        streamItem[streamItem.viewer.isLikedByViewer ? "unlikePost" : "likePost"]().then(
+          function () {
+            $log.debug("success toggling like");
+            // TODO YT refresh streamItem on the dom to show that it is liked
+          },
+          function (err) {
+            if (err==='offline') {
+              Notify.apiError('You cannot like items in offline mode...');
+            } else {
+              Notify.apiError('Failed to like post!  Check that you have an internet connection.');
+              $log.error(err);
+            }
+          }
+        )
       };
 
 
-      window.handleSproutStreamScrollerClick = function(action, streamItemId) {
+      window.handleSproutStreamScrollerClick = function(action, streamItemId, streamItemInputId) {
         $log.debug('handleSproutStreamScrollerClick action: ', action, 'stream item #' + streamItemId);
-        streamHandlers[action](streamItemId);
+        var streamItem = streamItems.getStreamItemById(streamItemId)[0];
+        streamHandlers[action](streamItem, streamItemInputId);
       };
     }
   ]

@@ -1,6 +1,7 @@
 <div class="item post" id="stream_item_{{item.streamItemId}}">
 
   <!--USER AVATAR w/ AUTOMATED TEXT-->
+  {{#if isCommentsView}}
   <div class="post-info row">
     <div class="col">
       <img src="{{item.avatarURL}}" class="activity-log-avatar"/>
@@ -28,6 +29,7 @@
       <div onclick="{{handlers.close}}" class="delete-icon ion-close"></div>
     {{/if}}
   </div>
+  {{/if}}
 
   <!--HEADER-->
   <div class="post-info row">
@@ -66,29 +68,35 @@
         {{/if}}
 
       </div>
+
+    {{#if itemType.isJoinable}}
+    {{#if hasNotHeroImage}}
+      <div class="col">
+          <i class="icon icon {{joinButtonClass1}} {{joinButtonClass2}}" onclick="{{handlers.toggleMembership}}"></i>
+      </div>
+      {{/if}}
+      {{/if}}
   </div>
 
-  {{#unless heroImage}}
-    <hr>
-  {{/unless}}
 
   <div class="hero">
     <div class="join">
-      {{#if heroImage}}
-        <i class="icon" class="{{joinButtonClass1}} {{joinButtonClass2}}"
+      {{#if hasHeroImage}}
+        <i class="icon icon {{joinButtonClass1}} {{joinButtonClass2}}"
           onclick="{{handlers.toggleMembership}}"></i>
-        <img src="{{ heroImage }}" class="hero-image">
+        <img src="{{ heroImage }}" class="hero-image" onclick="{{handlers.showDetails}}">
       {{/if}}
     </div>
   </div>
 
+  {{#if isCommentsView}}
   <div class="item item-divider tabs tabs-secondary tabs-icon-left">
     <a class="tab-item" onclick="{{handlers.like}}">
       <span class="count">{{item.likeCount}}</span><i class="icon ion-thumbsup" 
       class="{{likeButtonClass}}"></i>
     </a>
     <div class="vertical-divider"></div>
-    <a class="tab-item" onclick="{{handlers.showDetails}}">
+    <a class="tab-item" onclick="{{handlers.showComments}}">
       <span class="count">{{item.comments.length}}</span><i class="icon ion-chatbox"></i>
     </a>
   </div>
@@ -111,7 +119,7 @@
 
     <div class="postInputArea row">
       <div class="col col-80">
-        <input type="text" maxlength="24" placeholder="your comment here"
+        <input type="text" maxlength="24" placeholder="your comment here" id="text_stream_item_{{item.streamItemId}}"
           class="add-comment"/>
       <!--expand-input ng-model="post.newComment"
                     max-length="8000"
@@ -124,7 +132,26 @@
           onclick="{{handlers.postComment}}">Post</button>
       </div>
     </div>
-
   </div>
+  {{/if}}
+
+
+  {{#if isDetailsView}}
+    {{#if itemType.isGroup}}
+
+    {{/if}}
+
+    {{#if itemType.isChallenge}}
+      <p class="challenge-description">{{item.detail.challengeDescription}}</p>
+      <hr/>
+      <p class="challenge-instructions"><span class="text-bold">Challenge instructions:</span> {{item.detail.challengeInstruction}}</p>
+    {{/if}}
+
+    {{#if itemType.isEvent}}
+      <p><span class="text-bold">Event description: </span>{{item.detail.eventDescription}}</p>
+    {{/if}}
+  {{/if}}
+
+
 
 </div>
