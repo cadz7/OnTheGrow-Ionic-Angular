@@ -15,10 +15,14 @@
       <!-- Settings Button -->
 
       <div class="buttons">
-        <button class="button button-clear icon sprout-icon-notification"></button>
+        <button class="button button-clear icon sprout-icon-notification" ng-click="show()"></button>
       </div>
 
     </ion-header-bar>
+
+    <div class="bar bar-loading bar-assertive" ng-if="isSyncing">
+      Loading...
+    </div>
 
     <div class="row stream-item-filter" ng-show="showStreamItemFilters">
       <div class="leadboardFilterRow row" ng-repeat="filter in streamItemFilters" ng-class="{selected : (filter.filterId == selectedStreamItemFilter.filterId)}">
