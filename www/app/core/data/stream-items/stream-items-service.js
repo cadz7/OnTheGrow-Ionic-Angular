@@ -308,6 +308,10 @@ angular.module('sproutApp.data.stream-items', [
         });
     };
 
+    service.getStreamItemById = function(streamItemId){
+      return _.where(service.items, {'streamItemId': parseInt(streamItemId) });
+    };
+
     return service;
   }
 ])

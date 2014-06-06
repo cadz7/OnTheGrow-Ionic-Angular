@@ -38,6 +38,7 @@ angular.module('sproutApp.controllers')
       $timeout,
       APP_CONFIG
     ) {
+    	$scope.APP_CONFIG = APP_CONFIG;
     	$scope.stream = streamItems;
     	$scope.header = headerRemote;
       $scope.selectedStreamItemFilter = null;
@@ -265,6 +266,24 @@ angular.module('sproutApp.controllers')
         }
       };
 
+      $scope.postComment = function (commentText) {
+        var currentPost = streamItemModalService.getStreamItem();
+        currentPost.postComment(commentText).then(function (comment) {
+            $log.debug('Comment posted: ', comment);
+            $scope.post = {
+              newComment: ''
+            };
+          },
+          function (err) {
+            if (err==='offline') {
+              Notify.apiError('You cannot post comments in offline mode...', 'Failed to post a comment!');
+            } else {
+              Notify.apiError('There was an error communicating with the server.', 'Failed to post a comment!');
+              $log.error(err);
+            }
+          }
+        )};
+
       $scope.createActivity = function() {
         $scope.createActivityModal.show();
       };
@@ -328,8 +347,40 @@ angular.module('sproutApp.controllers')
           template: 'Loading...'
         });
       };
-      $scope.hide = function(){
+      $scope.hide = function() {
         $ionicLoading.hide();
+      };
+
+
+
+
+
+
+
+      ///////////// STREAM HANDLERS /////////////
+      var streamHandlers = {};
+      $scope.streamConfig = {};
+
+      $scope.closeStreamItemModal = function(){
+        $scope.streamItemModal2.remove();
+      };
+
+      streamHandlers.showDetails = function(streamItemId){
+        $scope.streamConfig.streamItemId = streamItemId;
+        $ionicModal.fromTemplateUrl('app/stream/stream-item-modal-wrapper.html', {
+          animation: 'slide-in-up',
+          scope: $scope
+        }).then(function(modal) {
+          $scope.streamItemModal2 = modal;
+          $scope.streamItemModal2.show();
+        });
+
+      };
+
+
+      window.handleSproutStreamScrollerClick = function(action, streamItemId) {
+        $log.debug('handleSproutStreamScrollerClick action: ', action, 'stream item #' + streamItemId);
+        streamHandlers[action](streamItemId);
       };
     }
   ]
