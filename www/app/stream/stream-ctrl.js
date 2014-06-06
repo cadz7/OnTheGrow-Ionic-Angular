@@ -328,8 +328,40 @@ angular.module('sproutApp.controllers')
           template: 'Loading...'
         });
       };
-      $scope.hide = function(){
+      $scope.hide = function() {
         $ionicLoading.hide();
+      };
+
+
+
+
+
+
+
+      ///////////// STREAM HANDLERS /////////////
+      var streamHandlers = {};
+      $scope.streamConfig = {};
+
+      $scope.closeStreamItemModal = function(){
+        $scope.streamItemModal2.remove();
+      };
+
+      streamHandlers.showDetails = function(streamItemId){
+        $scope.streamConfig.streamItemId = streamItemId;
+        $ionicModal.fromTemplateUrl('app/stream/stream-item-modal-wrapper.html', {
+          animation: 'slide-in-up',
+          scope: $scope
+        }).then(function(modal) {
+          $scope.streamItemModal2 = modal;
+          $scope.streamItemModal2.show();
+        });
+
+      };
+
+
+      window.handleSproutStreamScrollerClick = function(action, streamItemId) {
+        $log.debug('handleSproutStreamScrollerClick action: ', action, 'stream item #' + streamItemId);
+        streamHandlers[action](streamItemId);
       };
     }
   ]
