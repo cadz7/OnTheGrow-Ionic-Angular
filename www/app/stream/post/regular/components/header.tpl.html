@@ -9,11 +9,11 @@
       <span class="date">{{post.dateTimeCreated | date : 'MMM d, h:mma'}}</span>
     </div>
     <div class="col col-33">
+        <div class="delete-icon ion-close" data-ng-click="deletePost(post)" ng-if="post.viewer.isOwnedByViewer"></div>
       <div ng-show="post.streamItemDisplay.values.points" class="points-container">
         <span class="points">{{post.streamItemDisplay.values.points}}</span>
         <span class="pointsLabel">points</span>
       </div>
     </div>
   </div>
-  <div class="delete-icon ion-close" data-ng-click="deletePost(post)" ng-if="post.viewer.isOwnedByViewer"></div>
 </div>
