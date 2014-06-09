@@ -59,7 +59,7 @@ angular.module('sproutApp.stream-item-renderer', [
 
       // Checks if the content is overflowing.
       function isContentOverflowing(item) {
-        return item.content.length > STREAM_CONSTANTS.initialPostCharCount;
+        return item.content && item.content.length > STREAM_CONSTANTS.initialPostCharCount;
       }
 
       // Makes a string representation of a handler function call. This is
@@ -120,7 +120,7 @@ angular.module('sproutApp.stream-item-renderer', [
           });
           return {
             comment: comment,
-            displayName: comment.owner.firstNameDisplay,
+            displayName: comment.owner.firstNameDisplay || comment.owner.firstName + ' ' + comment.owner.lastName,
             dateTimeCreated: formatDateTime(comment.dateTimeCreated),
             parsedContent: template.fill(comment.commentDisplay.template, comment.commentDisplay.values),
             commentHandlers: commentHandlers
@@ -128,11 +128,11 @@ angular.module('sproutApp.stream-item-renderer', [
         });
 
         itemType = {
-          isGeneric: item.streamItemTypeSlug!=='group' && item.streamItemTypeSlug!=='challenge' && item.streamItemTypeSlug!=='event',
-          isGroup: item.streamItemTypeSlug==='group',
-          isChallenge: item.streamItemTypeSlug==='challenge',
-          isEvent: item.streamItemTypeSlug==='event',
-          isJoinable: item.streamItemTypeSlug==='group' || item.streamItemTypeSlug==='challenge' || item.streamItemTypeSlug==='event'
+          isGeneric: item.relationTypeSlug!=='group' && item.relationTypeSlug!=='challenge' && item.relationTypeSlug!=='event',
+          isGroup: item.relationTypeSlug==='group',
+          isChallenge: item.relationTypeSlug==='challenge',
+          isEvent: item.relationTypeSlug==='event',
+          isJoinable: item.relationTypeSlug==='group' || item.relationTypeSlug==='challenge' || item.relationTypeSlug==='event'
         };
 
         var mode = streamItemModalService.isModalActive() ? 'modal' : 'stream';
@@ -157,6 +157,7 @@ angular.module('sproutApp.stream-item-renderer', [
           heroImage: heroImage,
           hasHeroImage: !!heroImage,
           hasNotHeroImage: !heroImage,
+          hasDetails: !!item.relatedItemDetails,
           joinButtonClass1: heroImage? ' join-btn-hero' : ' join-btn',
           joinButtonClass2: (item.viewer.isMember === 1) ? ' sprout-icon-joined' : ' sprout-icon-join',
           likeButtonClass: item.viewer.isLikedByViewer? '' : 'inactive',
@@ -165,8 +166,8 @@ angular.module('sproutApp.stream-item-renderer', [
           numCommentsRemainingMsg: streamItemModalService.getNumCommentsRemainingMsg(),
           contentIsOverflowing: isContentOverflowing(item) && !isWrappedInModal,
           handlers: handlers,
-          eventDateTime: formatDateTime(item.detail.eventDateTime),
-          challengeDeadline: formatDate(item.detail.challengeDeadline)
+          eventDateTime: formatDateTime(item.relatedItemDetails.eventDateTime),
+          challengeDeadline: formatDate(item.relatedItemDetails.challengeDeadline)
         });
       }
 

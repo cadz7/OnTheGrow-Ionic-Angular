@@ -455,7 +455,7 @@ angular.module('sproutApp.controllers')
 
       window.handleSproutStreamScrollerClick = function(action, streamItemId, streamItemInputId) {
         $log.debug('handleSproutStreamScrollerClick action: ', action, 'stream item #' + streamItemId);
-        var streamItem = streamItems.getStreamItemById(streamItemId)[0];
+        var streamItem = streamItems.getStreamItemById(streamItemId);
         streamHandlers[action](streamItem, streamItemInputId);
       };
     }

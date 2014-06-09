@@ -6,7 +6,6 @@
     <div class="col">
       <img src="{{item.avatarURL}}" class="activity-log-avatar"/>
       <!--TODO replace {user.name} with class author and add as link, right now it's hardcoded below -->
-      <span class="author">{{displayName}}</span>
       <span class="activity-log-content">{{item.content}}</span>
       <div class="date">{{timeCreated}}</div>
       {{#unless heroImage}}
@@ -37,31 +36,33 @@
       <div class="col col-75">
 
         {{#if itemType.isGroup}}
-          <h1 class="title" onclick="{{handlers.showDetails}}">{{item.detail.groupName}}</h1>
-          <div class="author">{{item.detail.numGroupMembers}} Members</div>
+          <h1 class="title" onclick="{{handlers.showDetails}}">{{item.relatedItemDetails.groupName}}</h1>
+          {{#if item.relatedItemDetails.numGroupMembers}}
+            <div class="author">{{item.relatedItemDetails.numGroupMembers}} Members</div>
+          {{/if}}
         {{/if}}
 
         {{#if itemType.isChallenge}}
-          <h1 class="title" onclick="{{handlers.showDetails}}">{{item.detail.challengeName}}</h1>
+          <h1 class="title" onclick="{{handlers.showDetails}}">{{item.relatedItemDetails.challengeName}}</h1>
           <div class="highlight">Ends: {{challengeDeadline}}
-          <span class="basic"> - {{item.detail.numChallengeParticipants}} Challengers</span></div>
+          <span class="basic"> - {{item.relatedItemDetails.numChallengeParticipants}} Challengers</span></div>
 
           {{#if isWrappedInModal}}
-            <div class="basic uppercase" ng-if="isWrappedInModal">{{item.detail.challengeType}}</div>
+            <div class="basic uppercase" ng-if="isWrappedInModal">{{item.relatedItemDetails.challengeType}}</div>
           {{/if}}
         {{/if}}
 
         {{#if itemType.isEvent}}
 
-          <h1 class="title" onclick="{{handlers.showDetails}}">{{item.detail.eventName}}</h1>
+          <h1 class="title" onclick="{{handlers.showDetails}}">{{item.relatedItemDetails.eventName}}</h1>
           <div class="highlight">{{eventDateTime}}
-          <span class="basic"> - {{item.detail.numEventAttendees}} Attending</span></div>
+          <span class="basic"> - {{item.relatedItemDetails.numEventAttendees}} Attending</span></div>
 
 
           {{#if isWrappedInModal}}
             <div class="event-location" onclick="{{handlers.openEventUrl}}">
               <i class="icon ion-ios7-location header-location-icon"></i>
-              {{item.detail.eventLocation}}
+              {{item.relatedItemDetails.eventLocation}}
             </div>
           {{/if}}
 
@@ -103,8 +104,10 @@
 
   <div class="list">
 
+    {{#if isWrappedInModal}}
     {{#if hasMoreComments}}
       <a href="javascript:void(0)" class="showMore more-comments" ng-click="streamItemModalService.increaseCommentLimit();">{{numCommentsRemainingMsg}}</a>
+    {{/if}}
     {{/if}}
 
     {{#each comments}}
@@ -147,13 +150,13 @@
     {{/if}}
 
     {{#if itemType.isChallenge}}
-      <p class="challenge-description">{{item.detail.challengeDescription}}</p>
+      <p class="challenge-description">{{item.relatedItemDetails.challengeDescription}}</p>
       <hr/>
-      <p class="challenge-instructions"><span class="text-bold">Challenge instructions:</span> {{item.detail.challengeInstruction}}</p>
+      <p class="challenge-instructions"><span class="text-bold">Challenge instructions:</span> {{item.relatedItemDetails.challengeInstruction}}</p>
     {{/if}}
 
     {{#if itemType.isEvent}}
-      <p><span class="text-bold">Event description: </span>{{item.detail.eventDescription}}</p>
+      <p><span class="text-bold">Event description: </span>{{item.relatedItemDetails.eventDescription}}</p>
     {{/if}}
   {{/if}}
 

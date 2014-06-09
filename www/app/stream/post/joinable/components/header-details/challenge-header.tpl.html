@@ -1,7 +1,7 @@
-<h1 class="title" ng-click="showDetailView()">{{post.detail.challengeName}}</h1>
-<div class="highlight">Ends: {{post.detail.challengeDeadline | date : 'MMM d'}}
-<span class="basic"> - {{post.detail.numChallengeParticipants}} Challengers</span></div>
-<div class="basic uppercase" ng-if="isWrappedInModal">{{post.detail.challengeType}}</div>
+<h1 class="title" ng-click="showDetailView()">{{post.relatedItemDetails.challengeName}}</h1>
+<div class="highlight">Ends: {{post.relatedItemDetails.challengeDeadline | date : 'MMM d'}}
+<span class="basic"> - {{post.relatedItemDetails.numChallengeParticipants}} Challengers</span></div>
+<div class="basic uppercase" ng-if="isWrappedInModal">{{post.relatedItemDetails.challengeType}}</div>
 
 <!--var mockChallengeDetailData = {-->
 <!--challengeId: 666,-->
