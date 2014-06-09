@@ -14,6 +14,15 @@
 		gem install sass
 
 
+## Tools
+
+1. BitBucket is the SCM and is integrated with Slack and PivotalTracker.
+2. PivotalTracker is being used to manage all stories and is integrated with Slack.
+3. Slack is the internal chat tool
+4. Use the following syntax in commit statements to attach commits and change the state of PivotalTracker stories
+	https://gist.github.com/leesmith/1543080#file-commit-message-syntax-txt
+
+
 ## Develop
 
 1. To start a server in the www folder and watch/compile/minify sass:
