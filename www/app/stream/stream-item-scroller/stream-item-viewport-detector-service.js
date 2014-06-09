@@ -2,8 +2,8 @@ angular.module('sproutApp.stream-item-scroller.viewport-detector', [
 ])
 
 // Keeps track of whether stream item batches are visible. 
-.factory('streamItemViewportDetector', ['$window',
-  function($window) {
+.factory('streamItemViewportDetector', ['STREAM_VIEW_CONSTANTS',
+  function(STREAM_VIEW_CONSTANTS) {
     'use strict';
     var service = {};
 
@@ -12,39 +12,24 @@ angular.module('sproutApp.stream-item-scroller.viewport-detector', [
     var onVisible; // The handler for items to be revealed.
     var currentFirst = -1; // Index of the first visible child.
     var currentLast = -1; // Index of the last visible child.
+    var scrollDelegate;
 
     // Returns scroll position of the scroller.
     function getScrollPosition() {
-      return parent.offsetParent.scrollTop;
+      return parent.offsetParent.scrollTop + scrollDelegate.getScrollPosition().top;
     }
 
     /**
-     * Sets the handler for hiding elements.
+     * Initializes the viewport detector.
      *
      * @param  {Function} callback     The handler for hiding an element.
      * @return {undefined}             Nothing is returned.
      */
-    service.onHidden = function(callback) {
-      onHidden = callback;
-    };
-
-    /**
-     * Sets the handler for revealing an element.
-     *
-     * @param  {Function} callback     The handler for revealing an element.
-     * @return {undefined}             Nothing is returned.
-     */
-    service.onVisible = function(callback) {
-      onVisible = callback;
-    };
-
-    /**
-     * Sets the container element.
-     *
-     * @param {[type]} newParent [description]
-     */
-    service.setContainerElement = function(newParent) {
-      parent = newParent;
+    service.initialize = function(options) {
+      onVisible = options.onVisible;
+      onHidden = options.onHidden;
+      parent = options.containerElement;
+      scrollDelegate = options.scrollDelegate;
     };
 
     function makeHideQueue() {
@@ -78,11 +63,9 @@ angular.module('sproutApp.stream-item-scroller.viewport-detector', [
         return; // The parent is no longer in view.
       }
 
-      var topBuffer = 1000;
-      var bottomBuffer = 2000;
       var scrollPosition = getScrollPosition();
-      var windowTop = scrollPosition - topBuffer;
-      var windowBottom = scrollPosition + bottomBuffer;
+      var windowTop = scrollPosition - STREAM_VIEW_CONSTANTS.topBuffer;
+      var windowBottom = scrollPosition + STREAM_VIEW_CONSTANTS.bottomBuffer;
 
       var children = Array.prototype.slice.call(parent.children);
       var numChildren = children.length;

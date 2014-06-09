@@ -13,6 +13,11 @@ angular.module('sproutApp.config', [])
     .constant('METRICS_CONSTANTS',{
       defaultMaxItemCount : 10  //default number of activity logs to get in a single req
     })
+    .constant('STREAM_VIEW_CONSTANTS', {
+      topBuffer: 500, // in pixels
+      bottomBuffer: 1500, // in pixels from the top of the window
+      simulatedStreamItemCounterMax: 10
+    })
     .constant('API_CONSTANTS', {
       streamitemTypeId: 9,
       //AUTHENTICATION note: login is preformed by server.login inorder to keep track of the auth token
@@ -62,7 +67,7 @@ angular.module('sproutApp.config', [])
         POST_FAILED_TO_SEND: 'Your post could not be saved due to an error communicating with the sprout server.',
         UNAUTHORIZED: 'You do not have permission to perform this action.'
       },
-      useFastStreams: false,
+      useFastStreams: true,
       debug: true,  // enables the developer menu.
       maxLogSize: 120, // when this size is reached, 50 msgs are deleted.  don't make this less than 75.
       streamCache: {

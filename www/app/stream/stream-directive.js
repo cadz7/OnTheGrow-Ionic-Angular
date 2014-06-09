@@ -17,7 +17,7 @@ angular.module('sproutApp.stream-directive', [
 
     directive.link = function linkStreamDirective (scope, iElement, iAttrs) {
       console.log('loading the directive');
-      streamItemScroller.init(iElement[0]);
+      streamItemScroller.initialize(iElement[0]);
       streamItemScroller.run();
     };
 

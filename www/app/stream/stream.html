@@ -12,15 +12,14 @@
       </h1>
       <span class="icon ion-chevron-down filter-chevron"  ng-class="{'ion-chevron-down':!showStreamItemFilters,'ion-chevron-up':showStreamItemFilters }"></span>
       <div class="buttons">
-        <button class="button button-clear icon sprout-icon-notification" ng-click="show()"></button>
+        <button class="button button-clear icon sprout-icon-notification"></button>
       </div>
 
     </ion-header-bar>
-
     <div class="bar bar-loading bar-assertive" ng-if="isSyncing">
       Loading...
     </div>
-<!-- Filter dropdown -->
+    <!-- Filter dropdown -->
     <div class="row stream-item-filter" ng-show="showStreamItemFilters">
       <div class="leadboardFilterRow row" ng-repeat="filter in streamItemFilters" ng-class="{selected : (filter.filterId == selectedStreamItemFilter.filterId)}">
          <h5 class="col" ng-click="selectStreamItemFilter(filter)" ng-class="{!filter.subFilters}"> {{filter.displayName}} </h5>
@@ -45,19 +44,27 @@
         {{updatePresent}} new items
       </div>
     </div>
-
   </div>
 
   <div ng-if="APP_CONFIG.useFastStreams">
     <ion-content
-      overflow-scroll="true"
+      id="sproutPostsScroller"
+      delegate-handle="streamScroller"
+      header-shrink
       scroll-event-interval="5">
-    <stream></stream>
+        <ion-refresher on-refresh="onRefreshPullDown()"
+          pulling-text="Pull to refresh..."
+          refreshing-text="Refreshing!"
+          refreshing-icon="ion-loading-c"
+          >
+        </ion-refresher>
+        <stream></stream>
+      </ion-content>
   </div>
 
   <div ng-if="!APP_CONFIG.useFastStreams">
-    <ion-content id="sproutPostsScroller"
-      delegate-handle="streamScroller"
+    <ion-content id="sproutPostsScrollerOld"
+      delegate-handle="streamScrollerOld"
       header-shrink
       scroll-event-interval="5">
         <ion-refresher on-refresh="onRefreshPullDown()"
