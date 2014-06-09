@@ -468,7 +468,7 @@ angular.module('sproutApp.data.stream-items', [
     item.viewer.isLikedByViewer = id % 2;
     item.viewer.isOwnedByViewer = item.owner.userId === user.data.userId ? 1 : 0;
     item.streamItemId = id;
-    item.streamItemDisplay.generatedText.values.user = {name: item.owner.firstNameDisplay};
+    item.streamItemDisplay.generatedText.values.user = {name: item.owner.firstNameDisplay + ' ' + item.owner.lastName};
 
     item.streamItemDisplay.generatedText = {
       template: streamItemTypeSlug.template,
