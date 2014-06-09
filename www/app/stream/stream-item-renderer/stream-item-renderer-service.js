@@ -135,15 +135,16 @@ angular.module('sproutApp.stream-item-renderer', [
           isJoinable: item.streamItemTypeSlug==='group' || item.streamItemTypeSlug==='challenge' || item.streamItemTypeSlug==='event'
         };
 
+        var mode = streamItemModalService.isModalActive() ? 'modal' : 'stream';
 
-
-        handlerKeys.forEach(function(key) {
-          handlers[key] = makeHandlerString(key, item.streamItemId, 'text_stream_item_' + item.streamItemId);
+          handlerKeys.forEach(function(key) {
+          handlers[key] = makeHandlerString(key, item.streamItemId, 'text_stream_item_' + item.streamItemId + '_' + mode);
         });
 
         //debugger;
         return templates.joinable({
           isWrappedInModal: streamItemModalService.isModalActive(),
+          mode: mode,
           isCommentsView: streamItemModalService.isCommentsView() || !streamItemModalService.isModalActive(),
           isDetailsView: streamItemModalService.isDetailsView() && streamItemModalService.isModalActive,
           item: item,
