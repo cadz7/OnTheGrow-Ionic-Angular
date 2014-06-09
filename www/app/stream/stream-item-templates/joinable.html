@@ -102,6 +102,11 @@
   </div>
 
   <div class="list">
+
+    {{#if hasMoreComments}}
+      <a href="javascript:void(0)" class="showMore more-comments" ng-click="streamItemModalService.increaseCommentLimit();">{{numCommentsRemainingMsg}}</a>
+    {{/if}}
+
     {{#each comments}}
       <div class="item hide-after comment">
         <img class="comment-avatar" src="{{this.comment.avatarURL}}"/>
@@ -119,7 +124,7 @@
 
     <div class="postInputArea row">
       <div class="col col-80">
-        <input type="text" maxlength="24" placeholder="your comment here" id="text_stream_item_{{item.streamItemId}}"
+        <input type="text" maxlength="240" placeholder="Your comment here..." id="text_stream_item_{{item.streamItemId}}_{{mode}}"
           class="add-comment"/>
       <!--expand-input ng-model="post.newComment"
                     max-length="8000"

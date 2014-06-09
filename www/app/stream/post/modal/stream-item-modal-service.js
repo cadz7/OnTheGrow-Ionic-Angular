@@ -20,20 +20,30 @@ angular.module('sproutApp.services')
       service.DETAILED_VIEW = 'DETAIL';
       service.COMMENTS_VIEW = 'COMMENTS';
 
+      service.showAllComments = false;
+
 
       var _streamItem = null;
       var _viewType = null;
       var _modalActive = null;
 
+
       service.increaseCommentLimit = function(){
-        service.commentLimit-= STREAM_CONSTANTS.initialCommentCountShown;
+        service.commentLimit-= _streamItem.comments.length;
+        service.showAllComments = true;
       };
       service.resetCommentLimit = function() {
         service.commentLimit = -STREAM_CONSTANTS.initialCommentCountShown;
+        service.showAllComments = false;
         $ionicScrollDelegate.$getByHandle('streamItemModal').scrollTop(false);
       };
       service.getNumCommentsRemainingMsg = function(){
-        var res = '';
+        var res = 'No comments';
+
+        if (!_streamItem || !_streamItem.comments || _streamItem.comments.length === 0){
+          return '';
+        }
+
         var remaining = _streamItem.comments.length - Math.abs(service.commentLimit);
         if (remaining == 1){
           res = '1 more comment';
@@ -64,6 +74,7 @@ angular.module('sproutApp.services')
 
       service.cleanUp = function(){
         _modalActive = false;
+        service.showAllComments = false;
       };
 
       service.getStreamItem = function(){
