@@ -1,12 +1,13 @@
 angular.module('sproutApp.stream-item-scroller.batcher', [
   'sproutApp.data.stream-items',
+  'sproutApp.stream-item-scroller.viewport-detector',
   'sproutApp.stream-item-renderer' 
 ])
 
 // Breaks up stream items into batches and does the work of putting those
 // batches into DOM and taking the off DOM.
-.factory('streamItemBatcher', ['streamItems', 'streamItemRenderer', '$q', '$log',
-  function(streamItems, streamItemRenderer, $q, $log) {
+.factory('streamItemBatcher', ['streamItems', 'streamItemRenderer', 'streamItemViewportDetector', '$q', '$log',
+  function(streamItems, streamItemRenderer, streamItemViewportDetector, $q, $log) {
     'use strict';
     var service = {};
     var batchCounter = 0;
@@ -14,6 +15,7 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
     var containerElement;
     var numberHiddenBelow = 0;
     var batchRecordsArray = [];
+    var scrollDelegate;
 
     // Flashes the stubbed items.
     function shimmer() {
@@ -43,14 +45,33 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
     }
 
     /**
-     * Sets the element that will serve as the container for batch divs.
-     *
-     * @param {element} newContainerElement    A DOM element to be used as the
-     *                                         container.
+     * Initializes the batcher.
      */
-    service.setContainerElement = function(newContainerElement) {
-      containerElement = newContainerElement;
+    service.initialize = function(options) {
+      containerElement = options.containerElement;
+      scrollDelegate = options.scrollDelegate;
+      // Setup the viewport detector.
+      streamItemViewportDetector.initialize({
+        scrollDelegate: scrollDelegate,
+        containerElement: containerElement,
+        onVisible: function(childElement) {
+          service.fleshOutBatch(childElement);
+        },
+        onHidden: function(childElement) {
+          service.stubifyBatch(childElement);
+        }
+      });
+
+      setInterval(function updateBatchVisibility() {
+        streamItemViewportDetector.update();
+      }, 1000);
     };
+
+    function resizeScollerAfterRepaint() {
+      window.requestAnimationFrame(function() {
+        scrollDelegate.resize();
+      });
+    }
 
     /**
      * Lazy-loads a batch of items to the parent.
@@ -81,6 +102,7 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
           batchRecord.stub.setAttribute('style', 'height:600px;');
           batchRecord.stub.className = 'item post';
           batchDiv.appendChild(batchRecord.stub);
+          resizeScollerAfterRepaint();
         });
       });
 
@@ -130,11 +152,13 @@ angular.module('sproutApp.stream-item-scroller.batcher', [
       batchRecord.stubified = false;
       batchRecord.element.className = 'streamItemStubBlank';
       batchRecord.whenReady.then(function() {
-        // if (!batchRecord.stubified) {
-          // window.requestAnimationFrame(function() {
-        batchElement.innerHTML = batchRecord.html;
-        batchRecord.element.className = 'streamItemStubReveal';
-        // }
+        if (!batchRecord.stubified) {
+          window.requestAnimationFrame(function() {
+            batchElement.innerHTML = batchRecord.html;
+            batchRecord.element.className = 'streamItemStubReveal';
+            resizeScollerAfterRepaint();
+          });
+        }
       });
     };
 

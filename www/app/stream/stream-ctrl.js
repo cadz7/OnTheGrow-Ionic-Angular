@@ -327,11 +327,13 @@ angular.module('sproutApp.controllers')
       // REFRESH STREAM ITEMS HERE
       //
       $scope.onRefreshPullDown = function() {
-        streamItems.getUpdate().then(function(data) {
-          $scope.updatePresent = data && data.length;
+        console.log('Getting an update for items');
+        $scope.$broadcast('scroll.refreshComplete');
+        // streamItems.getUpdate().then(function(data) {
+        //   $scope.updatePresent = data && data.length;
 
-          $scope.$broadcast('scroll.refreshComplete');
-        });
+        //   $scope.$broadcast('scroll.refreshComplete');
+        // });
       };
 
       networkInformation.onOnline(function() {
