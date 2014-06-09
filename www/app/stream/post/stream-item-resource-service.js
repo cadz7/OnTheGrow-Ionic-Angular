@@ -38,13 +38,18 @@ angular.module('sproutApp.services')
         return getResource(streamItem).headerIcon;
       };
 
-      service.getContent = function(streamItem, isTruncated){
-        var fullContent = template.fill(streamItem.streamItemDisplay.template, streamItem.streamItemDisplay.values);
-        var tempContent = fullContent.substr(0, STREAM_CONSTANTS.initialPostCharCount);
-        var truncatedContent = (fullContent.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
-        return isTruncated && (fullContent.length > STREAM_CONSTANTS.initialPostCharCount) ? truncatedContent : fullContent;
+      service.getContent = function(streamItem, isTruncated, type){
+        if (streamItem.streamItemDisplay[type] && streamItem.streamItemDisplay[type].template){
+          var fullContent = template.fill(streamItem.streamItemDisplay[type].template, streamItem.streamItemDisplay[type].values);
+          var tempContent = fullContent.substr(0, STREAM_CONSTANTS.initialPostCharCount);
+          var truncatedContent = (fullContent.charAt(tempContent.length) != ' ') ? tempContent + '...' : tempContent.substr(0, tempContent.lastIndexOf(' ')) + ' ...';
+          return isTruncated && (fullContent.length > STREAM_CONSTANTS.initialPostCharCount) ? truncatedContent : fullContent;
+        }
       };
 
+      /**
+       * TODO Deprecated for v2 of streams JS
+       */
       service.getTruncatedUserText = function(streamItem, isTruncated){
         if (!streamItem.userText){
           return undefined;

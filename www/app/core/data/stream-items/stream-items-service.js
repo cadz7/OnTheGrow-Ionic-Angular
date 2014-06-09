@@ -69,11 +69,16 @@ angular.module('sproutApp.data.stream-items', [
           });
         };
 
-        item.content = streamItemResourceService.getContent(item, false);
-        item.userTextTruncated = streamItemResourceService.getTruncatedUserText(item, true);
+        item.content = streamItemResourceService.getContent(item, false, 'generatedText');
 
-        if (item.detail){
-          item.streamItemDisplay.heroImg = item.detail.eventImageURL || item.detail.challengeImageURL || item.detail.groupImageURL;
+        // TODO check to see if userText is the correct field JS
+        item.userTextTruncated = streamItemResourceService.getContent(item, true, 'userText');
+        item.userText = streamItemResourceService.getContent(item, false, 'userText');
+
+        if (item.relatedItemDetails){
+          item.streamItemDisplay.heroImg = item.relatedItemDetails.eventImageURL || item.relatedItemDetails.challengeImageURL || item.relatedItemDetails.groupImageURL;
+        } else {
+          item.relatedItemDetails = {};
         }
 
       });
@@ -309,7 +314,7 @@ angular.module('sproutApp.data.stream-items', [
     };
 
     service.getStreamItemById = function(streamItemId){
-      return _.where(service.items, {'streamItemId': parseInt(streamItemId) });
+      return _.where(service.items, {'streamItemId': parseInt(streamItemId) })[0] || _.where(service.items, {'streamItemId': streamItemId })[0] ;
     };
 
     return service;
@@ -395,15 +400,17 @@ angular.module('sproutApp.data.stream-items', [
     relationTypeSlug: 'activity',
     dateTimeCreated: '2014-05-14T15:22:11Z',
     streamItemDisplay: {
-      template: '{user.name} just tracked: {qty} {units} of {activity}', // quick change to make it accessible for next leg
-      values: {
-        activity: 'cycling',
-        qty: '5',
-        units: 'km',
-        points: '48000',
-        user: {
-          'id': '1971',
-          'name': 'Will Melbourne'
+      generatedText: {
+        template: '{user.name} just tracked: {qty} {units} of {activity}', // quick change to make it accessible for next leg
+        values: {
+          activity: 'cycling',
+          qty: '5',
+          units: 'km',
+          points: '48000',
+          user: {
+            'id': '1971',
+            'name': 'Will Melbourne'
+          }
         }
       },
       title: 'some title',
@@ -420,10 +427,10 @@ angular.module('sproutApp.data.stream-items', [
 
   // This is a stub: the streamItem from API will already have the correct type and template
   var streamItemTypeSlugs = [
-    {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}', detail: {}},
-    {itemType: 'group', template: 'Group post by {user.name}',title: 'Yoga Group', detail: mockGroupServer.getMockData()},
-    {itemType: 'event', template: 'Event post by {user.name}', detail: mockEventServer.getMockData()},
-    {itemType: 'challenge', template: 'Challenge post by {user.name}',  detail: mockChallengeServer.getMockData()}
+    {itemType: 'add_notification', template: '{user.name} just tracked: {qty} {units} of {activity}', relatedItemDetails: {}},
+    {itemType: 'group', template: 'Group post by {user.name}',title: 'Yoga Group', relatedItemDetails: mockGroupServer.getMockData()},
+    {itemType: 'event', template: 'Event post by {user.name}', relatedItemDetails: mockEventServer.getMockData()},
+    {itemType: 'challenge', template: 'Challenge post by {user.name}',  relatedItemDetails: mockChallengeServer.getMockData()}
   ];
 
   function makeComment(item, author, commentText) {
@@ -451,17 +458,22 @@ angular.module('sproutApp.data.stream-items', [
   }
 
   function makeStreamItem(id) {
+
+    var streamItemTypeSlug = streamItemTypeSlugs[id % 4];
+
+
     var item = _.cloneDeep(mockStreamItemTemplate);
     item.owner = _.cloneDeep(owners[id % 5]);
     item.avatarURL = avatarURLs[id % 5];
     item.viewer.isLikedByViewer = id % 2;
     item.viewer.isOwnedByViewer = item.owner.userId === user.data.userId ? 1 : 0;
     item.streamItemId = id;
-    item.streamItemDisplay.values.user.id = item.owner.userId;
-    item.streamItemDisplay.values.user.name = item.owner.firstNameDisplay + ' ' +
-        item.owner.lastName;
+    item.streamItemDisplay.generatedText.values.user = {name: item.owner.firstNameDisplay + ' ' + item.owner.lastName};
 
-    var streamItemTypeSlug = streamItemTypeSlugs[id % 4];
+    item.streamItemDisplay.generatedText = {
+      template: streamItemTypeSlug.template,
+      values : item.streamItemDisplay.generatedText.values
+    }
 
     item.streamItemTypeSlug = streamItemTypeSlug.itemType;
     item.relationTypeSlug = streamItemTypeSlug.itemType;
@@ -469,7 +481,7 @@ angular.module('sproutApp.data.stream-items', [
     item.streamItemDisplay.template = streamItemTypeSlug.template;
     item.streamItemDisplay.title = streamItemTypeSlug.title;
 
-    item.detail = streamItemTypeSlug.detail;
+    item.relatedItemDetails = streamItemTypeSlug.relatedItemDetails;
 
     for (var i = 0; i < 3; i++) {
       item.comments.push(makeComment(item));
@@ -568,10 +580,12 @@ angular.module('sproutApp.data.stream-items', [
         createdItem.viewer.isOwnedByViewer = true;
         createdItem.dateTimeCreated = new Date().toISOString();
         createdItem.streamItemDisplay = {
-          template: '',
-          values: {
-            user: _.clone(user.data),
-            text: item.text
+          userText :{
+            template: '{text}',
+            values: {
+              user: _.clone(user.data),
+              text: item.text
+            }
           }
         };
         createdItem.likeCount = 0;
