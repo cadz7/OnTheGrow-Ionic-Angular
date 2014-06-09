@@ -22,9 +22,9 @@
     <!-- Filter dropdown -->
     <div class="row stream-item-filter" ng-show="showStreamItemFilters">
       <div class="leadboardFilterRow row" ng-repeat="filter in streamItemFilters" ng-class="{selected : (filter.filterId == selectedStreamItemFilter.filterId)}">
-         <h5 class="col" ng-click="selectStreamItemFilter(filter)" ng-class="{!filter.subFilters}"> {{filter.displayName}} </h5>
+         <h5 class="col" ng-click="selectStreamItemFilter(filter)"> {{filter.displayName}} </h5>
          <i ng-if="filter.filterId == selectedStreamItemFilter.filterId" class="icon ion-checkmark-circled calm"></i>
-        <i ng-if="filter.subFilters" class="icon ion-chevron-right" ng-click="showSubStreamItemFilters(filter)"></i>
+        <i ng-if="filter.subFilters && filter.subFilters.length" class="icon ion-chevron-right" ng-click="showSubStreamItemFilters(filter)"></i>
       </div>
     </div>
     <div class="row create-post">
