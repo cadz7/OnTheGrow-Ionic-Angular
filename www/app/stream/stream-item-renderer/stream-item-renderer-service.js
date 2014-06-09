@@ -160,7 +160,9 @@ angular.module('sproutApp.stream-item-renderer', [
           joinButtonClass1: heroImage? ' join-btn-hero' : ' join-btn',
           joinButtonClass2: (item.viewer.isMember === 1) ? ' sprout-icon-joined' : ' sprout-icon-join',
           likeButtonClass: item.viewer.isLikedByViewer? '' : 'inactive',
-          comments: comments.slice(0, 2), // | trimToLatest:numCommentsDisplayed:isWrappedInModal"
+          comments: streamItemModalService.showAllComments ? comments : comments.slice(-STREAM_CONSTANTS.initialCommentCountShown), // | trimToLatest:numCommentsDisplayed:isWrappedInModal"
+          hasMoreComments: comments.length > STREAM_CONSTANTS.initialCommentCountShown, // | trimToLatest:numCommentsDisplayed:isWrappedInModal"
+          numCommentsRemainingMsg: streamItemModalService.getNumCommentsRemainingMsg(),
           contentIsOverflowing: isContentOverflowing(item) && !isWrappedInModal,
           handlers: handlers,
           eventDateTime: formatDateTime(item.detail.eventDateTime),
