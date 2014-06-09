@@ -91,14 +91,17 @@
   }
 }
 .post-box {
-  border: 0px solid $mediumgrey;
+  border: 0px solid $darkgrey;
   border-radius: 0px;
   resize: none;
+  font-family: $font-family-serif;
+  font-size: 1rem;
 }
 
 .create-post-modal .post-box {
   padding-left: 10px;
   padding-right: 10px;
+  margin-top: 10px;
 }
 
 .search-box {
@@ -129,7 +132,6 @@
   .create-post-input{
     position: relative;
     width: 100%;
-    top: 0;
     left: 0;
     padding: 10px;
     background: $lightblue;
@@ -351,10 +353,11 @@
         display: block;
         width: 100%;
         padding-left: 5px;
+        margin: 10px 0 7px 0;
         font-size: 100%;
         color: $mediumgrey;
         span {
-            color: $green;
+            color: $blue;
         }
         .icon {
             position: absolute;
@@ -376,5 +379,6 @@
     margin: 0;
     padding-top: 3px;
     padding-bottom: 3px;
+    line-height: 22px;
   }
 }

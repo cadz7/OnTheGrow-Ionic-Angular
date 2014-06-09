@@ -6,12 +6,12 @@
     <h1 class="title">POST TO STREAM</h1>
     <button type="button" class="button button-clear post" ng-class="{'active':newPost.text.length>0}" ng-click="submitPost(newPost)">POST</button>
   </ion-header-bar>
-  <ion-content class="padding has-header">
-    <div class="row create-post-input" ng-click="selectSharingTargets()">
+  <ion-content class="has-header">
+    <div class="share-input row" ng-click="selectSharingTargets()">
       <h3 class="share-target">Share with: <span ng-bind="shareWith.displayName"></span><span class="icon" ng-class="{true: 'ion-chevron-up', false: 'ion-chevron-down'}[userSelectingSharingTargets]"></span></h3>
-      <hr/>
+      <hr>
     </div>
-    <div class="list" ng-show="userSelectingSharingTargets">
+    <div class="share-list list" ng-show="userSelectingSharingTargets">
       <ion-radio class="styled-radio share-post-radio" ng-model="shareWith" ng-value="target" ng-change="shareTargetSelected(target)" ng-repeat="target in sharingTargets">
         {{ target.displayName }}
       </ion-radio>
