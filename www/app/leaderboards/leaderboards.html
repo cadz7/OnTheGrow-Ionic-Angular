@@ -17,21 +17,21 @@
         <button class="button button-clear icon sprout-icon-notification" ng-hide="editFilters"></button>
       </div>
 <!-- Filter dropdown -->
-    </ion-header-bar>
         <div class="row stream-item-filter" ng-show="showLeaderBoardFilters">
                 <div class="leadboardFilterRow row" ng-repeat="filter in leaderBoardFilters" 
                 ng-class="{selected : (filter.filterId == selectedLeaderBoardFilter.filterId)}">
-<!-- if there are filters -->
+<!-- if there are subfilters -->
                    <h5 ng-if="filter.subFilters.length == 0" class="col" ng-click="selectLeaderBoardFilter(filter)"> {{filter.displayName}} </h5>
 <!-- if there are no filters -->
                    <h5 ng-if="filter.subFilters.length > 0" class="col" ng-click="showSubLeadboardFilters(filter)"> {{filter.displayName}} </h5>
 <!-- select icon -->
-                   <i ng-if="filter.filterId == selectedLeaderBoardFilter.filterId" class="icon ion-checkmark-circled balanced"></i> 
+                   <i ng-if="filter.filterId == selectedLeaderBoardFilter.filterId" class="icon ion-checkmark-circled calm"></i> 
 <!-- chevron icon -->
                   <i ng-if="filter.subFilters" class="icon sprout-icon-forward"></i> 
                 </div>
             </div>
         </div>
+    </ion-header-bar>
     <ion-content id="LeaderboardContent" class="text-center padding has-header">
 
         <div id="leaderBoards" ng-hide="editFilters">

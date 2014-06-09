@@ -30,6 +30,7 @@
         top: -5px;
         right: -8px;
         margin: 10px;
+        z-index:100;
         &:after { //increases tap area for small buttons
             content:'';
             position:absolute;
@@ -377,11 +378,14 @@
     left: 0;
     right: auto;
     padding: 0px 8px;
+    line-height: 42px;
   }
 
   .item-content, input:checked~.item-content {
-    padding: 5px 10px 5px 30px;
+    padding: 10px 10px 10px 35px;
     background: $base-background-color;
+    font-size: 0.8rem;
+    line-height: 13px;
   }
 
   i.radio-icon {
@@ -395,7 +399,7 @@
     border: 0;
     background: $base-background-color;
     content: '\f170';
-    color: $green;
+    color: $blue;
     padding: 0;
     transition: background-color 20ms ease-in-out;
     font-size: 24px;
@@ -412,18 +416,42 @@
   font-size: 0.8rem;
   line-height: 1;
 }
-
-.share-post-radio:first-child {
-  border-top: 1px solid #CCC;
-}
   
 .share-post-radio {
   display: block;
-  border-bottom: 1px solid #CCC;
-  padding: 3px 0;
+  border-bottom: 1px solid $lightgrey;
+  padding: 5px 0;
   margin: 0;
 }
-
+.share-input{
+        color: $blue;
+        border-bottom: 1px solid $lightgrey;
+        padding: 7px 5px;
+        font-family: $font-family-serif;
+    h3.share-target {
+        position: relative;
+        display: block;
+        width: 100%;
+        padding-left: 5px;
+        margin: 10px 0 7px 0;
+        font-size: 100%;
+        color: $mediumgrey;
+        span {
+            color: $blue;
+        }
+        .icon {
+            position: absolute;
+            top: 50%;
+            margin-top: -8px;
+            line-height: 16px;
+            right: 5px;
+        }
+    }
+}
+.share-list{
+    padding:0;
+    margin-bottom: 0;
+}
 .challenge-options{
   max-height: 250px;
   overflow-y: auto;
