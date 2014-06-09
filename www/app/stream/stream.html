@@ -1,43 +1,74 @@
-<!-- ion-nav-bar goes here -->
+<!-- ******************************
+  THE STREAM VIEW 
+****************************** -->
 <ion-view title="Streams">
-    <!-- ion-header-bar -->
-
+  
   <div id="stream-header">
-    <ion-header-bar align-title="center" class="bar">
-        <!-- Hamburger Button -->
-
-      <left-nav-toggle-btn></left-nav-toggle-btn>
-      <h1 class="title" ng-click="toggleStreamItemFilters()">
-        {{selectedStreamItemFilter.displayName}}
-      </h1>
-      <span class="icon ion-chevron-down filter-chevron"  ng-class="{'ion-chevron-down':!showStreamItemFilters,'ion-chevron-up':showStreamItemFilters }"></span>
-      <div class="buttons">
-        <button class="button button-clear icon sprout-icon-notification"></button>
-      </div>
-
+    <!-- ******************************
+      THE HEADER 
+    ****************************** -->
+    <ion-header-bar 
+      align-title="center" 
+      class="bar">
+        <!-- Burger Toggle -->
+        <left-nav-toggle-btn></left-nav-toggle-btn>
+        <!-- Title -->
+        <h1 
+          class="title" 
+          ng-click="toggleStreamItemFilters()">
+            {{selectedStreamItemFilter.displayName}}
+        </h1>
+        <!-- Filter Chevron -->
+        <span 
+          class="icon ion-chevron-down filter-chevron"  
+          ng-class="{'ion-chevron-down':!showStreamItemFilters,'ion-chevron-up':showStreamItemFilters }"></span>
+        <!-- Notifications Button -->
+        <div class="buttons">
+          <button class="button button-clear icon sprout-icon-notification"></button>
+        </div>
     </ion-header-bar>
+    <!-- ******************************
+      LOADING BAR 
+    ****************************** -->
     <div class="bar bar-loading bar-assertive" ng-if="isSyncing">
       Loading...
     </div>
-    <!-- Filter dropdown -->
-    <div class="row stream-item-filter" ng-show="showStreamItemFilters">
-      <div class="leadboardFilterRow row" ng-repeat="filter in streamItemFilters" ng-class="{selected : (filter.filterId == selectedStreamItemFilter.filterId)}">
-         <h5 class="col" ng-click="selectStreamItemFilter(filter)"> {{filter.displayName}} </h5>
-         <i ng-if="filter.filterId == selectedStreamItemFilter.filterId" class="icon ion-checkmark-circled calm"></i>
-        <i ng-if="filter.subFilters && filter.subFilters.length" class="icon ion-chevron-right" ng-click="showSubStreamItemFilters(filter)"></i>
-      </div>
+    <!-- ******************************
+      FILTER DROPDOWN 
+    ****************************** -->
+    <div 
+      class="row stream-item-filter" 
+      ng-show="showStreamItemFilters">
+        <div 
+          class="leadboardFilterRow row" 
+          ng-repeat="filter in streamItemFilters" 
+          ng-class="{selected : (filter.filterId == selectedStreamItemFilter.filterId)}">
+            <!-- Filter Name -->
+            <h5 class="col" ng-click="selectStreamItemFilter(filter)"> {{filter.displayName}} </h5>
+            <!-- IF Selected -->
+            <i ng-if="filter.filterId == selectedStreamItemFilter.filterId" class="icon ion-checkmark-circled calm"></i>
+            <!-- Chevron if sub-filters -->
+            <i ng-if="filter.subFilters && filter.subFilters.length" class="icon ion-chevron-right" ng-click="showSubStreamItemFilters(filter)"></i>
+        </div>
     </div>
+    <!-- ******************************
+      CREATE A POST DIALOG 
+    ****************************** -->
     <div class="row create-post">
+      <!-- Post to Stream -->
       <div class="col">
         <span class="icon ion-ios7-compose-outline"></span>
         <a ng-click="createPost()" href="javascript:void(0)">Post To Stream</a>
       </div>
+      <!-- Vertical Divider -->
       <div class="vertical-divider"></div>
+      <!-- Track Activities -->
       <div class="col">
         <span class="icon ion-ios7-stopwatch-outline"></span>
         <a ng-click="createActivity()" href="javascript:void(0)">Track Activities</a>
       </div>
     </div>
+    <!-- New Items Notification -->
     <div class="row new-items-notification" ng-show="updatePresent" ng-click="applyNewItems(true)">
       <div>
         <span class="icon ion-chevron-up"></span><br />
@@ -46,25 +77,32 @@
     </div>
   </div>
 
+  <!-- If using fast streams -->
   <div ng-if="APP_CONFIG.useFastStreams">
+    <!-- Stream Content -->
     <ion-content
       id="sproutPostsScroller"
       delegate-handle="streamScroller"
+      has-bouncing="false"
       header-shrink
       scroll-event-interval="5">
-        <ion-refresher on-refresh="onRefreshPullDown()"
+        <!-- Pull To Refresh -->
+        <ion-refresher 
+          on-refresh="onRefreshPullDown()"
           pulling-text="Pull to refresh..."
           refreshing-text="Refreshing!"
           refreshing-icon="ion-loading-c"
-          >
-        </ion-refresher>
+          ></ion-refresher>
+        <!-- The Stream -->
         <stream></stream>
       </ion-content>
   </div>
 
+  <!-- If NOT using fast streams -->
   <div ng-if="!APP_CONFIG.useFastStreams">
     <ion-content id="sproutPostsScrollerOld"
       delegate-handle="streamScrollerOld"
+      has-bouncing="false"
       header-shrink
       scroll-event-interval="5">
         <ion-refresher on-refresh="onRefreshPullDown()"
@@ -86,11 +124,17 @@
     </ion-content>
   </div>
 
-  <div ng-show="showOfflineMsg" style="text-align: center">Please reconnect to the internet to view older streams...</div>
-
+  <!-- If Offline -->
+  <div 
+    ng-show="showOfflineMsg" 
+    class="text-center">
+      Please reconnect to the internet to view older streams...
+  </div>
+  <!-- If NO Connection -->
   <ion-content ng-show="status=='NO_CONNECTION'">
-  <ng-include src="'app/stream/no-connection.tpl.html'"></ng-include>
+    <ng-include src="'app/stream/no-connection.tpl.html'"></ng-include>
   </ion-content>
+  <!-- If NO Stream Items Found -->
   <ion-content ng-show="status=='NO_STREAM_ITEMS_FOUND'">
     <ng-include src="'app/stream/no-streams.tpl.html'"></ng-include>
   </ion-content>
