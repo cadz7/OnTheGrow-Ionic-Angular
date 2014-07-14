@@ -11,8 +11,7 @@
     @include appearance(none);
     position: absolute;
     top: 0;
-    right: 0;
-    padding: ($item-padding - 2) ($item-padding * 3) ($item-padding) $item-padding;
+    padding: ($item-padding - 2) 0px ($item-padding) 0px;
     max-width: 65%;
 
     border: none;
@@ -42,7 +41,7 @@
   &:after {
     position: absolute;
     top: 50%;
-    right: $item-padding;
+    left: ($item-padding * 15);
     margin-top: -3px;
     width: 0;
     height: 0;

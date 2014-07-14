@@ -1,4 +1,4 @@
-angular.module('swipeToDo.controllers', [])
+angular.module('OnTheGrow.controllers', [])
 // ----------------------------------------
 // Controller for the browse view
 // ----------------------------------------
