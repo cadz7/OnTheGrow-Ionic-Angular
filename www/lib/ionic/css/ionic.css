@@ -4680,7 +4680,6 @@ input[type="range"] {
     appearance: none;
     position: absolute;
     top: 0;
-    right: 0;
     padding: 13px 45px 15px 15px;
     max-width: 65%;
     border: none;
@@ -4699,7 +4698,7 @@ input[type="range"] {
   .item-select:after {
     position: absolute;
     top: 50%;
-    right: 15px;
+    left: 80px;
     margin-top: -3px;
     width: 0;
     height: 0;

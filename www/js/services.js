@@ -1,26 +1,14 @@
 // ----------------------------------------
 // The List Service
 // ----------------------------------------
-angular.module('swipeToDo.services', [])
+angular.module('OnTheGrow.services', [])
   .factory('listsService', [
 
     function() {
 
       var service = {};
 
-      service.lists = [{
-        title: 'Car cleaning',
-        items: toDos,
-        id: 0
-      }, {
-        title: 'Maintain Lawn',
-        items: toBuy,
-        id: 1
-      }, {
-        title: 'Door to door campaigning',
-        items: reminders,
-        id: 2
-      }];
+
 
       service.add = function(list) {
         service.lists.push(list);

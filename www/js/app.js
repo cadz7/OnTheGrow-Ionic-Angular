@@ -1,8 +1,8 @@
 // Ionic SwipeToDo App
-angular.module('swipeToDo', [
+angular.module('OnTheGrow', [
   'ionic',
-  'swipeToDo.controllers',
-  'swipeToDo.services',
+  'OnTheGrow.controllers',
+  'OnTheGrow.services',
   'firebase',
   
 ])

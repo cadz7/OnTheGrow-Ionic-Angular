@@ -36,7 +36,7 @@ img {max-width:100%}
 }*/
 
 .item-content {
-  background:url("../img/fresh_arrow.png") no-repeat right center !important;
+  /*background:url("../img/fresh_arrow.png") no-repeat right center !important;*/
   padding: 20px !important ;
 /*  max-width: 100% !important;*/
     font-family: 'Montserrat', sans-serif !important;
@@ -72,7 +72,7 @@ h4 {
 /*landing*/
 #position_landing {
   padding: 10%;
-  padding-top: 30%;
+  padding-top: 15%;
 }
 
 .landing_button {
@@ -135,3 +135,6 @@ margin-top: 10px;
 margin-bottom: 80px;
 }
 
+.select-class {
+  padding-left:0;
+}
