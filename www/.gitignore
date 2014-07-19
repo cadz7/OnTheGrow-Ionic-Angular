@@ -1,0 +1,5 @@
+platforms/*
+hooks/*
+bower_components/
+node_modules/
+plugins/
