@@ -1,0 +1,20 @@
+2014-07-12 00:49:59.991 On The Grow[29496:70b] Multi-tasking -> Device: YES, App: YES
+2014-07-12 00:50:00.197 On The Grow[29496:70b] Unlimited access to network resources
+2014-07-12 00:50:00.233 On The Grow[29496:70b] Fix applied for database locations?: YES
+2014-07-12 00:50:01.238 On The Grow[29496:70b] CDVPlugin class IonicKeyboard (pluginName: keyboard) does not exist.
+2014-07-12 00:50:01.239 On The Grow[29496:70b] [CDVTimer][keyboard] 0.591040ms
+2014-07-12 00:50:01.239 On The Grow[29496:70b] CDVPlugin class CDVStatusBar (pluginName: statusbar) does not exist.
+2014-07-12 00:50:01.239 On The Grow[29496:70b] [CDVTimer][statusbar] 0.344038ms
+2014-07-12 00:50:01.240 On The Grow[29496:70b] [CDVTimer][TotalPluginStartup] 1.734018ms
+2014-07-12 00:50:01.498 On The Grow[29496:70b] Resetting plugins due to page load.
+2014-07-12 00:50:02.565 On The Grow[29496:70b] Finished load of: file:///Users/Rick-Mac/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/54B28D50-FDF8-434D-B9EF-309959E5C55B/On%20The%20Grow.app/www/index.html#/app/landing
+2014-07-12 00:50:02.788 On The Grow[29496:70b] CDVPlugin class CDVDevice (pluginName: Device) does not exist.
+2014-07-12 00:50:02.788 On The Grow[29496:70b] ERROR: Plugin 'Device' not found, or is not a CDVPlugin. Check your plugin mapping in config.xml.
+2014-07-12 00:50:02.788 On The Grow[29496:70b] -[CDVCommandQueue executePending] [Line 158] FAILED pluginJSON = [
+  "Device1565613796",
+  "Device",
+  "getDeviceInfo",
+  [
+
+  ]
+]

@@ -4,7 +4,6 @@ angular.module('OnTheGrow', [
   'OnTheGrow.controllers',
   'OnTheGrow.services',
   'firebase',
-  
 ])
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
