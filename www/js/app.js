@@ -5,10 +5,11 @@ angular.module('OnTheGrow', [
   'OnTheGrow.services',
   'firebase',
 ])
-  .run(function($ionicPlatform) {
+  .run(function($ionicPlatform, $rootScope) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
+      $rootScope.map = plugin.google.maps.Map.getMap();
       if (window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       }
@@ -78,7 +79,15 @@ angular.module('OnTheGrow', [
             controller: 'ListingsCtrl'
           }
         }
-      })      
+      }) 
+      .state('app.mapView', {
+        url: '/mapView',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/mapView.html'
+          }
+        }
+      })        
       .state('app.list', {
         url: '/lists/:listId',
         views: {

@@ -2,7 +2,7 @@ angular.module('OnTheGrow.controllers')
 // ----------------------------------------
 // Controller for the browse view
 // ----------------------------------------
-.controller('MenuCtrl', function($scope, listsService) {
+.controller('MenuCtrl', ['$scope', 'PostsServices', function($scope, PostsServices) {
   // Search to do lists
   $scope.search = function() {
     if ($scope.query)
@@ -15,4 +15,4 @@ angular.module('OnTheGrow.controllers')
     $scope.query = null;
     $scope.results = null;
   };
-});
+}]);

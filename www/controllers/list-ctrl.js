@@ -4,6 +4,9 @@ angular.module('OnTheGrow.controllers')
 // ----------------------------------------
 .controller('ListCtrl', ['$scope', '$stateParams', 'PostsServices', '$ionicModal', '$state', '$ionicLoading', function($scope, $stateParams, PostsServices, $ionicModal, $state, $ionicLoading) {
   console.log($stateParams.listId);
+  $scope.goToMap = function () {
+    $state.go('app.mapView');
+  }
 
   $scope.posts = PostsServices.getPosts();
   for(var object in $scope.posts)

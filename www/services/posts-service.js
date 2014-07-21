@@ -1,11 +1,28 @@
 angular.module('OnTheGrow.services')
-.factory("PostsServices", ["$firebase","$http", function($firebase,$http) {
+.factory('PostsServices', ['$firebase', '$http', '$ionicPopup', '$state', function($firebase, $http, $ionicPopup) {
+    //Firebase Auth
     var ref = new Firebase("https://glowing-fire-1039.firebaseio.com/");
     var posts = [];
     ref.on("value", function(snapshot) {
       posts = snapshot.val();
       console.log(posts);
     });
+
+    //Facebook Auth via Firebase
+    var auth = new FirebaseSimpleLogin(ref, function(error, user) {
+       if (error) {
+          // an error occurred while attempting login
+          alert(error);
+        } else if (user) {
+          // user authenticated with Firebase
+          var userRef = ref.child('users');
+          userRef.child(user.id).set({userId: user.id , userItems: null});
+        } else {
+          // user is logged out
+          alert('user logged out');
+        }
+    });
+
     return {
       getPosts: function() {
         return posts;
@@ -17,6 +34,9 @@ angular.module('OnTheGrow.services')
         $http({method: 'GET', url: 'http://maps.google.com/maps/api/geocode/json?address='+
         address+'&sensor=false'}).
         success(callback);
+      },
+      loginWithFacebook: function() {
+        auth.login('anonymous');
       },
       getLocation: function () {
         var onSuccess = function(position) {

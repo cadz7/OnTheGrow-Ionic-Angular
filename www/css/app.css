@@ -2,6 +2,15 @@
   height: 200px;
 }
 
+#map_canvas {
+  position:absolute;
+  width:100%;
+  min-height:100%;
+  top:0px;
+  left:0px;
+  z-index:-1
+}
+
 img {max-width:100%}
 
 .title {
@@ -83,6 +92,10 @@ h4 {
      font-family: 'Montserrat', sans-serif !important;
 
   /*background: #6ed387 url('img/search.png') no-repeat left center; */
+}
+
+.facebookButton {
+  background-color: #4898D6 !important;
 }
 
 .landing_button1 {
