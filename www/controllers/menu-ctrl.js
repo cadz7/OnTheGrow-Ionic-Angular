@@ -1,6 +1,6 @@
 angular.module('OnTheGrow.controllers')
 // ----------------------------------------
-// Controller for the browse view
+// Menu Controller
 // ----------------------------------------
 .controller('MenuCtrl', ['$scope', 'PostsServices', function($scope, PostsServices) {
   // Search to do lists

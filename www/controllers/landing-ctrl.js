@@ -2,7 +2,7 @@
 
 angular.module('OnTheGrow.controllers', [])
 // ----------------------------------------
-// Controller for the browse view
+// Landing Page controller
 // ----------------------------------------
 .controller('LandingCtrl', ['$scope', '$state', 'PostsServices', '$ionicPopup', function ($scope, $state, PostsServices, $ionicPopup) {
   $scope.applyjob = function() {
@@ -12,6 +12,11 @@ angular.module('OnTheGrow.controllers', [])
     $state.go('app.listings');
   };
   PostsServices.getPosts();
+
+  /*
+   * Calls the anonymous login function in posts-service and creates a pop-up on successful login.
+   */
+
 
   $scope.loginWithFacebook = function () {
   	var user = PostsServices.loginWithFacebook();

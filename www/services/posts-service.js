@@ -8,7 +8,10 @@ angular.module('OnTheGrow.services')
       console.log(posts);
     });
 
-    //Facebook Auth via Firebase
+    /*
+     *  Facebook Auth via Firebase
+     *  login method calls the firebase auth service
+     */
     var auth = new FirebaseSimpleLogin(ref, function(error, user) {
        if (error) {
           // an error occurred while attempting login
@@ -35,7 +38,11 @@ angular.module('OnTheGrow.services')
         address+'&sensor=false'}).
         success(callback);
       },
-      loginWithFacebook: function() {
+      /*
+        Logs in the user and creates a user field in firebase with user.id
+        TODO: We have to invoke inAppBrowser before auth.login to implement facebook/twitter login.
+       */
+      login: function() {
         auth.login('anonymous');
       },
       getLocation: function () {
