@@ -8,10 +8,10 @@
        <div id="map" class="card"></div>
 
 <div class="card">
-    <div class="item item-divider">
+    <div class="item item-divider" ngclick="goToMap()">
         <span style="float:left"><i class="icon ion-android-location"></i></span>
         <span style="padding-left:10px">Get Directions</span>
-        <span style="float:right"><i class="icon ion-chevron-right"></i></span>
+        <span style="float:right"><i class="icon ion-chevron-right" ngclick="goToMap()"></i></span>
     </div>
 
     <div class="item item-divider">
@@ -61,7 +61,7 @@
     </ion-item> -->
 
       <div class="padding">
-        <button class="button button-block button-calm" ng-click="apply()">
+        <button class="button button-block button-calm" ng-click="goToMap()">
           Pay with PayPal
         </button>
       </div>

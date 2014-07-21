@@ -1,4 +1,7 @@
 angular.module('OnTheGrow.controllers')
+// ----------------------------------------
+// Lists Page controller
+// ----------------------------------------
 .controller('ListsCtrl', ['$scope', 'listsService', '$state', 'PostsServices', '$ionicLoading', function($scope, listsService, $state, PostsServices, $ionicLoading) {
   $scope.lists = listsService.get();
   // New List
