@@ -1,5 +1,5 @@
 #map {
-  height: 200px;
+  height: 140px;
 }
 
 #map_canvas {
@@ -69,9 +69,21 @@ h4 {
   font-size: 1em;
 }
 
+.list-background {
+  font-size: 14px;
+}
+.list-background-last {
+  background-color: #f5f5f5;
+  font-size: 14px;
+}
+
 .button {
-  background-color:#6ed387 !important;
+  background-color:#6ed387;
   color: #fff !important;
+}
+
+.back-button {
+  background-color: : #498f24;
 }
 
 .padding {
@@ -140,6 +152,7 @@ h4 {
       }
 
 .scroll-content {
+  overflow-x: hidden;
   overflow: scroll;
 }
 
