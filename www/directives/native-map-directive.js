@@ -1,5 +1,5 @@
-angular.module('starter.directives', [])
-.directive('map', function($rootScope, $timeout,$ionicLoading,GeoLocation,Courts) {
+angular.module('OnTheGrow.directives', [])
+.directive('map', function($rootScope, $timeout, $ionicLoading) {
     return {
         compile: function(tElem,attrs) {
             return function(scope,elem,attrs) {
@@ -13,7 +13,7 @@ angular.module('starter.directives', [])
                     $timeout(function() {
                                 // add current location marker
                         $rootScope.map.addMarker({
-                            'position': new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude),
+                            'position': new plugin.google.maps.LatLng(43.700, 79.4000),
                             'title': 'Me',
                             'icon': {
                                 'url': 'www/assets/img/marker_blue.png',
@@ -26,7 +26,7 @@ angular.module('starter.directives', [])
                         });
 
                         $rootScope.map.moveCamera({
-                              'target': new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude),
+                              'target': new plugin.google.maps.LatLng(43.700, 79.4000),
                               'zoom': 13,
                               'tilt': 0
                         });

@@ -3,6 +3,7 @@ angular.module('OnTheGrow', [
   'ionic',
   'OnTheGrow.controllers',
   'OnTheGrow.services',
+  'OnTheGrow.directives',
   'firebase',
 ])
   .run(function($ionicPlatform, $rootScope) {
