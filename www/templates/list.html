@@ -7,23 +7,23 @@
 
        <div id="map" class="card"></div>
 
-<div class="card">
-    <div class="item item-divider" ngclick="goToMap()">
-        <span style="float:left"><i class="icon ion-android-location"></i></span>
-        <span style="padding-left:10px">Get Directions</span>
-        <span style="float:right"><i class="icon ion-chevron-right" ngclick="goToMap()"></i></span>
-    </div>
-
-    <div class="item item-divider">
-       <span style="float:left"><i class="icon ion-ios7-telephone"></i></span>
-        <span style="padding-left:10px">Call</span>
-        <span style="float:right"><i class="icon ion-chevron-right"></i></span>
-    </div>  
-     <div class="item item-divider">
-       <span style="float:left"><i class="icon ion-android-note"></i></span>
-        <span style="padding-left:10px">More Info</span>
-        <span style="float:right"><i class="icon ion-chevron-right"></i></span>
-    </div>                                  
+<div class="list card">
+      <a href="#" class="item item-icon-left list-background">
+        <i class="icon ion-android-location"></i>
+        Get directions
+      </a>
+      <a href="#" class="item item-icon-left list-background">
+        <i class="icon ion-ios7-telephone"></i>
+        Call
+      </a>
+      <a href="#/app/mapView" class="item item-icon-left list-background">
+        <i class="icon ion-map"></i>
+        Full Screen Map
+      </a>   
+      <a href="#/app/mapView" class="item item-icon-left list-background-last">
+        <i class="icon ion-more"></i>
+        More Details
+      </a>                           
 </div>  
 
 <!--     <ion-item
@@ -59,12 +59,6 @@
     ng-class="{ done : item.done }">
         Address: {{list.address}}
     </ion-item> -->
-
-      <div class="padding">
-        <button class="button button-block button-calm" ng-click="goToMap()">
-          Pay with PayPal
-        </button>
-      </div>
 
 
 

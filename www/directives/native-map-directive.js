@@ -6,14 +6,14 @@ angular.module('OnTheGrow.directives', [])
                 if ($rootScope.loaded)
                     $rootScope.map.setVisible(true);
                 else {
-                    $ionicLoading.show( {
-                        template: 'Loading...'
+                    $ionicLoading.show({
+                        template: 'Loading Map...<i class="icon ion-loading-b"></i>'
                     });
 
                     $timeout(function() {
                                 // add current location marker
                         $rootScope.map.addMarker({
-                            'position': new plugin.google.maps.LatLng(43.700, 79.4000),
+                            'position': new plugin.google.maps.LatLng(43.700, -79.4000),
                             'title': 'Me',
                             'icon': {
                                 'url': 'www/assets/img/marker_blue.png',
@@ -26,7 +26,7 @@ angular.module('OnTheGrow.directives', [])
                         });
 
                         $rootScope.map.moveCamera({
-                              'target': new plugin.google.maps.LatLng(43.700, 79.4000),
+                              'target': new plugin.google.maps.LatLng(43.700, -79.4000),
                               'zoom': 13,
                               'tilt': 0
                         });
