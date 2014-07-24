@@ -153,7 +153,6 @@ h4 {
 
 .scroll-content {
   overflow-x: hidden;
-  overflow: scroll;
 }
 
 #special_button {
@@ -163,4 +162,22 @@ margin-bottom: 80px;
 
 .select-class {
   padding-left:0;
+}
+
+.h-line {
+  padding-left:10px;
+  width:90%;
+  height:1px;
+  background: rgb(226, 226, 226)
+}
+
+.image {
+  height: 80px;
+  width: 80px;
+  float: left;
+}
+.listsLength {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
