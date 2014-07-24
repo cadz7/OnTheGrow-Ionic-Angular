@@ -4,7 +4,7 @@
 	<!-- ****************************
     Content
   **************************** -->
-  <ion-content class="has-header">
+  <ion-content class="has-header" scroll="false">
 
     <div class="bar bar-header item-input-inset">
       <!-- search box -->
@@ -25,8 +25,8 @@
       <ion-scroll>
         <ion-item ng-repeat="list in posts | filter: query" href="#/app/lists/{{list.id}}" >
 
-          <div style='float:left;margin-right: 15%;'>{{list.quantity}}</div>
-          <div style='text-transform:capitalize;'>{{list.title}} <span style="font-style:italic; font-size: 0.6em">400m away<span>
+          <div style='float:left;margin-right: 5%;'>{{list.quantity}}</div>
+          <div style='text-transform:capitalize;' class='listsLength'>{{list.title}} <span style="font-style:italic; font-size: 0.6em">400m away<span>
                     <span style="float:right"><i class="icon ion-chevron-right"></i></span></div>
         </ion-item>
       </ion-scroll>

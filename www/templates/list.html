@@ -14,18 +14,29 @@
       </a>
       <a href="#" class="item item-icon-left list-background">
         <i class="icon ion-ios7-telephone"></i>
-        Call
+        Call {{}}
       </a>
       <a href="#/app/mapView" class="item item-icon-left list-background">
         <i class="icon ion-map"></i>
         Full Screen Map
       </a>   
-      <a href="#/app/mapView" class="item item-icon-left list-background-last">
+      <a href="#" class="item item-icon-left list-background-last">
         <i class="icon ion-more"></i>
         More Details
       </a>                           
-</div>  
+</div>
 
+<h3 class='padding-left'>Photos</h3>  
+
+<div class="h-line padding-left"></div>
+<!--TODO: Use ngRepeat here -->
+<div>
+  <ul>
+    <li class='image' ng-repeat="t in [1,2,3,4]">
+      <img src="img/spinach.jpg">
+    </li>
+  </ul>
+</div> 
 <!--     <ion-item
         ng-class="{ done : item.done }">
         Title: {{list.title}}
@@ -59,8 +70,5 @@
     ng-class="{ done : item.done }">
         Address: {{list.address}}
     </ion-item> -->
-
-
-
   </ion-content>
 </ion-view>
