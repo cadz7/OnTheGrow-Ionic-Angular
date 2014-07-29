@@ -19,7 +19,7 @@ angular.module('OnTheGrow.controllers', [])
 
 
   $scope.loginWithFacebook = function () {
-  	var user = PostsServices.loginWithFacebook();
+  	PostsServices.login();
     var alertPopup = $ionicPopup.alert({
 	 title: 'Welcome to OnTheGrow !',
 	 template: 'Here you can see the list of all foods!'

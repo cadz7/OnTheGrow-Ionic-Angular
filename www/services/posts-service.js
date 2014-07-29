@@ -22,7 +22,7 @@ angular.module('OnTheGrow.services')
           userRef.child(user.id).set({userId: user.id , userItems: null});
         } else {
           // user is logged out
-          alert('user logged out');
+          console.log('no auth');
         }
     });
 
@@ -43,7 +43,9 @@ angular.module('OnTheGrow.services')
         TODO: We have to invoke inAppBrowser before auth.login to implement facebook/twitter login.
        */
       login: function() {
-        auth.login('anonymous');
+        var url = "";
+        var ref = window.open(url, '_blank', 'location=no');
+        auth.login('facebook');
       },
       getLocation: function () {
         var onSuccess = function(position) {
