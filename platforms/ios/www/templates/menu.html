@@ -7,18 +7,15 @@
   
     <!-- Navigation Bar -->
     <ion-nav-bar class="bar-balanced nav-title-slide-ios7">
-  
+        <ion-nav-back-button class="button-clear back-button">
+        <i class="icon ion-arrow-left-c"></i>
+      </ion-nav-back-button>
       <!-- Menu Toggle -->
      <!--  <ion-nav-buttons side="left">
         <button 
           menu-toggle="left" 
           class="button button-icon icon ion-navicon"></button>
-      </ion-nav-buttons> -->
-       <ion-nav-buttons side="right">
-        <a 
-          class="button" href="#/app/lists/new">Add Listings
-        </a>
-      </ion-nav-buttons>     
+      </ion-nav-buttons> -->   
                                 
     </ion-nav-bar>
   
@@ -55,19 +52,19 @@
       <!-- navigation -->
       <ion-list  ng-hide="results.length > 0">
         <!-- List of Lists -->
-        <ion-item class="item-icon-left" nav-clear menu-close href="#/app/lists">
-          <i class="icon ion-ios7-albums"></i>
+        <ion-item nav-clear menu-close href="#/app/lists">
           Browse
+          <span style="float:right"><i class="icon ion-chevron-right"></i></span>
         </ion-item>
         <!-- Create a new list -->
-        <ion-item class="item-icon-left" nav-clear menu-close href="#/app/lists/new">
-          <i class="icon ion-ios7-plus"></i>
+        <ion-item nav-clear menu-close href="#/app/lists/new">
           Add A List
+          <span style="float:right"><i class="icon ion-chevron-right"></i></span>
         </ion-item>
         <!-- Settings page -->
-        <ion-item class="item-icon-left" nav-clear menu-close href="#/app/settings">
-          <i class="icon ion-ios7-gear"></i>
+        <ion-item nav-clear menu-close href="#/app/settings">
           Settings
+          <span style="float:right"><i class="icon ion-chevron-right"></i></span>
         </ion-item>
       </ion-list>
 

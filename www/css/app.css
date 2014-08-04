@@ -180,4 +180,14 @@ margin-bottom: 80px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 15px;
+}
+
+/* CSS to resize lists height*/
+.lists .list {
+  height:100%;
+}
+
+.lists .list .scroll-view{
+  height:60%;
 }

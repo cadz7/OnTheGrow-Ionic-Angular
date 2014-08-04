@@ -21,12 +21,12 @@
  <center><img src="img/legend.png" style="width: 80%; padding:20px 0;"></center>
 <h4><span style='float:left;padding-right: 14%; padding-left: 8%;'>#</span> Produce</h4>
 
-    <ion-list class='padding-bottom'>
+    <ion-list class='padding-bottom lists'>
       <ion-scroll>
         <ion-item ng-repeat="list in posts | filter: query" href="#/app/lists/{{list.id}}" >
 
           <div style='float:left;margin-right: 5%;'>{{list.quantity}}</div>
-          <div style='text-transform:capitalize;' class='listsLength'>{{list.title}} <span style="font-style:italic; font-size: 0.6em">400m away<span>
+          <div style='text-transform:capitalize;' class='listsLength'>{{list.title}} <span style="font-style:italic; font-size: 0.8em">400m away<span>
                     <span style="float:right"><i class="icon ion-chevron-right"></i></span></div>
         </ion-item>
       </ion-scroll>
