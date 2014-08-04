@@ -5,7 +5,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
-var sessions = require('routes');
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 /*Mongo Scheme */
 
@@ -50,6 +52,30 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 var User = mongoose.model('User', userSchema);
 var Produce = mongoose.model('Produce', produceSchema);
+
+/* Passport session to keep user signed in */
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(new LocalStrategy({usernameField: 'email' },
+ function(email, password, done) {
+    User.findOne({ email: email }, function(err, user) {
+      if (err) return done(err);
+      if (!user) return done(null, false, {message: 'Incorrect Username'});
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect Password'});
+      }
+      return done(null, user);
+    });    
+  }
+));
 
 mongoose.connect('localhost');
 
@@ -106,4 +132,8 @@ app.get('/api/lists', function(req, res) {
         res.send(lists);
   });
 
+});
+
+app.get('*', function(req, res) {
+  res.redirect('/#' + req.originalUrl);
 });
