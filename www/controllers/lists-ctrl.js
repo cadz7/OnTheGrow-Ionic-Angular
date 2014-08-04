@@ -102,7 +102,6 @@ angular.module('OnTheGrow.controllers')
     $state.go('app.list', { listId: id });
   }
 
-
  // $scope.init();
  // $scope.addMarkers();
  // $scope.centerOnMe();
