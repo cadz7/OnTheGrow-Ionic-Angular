@@ -1,6 +1,6 @@
 angular.module('MyApp')
-  .factory('Auth', ['$http', '$location', '$rootScope', '$cookieStore', '$alert',
-    function($http, $location, $rootScope, $cookieStore, $alert) {
+  .factory('Auth', ['$http', '$location', '$rootScope', '$cookieStore', '$alert', '$ionicPopup'
+    function($http, $location, $rootScope, $cookieStore, $alert, $ionicPopup) {
       $rootScope.currentUser = $cookieStore.get('user');
       $cookieStore.remove('user');
 
@@ -11,22 +11,19 @@ angular.module('MyApp')
               $rootScope.currentUser = data;
               $location.path('/');
 
-              $alert({
-                title: 'Cheers!',
-                content: 'You have successfully logged in.',
-                placement: 'top-right',
-                type: 'success',
-                duration: 3
-              });
+              var alertPopup = $ionicPopup.alert({
+                 title: 'You just logged in!',
+                 template: 'Thank you for logging in!'
+               });
+               alertPopup.then(function(res) {
+                 console.log('User logged in');
+               });
             })
-            .error(function() {
-              $alert({
-                title: 'Error!',
-                content: 'Invalid username or password.',
-                placement: 'top-right',
-                type: 'danger',
-                duration: 3
-              });
+            .error(function(data, status, headers, config) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+              console.log(status);
+              console.log(data);
             });
         },
         signup: function(user) {
@@ -34,34 +31,32 @@ angular.module('MyApp')
             .success(function() {
               $location.path('/login');
 
-              $alert({
-                title: 'Congratulations!',
-                content: 'Your account has been created.',
-                placement: 'top-right',
-                type: 'success',
-                duration: 3
-              });
+              var alertPopup = $ionicPopup.alert({
+                 title: 'You just signed in!',
+                 template: 'Thank you for signing in!'
+               });
+               alertPopup.then(function(res) {
+                 console.log('User signed in');
+               });
             })
-            .error(function(response) {
-              $alert({
-                title: 'Error!',
-                content: response.data,
-                placement: 'top-right',
-                type: 'danger',
-                duration: 3
-              });
+            .error(function(data, status, headers, config) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+              console.log(status);
+              console.log(data);
             });
         },
         logout: function() {
           return $http.get('/api/logout').success(function() {
             $rootScope.currentUser = null;
             $cookieStore.remove('user');
-            $alert({
-              content: 'You have been logged out.',
-              placement: 'top-right',
-              type: 'info',
-              duration: 3
-            });
+              var alertPopup = $ionicPopup.alert({
+                 title: 'You just signed in!',
+                 template: 'Thank you for signing in!'
+               });
+               alertPopup.then(function(res) {
+                 console.log('User signed in');
+               });
           });
         }
       };
