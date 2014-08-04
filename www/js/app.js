@@ -10,7 +10,8 @@ angular.module('OnTheGrow', [
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
-      $rootScope.map = plugin.google.maps.Map.getMap();
+      if(window.cordova)
+        $rootScope.map = plugin.google.maps.Map.getMap();
       if (window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       }
@@ -27,6 +28,24 @@ angular.module('OnTheGrow', [
         url: '/app',
         abstract: true,
         templateUrl: 'templates/menu.html'
+      })
+      .state('app.signup', {
+        url: '/signup',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/signup.html',
+            controller: 'SignupCtrl'
+          }
+        }
+      })
+      .state('app.login', {
+        url: '/login',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/login.html',
+            controller: 'LoginCtrl'
+          }
+        }
       })
       .state('app.landing', {
         url: '/landing',
