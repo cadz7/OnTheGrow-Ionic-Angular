@@ -98,10 +98,6 @@ app.all('*', function(req, res, next) {
     next();
 });
 
-app.listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + app.get('port'));
-});
-
 app.post('/api/login', passport.authenticate('local'), function(req, res) {
   res.cookie('user', JSON.stringify(req.user));
   res.send(req.user);
@@ -126,14 +122,21 @@ app.post('/api/signup', function(req, res, next) {
 app.get('/api/lists', function(req, res) {
     var query = User.find();
     query.limit(10);
-
     query.exec(function(err, lists) {
-        if (err) return next(err);
-        res.send(lists);
+      if (err) return next(err);
+      res.send(lists);
   });
-
 });
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
+});
+
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.send(500, { message: err.message });
+});
+
+app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
 });
