@@ -29,6 +29,15 @@ angular.module('OnTheGrow', [
         abstract: true,
         templateUrl: 'templates/menu.html'
       })
+      .state('app.landing', {
+        url: '/landing',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/landing.html',
+            controller: 'LandingCtrl'
+          }
+        }
+      })
       .state('app.signup', {
         url: '/signup',
         views: {
@@ -44,15 +53,6 @@ angular.module('OnTheGrow', [
           'menuContent': {
             templateUrl: 'templates/login.html',
             controller: 'LoginCtrl'
-          }
-        }
-      })
-      .state('app.landing', {
-        url: '/landing',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/landing.html',
-            controller: 'LandingCtrl'
           }
         }
       })

@@ -19,15 +19,8 @@ var produceSchema = new mongoose.Schema({
 });
 
 var userSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
-  password: String,
-  produce: [{
-    produce_name: String,
-    date_picked: Date,
-    days_old: Number,
-    fresh_count: Number,
-    image: String
-  }]
+  email: String,
+  password: String
 });
 
 userSchema.pre('save', function(next) {
@@ -67,19 +60,18 @@ passport.deserializeUser(function(id, done) {
 passport.use(new LocalStrategy({usernameField: 'email' },
  function(email, password, done) {
     User.findOne({ email: email }, function(err, user) {
+      console.log(user.password);
       if (err) return done(err);
       if (!user) return done(null, false, {message: 'Incorrect Username'});
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect Password'});
-      }
-      return done(null, user);
-    });    
-  }
-));
+      user.comparePassword(password, function(err, isMatch) {
+        if (err) return done(err);
+        if (isMatch) return done(null, user);
+        return done(null, false);
+    });
+  });
+}));
 
-mongoose.connect('localhost');
-
-
+mongoose.connect('mongodb://admin:password@ds061189.mongolab.com:61189/onthegrow');
 
 /*Express Middleware*/
 
@@ -90,7 +82,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({ secret: 'keyboard cat' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'www')));
 
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -109,6 +104,8 @@ app.get('/api/logout', function(req, res) {
 });
 
 app.post('/api/signup', function(req, res, next) {
+  console.log(req.body.email);
+  console.log(req.body.password);
   var user = new User({
     email: req.body.email,
     password: req.body.password
