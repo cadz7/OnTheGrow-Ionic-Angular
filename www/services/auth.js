@@ -1,8 +1,11 @@
-angular.module('MyApp')
-  .factory('Auth', ['$http', '$location', '$rootScope', '$cookieStore', '$alert', '$ionicPopup'
-    function($http, $location, $rootScope, $cookieStore, $alert, $ionicPopup) {
-      $rootScope.currentUser = $cookieStore.get('user');
-      $cookieStore.remove('user');
+angular.module('OnTheGrow.services')
+
+/* Auth Service from tracker */
+
+  .factory('Auth', ['$http', '$location', '$rootScope', '$ionicPopup', '$window',
+    function($http, $location, $rootScope, $ionicPopup, $window) {
+      $rootScope.currentUser = $window.localStorage['user'];
+      $window.localStorage['user'] = '';
 
       return {
         login: function(user) {
@@ -22,21 +25,19 @@ angular.module('MyApp')
             .error(function(data, status, headers, config) {
               // called asynchronously if an error occurs
               // or server returns response with an error status.
-              console.log(status);
-              console.log(data);
             });
         },
         signup: function(user) {
+          console.log(user);
           return $http.post('/api/signup', user)
             .success(function() {
               $location.path('/login');
-
               var alertPopup = $ionicPopup.alert({
-                 title: 'You just signed in!',
-                 template: 'Thank you for signing in!'
+                 title: 'You just signed up!',
+                 template: 'Thank you for signing up!'
                });
                alertPopup.then(function(res) {
-                 console.log('User signed in');
+                 console.log('User signed up');
                });
             })
             .error(function(data, status, headers, config) {
@@ -44,18 +45,20 @@ angular.module('MyApp')
               // or server returns response with an error status.
               console.log(status);
               console.log(data);
+              console.log(headers);
+              console.log(config);
             });
         },
         logout: function() {
           return $http.get('/api/logout').success(function() {
             $rootScope.currentUser = null;
-            $cookieStore.remove('user');
+            delete $window.localStorage['user'];
               var alertPopup = $ionicPopup.alert({
-                 title: 'You just signed in!',
-                 template: 'Thank you for signing in!'
+                 title: 'You just logged out',
+                 template: 'Thank you for using OnTheGrow!'
                });
                alertPopup.then(function(res) {
-                 console.log('User signed in');
+                 console.log('User Logged out');
                });
           });
         }

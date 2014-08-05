@@ -5,10 +5,10 @@ angular.module('OnTheGrow.controllers')
 // Controller for the Login view
 // ----------------------------------------
 .controller('LoginCtrl', ['$scope', 'Auth', function($scope, Auth) {
-    $scope.login = function() {
+    $scope.login = function(user) {
       Auth.login({
-        email: $scope.email,
-        password: $scope.password
+        email: user.email,
+        password: user.password
       });
     };
 }])
