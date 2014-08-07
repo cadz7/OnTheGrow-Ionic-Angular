@@ -52,18 +52,27 @@
       <!-- navigation -->
       <ion-list  ng-hide="results.length > 0">
         <!-- List of Lists -->
-        <ion-item nav-clear menu-close href="#/app/lists">
+        <ion-item nav-clear menu-close href="#/app/lists" class="menu-list-size">
+          <i class="icon ion-ios7-search-strong"></i>
           Browse
           <span style="float:right"><i class="icon ion-chevron-right"></i></span>
         </ion-item>
         <!-- Create a new list -->
-        <ion-item nav-clear menu-close href="#/app/lists/new">
+        <ion-item nav-clear menu-close href="#/app/lists/new" class="menu-list-size">
+          <i class="icon ion-clipboard"></i>
           Add A List
+
           <span style="float:right"><i class="icon ion-chevron-right"></i></span>
         </ion-item>
         <!-- Settings page -->
-        <ion-item nav-clear menu-close href="#/app/settings">
+        <ion-item nav-clear menu-close href="#/app/settings" class="menu-list-size">
+          <i class="icon ion-ios7-gear"></i>
           Settings
+          <span style="float:right"><i class="icon ion-chevron-right"></i></span>
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/settings" class="menu-list-size">
+          <i class="icon ion-log-out"></i>
+          Log Out
           <span style="float:right"><i class="icon ion-chevron-right"></i></span>
         </ion-item>
       </ion-list>

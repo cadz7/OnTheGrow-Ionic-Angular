@@ -199,3 +199,7 @@ margin-bottom: 80px;
 .lists .list .scroll-view{
   height:60%;
 }
+
+.menu-list-size {
+  font-size: 14px;
+}
