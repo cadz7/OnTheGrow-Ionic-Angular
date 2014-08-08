@@ -29,7 +29,7 @@
 			  </label>
 			  <label class="item item-input">
 			    <span class="input-label">Price</span>
-			    <input type="number" ng-model="newItem.price" placeholder="$0">
+			    <input type="number" ng-model="newItem.price" placeholder="$/lb">
 			  </label>
 			  <label class="item item-input">
 			    <span class="input-label">Harvest Date</span>
@@ -40,41 +40,11 @@
 			    <input type="text" ng-model="newItem.description" placeholder="Enter description">
 			  </label>
 		</div>
-		<div class="list card">
-    		  <div class="item item-divider">
-				    Food information
-				  </div>
-			  <label class="item item-input">
-				  <span class="input-label">Name</span>
-				  <input type="text" ng-model="newItem.name" placeholder="">
-				</label>
-			  <label class="item item-input">
-				  <span class="input-label">E-Mail</span>
-				  <input type="text" ng-model="newItem.email" placeholder="">
-				</label>
-			  <label class="item item-input">
-				  <span class="input-label">Phone number</span>
-				  <input type="text" ng-model="newItem.phone" placeholder="">
-				</label>
-			  <label class="item item-input">
-				  <span class="input-label">Address</span>
-				  <input type="text" ng-model="newItem.address" placeholder="">
-				</label>
-				<div class="item item-input item-select">
-			    <div class="input-label" ng-model="newItem.paymentType">
-			      Payment type
-			    </div>
-			    <select class="select-class">
-			      <option>Cash</option>
-			      <option selected>Paypal</option>
-			    </select>
-			  </div>
-		</div>
-		  <!-- Save -->
-		  <div class="padding" style="padding-bottom:10px">
-		  	<button class="button button-block button-balanced" ng-click="save()">
+		<div>
+		  	<button class="button button-block button-balanced signupButton" ng-click="save()">
   				Save
-				</button>
+			</button>
+		</div>
   </ion-content>
-
+	
 </ion-view>

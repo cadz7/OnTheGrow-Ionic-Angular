@@ -20,8 +20,16 @@ var produceSchema = new mongoose.Schema({
 
 var userSchema = new mongoose.Schema({
   email: String,
-  password: String
-});
+  password: String,
+  listings: [{
+      title: String,
+      produceName: String,
+      quantity: Number,
+      price: Number,
+      desc: String, 
+      date: Date
+    }]
+  });
 
 userSchema.pre('save', function(next) {
   var user = this;
@@ -108,13 +116,22 @@ app.post('/api/signup', function(req, res, next) {
   console.log(req.body.password);
   var user = new User({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    listings: [{
+      title: req.body.title,
+      produceName: req.body.produceName,
+      quantity: req.body.quantity,
+      price: req.body.price,
+      desc: req.body.desc,
+      date: req.body.date
+    }]
   });
   user.save(function(err) {
     if (err) return next(err);
     res.send(200);
   });
 });
+
 
 app.get('/api/lists', function(req, res) {
     var query = User.find();
