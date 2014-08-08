@@ -142,6 +142,13 @@ app.get('/api/lists', function(req, res) {
   });
 });
 
+app.get('/api/lists/:id', function(req, res, next) {
+  User.findById(req.params.id, function(err, list) {
+    if (err) return next(err);
+    res.send(list);
+  });
+});
+
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
 });
