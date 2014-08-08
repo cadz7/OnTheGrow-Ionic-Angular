@@ -20,8 +20,18 @@ var produceSchema = new mongoose.Schema({
 
 var userSchema = new mongoose.Schema({
   email: String,
-  password: String
-});
+  password: String,
+  listings: [{
+      title: String,
+      _id: Number,
+      name: String,
+      quantity: Number,
+      image: String,  
+      price: Number,
+      desc: String, 
+      date: Date
+    }]
+  });
 
 userSchema.pre('save', function(next) {
   var user = this;
