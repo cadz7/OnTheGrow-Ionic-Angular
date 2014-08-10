@@ -1,5 +1,6 @@
 angular.module('OnTheGrow.services', [])
-  .factory('listsService', [ function() {
+  .factory('listsService', ['server', '$q',
+   function(server, $q) {
       var service = {};
       service.add = function(list) {
         service.lists.push(list);
@@ -28,5 +29,19 @@ angular.module('OnTheGrow.services', [])
         });
       };
 
+      service.fetchProduceList = function() {
+        return server.query().$promise
+          .then(function(allUserObj) {
+            service.userList = allUserObj;
+            var produceArray = [];
+            angular.forEach(allUserObj, function(eachUserObj) {
+              angular.forEach(eachUserObj.listings, function(eachProduceObj) {
+                produceArray.push(eachProduceObj);
+              })
+            })
+            service.produceList = produceArray;
+            return service.produceList;
+        });
+      }
       return service;
   }])
