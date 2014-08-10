@@ -8,6 +8,7 @@ angular.module('OnTheGrow.controllers')
 
   listsService.fetchProduceList()
     .then(function(produceList) {
+      $log.log('produceList returned in lists controller')
       $log.log(produceList)
       $scope.produceList = produceList
     })

@@ -1,9 +1,9 @@
-<ion-view title="Post a new Listing">
+<ion-view title="Post a new Listing" animation="none">
 
   <!-- ****************************
     Content
   **************************** -->
-  <ion-content class="has-header">
+  <ion-content class="has-header" scroll="false">
     	<!-- List Title -->
     	<div class="list card">
     		  <div class="item item-divider">
@@ -34,11 +34,26 @@
 		    <input type="text" ng-model="newItem.description" placeholder="Enter description" required>
 		  </label>
 		</div>
-		<div>
+		<div style="padding: 0% 5% 1rem">
 		  	<button class="button button-block button-balanced signupButton" ng-click="newList(newItem)">
   				Save Produce
 			</button>
 		</div>
+
+	 <div class="tabs tabs-icon-top">
+	    <a class="tab-item" href="#/app/lists">
+	      <i class="icon ion-ios7-cart"></i>
+	      Find
+	    </a>
+	    <a id='sell' class="tab-item" href="#/app/lists/new" ng-click='changeTabColor()'>
+	      <i class="icon ion-plus-round"></i>
+	      Sell
+	    </a>
+	    <a class="tab-item" href="#/app/mapView">
+	      <i class="icon ion-location"></i>
+	      Map
+	    </a>
+	</div>
   </ion-content>
 	
 </ion-view>

@@ -13,23 +13,24 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var produceSchema = new mongoose.Schema({
   _id: Number,
-  name: String,
+  produceName: String,
   type: String,
   image: String,
 });
 
+var listingSchema = new mongoose.Schema({
+  title: String,
+  produceName: String,
+  quantity: Number,
+  price: Number,
+  description: String,
+  date: Date
+});
+
 var userSchema = new mongoose.Schema({
   email: String,
-  password: String,
-  listings: [{
-      title: String,
-      produceName: String,
-      quantity: Number,
-      price: Number,
-      desc: String, 
-      date: Date
-    }]
-  });
+  password: String
+});
 
 userSchema.pre('save', function(next) {
   var user = this;
@@ -53,6 +54,7 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 var User = mongoose.model('User', userSchema);
 var Produce = mongoose.model('Produce', produceSchema);
+var Listing = mongoose.model('Listing', listingSchema);
 
 /* Passport session to keep user signed in */
 passport.serializeUser(function(user, done) {
@@ -116,15 +118,7 @@ app.post('/api/signup', function(req, res, next) {
   console.log(req.body.password);
   var user = new User({
     email: req.body.email,
-    password: req.body.password,
-    listings: [{
-      title: req.body.title,
-      produceName: req.body.produceName,
-      quantity: req.body.quantity,
-      price: req.body.price,
-      desc: req.body.desc,
-      date: req.body.date
-    }]
+    password: req.body.password
   });
   user.save(function(err) {
     if (err) return next(err);
@@ -134,8 +128,8 @@ app.post('/api/signup', function(req, res, next) {
 
 
 app.get('/api/lists', function(req, res) {
-    var query = User.find();
-    query.limit(10);
+    var query = Listing.find();
+    query.limit(50);
     query.exec(function(err, lists) {
       if (err) return next(err);
       res.send(lists);
@@ -143,11 +137,26 @@ app.get('/api/lists', function(req, res) {
 });
 
 app.get('/api/lists/:id', function(req, res, next) {
-  User.findById(req.params.id, function(err, list) {
+  Listing.findById(req.params.id, function(err, list) {
     if (err) return next(err);
     res.send(list);
   });
 });
+
+app.post('/api/lists', function(req, res) {
+  var listing = new Listing({
+    title: req.body.title,
+    produceName: req.body.produceName,
+    quantity: req.body.quantity,
+    price: req.body.price,
+    date: req.body.date,
+    description: req.body.description
+  })
+  listing.save(function(err) {
+    if (err) return next(err);
+    res.send(200);
+  });
+})
 
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
