@@ -30,6 +30,15 @@ angular.module('OnTheGrow', [
         abstract: true,
         templateUrl: 'templates/menu.html'
       })
+      .state('app.login', {
+        url: '/login',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/login.html',
+            controller: 'LoginCtrl'
+          }
+        }
+      })
       .state('app.landing', {
         url: '/landing',
         views: {
@@ -45,15 +54,6 @@ angular.module('OnTheGrow', [
           'menuContent': {
             templateUrl: 'templates/signup.html',
             controller: 'SignupCtrl'
-          }
-        }
-      })
-      .state('app.login', {
-        url: '/login',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/login.html',
-            controller: 'LoginCtrl'
           }
         }
       })
@@ -79,7 +79,7 @@ angular.module('OnTheGrow', [
         views: {
           'menuContent': {
             templateUrl: 'templates/new-list.html',
-            controller: 'ListsCtrl'
+            controller: 'NewListCtrl'
           }
         }
       })
@@ -100,7 +100,7 @@ angular.module('OnTheGrow', [
             controller: 'ListingsCtrl'
           }
         }
-      }) 
+      })  
       .state('app.mapView', {
         url: '/mapView',
         views: {
