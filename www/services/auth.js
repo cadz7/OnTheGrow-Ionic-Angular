@@ -12,7 +12,7 @@ angular.module('OnTheGrow.services')
           return $http.post('/api/login', user)
             .success(function(data) {
               $rootScope.currentUser = data;
-              $location.path('/');
+              $location.path('/app/landing');
 
               var alertPopup = $ionicPopup.alert({
                  title: 'You just logged in!',
@@ -31,7 +31,7 @@ angular.module('OnTheGrow.services')
           console.log(user);
           return $http.post('/api/signup', user)
             .success(function() {
-              $location.path('/login');
+              $location.path('/app/landing');
               var alertPopup = $ionicPopup.alert({
                  title: 'You just signed up!',
                  template: 'Thank you for signing up!'

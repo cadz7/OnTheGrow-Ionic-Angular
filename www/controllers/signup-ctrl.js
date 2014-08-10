@@ -7,13 +7,7 @@ angular.module('OnTheGrow.controllers')
     console.log(user);
       Auth.signup({
         email: user.email,
-        password: user.password,
-	    title: user.title,
-	    produceName: user.produceName,
-	    quantity: user.quantity,
-	    price: user.price,
-	    desc: user.desc,
-	    date: user.date
+        password: user.password
       });
     };
 }])

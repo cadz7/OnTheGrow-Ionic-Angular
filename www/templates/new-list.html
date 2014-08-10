@@ -11,38 +11,32 @@
 				  </div>
 		  <label class="item item-input">
 		    <span class="input-label">Post Title</span>
-		    <input type="text" ng-model="newList.title">
+		    <input type="text" ng-model="newItem.title" required>
 		  </label>
-
-				<div class="item item-input item-select">
-			    <div class="input-label" ng-model="newItem.paymentType">
-			      Food Type
-			    </div>
-			    <select class="select-class">
-			      <option selected>Vegetable</option>
-			      <option>Fruit</option>
-			    </select>
-			  </div>
-			  <label class="item item-input">
-			    <span class="input-label">quantity</span>
-			    <input type="number" ng-model="newItem.quantity" placeholder="0">
-			  </label>
-			  <label class="item item-input">
-			    <span class="input-label">Price</span>
-			    <input type="number" ng-model="newItem.price" placeholder="$/lb">
-			  </label>
-			  <label class="item item-input">
-			    <span class="input-label">Harvest Date</span>
-			    <input type="date" ng-model="newItem.date" placeholder="">
-			  </label>
-			  <label class="item item-input">
-			    <span class="input-label">Description</span>
-			    <input type="text" ng-model="newItem.description" placeholder="Enter description">
-			  </label>
+		  <label class="item item-input">
+		    <span class="input-label">Name of Produce</span>
+		    <input type="text" ng-model="newItem.produceName" placeholder="Apple, Orange..etc" required>
+		  </label>
+		  <label class="item item-input">
+		    <span class="input-label">Quantity</span>
+		    <input type="number" ng-model="newItem.quantity" placeholder="0" required>
+		  </label>
+		  <label class="item item-input">
+		    <span class="input-label">Price/lb</span>
+		    <input type="number" ng-model="newItem.price" placeholder="$/lb" required>
+		  </label>
+		  <label class="item item-input">
+		    <span class="input-label">Harvest Date</span>
+		    <input type="date" ng-model="newItem.date" placeholder="2014/7/7" required>
+		  </label>
+		  <label class="item item-input">
+		    <span class="input-label">Description</span>
+		    <input type="text" ng-model="newItem.description" placeholder="Enter description" required>
+		  </label>
 		</div>
 		<div>
-		  	<button class="button button-block button-balanced signupButton" ng-click="save()">
-  				Save
+		  	<button class="button button-block button-balanced signupButton" ng-click="newList(newItem)">
+  				Save Produce
 			</button>
 		</div>
   </ion-content>
