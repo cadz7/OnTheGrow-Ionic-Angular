@@ -2,7 +2,18 @@ angular.module('OnTheGrow.controllers')
 // ----------------------------------------
 // Lists Page controller
 // ----------------------------------------
-.controller('ListsCtrl', ['$scope', 'listsService', '$state', 'PostsServices', '$ionicLoading', function($scope, listsService, $state, PostsServices, $ionicLoading) {
+.controller('ListsCtrl', ['$scope', 'listsService', '$state', 'PostsServices', '$ionicLoading', 'server', '$q', '$log',
+ function($scope, listsService, $state, PostsServices, $ionicLoading, server, $q, $log) {
+  /* ================= Fetching lists from Express server  =================*/
+
+  listsService.fetchProduceList()
+    .then(function(produceList) {
+      $log.log(produceList)
+      $scope.produceList = produceList
+    })
+    .then(null, $log.error);
+
+  /* =================OLD FIREBASE CODE =================*/
   $scope.lists = listsService.get();
   // New List
   $scope.newList = {
@@ -19,7 +30,6 @@ angular.module('OnTheGrow.controllers')
     count++;
   }
   $scope.save = function() {
-
     $scope.newList.items.push({
       title: $scope.newList.title,
       desc: $scope.newItem.description,

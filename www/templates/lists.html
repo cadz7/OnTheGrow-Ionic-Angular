@@ -23,10 +23,10 @@
 
     <ion-list class='padding-bottom lists'>
       <ion-scroll>
-        <ion-item ng-repeat="list in posts | filter: query" href="#/app/lists/{{list.id}}" >
-
-          <div style='float:left;margin-right: 5%;'>{{list.quantity}}</div>
-          <div style='text-transform:capitalize;' class='listsLength'>{{list.title}} <span style="font-style:italic; font-size: 0.8em">400m away<span>
+        <ion-item ng-repeat="list in produceList | filter: query" href="#/app/lists/{{list._id}}" >
+        
+          <div style='float:left;margin-right: 5%;' class='listsLength'>{{list.quantity}}</div>
+          <div style='text-transform:capitalize;' class='listsLength'>{{list.produceName}} <span style="font-style:italic; font-size: 0.8em">400m away<span>
                     <span style="float:right"><i class="icon ion-chevron-right"></i></span></div>
         </ion-item>
       </ion-scroll>
