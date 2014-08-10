@@ -4,10 +4,19 @@
 
   	<!-- List of items -->
 
+<h3 class='padding-left'>Photos</h3>  
 
-       <div id="map" class="card"></div>
+<div class="h-line padding-left"></div>
+<!--TODO: Use ngRepeat here -->
+<div>
+  <ul>
+    <li class='image' ng-repeat="t in [1,2,3,4]">
+      <img src="img/spinach.jpg">
+    </li>
+  </ul>
+</div> 
 
-<div class="list card">
+<div class="list card" style="clear:left">
       <a href="#" class="item item-icon-left list-background">
         <i class="icon ion-android-location"></i>
         Get directions
@@ -26,17 +35,7 @@
       </a>                           
 </div>
 
-<h3 class='padding-left'>Photos</h3>  
 
-<div class="h-line padding-left"></div>
-<!--TODO: Use ngRepeat here -->
-<div>
-  <ul>
-    <li class='image' ng-repeat="t in [1,2,3,4]">
-      <img src="img/spinach.jpg">
-    </li>
-  </ul>
-</div> 
 <!--     <ion-item
         ng-class="{ done : item.done }">
         Title: {{list.title}}
