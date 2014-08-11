@@ -43,6 +43,47 @@ img {max-width:100%}
   max-width: 100%;
 }
 
+#login {
+  background-color: #A3CFB4
+}
+
+.login-text {
+  position: absolute;
+  width: 250px;
+  text-align: center;
+  left: 50%;
+  top: 40%;
+  margin-left: -125px;
+}
+
+.login-text h1{
+  color: #fff;
+  font-size: 40px;
+}
+
+.login-text p{
+  color: #50854E;
+  font-size: 21px;
+  line-height: 1.2em;
+}
+
+.loginImage {
+  position: absolute;
+  left: 60%;
+  margin-left: -150px;
+  max-width: 300px;
+  bottom: 65%;
+}
+
+.loginbutton {
+  position: absolute;
+  left: 50%;
+  margin-left: -150px;
+  max-width: 300px;
+  bottom: 15%;
+}
+
+
 /*.arrows {
   background:url("../img/fresh_arrow.png") no-repeat right;
   height: 100px;
