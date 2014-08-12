@@ -12,15 +12,15 @@
   **************************** -->
   <ion-content class="has-header">
 
- <div ng-repeat="post in posts" class="list card">
+ <div ng-repeat="list in personalList" class="list card">
 
   <div class="item">
 
-    <h2>{{post.pay}}{{post.title}}<span style='float:right'>Picked up 2 days ago</span></h2>
+    <h2>{{list.quantity}}{{list.title}}<span style='float:right'>Picked up 2 days ago</span></h2>
   </div>
 
   <div class="item item-body">
-    <p>{{post.address}}</p>
+    <p>{{post.description}}</p>
   </div>
 
   <div class="item tabs tabs-secondary tabs-icon-left">
