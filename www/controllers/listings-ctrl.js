@@ -2,11 +2,15 @@ angular.module('OnTheGrow.controllers')
 // ----------------------------------------
 // Controller for the browse view
 // ----------------------------------------
-.controller('ListingsCtrl', ['$scope', '$state', 'PostsServices', function($scope, $state, PostsServices) {
-  $scope.posts = PostsServices.getPosts();
-  console.log($scope.posts);
-  for(var object in $scope.posts)
-  {
-    console.log($scope.posts[object]);
-  }
+.controller('ListingsCtrl', ['$scope', '$state', 'PostsServices', 'listsService', '$log',
+ function($scope, $state, PostsServices, listsService, $log) {
+  listsService.fetchPersonalList()
+    .then(function(personalList) {
+      $log.log('produceList returned in lists controller')
+      $log.log(personalList)
+      $scope.personalList = personalList;
+    })
+    .then(null, $log.error);
+
+
 }])

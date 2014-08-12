@@ -46,5 +46,17 @@ angular.module('OnTheGrow.services', [])
             return service.produceList;
         });
       }
+
+      service.fetchPersonalList = function() {
+        return server.query().$promise
+          .then(function(allPersonalProduce) {
+            $log.log('Server returned allPersonalProduce');
+            $log.log(allPersonalProduce);
+            service.personalList = allPersonalProduce;
+            return service.personalList;
+          })
+      }
+
+
       return service;
   }])
