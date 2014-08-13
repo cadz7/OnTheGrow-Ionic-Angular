@@ -11,7 +11,7 @@ angular.module('OnTheGrow.services')
         login: function(user) {
           return $http.post('/api/login', user)
             .success(function(data) {
-              $rootScope.currentUser = data;
+              $rootScope.currentUser = user.email;
               $location.path('/app/landing');
 
               var alertPopup = $ionicPopup.alert({
@@ -31,6 +31,8 @@ angular.module('OnTheGrow.services')
           console.log(user);
           return $http.post('/api/signup', user)
             .success(function() {
+              $rootScope.currentUser = user.email;
+              $window.localStorage['user'] = user.email;
               $location.path('/app/landing');
               var alertPopup = $ionicPopup.alert({
                  title: 'You just signed up!',

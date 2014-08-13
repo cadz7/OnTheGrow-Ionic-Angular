@@ -1,10 +1,11 @@
 angular.module('OnTheGrow.services')
-.factory('PostsServices', ['$firebase', '$http', '$ionicPopup', '$state', 'server', '$ionicPopup', '$log',
- function($firebase, $http, $ionicPopup, $state, server, $ionicPopup, $log) {
+.factory('PostsServices', ['$firebase', '$http', '$ionicPopup', '$state', 'server', '$ionicPopup', '$log', '$rootScope',
+ function($firebase, $http, $ionicPopup, $state, server, $ionicPopup, $log, $rootScope) {
 /* ======= Posting new list to server========*/
     var posts = [];
     return {
       postToServer: function(data) {
+        data.userName = $rootScope.currentUser;
         return server.save(data)
         .$promise
         .then(function(){

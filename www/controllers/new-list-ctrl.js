@@ -2,7 +2,8 @@ angular.module('OnTheGrow.controllers')
 // ----------------------------------------
 // Controller for the Signup view
 // ----------------------------------------
-.controller('NewListCtrl', ['$scope', '$state', '$ionicLoading', 'PostsServices', function($scope, $state, $ionicLoading, PostsServices) {
+.controller('NewListCtrl', ['$scope', '$state', '$ionicLoading', 'PostsServices',
+ function($scope, $state, $ionicLoading, PostsServices) {
 
 	$scope.showLoading = function(){
 	  $ionicLoading.show({
