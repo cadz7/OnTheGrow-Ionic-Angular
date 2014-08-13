@@ -7,8 +7,8 @@ angular.module('OnTheGrow.controllers')
   listsService.fetchPersonalList()
     .then(function(personalList) {
       $log.log('produceList returned in lists controller')
-      $log.log(personalList)
-      $scope.personalList = personalList;
+      $log.log(personalList);
+      $scope.personalList = personalList.data;
     })
     .then(null, $log.error);
 

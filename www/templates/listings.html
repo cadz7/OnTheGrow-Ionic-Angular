@@ -12,7 +12,7 @@
   **************************** -->
   <ion-content class="has-header">
 
- <div ng-repeat="list in personalList" class="list card">
+ <!-- <div ng-repeat="list in personalList" class="list card">
 
   <div class="item">
 
@@ -38,6 +38,17 @@
     </a>
   </div>
 
+</div> -->
+
+
+
+<div ng-repeat="list in personalList" class="list" style="margin-bottom:0px">
+
+    <a class="item item-avatar" href="#">
+      <img src="img/spinach.jpg">
+      <h2>{{list.produceName}}</h2>
+      <p>{{list.description}}</p>
+    </a>
 </div>
 
 

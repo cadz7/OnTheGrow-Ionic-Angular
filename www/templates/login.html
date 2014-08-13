@@ -25,7 +25,17 @@
       <div class="login-text">
         <p>Find local produce around you!</p>
       </div>
-      <img src="img/logo.png" class="loginImage"></img>
+       <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="user.email">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input type="password" ng-model="user.password">
+        </label>
+        <button class="button button-block button-balanced signupButton" ng-click="login(user)">
+        </button>
+   <!--    <img src="img/logo.png" class="loginImage"></img> -->
       <img src="img/facebook-button.png" alt="Login with Facebook" class="loginbutton"></img>
 
     </ion-content>
