@@ -2,8 +2,8 @@ angular.module('OnTheGrow.services')
 
 /* Auth Service from tracker */
 
-  .factory('Auth', ['$http', '$location', '$rootScope', '$ionicPopup', '$window',
-    function($http, $location, $rootScope, $ionicPopup, $window) {
+  .factory('Auth', ['$http', '$location', '$rootScope', '$ionicPopup', '$window', '$log',
+    function($http, $location, $rootScope, $ionicPopup, $window, $log) {
       $rootScope.currentUser = $window.localStorage['user'];
       $window.localStorage['user'] = '';
 
@@ -11,7 +11,8 @@ angular.module('OnTheGrow.services')
         login: function(user) {
           return $http.post('/api/login', user)
             .success(function(data) {
-              $rootScope.currentUser = user.email;
+              $log.log(data);
+              $rootScope.currentUser = user;
               $location.path('/app/landing');
 
               var alertPopup = $ionicPopup.alert({
@@ -31,7 +32,7 @@ angular.module('OnTheGrow.services')
           console.log(user);
           return $http.post('/api/signup', user)
             .success(function() {
-              $rootScope.currentUser = user.email;
+              $rootScope.currentUser = user;
               $window.localStorage['user'] = user.email;
               $location.path('/app/landing');
               var alertPopup = $ionicPopup.alert({

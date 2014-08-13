@@ -145,8 +145,8 @@ app.get('/api/lists/:id', function(req, res, next) {
   });
 });
 
-app.get('/api/lists/user', function(req, res) {
-    var query = Listing.find({ userName: req.body.userName});
+app.get('/api/userlistings', function(req, res) {
+    var query = Listing.find({ userName: req.user.email});
     query.limit(50);
     query.exec(function(err, lists) {
       if (err) return next(err);

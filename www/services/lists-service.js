@@ -49,25 +49,15 @@ angular.module('OnTheGrow.services', [])
 
       service.fetchPersonalList = function() {
 
-       return $http.get('/api/lists/user').
+       return $http.get('/api/userlistings').
           success(function(data, status, headers, config) {
             $log.log(data);
-            return data;
             /* return personal list */
           })
           .error(function(data, status, headers, config) {
             console.log(status);
             console.log(data);
           });
-
-
-        return server.query().$promise
-          .then(function(allPersonalProduce) {
-            $log.log('Server returned allPersonalProduce');
-            $log.log(allPersonalProduce);
-            service.personalList = allPersonalProduce;
-            return service.personalList;
-          })
       }
 
 
