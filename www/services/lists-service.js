@@ -1,6 +1,6 @@
 angular.module('OnTheGrow.services', [])
-  .factory('listsService', ['server', '$q', '$log',
-   function(server, $q, $log) {
+  .factory('listsService', ['server', '$q', '$log', '$http',
+   function(server, $q, $log, $http) {
       var service = {};
       service.add = function(list) {
         service.lists.push(list);
@@ -48,6 +48,19 @@ angular.module('OnTheGrow.services', [])
       }
 
       service.fetchPersonalList = function() {
+
+       return $http.get('/api/lists/user').
+          success(function(data, status, headers, config) {
+            $log.log(data);
+            return data;
+            /* return personal list */
+          })
+          .error(function(data, status, headers, config) {
+            console.log(status);
+            console.log(data);
+          });
+
+
         return server.query().$promise
           .then(function(allPersonalProduce) {
             $log.log('Server returned allPersonalProduce');

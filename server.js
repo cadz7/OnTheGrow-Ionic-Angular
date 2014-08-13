@@ -19,6 +19,7 @@ var produceSchema = new mongoose.Schema({
 });
 
 var listingSchema = new mongoose.Schema({
+  userName: String,
   title: String,
   produceName: String,
   quantity: Number,
@@ -28,7 +29,7 @@ var listingSchema = new mongoose.Schema({
 });
 
 var userSchema = new mongoose.Schema({
-  email: String,
+  email: { type: String, index: { unique: true }},
   password: String
 });
 
@@ -114,6 +115,7 @@ app.get('/api/logout', function(req, res) {
 });
 
 app.post('/api/signup', function(req, res, next) {
+  /* Implement error code 11000 */
   console.log(req.body.email);
   console.log(req.body.password);
   var user = new User({
@@ -143,8 +145,18 @@ app.get('/api/lists/:id', function(req, res, next) {
   });
 });
 
+app.get('/api/lists/user', function(req, res) {
+    var query = Listing.find({ userName: req.body.userName});
+    query.limit(50);
+    query.exec(function(err, lists) {
+      if (err) return next(err);
+      res.send(lists);
+  });
+});
+
 app.post('/api/lists', function(req, res) {
   var listing = new Listing({
+    userName: req.body.userName,
     title: req.body.title,
     produceName: req.body.produceName,
     quantity: req.body.quantity,
