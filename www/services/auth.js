@@ -2,14 +2,14 @@ angular.module('OnTheGrow.services')
 
 /* Auth Service from tracker */
 
-  .factory('Auth', ['$http', '$location', '$rootScope', '$ionicPopup', '$window', '$log',
-    function($http, $location, $rootScope, $ionicPopup, $window, $log) {
+  .factory('Auth', ['$http', '$location', '$rootScope', '$ionicPopup', '$window', '$log', 'SERVER_URL',
+    function($http, $location, $rootScope, $ionicPopup, $window, $log, SERVER_URL) {
       $rootScope.currentUser = $window.localStorage['user'];
       $window.localStorage['user'] = '';
 
       return {
         login: function(user) {
-          return $http.post('/api/login', user)
+          return $http.post(SERVER_URL + '/api/login', user)
             .success(function(data) {
               $log.log(data);
               $rootScope.currentUser = user;
@@ -30,7 +30,7 @@ angular.module('OnTheGrow.services')
         },
         signup: function(user) {
           console.log(user);
-          return $http.post('/api/signup', user)
+          return $http.post(SERVER_URL + '/api/signup', user)
             .success(function() {
               $rootScope.currentUser = user;
               $window.localStorage['user'] = user.email;
@@ -53,7 +53,7 @@ angular.module('OnTheGrow.services')
             });
         },
         logout: function() {
-          return $http.get('/api/logout').success(function() {
+          return $http.get(SERVER_URL + '/api/logout').success(function() {
             $rootScope.currentUser = null;
             delete $window.localStorage['user'];
               var alertPopup = $ionicPopup.alert({

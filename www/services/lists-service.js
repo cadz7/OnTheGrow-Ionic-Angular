@@ -1,6 +1,6 @@
 angular.module('OnTheGrow.services', [])
-  .factory('listsService', ['server', '$q', '$log', '$http',
-   function(server, $q, $log, $http) {
+  .factory('listsService', ['server', '$q', '$log', '$http', 'SERVER_URL',
+   function(server, $q, $log, $http, SERVER_URL) {
       var service = {};
       service.add = function(list) {
         service.lists.push(list);
@@ -49,7 +49,7 @@ angular.module('OnTheGrow.services', [])
 
       service.fetchPersonalList = function() {
 
-       return $http.get('/api/userlistings').
+       return $http.get(SERVER_URL + '/api/userlistings').
           success(function(data, status, headers, config) {
             $log.log(data);
             /* return personal list */
