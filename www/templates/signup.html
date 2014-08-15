@@ -1,18 +1,28 @@
-<ion-view title="Signup">
-  <ion-content has-header="true" padding="true">
-      <div class="list header">
-        <label class="item item-input">
-          <input type="text" placeholder="Email" ng-model="user.email">
+<ion-view hide-nav-bar="true">
+    <ion-content scroll="false" id="login" has-header="false">
+      
+      <div class="login-text">
+        <p>Signup to find local produce around you!</p>
+      </div>
+      <div class="loginbutton">
+       <label class="item item-input loginInput">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="user.email">
         </label>
-        <label class="item item-input">
-          <input type="password" placeholder="Password" ng-model="user.password">
+        <label class="item item-input loginInputBottom">
+          <span class="input-label">Password</span>
+          <input type="password" ng-model="user.password">
         </label>
-        <div>
-          <button class="button button-block button-balanced signupButton" ng-click="signup(user)">Create account</button>
-        </div>
+     
+        <button class="button button-block button-balanced signupButton" ng-click="signup(user)">
+          Create Account
+        </button>
         <div style="text-align: center">
           Or <a href="/#/login">Already have an account?</a>
         </div>
       </div>
-  </ion-content>
-</ion-view>
+      <img src="img/logo.png" class="loginImage"></img>
+     <!--  <img src="img/facebook-button.png" alt="Login with Facebook"></img> -->
+
+    </ion-content>
+ </ion-view>

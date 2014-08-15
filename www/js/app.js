@@ -5,7 +5,8 @@ angular.module('OnTheGrow', [
   'OnTheGrow.services',
   'OnTheGrow.directives',
   'firebase',
-  'ngResource'
+  'ngResource',
+  'ngCordova'
 ])
   .run(function($ionicPlatform, $rootScope) {
     $ionicPlatform.ready(function() {
