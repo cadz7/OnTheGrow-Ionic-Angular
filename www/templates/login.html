@@ -1,42 +1,26 @@
 
- <ion-view hide-nav-bar="true">
-<!--   <ion-content has-header="true" padding="true">
-      <div class="list header">
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="user.email">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="user.password">
-        </label>
-      </div>
-      <div class="padding">
-         <button class="button button-block button-balanced signupButton" ng-click="login(user)">
-          Sign-In
-        </button>
-        <p class="text-center">
-          <a href="#/app/signup">Need to Signup?</a>
-        </p>
-      </div>
-    </ion-content> -->
+ <ion-view hide-nav-bar="true" class='signin-background'>
     <ion-content scroll="false" id="login" has-header="false">
       
       <div class="login-text">
-        <p>Find local produce around you!</p>
+        <p>Login to find local produce around you!</p>
       </div>
-       <label class="item item-input">
+      <div class="loginbutton">
+       <label class="item item-input loginInput">
           <span class="input-label">Username</span>
           <input type="text" ng-model="user.email">
         </label>
-        <label class="item item-input">
+        <label class="item item-input loginInputBottom">
           <span class="input-label">Password</span>
           <input type="password" ng-model="user.password">
         </label>
+     
         <button class="button button-block button-balanced signupButton" ng-click="login(user)">
+          Login
         </button>
-   <!--    <img src="img/logo.png" class="loginImage"></img> -->
-      <img src="img/facebook-button.png" alt="Login with Facebook" class="loginbutton"></img>
+      </div>
+      <img src="img/logo.png" class="loginImage"></img>
+     <!--  <img src="img/facebook-button.png" alt="Login with Facebook"></img> -->
 
     </ion-content>
  </ion-view>

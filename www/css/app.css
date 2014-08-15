@@ -44,7 +44,7 @@ img {max-width:100%}
 }
 
 #login {
-  background-color: #A3CFB4
+  background-color: #C4E2C4
 }
 
 .login-text {
@@ -69,7 +69,7 @@ img {max-width:100%}
 
 .loginImage {
   position: absolute;
-  left: 60%;
+  left: 50%;
   margin-left: -150px;
   max-width: 300px;
   bottom: 65%;
@@ -77,12 +77,22 @@ img {max-width:100%}
 
 .loginbutton {
   position: absolute;
-  left: 50%;
+  left: 56%;
   margin-left: -150px;
   max-width: 300px;
   bottom: 15%;
 }
 
+.loginInput {
+  border-radius: 5px;
+  background: rgb(235, 243, 235);
+}
+
+.loginInputBottom {
+  border-radius: 5px;
+  background: rgb(235, 243, 235);
+  margin-top: 3%;
+}
 
 /*.arrows {
   background:url("../img/fresh_arrow.png") no-repeat right;

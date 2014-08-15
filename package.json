@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "An Ionic project",
   "scripts": {
-    "start": "node ./www"
+    "start": "node server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.0.2",
@@ -12,6 +12,7 @@
     "debug": "~0.7.4",
     "express": "~4.2.0",
     "express-session": "^1.7.2",
+    "forever": "^0.11.1",
     "gulp": "^3.5.6",
     "gulp-concat": "^2.2.0",
     "gulp-connect": "^2.0.5",
