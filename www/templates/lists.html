@@ -1,36 +1,51 @@
-<ion-view title="Items Near You" animation="none">
+<ion-view title="Items Near You" hide-nav-bar="true" animation="none">
 
 
 	<!-- ****************************
     Content
   **************************** -->
-  <ion-content class="has-header" scroll="false">
+  <ion-content scroll="false">
 
-    <div class="bar bar-header item-input-inset">
+    <div class="bar bar-header item-input-inset" style="background:#4da75c">
       <!-- search box -->
       <label class="item-input-wrapper">
         <i class="icon ion-ios7-search placeholder-icon"></i>
         <input type="search" ng-model="query">
+        <i class="icon ion-ios7-search placeholder-icon" ng-click="clear()"></i>
       </label>
-      <button class="button button-clear" ng-click="clear()">
-        Cancel
-      </button>
+
     </div>
 
   	<!-- ionic list directive -->
- <center><img src="img/legend.png" style="width: 80%; padding:20px 0;"></center>
-<h4><span style='float:left;padding-right: 14%; padding-left: 8%;'>#</span> Produce</h4>
+ <center><img src="img/legend.png" style="width: 80%; padding:20px 20px;"></center>
+<h4><span style='float:left;padding-right: 22%; padding-left: 8%;'>#</span> Produce</h4>
 
-    <ion-list class='padding-bottom lists'>
+<!--     <ion-list class='padding-bottom padding-footer lists'>
       <ion-scroll>
         <ion-item ng-repeat="list in produceList | filter: query" href="#/app/lists/{{list._id}}" >
         
-          <div style='float:left;margin-right: 5%;' class='listsLength'>{{list.quantity}}</div>
-          <div style='text-transform:capitalize;' class='listsLength'>{{list.produceName}} <span style="font-style:italic; font-size: 0.8em">400m away<span>
-                    <span style="float:right"><i class="icon ion-chevron-right"></i></span></div>
+          <img height="42" width="42" src="http://zoxkitchen.com/wp-content/uploads/2014/08/tomato.jpg">
+          <div style='text-transform:capitalize;' class='listsLength'>{{list.produceName}}
+          <span style="font-size: 0.8em">400m away<span>
+          <span style="float:right; color:green">${{list.price}}/lb</span></div>
         </ion-item>
       </ion-scroll>
-    </ion-list>
+    </ion-list> -->
+
+<div class="lists list padding-footer">
+<ion-scroll>
+  <a ng-repeat="list in produceList | filter: query"
+     href="#/app/lists/{{list._id}}"
+     class="item item-thumbnail-left">
+
+    <img src="http://zoxkitchen.com/wp-content/uploads/2014/08/tomato.jpg">
+    <h2>{{ list.produceName }}</h2>
+    <h4 style="color:green">${{ list.price }}/lb</h4>
+    <p>{{ list.description }}</p>
+  </a>
+</ion-scroll>
+</div>
+
 
 
   <div class="tabs tabs-icon-top">

@@ -43,29 +43,52 @@ img {max-width:100%}
   max-width: 100%;
 }
 
-#login {
-  background-color: #C4E2C4
+.signin-background {
+  padding: 10% 1rem;
 }
 
-.login-text {
-  position: absolute;
-  width: 250px;
-  text-align: center;
-  left: 50%;
-  top: 40%;
-  margin-left: -125px;
+.signin-background .scroll {
+  clear: both;
+  height: 100%;
 }
+
+
+.signin-background li{
+    margin-bottom: 1rem;
+    img{
+      opacity: .9;
+      margin-bottom: 1rem;
+      width:100%;
+    }
+  }
+.signin-background .list{
+    margin-bottom: 0;
+  }
+.signin-background .row{
+    padding: 7% 1rem;
+  }
+
+
+.sign-in{
+  max-width: 300px;
+  margin: 0 auto;
+}
+
 
 .login-text h1{
   color: #fff;
   font-size: 40px;
 }
 
-.login-text p{
+.login-text p {
+  text-align: center;
+  padding-top: 7%;
   color: #50854E;
   font-size: 21px;
   line-height: 1.2em;
 }
+
+
 
 .loginImage {
   position: absolute;
@@ -113,6 +136,7 @@ font-size: 1.3em;
 
 .tabs {
   background: #4da75c;
+  opacity: 0.92;
 }
 
 h1, h2, h3, h4 { 
@@ -167,6 +191,7 @@ h4 {
 
 .signupButton {
   background-color: #3b834d !important;
+  border-radius: 7px
 }
 
 .landing_button1 {
@@ -243,12 +268,21 @@ margin-bottom: 80px;
 }
 
 /* CSS to resize lists height*/
-.lists .list {
+.lists {
   height:100%;
 }
 
-.lists .list .scroll-view{
-  height:60%;
+.lists .scroll-view{
+  height:72%;
+}
+
+.lists a:last-child {
+  margin-bottom:44px;
+  color:green;
+}
+
+.padding-footer {
+  padding-bottom: 44px;
 }
 
 .menu-list-size {

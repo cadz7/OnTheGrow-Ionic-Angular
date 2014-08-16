@@ -1,26 +1,36 @@
 
  <ion-view hide-nav-bar="true" class='signin-background'>
-    <ion-content scroll="false" id="login" has-header="false">
-      
-      <div class="login-text">
-        <p>Login to find local produce around you!</p>
-      </div>
-      <div class="loginbutton">
-       <label class="item item-input loginInput">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="user.email">
-        </label>
-        <label class="item item-input loginInputBottom">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="user.password">
-        </label>
-     
-        <button class="button button-block button-balanced signupButton" ng-click="login(user)">
-          Login
-        </button>
-      </div>
-      <img src="img/logo.png" class="loginImage"></img>
-     <!--  <img src="img/facebook-button.png" alt="Login with Facebook"></img> -->
+    <ion-content scroll="true" id="login" has-header="false">
+    <div class="row">
+    <div class="col sign-in">
+      <form>
+        <ul class="list">
+            <img src="img/logo.png"></img>
+              <li>
+                <div class="login-text">
+                  <p>Login to find local produce around you!</p>
+                </div>
+              </li>
+              <li>
+               <label class="item item-input loginInput">
+                  <span class="input-label">Username</span>
+                  <input type="text" ng-model="user.email">
+                </label>
+              </li>
+              <li>
+                <label class="item item-input loginInputBottom">
+                  <span class="input-label">Password</span>
+                  <input type="password" ng-model="user.password">
+                </label>
+              </li>
+        </ul>
+          <button class="button button-block button-balanced signupButton" ng-click="login(user)">
+            Login
+          </button>
 
+      </form>
+    </div>
+     <!--  <img src="img/facebook-button.png" alt="Login with Facebook"></img> -->
+    </div>
     </ion-content>
  </ion-view>
