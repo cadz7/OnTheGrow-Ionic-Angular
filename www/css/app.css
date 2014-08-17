@@ -288,3 +288,55 @@ margin-bottom: 80px;
 .menu-list-size {
   font-size: 14px;
 }
+
+.loading-spinner {
+  font-size: 30px;
+  text-align: center;
+  padding-top: 30%;
+}
+
+/* Filter modal CSS */
+.padding-modal {
+  padding: 10%;
+}
+
+.padding-modal .scroll{
+  border-radius: 5px;
+}
+
+.padding-modal .scroll .list{
+  padding: 10%;
+}
+
+.filter-headings {
+  text-align: center;
+}
+
+.filter-hr-line {
+  display: block;
+  height: 1px;
+  /* border: 0; */
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+  width: 80%;
+  /* padding-left: 20%; */
+  margin-left: 10%;
+}
+
+.filter-price-box {
+  border: 1px solid #ccc;
+  height: 50px;
+  padding: 0px;
+}
+
+.verticalLine {
+  border-left: 1px solid #ccc;
+    line-height: 250%;
+  text-align: center;
+}
+
+.filter-footer-buttons {
+  text-align:center;
+  line-height: 27px;
+}
