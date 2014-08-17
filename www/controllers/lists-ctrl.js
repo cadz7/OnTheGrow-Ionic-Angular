@@ -2,8 +2,8 @@ angular.module('OnTheGrow.controllers')
 // ----------------------------------------
 // Lists Page controller
 // ----------------------------------------
-.controller('ListsCtrl', ['$scope', 'listsService', '$state', 'PostsServices', '$ionicLoading', 'server', '$q', '$log',
- function($scope, listsService, $state, PostsServices, $ionicLoading, server, $q, $log) {
+.controller('ListsCtrl', ['$scope', 'listsService', '$state', 'PostsServices', '$ionicLoading', 'server', '$q', '$log', '$ionicModal',
+ function($scope, listsService, $state, PostsServices, $ionicLoading, server, $q, $log, $ionicModal) {
   /* ================= Fetching lists from Express server  =================*/
 
   listsService.fetchProduceList()
@@ -112,6 +112,21 @@ angular.module('OnTheGrow.controllers')
   $scope.statechange = function (id) {
     $state.go('app.list', { listId: id });
   }
+
+  $scope.openFilter = function() {
+    $scope.createFilterModal.show();
+  }
+
+  $ionicModal.fromTemplateUrl('../templates/filter-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.createFilterModal = modal;
+  });
+
+  $scope.closeFilter = function() {
+      $scope.createFilterModal.hide();    
+  };
 
  // $scope.init();
  // $scope.addMarkers();
