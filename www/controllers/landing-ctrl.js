@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('OnTheGrow.controllers', [])
+angular.module('OnTheGrow.controllers', ['ngCordova'])
 // ----------------------------------------
 // Landing Page controller
 // ----------------------------------------
