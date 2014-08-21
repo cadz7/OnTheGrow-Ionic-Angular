@@ -117,7 +117,7 @@ angular.module('OnTheGrow.controllers')
     $scope.createFilterModal.show();
   }
 
-  $ionicModal.fromTemplateUrl('../templates/filter-modal.html', {
+  $ionicModal.fromTemplateUrl('templates/filter-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {

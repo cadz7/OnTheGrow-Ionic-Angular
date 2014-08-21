@@ -340,3 +340,18 @@ margin-bottom: 80px;
   text-align:center;
   line-height: 27px;
 }
+
+.center {
+  text-align:center;
+}
+
+.header-background {
+  background: #4da75c;
+}
+
+.list-header-content {
+  left: 15% !important;
+  right: 15% !important;
+  text-overflow: ellipsis !important;
+  color: white;
+}
