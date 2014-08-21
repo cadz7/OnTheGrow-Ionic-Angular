@@ -2,10 +2,20 @@ angular.module('OnTheGrow.controllers')
 // ----------------------------------------
 // Controller for the browse view
 // ----------------------------------------
-.controller('ListCtrl', ['$scope', '$stateParams', 'PostsServices', '$ionicModal', '$state', '$ionicLoading', 'server',
- function($scope, $stateParams, PostsServices, $ionicModal, $state, $ionicLoading, server) {
+.controller('ListCtrl', ['$scope', '$stateParams', 'PostsServices', '$ionicModal', '$state', '$ionicLoading', 'server', '$log', 'listsService', '$ionicNavBarDelegate',
+ function($scope, $stateParams, PostsServices, $ionicModal, $state, $ionicLoading, server, $log, listsService, $ionicNavBarDelegate) {
 /* ================= Fetching Individual list from Express server  =================*/
 //server.get({})
+  var indexOfList = _.findIndex(listsService.produceList, function(lists) {
+    return lists._id === $stateParams.listId;
+  });
+  $scope.currentList = listsService.produceList[indexOfList];
+  $log.info('This is the selected list')
+  $log.log(listsService.produceList[indexOfList]);
+
+  $scope.goBack = function() {
+    $ionicNavBarDelegate.back();
+  };
 
 /* =================OLD FIREBASE CODE =================*/
   console.log($stateParams.listId);
