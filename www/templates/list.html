@@ -1,17 +1,25 @@
-<ion-view title="Item Details ">
+<ion-view title="Item Details " hide-nav-bar="true">
+
+
+<div class="bar bar-header item-input-inset" style="background:#4da75c">
+  <button class="button button-icon icon ion-arrow-left-c header-background" ng-click=" goBack()"></button>
+  <h1 class="title list-header-content">{{currentList.description}}</h1>
+  <button class="button button-icon button-positive">Save</button>
+</div>
 
   <ion-content class="has-header" scroll="false" data-tap-disabled="true">
 
+
   	<!-- List of items -->
 
-<h3 class='padding-left'>Photos</h3>  
+<h3 class="center padding-top">{{currentList.produceName}}</h3>
 
-<div class="h-line padding-left"></div>
+  <div class="filter-hr-line"></div>
 <!--TODO: Use ngRepeat here -->
 <div>
   <ul>
-    <li class='image' ng-repeat="t in [1,2,3,4]">
-      <img src="img/spinach.jpg">
+    <li class='image' ng-repeat="t in [1,2,3]">
+      <img ng-src="{{currentList.uploadedImages[$index+1]}}">
     </li>
   </ul>
 </div> 

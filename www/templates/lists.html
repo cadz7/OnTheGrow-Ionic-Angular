@@ -1,7 +1,7 @@
 <ion-view title="Items Near You" hide-nav-bar="true" animation="none">
 
 
-	<!-- ****************************
+  <!-- ****************************
     Content
   **************************** -->
   <ion-content scroll="false">
@@ -22,7 +22,7 @@
 
     </div>
 
-  	<!-- Main list -->
+    <!-- Main list -->
  <center><img src="img/legend.png" style="width: 80%; padding:20px 20px;"></center>
 <h4><span style='float:left;padding-right: 22%; padding-left: 8%;'>#</span> Produce</h4>
 
@@ -31,8 +31,7 @@
   <a ng-repeat="list in produceList | filter: query"
      href="#/app/lists/{{list._id}}"
      class="item item-thumbnail-left">
-
-    <img src="http://zoxkitchen.com/wp-content/uploads/2014/08/tomato.jpg">
+      <img ng-src="{{list.uploadedImages[1]}}">
     <h2>{{ list.produceName }}</h2>
     <h4 style="color:green">${{ list.price }}/lb</h4>
     <p>{{ list.description }}</p>
@@ -47,17 +46,18 @@
 
   <div class="tabs tabs-icon-top">
     <a class="tab-item" href="#/app/listings">
-      <i class="icon ion-ios7-cart"></i>
+      <i class="icon ion-home"></i>
       My Dash
-    </a>
-    <a id='sell' class="tab-item" href="#/app/lists/new" ng-click='changeTabColor()'>
-      <i class="icon ion-plus-round"></i>
-      Sell
     </a>
     <a class="tab-item" href="#/app/mapView">
       <i class="icon ion-location"></i>
       Map
     </a>
+    <a id='sell' class="tab-item" href="#/app/lists/new" ng-click='changeTabColor()'>
+      <i class="icon ion-plus-round"></i>
+      Sell Produce
+    </a>
+
 
   </div>
   </ion-content>
