@@ -31,7 +31,7 @@
   <a ng-repeat="list in produceList | filter: query"
      href="#/app/lists/{{list._id}}"
      class="item item-thumbnail-left">
-      <img ng-src="{{list.uploadedImages[1]}}">
+      <img ng-src="{{list.uploadedImages[1]}}" class="image-radius">
     <h2>{{ list.produceName }}</h2>
     <h4 style="color:green">${{ list.price }}/lb</h4>
     <p>{{ list.description }}</p>
