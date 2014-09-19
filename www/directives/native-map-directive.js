@@ -11,37 +11,42 @@ angular.module('OnTheGrow.directives', [])
                     });
 
                     $timeout(function() {
-                                // add current location marker
-                        $rootScope.map.addMarker({
-                            'position': new plugin.google.maps.LatLng(43.700, -79.4000),
-                            'title': 'Me',
-                            'icon': {
-                                'url': 'www/assets/img/marker_blue.png',
-                                'size': {
-                                    'width': 40,
-                                    'height': 40
+                        GeoLocation.getCurrentPosition(function (position) {
+                            // add courts markers
+                            Courts.getAll(position.coords.latitude,position.coords.longitude, function(data) {
+                                $rootScope.courtsData = data;
+                                for(court in data) {
+                                    $rootScope.map.addMarker({
+                                      'position': new plugin.google.maps.LatLng(data[court].latitude,data[court].longitude),
+                                      'title': data[court].name
+                                    }, function(marker) {
+                                        marker.addEventListener(plugin.google.maps.event.INFO_CLICK, function() {
+                                        // change this alert to opening a page
+                                        alert('I got clicked');
+                                        });
+                                    });
                                 }
-                            },
-                            'draggable': true
-                        });
 
-                        $rootScope.map.moveCamera({
-                              'target': new plugin.google.maps.LatLng(43.700, -79.4000),
-                              'zoom': 13,
-                              'tilt': 0
-                        });
+                                // move camera to current position
+                                $rootScope.map.moveCamera({
+                                      'target': new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude),
+                                      'zoom': 13,
+                                      'tilt': 0
+                                    });
 
-                        var div = document.getElementById("map_canvas");
-                        
-                        $rootScope.map.setDiv(div);
-                        //$rootScope.setVisible(true);
-                        
-                        $ionicLoading.hide();
-                        
-                        $rootScope.loaded = true;
-                        
-                        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) { 
-                            $rootScope.map.setVisible(false);
+                                var div = document.getElementById("map_canvas");
+
+                                $rootScope.map.setDiv(div);
+                                //$rootScope.setVisible(true);
+
+                                $ionicLoading.hide();
+
+                                $rootScope.loaded = true;
+
+                                $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+                                    $rootScope.map.setVisible(false);
+                                });
+                            });
                         });
                     }, 1000);
                 }
